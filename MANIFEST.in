@@ -1,0 +1,6 @@
+include LICENSE
+include README.md
+recursive-include cotton_layouts/static *
+recursive-include cotton_layouts/templates *
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]

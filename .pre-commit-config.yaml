@@ -1,0 +1,61 @@
+exclude: "^docs/|/migrations/|^tests/"
+default_stages: [pre-commit]
+
+repos:
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.21.2
+    hooks:
+      - id: pyupgrade
+        args: [--py310-plus]
+
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.14.7
+    hooks:
+      - id: ruff
+
+  - repo: https://github.com/psf/black
+    rev: 25.11.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/python-poetry/poetry
+    rev: '1.8.5'
+    hooks:
+      - id: poetry-check
+      - id: poetry-lock
+        stages: [manual]  # Only run manually, not in CI
+
+  # Local hooks that use Poetry environment
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: poetry run mypy
+        language: system
+        types: [python]
+        files: ^cotton_layouts/
+  - repo: local
+    hooks:
+      - id: deptry
+        name: deptry
+        language: python
+        entry: deptry
+        additional_dependencies: ["deptry==0.24.0"]
+        args: ["--verbose", "."]
+        pass_filenames: false
+        always_run: true
+
+
+# sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
+ci:
+  autoupdate_schedule: monthly
+  skip: [poetry-lock, poetry-export, mypy, deptry]  # Skip file-modifying hooks and slow hooks in CI
+  submodules: false

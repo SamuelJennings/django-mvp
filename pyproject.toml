@@ -1,0 +1,199 @@
+[tool.poetry]
+name = "django-cotton-layouts"
+version = "0.1.0"
+description = "Application layouts and UI patterns for Django Cotton - designed for research portals and data-centric applications."
+authors = ["Sam <samuel.scott.jennings@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "cotton_layouts"}]
+homepage = "https://github.com/SamuelJennings/django-cotton-layouts"
+repository = "https://github.com/SamuelJennings/django-cotton-layouts"
+keywords = ["django", "cotton", "bootstrap", "layouts", "portal", "research", "data"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+django = ">=4.2,<6.0"
+django-cotton = ">=2.3.1"
+django-cotton-bs5 = "^0.5.1"
+django-flex-menus = "^0.4.1"
+django-easy-icons = "^0.4.0"
+django-compressor = "^4.5.1"
+django-libsass = "^0.9"
+
+[tool.poetry.group.dev.dependencies]
+Django = ">=4.2,<6.0"
+django-crispy-forms = "^2.4"
+crispy-bootstrap5 = "^2025.6"
+pytest = "^8.0.0"
+pytest-django = "^4.9.0"
+pytest-cov = "^6.0.0"
+shot-scraper = "^1.8"
+invoke = "^2.2.0"
+ruff = "^0.8.0"
+djlint = "^1.36.4"
+fairdm-dev-tools = {git = "https://github.com/FAIR-DM/dev-tools"}
+django-browser-reload = "^1.21.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+target-version = "py311"
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "*/migrations/*.py",
+    "staticfiles/*",
+    "docs/",
+]
+line-length = 120
+fix = true
+
+[tool.ruff.lint]
+select = [
+    # flake8-2020
+    "YTT",
+    # flake8-bandit
+    "S",
+    # flake8-bugbear
+    "B",
+    # flake8-builtins
+    "A",
+    # flake8-comprehensions
+    "C4",
+    # flake8-debugger
+    "T10",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+    # mccabe
+    "C90",
+    # pycodestyle
+    "E", "W",
+    # pyflakes
+    "F",
+    # pygrep-hooks
+    "PGH",
+    # pyupgrade
+    "UP",
+    # ruff
+    "RUF",
+    # tryceratops
+    "TRY",
+]
+ignore = [
+    # LineTooLong
+    "E501",
+    # DoNotAssignLambda
+    "E731",
+    # ClassAttributesShouldBeAnnotated
+    "RUF012",
+    "TRY003",
+    # Use of mark_safe
+    "S308",
+    # Use of standard pseudo-random generators
+    "S311",
+    "A003",
+    "F403",
+    "F405",
+    "C901",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/*" = ["S101","S105"]
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 88
+line-ending = "lf"
+exclude = [
+    "*/migrations/*.py",
+]
+
+[tool.djlint]
+blank_line_after_tag="c-vars"
+close_void_tags=true
+custom_html="c-[\\w.-]+"
+format_js=true
+format_css=true
+indent=2
+max_attribute_length=50
+max_blank_lines=0
+max_line_length=119
+ignore="H016,H030,H031,H021,D018,H037"
+format_attribute_template_tags=false
+
+[tool.djlint.css]
+indent_size=2
+
+[tool.djlint.js]
+indent_size=2
+
+[tool.django-stubs]
+django_settings_module = "tests.settings"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+python_files = ["test_*.py"]
+testpaths = ["tests"]
+addopts = [
+    "--strict-markers",
+    "--tb=short",
+]
+
+[tool.coverage.run]
+source = ["cotton_layouts"]
+omit = [
+    "*/tests/*",
+    "*/migrations/*",
+    "*/__pycache__/*",
+    "*/node_modules/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]

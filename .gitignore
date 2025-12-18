@@ -1,0 +1,95 @@
+# Temporary and binary files
+*~
+*.ruff_cache
+*.mypy_cache
+*.py[cod]
+*.so
+*.cfg
+!.isort.cfg
+!setup.cfg
+*.orig
+*.log
+*.pot
+**/__pycache__
+.cache/*
+.*.swp
+*/.ipynb_checkpoints/*
+.DS_Store
+.vscode
+
+# Project files
+.ropeproject
+.project
+.pydevproject
+.idea
+tags
+
+# Package files
+*.egg
+*.eggs/
+.installed.cfg
+*.egg-info
+
+# Unittest and coverage
+htmlcov
+.coverage
+.coverage.*
+.tox
+junit*.xml
+coverage.xml
+.pytest_cache/
+
+# Build and docs folder/files
+build/*
+dist/*
+sdist/*
+docs/_rst/*
+docs/_build/*
+cover/*
+
+# Django specific
+*.sqlite3
+db.sqlite3
+db.sqlite3-journal
+media
+staticfiles
+STATIC_ROOT
+MEDIA_ROOT
+
+# Local environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node and Vite
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Vite build output
+cotton_layouts/static/dist/
+.vite/
+
+# Temporary test files (must follow tmp_*.py pattern)
+tmp_*.py
