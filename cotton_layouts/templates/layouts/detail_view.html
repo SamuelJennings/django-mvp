@@ -1,0 +1,36 @@
+{% extends "layouts/standard.html" %}
+{% block content %}
+  <c-layouts.sidebar>
+    <c-slot name="sidebar">
+      {% block sidebar %}
+      {% endblock sidebar %}
+    </c-slot>
+    <div class="flex-fill overflow-auto">
+      {% block toolbar %}
+        <c-page.toolbar :attrs="toolbar" :visible="toolbar" />
+      {% endblock toolbar %}
+      <!-- Main Content -->
+      {% block main %}
+        <div class="container-fluid px-lg-4">
+          {% block breadcrumbs %}
+            <c-page.breadcrumbs :items="breadcrumbs" />
+          {% endblock breadcrumbs %}
+          <!-- Page Header -->
+          {% block title %}
+            <c-page.title :attrs="title" :visible="title">
+              <c-slot name="actions">
+                <div class="hstack">
+                  {% block actions %}
+                  {% endblock actions %}
+                </div>
+              </c-slot>
+            </c-page.title>
+          {% endblock title %}
+          <!-- Detail Content -->
+          {% block page_content %}
+          {% endblock page_content %}
+        </div>
+      {% endblock main %}
+    </div>
+  </c-layouts.sidebar>
+{% endblock content %}

@@ -1,0 +1,135 @@
+// Custom Theme CSS Variables
+// This file demonstrates how end-users can customize specific component styles
+// using CSS custom properties (CSS variables)
+
+:root {
+  // ============================================================================
+  // SIDEBAR THEME
+  // ============================================================================
+  
+  // Main sidebar colors
+  --sidebar-bg: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+  --sidebar-border: #e5e7eb;
+  --sidebar-text: #374151;
+  --sidebar-text-muted: #6b7280;
+  
+  // Menu item states
+  --sidebar-menu-hover-bg: #e5e7eb;
+  --sidebar-menu-active-bg: #eef2ff;
+  --sidebar-menu-active-color: #6366f1;
+  --sidebar-menu-active-border: #6366f1;
+  
+  // Sidebar header/footer
+  --sidebar-header-bg: #ffffff;
+  --sidebar-footer-bg: #f9fafb;
+  --sidebar-footer-border: #e5e7eb;
+  
+  // Sidebar dimensions (can override Bootstrap variables)
+  --sidebar-width: 320px;
+  --sidebar-max-width: 350px;
+  --sidebar-min-width: 280px;
+  --sidebar-collapsed-width: 70px;
+  --sidebar-collapsed-padding: 8px;
+  
+  // Brand/logo sizing
+  --sidebar-brand-max-height: 48px;
+  --sidebar-brand-max-width: 200px;
+  
+  // ============================================================================
+  // NAVBAR THEME
+  // ============================================================================
+  
+  --navbar-bg: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  --navbar-text: #ffffff;
+  --navbar-text-hover: #f3f4f6;
+  --navbar-border: rgba(255, 255, 255, 0.1);
+  --navbar-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  
+  // ============================================================================
+  // INNER LAYOUT (Content Area Sidebars)
+  // ============================================================================
+  
+  // Primary sidebar (left)
+  --inner-primary-bg: #fafafa;
+  --inner-primary-border: #e5e7eb;
+  --inner-primary-width: 280px;
+  --inner-primary-max-width: 320px;
+  --inner-primary-min-width: 60px;
+  
+  // Secondary sidebar (right)
+  --inner-secondary-bg: #fafafa;
+  --inner-secondary-border: #e5e7eb;
+  --inner-secondary-width: 280px;
+  --inner-secondary-max-width: 320px;
+  --inner-secondary-min-width: 60px;
+  
+  // Main content area
+  --inner-main-bg: #ffffff;
+  --inner-main-padding: 1.5rem;
+  
+  // Toggle buttons
+  --inner-toggle-bg: rgba(255, 255, 255, 0.9);
+  --inner-toggle-border: #d1d5db;
+  --inner-toggle-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --inner-toggle-hover-bg: #ffffff;
+  
+  // ============================================================================
+  // CARDS & CONTAINERS
+  // ============================================================================
+  
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+  --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --card-header-bg: #f9fafb;
+  --card-header-border: #e5e7eb;
+  
+  // ============================================================================
+  // SCROLLBARS
+  // ============================================================================
+  
+  --scrollbar-thumb: rgba(0, 0, 0, 0.2);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.4);
+  --scrollbar-track: transparent;
+  
+  // ============================================================================
+  // TRANSITIONS & ANIMATIONS
+  // ============================================================================
+  
+  --transition-speed: 0.3s;
+  --transition-timing: ease-in-out;
+}
+
+// Dark mode overrides
+[data-bs-theme="dark"] {
+  --sidebar-bg: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+  --sidebar-border: #374151;
+  --sidebar-text: #f3f4f6;
+  --sidebar-text-muted: #9ca3af;
+  
+  --sidebar-menu-hover-bg: #4b5563;
+  --sidebar-menu-active-bg: #312e81;
+  --sidebar-menu-active-color: #a5b4fc;
+  --sidebar-menu-active-border: #6366f1;
+  
+  --sidebar-header-bg: #1f2937;
+  --sidebar-footer-bg: #111827;
+  --sidebar-footer-border: #374151;
+  
+  --navbar-bg: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  --navbar-text: #f3f4f6;
+  --navbar-text-hover: #ffffff;
+  
+  --inner-primary-bg: #1f2937;
+  --inner-primary-border: #374151;
+  --inner-secondary-bg: #1f2937;
+  --inner-secondary-border: #374151;
+  --inner-main-bg: #111827;
+  
+  --card-bg: #1f2937;
+  --card-border: #374151;
+  --card-header-bg: #111827;
+  --card-header-border: #374151;
+  
+  --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.4);
+}

@@ -1,0 +1,61 @@
+{% extends "demo/base.html" %}
+{% block navbar_icon %}
+  <i class="bi bi-layout-text-window me-2"></i>
+{% endblock navbar_icon %}
+{% block navbar_title %}
+  No Inner Sidebars
+{% endblock navbar_title %}
+{% block content %}
+  <!-- Inner Layout: Single Column (No Sidebars) -->
+  <div class="inner-layout">
+    <main class="inner-main container">
+      <div class="mb-4">
+        <h1>Single Column Layout</h1>
+        <p class="lead text-muted">
+          This page demonstrates the inner layout component with NO sidebars - just the main content area.
+        </p>
+      </div>
+      <div class="demo-card p-4 mb-4">
+        <h5 class="mb-3">
+          <i class="bi bi-info-circle text-primary me-2"></i>About This Layout
+        </h5>
+        <p>
+          This is the simplest inner layout configuration. The content uses the full width of the main area,
+          with the outer left sidebar still visible for main navigation.
+        </p>
+        <p class="mb-0">
+          <strong>Use cases:</strong> Dashboard overviews, simple forms, content-focused pages.
+        </p>
+      </div>
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <div class="demo-card p-3">
+            <h6 class="mb-2">Feature Card 1</h6>
+            <p class="text-muted small mb-0">Wide layout perfect for dashboard widgets</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="demo-card p-3">
+            <h6 class="mb-2">Feature Card 2</h6>
+            <p class="text-muted small mb-0">Content can flow naturally across the full width</p>
+          </div>
+        </div>
+      </div>
+      <div class="demo-card p-4">
+        <h5 class="mb-3">Sample Content Section</h5>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
+          et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+        </p>
+        <p>
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn btn-primary btn-sm">Primary Action</button>
+          <button class="btn btn-outline-secondary btn-sm">Secondary Action</button>
+        </div>
+      </div>
+    </main>
+  </div>
+{% endblock content %}

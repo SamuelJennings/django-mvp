@@ -1,0 +1,37 @@
+{% load i18n %}
+
+<!-- Desktop Action Buttons -->
+<div class="desktop-actions d-none d-md-flex gap-2 flex-nowrap">
+  <button class="btn btn-outline-secondary btn-sm btn-action text-nowrap"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#filterOffcanvas"
+          aria-controls="filterOffcanvas">
+    <c-icon name="filter" class="me-1" />
+    {% trans "Filter" %}
+  </button>
+  <button class="btn btn-outline-secondary btn-sm btn-action"
+          type="button"
+          onclick="toggleFullscreen()"
+          id="fullscreenToggle"
+          aria-label="Toggle Fullscreen">
+    <c-icon name="fullscreen" id="fullscreenIcon" />
+  </button>
+</div>
+<!-- Mobile Action Buttons -->
+<div class="mobile-actions d-flex d-md-none gap-2">
+  <button class="btn btn-outline-secondary btn-sm"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#filterOffcanvas"
+          aria-controls="filterOffcanvas">
+    <c-icon name="filter" />
+  </button>
+  <button class="btn btn-outline-secondary btn-sm"
+          type="button"
+          onclick="toggleFullscreen()"
+          id="fullscreenToggleMobile"
+          aria-label="Toggle Fullscreen">
+    <c-icon name="fullscreen" id="fullscreenIconMobile" />
+  </button>
+</div>

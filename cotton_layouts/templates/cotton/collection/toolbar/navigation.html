@@ -1,0 +1,21 @@
+{% load i18n %}
+<c-vars collections="" current_name="" />
+<!-- Model Type Dropdown -->
+<div class="dropdown">
+  <button class="btn btn-link text-decoration-none p-0 dropdown-toggle"
+          type="button"
+          id="modelDropdown"
+          data-bs-toggle="dropdown"
+          aria-expanded="false">
+    <h5 class="mb-0 d-inline">{{ current_name }}</h5>
+  </button>
+  <ul class="dropdown-menu"
+      aria-labelledby="modelDropdown">
+    {% for collection in collections %}
+      <li>
+        <a class="dropdown-item {% if collection.is_current %}active{% endif %}"
+           href="{{ collection.url }}">{{ collection.name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

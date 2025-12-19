@@ -1,0 +1,54 @@
+{% load flex_menu %}
+<c-vars brand width collapsible="True" />
+<c-sidebar id="page-sidebar"
+           :attrs="attrs"
+           class="offcanvas-start {% if collapsible %}collapsible{% endif %}"
+           role="dialog"
+           aria-modal="true"
+           aria-label="Mobile navigation menu">
+  <c-slot name="header">
+    <c-structure.sidebar.brand :attrs="brand" />
+    <div class="expanded-only d-flex flex-column show-if-sidebar-hidden">
+      <c-structure.sidebar.widgets hide_labels />
+    </div>
+  </c-slot>
+  <div class="collapsed-only dropend show-if-sidebar-hidden">
+    <c-sidebar.menu-item icon="grid"
+                         text="Show Widgets"
+                         data-bs-toggle="dropdown"
+                         class="collapsed-only" />
+    <ul class="dropdown-menu ms-3" style="z-index: 1040">
+      {% if page_config.actions %}
+        {% for action in page_config.actions %}
+          <li>
+            <a class="dropdown-item d-flex align-items-center gap-2"
+               href="{{ action.url }}">
+              <c-icon name="{{ action.icon }}" />
+              <span>{{ action.text }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      {% endif %}
+      <li>
+        <button class="dropdown-item d-flex align-items-center gap-2"
+                id="themeToggleDropdown">
+          <c-icon name="theme_light" class="theme-toggle-icon" />
+          <span>Theme</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+  <nav class="flex-fill overflow-auto"
+       aria-label="Site navigation">
+    {% render_menu "Site Navigation" renderer="sidebar" %}
+  </nav>
+  <c-slot name="footer">
+    <c-structure.sidebar.user-profile />
+    <button class="btn btn-link text-decoration-none d-flex align-items-center gap-2 menu-item  hover-bg-light w-100 sidebar-toggle hide-if-sidebar-visible"
+            id="sidebarToggle"
+            aria-label="Toggle sidebar collapse">
+      <c-icon name="sidebar" />
+      <span class="menu-text">Collapse</span>
+    </button>
+  </c-slot>
+</c-sidebar>

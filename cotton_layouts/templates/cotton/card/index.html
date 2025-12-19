@@ -1,0 +1,24 @@
+<c-vars title icon class edit_url actions />
+<div class="card {{ class }}" {{ attrs }}>
+  <div class="card-body">
+    {% if title %}
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <h5 class="card-title mb-0">
+          {% if icon %}<c-icon name="{{ icon }}" class="text-primary me-2" />{% endif %}
+          {{ title }}
+        </h5>
+        <div class="d-flex gap-2">
+          {% if edit_url %}
+            <a href="{{ edit_url }}"
+               class="btn btn-sm btn-link text-muted p-0"
+               title="Edit">
+              <c-icon name="edit" />
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+    {{ slot }}
+  </div>
+  {% if actions %}<div class="card-footer bg-transparent border-top-0 pt-0">{{ actions }}</div>{% endif %}
+</div>

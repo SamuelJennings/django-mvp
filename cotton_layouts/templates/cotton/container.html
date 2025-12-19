@@ -1,0 +1,6 @@
+<c-vars :padding="True" :overflow="True" class />
+{# djlint:off #}
+<div class="container{% if not padding %} p-0{% endif %}{% if not overflow %} overflow-hidden{% endif %} {{ class }}" {{ attrs }}>
+  {{ slot }}
+</div>
+{# djlint:on #}

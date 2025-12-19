@@ -1,0 +1,237 @@
+"""
+Test-specific Django settings.
+
+This module provides a stable, minimal configuration for testing.
+"""
+
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+
+SECRET_KEY = "test-secret-key-for-testing-only"
+
+DEBUG = True
+
+ALLOWED_HOSTS = ["*"]
+
+USE_I18N = True
+
+# Minimal app configuration for testing
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.sites",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.humanize",
+    "compressor",
+    "django_browser_reload",
+    "example",
+    "cotton_layouts",
+    "easy_icons",
+    "crispy_forms",
+    "crispy_bootstrap5",
+    "flex_menu",
+    "django_cotton",
+    "cotton_bs5",
+]
+
+SITE_ID = 1
+
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
+]
+
+ROOT_URLCONF = "example.urls"
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "cotton_layouts.context_processors.page_config",
+            ],
+        },
+    },
+]
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": str(BASE_DIR / "db.sqlite3"),  # Use persistent database file
+    }
+}
+
+AUTH_PASSWORD_VALIDATORS = []
+
+STATIC_URL = "/static/"
+STATIC_ROOT = str(BASE_DIR / "static")
+
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "compressor.finders.CompressorFinder",
+)
+
+STATICFILES_DIRS = [
+    BASE_DIR / "cotton_layouts" / "static" / "dist",
+    BASE_DIR / "node_modules",  # For Vite dev server to serve Bootstrap Icons fonts
+]
+
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
+COMPRESS_ENABLED = False
+COMPRESS_OFFLINE = False
+COMPRESS_FILTERS = {
+    "css": [
+        "compressor.filters.css_default.CssAbsoluteFilter",
+        "compressor.filters.cssmin.rCSSMinFilter",
+    ],
+    "js": ["compressor.filters.jsmin.JSMinFilter"],
+}
+COMPRESS_PRECOMPILERS = (("text/x-scss", "django_libsass.SassCompiler"),)
+
+
+# https://github.com/torchbox/django-libsass
+LIBSASS_SOURCEMAPS = True
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    },
+}
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap5"]
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# Easy Icons configuration
+EASY_ICONS = {
+    "default": {
+        "renderer": "easy_icons.renderers.ProviderRenderer",
+        "config": {"tag": "i"},
+        "icons": {
+            # Navigation icons
+            "arrow_right": "bi bi-arrow-right",
+            "house": "bi bi-house",
+            "sidebar": "bi bi-layout-sidebar",
+            "navbar": "bi bi-window",
+            # Menu icons
+            "grid": "bi bi-grid-3x3-gap",
+            "box-seam": "bi bi-box-seam",
+            "folder": "bi bi-folder",
+            "newspaper": "bi bi-newspaper",
+            "check2-square": "bi bi-check2-square",
+            "layout-wtf": "bi bi-layout-wtf",
+            # Category icons
+            "cpu": "bi bi-cpu",
+            "shirt": "bi bi-shirt",
+            "book": "bi bi-book",
+            "home": "bi bi-house",
+            "bicycle": "bi bi-bicycle",
+            "laptop": "bi bi-laptop",
+            "heart": "bi bi-heart",
+            "briefcase": "bi bi-briefcase",
+            # UI icons
+            "calendar": "bi bi-calendar3",
+            "calendar-event": "bi bi-calendar-event",
+            "documentation": "bi bi-book",
+            "filter": "bi bi-funnel",
+            "github": "bi bi-github",
+            "logout": "bi bi-box-arrow-right",
+            "person": "bi bi-person",
+            "person-circle": "bi bi-person-circle",
+            "settings": "bi bi-gear",
+            "theme_light": "bi bi-sun",
+            "support": "bi bi-life-preserver",
+            "eye": "bi bi-eye",
+            "sort": "bi bi-sort-down",
+            "search": "bi bi-search",
+            # Status icons
+            "check-circle-fill": "bi bi-check-circle-fill",
+            "code-slash": "bi bi-code-slash",
+            "info-circle": "bi bi-info-circle",
+            # Default brand icon
+            "database-fill": "bi bi-database-fill",
+            # View mode icons
+            "list-ul": "bi bi-list-ul",
+            "table": "bi bi-table",
+            # Action icons
+            "add": "bi bi-plus-circle",
+            "menu": "bi bi-list",
+        },
+    },
+}
+
+# Flex Menu configuration
+FLEX_MENUS = {
+    "renderers": {
+        "sidebar": "cotton_layouts.renderers.SidebarRenderer",
+        "navbar": "cotton_layouts.renderers.NavbarRenderer",
+        "dropdown": "cotton_layouts.renderers.DropdownRenderer",
+    },
+    "log_url_failures": DEBUG,
+}
+
+# Page configuration for cotton-layouts
+PAGE_CONFIG = {
+    "layout": "both",  # Options: 'sidebar', 'navbar', or 'both'
+    "brand": {
+        "text": "Cotton Layouts",
+        "image_light": "dac_bg_white.svg",  # Path to light theme logo
+        "image_dark": "dac_bg_transparent.svg",  # Path to dark theme logo
+        "icon_light": "icon.svg",  # Path to light theme icon/favicon
+        "icon_dark": None,  # Path to dark theme icon/favicon
+    },
+    "navigation": {
+        "toggle_at": "lg",  # BS5 breakpoint where layout switches (sm, md, lg, xl, xxl)
+        "collapsible": True,  # Whether the sidebar can collapse to icons only
+    },
+    "navbar": {
+        "fixed": True,  # Whether the navbar is fixed to the top
+        "border": True,  # Whether the navbar has a shadow
+        "variant": "dark",  # Bootstrap navbar variant: light, dark, or null for auto
+        "start": {
+            "navbar.brand": {},
+        },
+        "end": {
+            "navbar.menu": {
+                "menu": "navbar",
+            },
+        },
+    },
+    "sidebar": {
+        "width": "280px",  # Width of the sidebar when expanded
+    },
+    "actions": [
+        {
+            "icon": "github",
+            "text": "View on GitHub",
+            "href": "https://github.com/yourusername/yourrepo",
+            "target": "_blank",
+        },
+        {
+            "icon": "support",
+            "text": "Support",
+            "href": "/support/",
+        },
+    ],
+}

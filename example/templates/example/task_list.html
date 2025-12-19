@@ -1,0 +1,6 @@
+{% extends "layouts/list_view.html" %}
+{% load humanize %}
+{% block actions %}
+  {{ block.super }}
+  <c-page.toolbar.action icon="add" text="New Task" />
+{% endblock actions %}

@@ -1,0 +1,27 @@
+<!-- Profile Dropdown -->
+<div class="dropdown {{ extra_classes }}">
+  <button class="btn p-0 profile-icon bg-primary text-white"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          title="{{ title|default:'User Profile' }}">{{ initials|default:'JD' }}</button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li>
+      <h6 class="dropdown-header">{{ user_name|default:'John Doe' }}</h6>
+    </li>
+    {% for item in menu_items %}
+      {% if item.divider %}
+        <li>
+          <hr class="dropdown-divider" />
+        </li>
+      {% else %}
+        <li>
+          <a class="dropdown-item"
+             href="{{ item.url|default:'#' }}">
+            <c-icon name="{{ item.icon }}" class="me-2" />{{ item.text }}
+          </a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>

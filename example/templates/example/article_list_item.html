@@ -1,0 +1,32 @@
+{% load humanize %}
+<c-card>
+  <div class="d-flex justify-content-between align-items-start mb-2">
+    <span class="badge bg-{{ object.status|yesno:'success,warning,secondary' }}">{{ object.get_status_display }}</span>
+    <small class="text-muted">{{ object.read_time }} min read</small>
+  </div>
+  <h5 class="card-title">{{ object.title }}</h5>
+  <p class="text-muted small mb-2">
+    By {{ object.author }} •
+    {% if object.published_at %}
+      {{ object.published_at|naturaltime }}
+    {% else %}
+      {{ object.created_at|naturaltime }}
+    {% endif %}
+  </p>
+  {% if object.category %}
+    <p class="small mb-2">
+      <i class="bi bi-{{ object.category.icon }}"></i> {{ object.category.name }}
+    </p>
+  {% endif %}
+  <p class="card-text">{{ object.excerpt|truncatewords:20 }}</p>
+  <div class="mt-2">
+    <small class="text-muted">
+      <i class="bi bi-eye"></i> {{ object.views|intcomma }} views
+    </small>
+  </div>
+  <c-slot name="actions">
+    <c-card.action href="{% url 'article_detail' object.slug %}"
+                   class="btn btn-sm btn-primary w-100"
+                   text="Read Article" />
+  </c-slot>
+</c-card>

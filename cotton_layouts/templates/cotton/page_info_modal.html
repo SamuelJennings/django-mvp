@@ -1,0 +1,95 @@
+{% load i18n %}
+
+<c-vars modal_id
+        modal_title
+        page_title
+        page_description
+        how_to_use_text
+        quick_tips
+        learn_more_url />
+<div class="modal fade"
+     id="{{ modal_id }}"
+     tabindex="-1"
+     aria-labelledby="{{ modal_id }}Label"
+     aria-hidden="true"
+     {{ attrs }}>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="{{ modal_id }}Label">
+          <c-icon name="info" class="me-2 text-primary" />
+          {{ modal_title|default:"About This Page" }}
+        </h1>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8">
+            <h6 class="fw-bold mb-3">{{ page_title }}</h6>
+            {% if page_description %}<p class="mb-3">{{ page_description }}</p>{% endif %}
+            {% if how_to_use_text or how_to_use %}
+              <h6 class="fw-bold mb-2">{% trans "How to Use" %}</h6>
+              {% if how_to_use %}
+                {{ how_to_use }}
+              {% else %}
+                <div class="card bg-light border-0 mb-3">
+                  <div class="card-body py-2 px-3">
+                    <small class="text-muted">{{ how_to_use_text }}</small>
+                  </div>
+                </div>
+              {% endif %}
+            {% endif %}
+          </div>
+          <div class="col-md-4">
+            {% if quick_tips or tips %}
+              <div class="bg-primary bg-opacity-10 rounded p-3">
+                <h6 class="fw-bold text-primary mb-2">
+                  <c-icon name="lightbulb" class="me-1" />
+                  {% trans "Quick Tips" %}
+                </h6>
+                {% if tips %}
+                  {{ tips }}
+                {% else %}
+                  <ul class="list-unstyled small mb-0">
+                    {% for tip in quick_tips %}
+                      <li {% if not forloop.last %}class="mb-2"{% else %}class="mb-0"{% endif %}>
+                        <strong>{{ tip.title }}:</strong> {{ tip.text }}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer bg-light">
+        {% if learn_more_url or footer %}
+          {% if footer %}
+            {{ footer }}
+          {% else %}
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <a href="{{ learn_more_url }}"
+                 class="btn btn-outline-primary btn-sm"
+                 target="_blank"
+                 rel="noopener noreferrer">
+                <c-icon name="documentation" class="me-1" />
+                {% trans "Read Documentation" %}
+              </a>
+              <button type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal">{% trans "Close" %}</button>
+            </div>
+          {% endif %}
+        {% else %}
+          <button type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal">{% trans "Close" %}</button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

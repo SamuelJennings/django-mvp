@@ -1,0 +1,84 @@
+// Custom Bootstrap 5 Variable Overrides
+// This file demonstrates how end-users can customize the theme by overriding Bootstrap variables
+
+// ============================================================================
+// COLOR SYSTEM
+// ============================================================================
+
+// Brand Colors - Custom color palette
+$primary: #6366f1 !default; // Indigo
+$secondary: #8b5cf6 !default; // Purple
+$success: #10b981 !default; // Emerald
+$info: #3b82f6 !default; // Blue
+$warning: #f59e0b !default; // Amber
+$danger: #ef4444 !default; // Red
+$light: #f3f4f6 !default; // Cool gray
+$dark: #1f2937 !default; // Dark gray
+
+// ============================================================================
+// LAYOUT DIMENSIONS
+// ============================================================================
+
+// Sidebar dimensions
+$sidebar-width: 320px !default;
+$sidebar-collapsed-width: 70px !default;
+
+// Inner layout dimensions (for content area sidebars)
+$inner-primary-width: 280px !default;
+$inner-secondary-width: 280px !default;
+
+// ============================================================================
+// TYPOGRAPHY
+// ============================================================================
+
+// Font family
+$font-family-sans-serif: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+
+// Font sizes
+$font-size-base: 0.95rem !default;
+$h1-font-size: 2rem !default;
+$h2-font-size: 1.65rem !default;
+$h3-font-size: 1.35rem !default;
+
+// ============================================================================
+// SPACING
+// ============================================================================
+
+$spacer: 1rem !default;
+
+// ============================================================================
+// BORDERS & SHADOWS
+// ============================================================================
+
+$border-radius: 0.5rem !default;
+$border-radius-sm: 0.375rem !default;
+$border-radius-lg: 0.75rem !default;
+
+$box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !default;
+$box-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !default;
+$box-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !default;
+
+// ============================================================================
+// COMPONENTS
+// ============================================================================
+
+// Buttons
+$btn-border-radius: $border-radius-sm !default;
+$btn-padding-y: 0.5rem !default;
+$btn-padding-x: 1rem !default;
+
+// Cards
+$card-border-radius: $border-radius !default;
+$card-box-shadow: $box-shadow !default;
+
+// Navbar
+$navbar-padding-y: 0.75rem !default;
+
+// ============================================================================
+// OBJECT TYPE COLORS (Domain-specific)
+// ============================================================================
+
+$dataset-color: $success !default;
+$measurement-color: $info !default;
+$project-color: $warning !default;
+$sample-color: $primary !default;

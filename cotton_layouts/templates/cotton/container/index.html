@@ -1,0 +1,21 @@
+<c-vars :padding="True"
+        :overflow="True"
+        :flex="True"
+        :fill="False"
+        gap="3"
+        class />
+{# djlint:off #}
+
+<div class="
+    container
+  {% if not padding %}p-0{% endif %}
+  {% if not overflow %}overflow-hidden{% endif %}
+  {% if flex %}d-flex{% if fill %} flex-grow-1{% endif %}{% endif %}
+  {% if fill %}w-100{% endif %}
+  {% if gap %}gap-{{ gap }}{% endif %}
+  {{ class }}
+" {{ attrs }}>
+  {{ slot }}
+</div>
+
+{# djlint:on #}

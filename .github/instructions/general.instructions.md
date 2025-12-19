@@ -34,10 +34,22 @@ and mode='info' for conceptual understanding.
   - ✅ Example: `poetry run pytest`, `poetry run python manage.py migrate`
   - ❌ Do not use: `pytest`, `python manage.py ...`
 - Dependencies are managed via `pyproject.toml` and `poetry.lock`.
-- **NEVER run the Django development server** (`runserver` command).
-  - The server is already running in a separate process.
-  - If you navigate to localhost and nothing appears, inform the user but DO NOT attempt to start the server.
-  - ❌ Never use: `poetry run python manage.py runserver`
+
+### 🚨 CRITICAL: NEVER START THE DEVELOPMENT SERVER 🚨
+- **The Django development server is ALREADY RUNNING** in a separate process.
+- **DO NOT EXECUTE** `runserver` under ANY circumstances.
+- **DO NOT RUN**: `poetry run python manage.py runserver`
+- **DO NOT RUN**: `python manage.py runserver`
+- **DO NOT START** the server even if you think it's not running.
+- **DO NOT SUGGEST** starting the server to the user.
+- If you cannot access localhost, INFORM THE USER but DO NOT attempt to start the server yourself.
+- The server automatically reloads when code changes - you never need to restart it.
+
+### Static Files Management
+- **NEVER run `collectstatic`** command.
+- Static files are compressed at runtime using django-compressor.
+- CSS/JS changes are automatically detected and recompiled.
+- ❌ Never use: `poetry run python manage.py collectstatic`
 
 ## Package overview
 - This is a **Django app** providing application layouts and UI patterns.

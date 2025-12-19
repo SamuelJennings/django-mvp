@@ -1,0 +1,5 @@
+<c-vars gap="3" reverse />
+<div class="row g-{{ gap }} {% if reverse %}flex-row-reverse{% endif %}">
+  <div class="col-lg-8 d-flex flex-column gap-{{ gap }}">{{ slot }}</div>
+  <div class="col-lg-4 d-flex flex-column gap-{{ gap }}">{{ sidebar }}</div>
+</div>

@@ -1,0 +1,9 @@
+<c-vars target="page-sidebar" label="Toggle Navigation" />
+<button class="btn shadow-sm me-2 show-if-sidebar-hidden"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#{{ target }}"
+        aria-controls="{{ target }}"
+        aria-label="{{ label }}">
+        <c-icon name="menu" />
+</button>

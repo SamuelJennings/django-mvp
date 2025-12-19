@@ -1,0 +1,23 @@
+{% comment %}
+Reusable key dates card component for detail views.
+
+Usage:
+  <c-detail.key-dates :object="dataset" />
+  <c-detail.key-dates :object="project" />
+
+The component expects the object to have a `.dates` queryset.
+{% endcomment %}
+{% load i18n %}
+
+<c-vars object />
+{% if object.dates.exists %}
+  <c-card title="{% trans 'Key Dates' %}" icon="calendar">
+    <dl class="mb-0">
+      {% for date in object.dates.all %}
+        <c-detail.info_item label="{{ date.type }}">
+          {{ date.value }}
+        </c-detail.info_item>
+      {% endfor %}
+    </dl>
+  </c-card>
+{% endif %}

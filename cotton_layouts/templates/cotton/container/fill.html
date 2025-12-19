@@ -1,0 +1,14 @@
+<c-vars :column="True" :overflow="True" gap="3" class />
+{# djlint:off #}
+<div class="d-flex flex-grow-1 {% if column %}flex-column {% endif %}{% if not overflow %} overflow-hidden{% endif %}{% if gap %} gap-{{ gap }}{% endif %} {{ class }}" {{ attrs }}>
+  {% if not overflow %}
+    <div class="overflow-auto">
+  {% endif %}
+    
+    {{ slot }}
+  {% if not overflow %}
+
+  </div>
+  {% endif %}
+</div>
+{# djlint:on #}

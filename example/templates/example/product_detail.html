@@ -1,0 +1,153 @@
+{% extends "layouts/standard.html" %}
+{% load humanize %}
+{% block content %}
+  <c-container gap="3" fill :padding="False" class="pt-5 pb-3">
+    <c-layouts.sidebar width="200px" max_width="250px" reverse>
+      <c-slot name="sidebar">
+        {# Category info #}
+        <c-card class="mb-4">
+          <c-slot name="header">
+            <h5 class="mb-0">Category</h5>
+          </c-slot>
+          <h6>
+            <i class="bi bi-{{ product.category.icon }}"></i>
+            {{ product.category.name }}
+          </h6>
+          <p class="text-muted mb-3">{{ product.category.description }}</p>
+          <c-slot name="actions">
+            <c-card.action href="{% url 'category_detail' product.category.slug %}"
+                           class="btn btn-sm btn-outline-primary w-100"
+                           text="View All {{ product.category.name }}" />
+          </c-slot>
+        </c-card>
+        {# Related products #}
+        {% if related_products %}
+          <c-card>
+            <c-slot name="header">
+              <h5 class="mb-0">Related Products</h5>
+            </c-slot>
+            <div class="list-group list-group-flush">
+              {% for related in related_products %}
+                <a href="{% url 'product_detail' related.slug %}"
+                   class="list-group-item list-group-item-action">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 class="mb-1">{{ related.name }}</h6>
+                      <small class="text-muted">${{ related.price }}</small>
+                    </div>
+                    {% if related.rating %}<small>⭐ {{ related.rating }}</small>{% endif %}
+                  </div>
+                </a>
+              {% endfor %}
+            </div>
+          </c-card>
+        {% endif %}
+      </c-slot>
+      <c-card class="mb-4">
+        <c-slot name="header">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Product Details</h3>
+            <div>
+              {% if product.is_featured %}<span class="badge bg-warning  me-2">Featured</span>{% endif %}
+              <span class="badge bg-{{ product.status|yesno:'success,secondary,danger' }}">{{ product.get_status_display }}</span>
+            </div>
+          </div>
+        </c-slot>
+        {# Price and ratings #}
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h2 class="text-primary">${{ product.price }}</h2>
+            {% if product.rating %}
+              <div class="mb-2">
+                <span class="h5">⭐ {{ product.rating }}/5.0</span>
+              </div>
+            {% endif %}
+          </div>
+          <div class="col-md-6 text-md-end">
+            <div class="mb-2">
+              <strong>Stock:</strong>
+              <span class="badge bg-{% if product.stock > 10 %}success{% elif product.stock > 0 %}warning{% else %}danger{% endif %} fs-6">
+                {{ product.stock }} units
+              </span>
+            </div>
+            <div>
+              <strong>Availability:</strong>
+              {% if product.is_available %}
+                <span class="text-success">Available</span>
+              {% else %}
+                <span class="text-danger">Not Available</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {# Description #}
+        <div class="mb-4">
+          <h4>Description</h4>
+          <p>{{ product.description }}</p>
+        </div>
+        {# Product details table #}
+        <div class="mb-4">
+          <h4>Specifications</h4>
+          <table class="table table-sm">
+            <tbody>
+              <tr>
+                <th style="width: 200px;">Category</th>
+                <td>
+                  <a href="{% url 'category_detail' product.category.slug %}">{{ product.category.name }}</a>
+                </td>
+              </tr>
+              <tr>
+                <th>SKU</th>
+                <td>{{ product.sku }}</td>
+              </tr>
+              {% if product.barcode %}
+                <tr>
+                  <th>Barcode</th>
+                  <td>{{ product.barcode }}</td>
+                </tr>
+              {% endif %}
+              <tr>
+                <th>Priority</th>
+                <td>
+                  <span class="badge bg-{% if product.priority == 'critical' %}danger{% elif product.priority == 'high' %}warning{% else %}secondary{% endif %}">
+                    {{ product.get_priority_display }}
+                  </span>
+                </td>
+              </tr>
+              {% if product.release_date %}
+                <tr>
+                  <th>Release Date</th>
+                  <td>{{ product.release_date|date:"F j, Y" }}</td>
+                </tr>
+              {% endif %}
+              <tr>
+                <th>Created</th>
+                <td>{{ product.created_at|naturaltime }}</td>
+              </tr>
+              <tr>
+                <th>Last Updated</th>
+                <td>{{ product.updated_at|naturaltime }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        {# Tags #}
+        {% if product.tag_list %}
+          <div class="mb-4">
+            <h4>Tags</h4>
+            <div>
+              {% for tag in product.tag_list %}<span class="badge bg-info me-1">{{ tag }}</span>{% endfor %}
+            </div>
+          </div>
+        {% endif %}
+        {# Action buttons #}
+        <div class="d-flex gap-2">
+          <a href="{% url 'product_list' %}"
+             class="btn btn-outline-secondary">← Back to Products</a>
+          <button class="btn btn-primary"
+                  {% if not product.is_available or product.stock == 0 %}disabled{% endif %}>Add to Cart</button>
+        </div>
+      </c-card>
+    </c-layouts.sidebar>
+  </c-container>
+{% endblock content %}

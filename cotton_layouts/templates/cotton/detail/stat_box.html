@@ -1,0 +1,9 @@
+<c-vars :value="0" label icon="" class icon_class />
+<div class="p-3 bg-light rounded text-center">
+  {% if icon %}
+    <c-icon name="{{ icon }}"
+            class="display-6  text-{{ color }} mb-2" />
+  {% endif %}
+  <div class="display-6 fw-bold text-{{ color }}">{{ value }}</div>
+  <div class="text-muted">{{ label }}</div>
+</div>

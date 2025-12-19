@@ -1,0 +1,40 @@
+body {
+  --theme-primary: #667eea;
+  --theme-secondary: #41384a;
+  --theme-sidebar-bg: #f8f9fa;
+}
+
+
+.sidebar {
+  background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+  border-right: 2px solid #dee2e6;
+  padding: var(--sidebar-collapsed-padding);
+}
+
+#page-navbar {
+  background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 100%);
+  color: white;
+}
+
+
+.menu-item {
+  @extend .py-1;
+  @extend .px-2;
+  @extend .mx-2;
+  @extend .rounded;
+  @extend .text-dark;
+}
+
+.sidebar.collapsed .menu-item {
+  aspect-ratio: 1 / 1;
+}
+
+/* Collapsed sidebar branding - match menu item padding and sizing */
+.sidebar.collapsed .sidebar-branding {
+  @extend .px-2;
+  @extend .mx-2;
+  min-height: 35.33px; /* Match menu item height for consistent alignment */
+}
+
+/* Toggle button fills entire branding area - no width/aspect-ratio needed
+   as it's already positioned with top/left/right/bottom in _sidebar.scss */

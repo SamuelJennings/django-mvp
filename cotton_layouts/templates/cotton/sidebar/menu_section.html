@@ -1,0 +1,13 @@
+{% load flex_menu %}
+<c-vars title class />
+{% with heading_id="menu-section-"|add:title|slugify %}
+  <h6 class="text-uppercase fw-semibold text-secondary small mb-3 mt-4 menu-heading {{ class }}"
+      id="{{ heading_id }}"
+      style="font-size: 0.875rem;
+             letter-spacing: 0.05em"
+      {{ attrs }}>{{ title }}
+  </h6>
+  <div class="mb-4"
+       role="group"
+       aria-labelledby="{{ heading_id }}">{{ slot }}</div>
+{% endwith %}

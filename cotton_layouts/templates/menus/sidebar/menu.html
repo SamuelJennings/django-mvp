@@ -1,0 +1,9 @@
+{% load flex_menu %}
+
+{% if children %}
+  <c-sidebar.menu-section title="{{ label }}">
+    {% for child in children %}
+      {% render_item child renderer=renderer %}
+    {% endfor %}
+  </c-sidebar.menu-section>
+{% endif %}

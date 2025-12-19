@@ -1,0 +1,108 @@
+{% extends "layouts/detail_view.html" %}
+{% load humanize %}
+{% block content %}
+  {# Example: Dual sidebar layout with navigation and metadata #}
+  {# Left sidebar: Navigation with fixed width and max-width constraint #}
+  <c-layouts.sidebar width="200px"
+                     max_width="250px"
+                     sidebar_class="bg-light border-end">
+    <c-slot name="sidebar">
+      <div class="p-3">
+        <h6 class="text-muted mb-3">Navigation</h6>
+        <nav class="nav flex-column">
+          <a class="nav-link" href="{% url 'article_list' %}">
+            <i class="bi bi-arrow-left"></i> Back to Articles
+          </a>
+          {% if article.category %}
+            <a class="nav-link"
+               href="{% url 'article_list' %}?category={{ article.category.slug }}">
+              <i class="bi bi-{{ article.category.icon }}"></i> {{ article.category.name }}
+            </a>
+          {% endif %}
+        </nav>
+      </div>
+    </c-slot>
+    {# Right sidebar (reversed): Metadata with responsive width using Bootstrap columns #}
+    <c-layouts.sidebar reverse
+                       sidebar_class="col-12 col-lg-3 col-xl-2 bg-body-tertiary border-start">
+      <c-slot name="sidebar">
+        <div class="p-3">
+          <h6 class="text-muted mb-3">Article Info</h6>
+          <div class="vstack gap-2 small">
+            <div>
+              <strong>Status:</strong>
+              <span class="badge bg-{{ article.status|yesno:'success,warning,secondary' }}">{{ article.get_status_display }}</span>
+            </div>
+            <div>
+              <strong>Author:</strong>
+              <br />
+              <i class="bi bi-person"></i> {{ article.author }}
+            </div>
+            <div>
+              <strong>Published:</strong>
+              <br />
+              <i class="bi bi-calendar"></i>
+              {% if article.published_at %}
+                {{ article.published_at|date:"M j, Y" }}
+              {% else %}
+                {{ article.created_at|date:"M j, Y" }}
+              {% endif %}
+            </div>
+            <div>
+              <strong>Reading Time:</strong>
+              <br />
+              <i class="bi bi-clock"></i> {{ article.read_time }} min
+            </div>
+            <div>
+              <strong>Views:</strong>
+              <br />
+              <i class="bi bi-eye"></i> {{ article.views|intcomma }}
+            </div>
+          </div>
+        </div>
+      </c-slot>
+      {# Main article content #}
+      <article class="p-4">
+        <div class="mb-4">
+          <h1 class="display-5 mb-3">{{ article.title }}</h1>
+        </div>
+        {# Excerpt #}
+        <div class="lead mb-4">{{ article.excerpt }}</div>
+        <hr />
+        {# Content #}
+        <div class="article-content">{{ article.content|linebreaks }}</div>
+        {# Tags #}
+        {% if article.tags %}
+          <hr class="mt-5 mb-4" />
+          <div>
+            <strong>Tags:</strong>
+            {% for tag in article.tags.split %}<span class="badge bg-secondary me-1">{{ tag }}</span>{% endfor %}
+          </div>
+        {% endif %}
+        {# Related articles #}
+        {% if related_articles %}
+          <c-card class="mt-5">
+            <c-slot name="header">
+              <h5 class="mb-0">Related Articles</h5>
+            </c-slot>
+            <div class="row g-3">
+              {% for related in related_articles %}
+                <div class="col-md-4">
+                  <c-card>
+                    <h6 class="card-title">{{ related.title }}</h6>
+                    <p class="card-text small">{{ related.excerpt|truncatewords:15 }}</p>
+                    <c-slot name="actions">
+                      <c-card.action href="{% url 'article_detail' related.slug %}"
+                                     class="btn btn-sm btn-outline-primary"
+                                     text="Read More" />
+                    </c-slot>
+                  </c-card>
+                </div>
+              {% endfor %}
+            </div>
+          </c-card>
+        {% endif %}
+      </article>
+    </c-layouts.sidebar>
+  </c-layouts.sidebar>
+{% endblock content %}

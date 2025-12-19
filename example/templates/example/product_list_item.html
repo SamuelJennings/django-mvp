@@ -1,0 +1,21 @@
+<c-card>
+  <div class="d-flex justify-content-between align-items-start mb-2">
+    <h5 class="card-title">{{ object.name }}</h5>
+    {% if object.is_featured %}<span class="badge bg-warning ">Featured</span>{% endif %}
+  </div>
+  <p class="text-muted small">{{ object.category.name }}</p>
+  <p class="card-text">{{ object.short_description|default:object.description|truncatewords:15 }}</p>
+  <div class="d-flex justify-content-between align-items-center mt-3">
+    <span class="h5 mb-0">${{ object.price }}</span>
+    <span class="badge bg-{{ object.status|yesno:'success,secondary,danger' }}">{{ object.get_status_display }}</span>
+  </div>
+  <div class="mt-2">
+    <small class="text-muted">Stock: {{ object.stock }}</small>
+    {% if object.rating %}<small class="ms-2">⭐ {{ object.rating }}/5.0</small>{% endif %}
+  </div>
+  <c-slot name="actions">
+    <c-card.action href="{% url 'product_detail' object.slug %}"
+                   class="btn btn-sm btn-primary w-100"
+                   text="View Details" />
+  </c-slot>
+</c-card>

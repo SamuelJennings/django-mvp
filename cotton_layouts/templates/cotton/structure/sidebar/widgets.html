@@ -1,0 +1,17 @@
+{% load i18n %}
+<c-vars hide_labels />
+{# Sidebar action widgets row - icon-based quick action links #}
+{# Actions can be configured via PAGE_CONFIG['actions'] in settings.py #}
+<div class="hstack justify-content-center gap-3 {{ class }}">
+  {% if page_config.actions %}
+    {% for action in page_config.actions %}
+      <c-structure.sidebar.widget :hide_label="hide_labels" :attrs="action" />
+    {% endfor %}
+  {% endif %}
+  <c-structure.sidebar.widget icon="theme_light"
+                              id="themeToggle"
+                              text="Theme"
+                              class="theme-toggle-icon"
+                              :hide_label="hide_labels" />
+  {{ slot }}
+</div>

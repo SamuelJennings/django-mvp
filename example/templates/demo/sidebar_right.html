@@ -1,0 +1,158 @@
+{% extends "demo/base.html" %}
+{% block navbar_icon %}
+  <i class="bi bi-layout-sidebar-inset-reverse me-2"></i>
+{% endblock navbar_icon %}
+{% block navbar_title %}
+  Secondary Sidebar Only
+{% endblock navbar_title %}
+{% block content %}
+  <!-- Inner Layout: Main Content + Secondary Sidebar -->
+  <div class="inner-layout">
+    <!-- Main Content Area -->
+    <main class="inner-main">
+      <div class="mb-4">
+        <h1>Secondary Sidebar Layout</h1>
+        <p class="lead text-muted">
+          This page demonstrates the inner layout with a SECONDARY (right) sidebar for metadata and actions.
+        </p>
+      </div>
+      <div class="demo-card p-4 mb-4">
+        <h5 class="mb-3">
+          <i class="bi bi-info-circle text-primary me-2"></i>About This Layout
+        </h5>
+        <p>
+          This configuration shows the inner layout with a collapsible secondary sidebar on the right.
+          The sidebar is perfect for metadata, related content, or contextual actions.
+        </p>
+        <p class="mb-0">
+          <strong>Use cases:</strong> Detail views, article pages, settings panels.
+        </p>
+      </div>
+      <article class="demo-card p-4 mb-4">
+        <h2 class="mb-3">Article Title Example</h2>
+        <p class="text-muted small mb-4">
+          <i class="bi bi-calendar me-2"></i>Published: January 15, 2024
+          <span class="mx-2">•</span>
+          <i class="bi bi-person me-2"></i>Author: John Doe
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
+          et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
+        <p>
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        <p>
+          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+          aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+        </p>
+      </article>
+      <div class="demo-card p-4">
+        <h5 class="mb-3">Comments (3)</h5>
+        <div class="mb-3 pb-3 border-bottom">
+          <div class="d-flex align-items-center mb-2">
+            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                 style="width: 32px;
+                        height: 32px">
+              <i class="bi bi-person-fill"></i>
+            </div>
+            <div>
+              <strong class="small">Jane Smith</strong>
+              <span class="text-muted small ms-2">2 hours ago</span>
+            </div>
+          </div>
+          <p class="small mb-0">Great article! Very informative and well-written.</p>
+        </div>
+        <div class="mb-3 pb-3 border-bottom">
+          <div class="d-flex align-items-center mb-2">
+            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                 style="width: 32px;
+                        height: 32px">
+              <i class="bi bi-person-fill"></i>
+            </div>
+            <div>
+              <strong class="small">Bob Johnson</strong>
+              <span class="text-muted small ms-2">5 hours ago</span>
+            </div>
+          </div>
+          <p class="small mb-0">Thanks for sharing this. Looking forward to more content like this.</p>
+        </div>
+        <div>
+          <div class="d-flex align-items-center mb-2">
+            <div class="bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                 style="width: 32px;
+                        height: 32px">
+              <i class="bi bi-person-fill"></i>
+            </div>
+            <div>
+              <strong class="small">Alice Williams</strong>
+              <span class="text-muted small ms-2">1 day ago</span>
+            </div>
+          </div>
+          <p class="small mb-0">Excellent explanation of the concepts.</p>
+        </div>
+      </div>
+    </main>
+    <!-- Secondary (Right) Sidebar -->
+    <aside class="inner-secondary">
+      <button class="inner-sidebar-toggle"
+              data-sidebar="secondary"
+              aria-label="Toggle Secondary Sidebar">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+      <div class="inner-sidebar-content">
+        <div class="mb-4">
+          <h6 class="text-muted text-uppercase small mb-3">Article Info</h6>
+          <div class="small">
+            <div class="mb-2">
+              <i class="bi bi-eye text-muted me-2"></i>
+              <strong>Views:</strong> 1,234
+            </div>
+            <div class="mb-2">
+              <i class="bi bi-heart text-muted me-2"></i>
+              <strong>Likes:</strong> 89
+            </div>
+            <div class="mb-2">
+              <i class="bi bi-share text-muted me-2"></i>
+              <strong>Shares:</strong> 23
+            </div>
+          </div>
+        </div>
+        <div class="mb-4">
+          <h6 class="text-muted text-uppercase small mb-3">Tags</h6>
+          <div class="d-flex flex-wrap gap-1">
+            <span class="badge bg-secondary">Tutorial</span>
+            <span class="badge bg-secondary">Django</span>
+            <span class="badge bg-secondary">Web Dev</span>
+            <span class="badge bg-secondary">Layouts</span>
+          </div>
+        </div>
+        <div class="mb-4">
+          <h6 class="text-muted text-uppercase small mb-3">Related Articles</h6>
+          <div class="small">
+            <a href="#"
+               class="d-block mb-2 text-decoration-none">
+              <i class="bi bi-file-text me-1"></i>Getting Started
+            </a>
+            <a href="#"
+               class="d-block mb-2 text-decoration-none">
+              <i class="bi bi-file-text me-1"></i>Advanced Layouts
+            </a>
+            <a href="#"
+               class="d-block mb-2 text-decoration-none">
+              <i class="bi bi-file-text me-1"></i>Best Practices
+            </a>
+          </div>
+        </div>
+        <div class="demo-card p-2">
+          <p class="small text-muted mb-0">
+            <i class="bi bi-info-circle me-1"></i>
+            This is the secondary (right) inner sidebar
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+{% endblock content %}

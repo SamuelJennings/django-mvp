@@ -1,0 +1,44 @@
+<c-vars target="filterOffcanvas" />
+<c-page.toolbar.action type="button"
+                       icon="filter"
+                       text="Filters"
+                       data-bs-toggle="offcanvas"
+                       data-bs-target="#{{ target }}"
+                       aria-controls="{{ target }}" />
+<div class="offcanvas offcanvas-end"
+     tabindex="-1"
+     id="{{ target }}"
+     aria-labelledby="{{ target }}Label">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title"
+        id="{{ target }}canvasLabel">
+      <c-icon name="filter" />
+      Filters
+    </h5>
+    <button type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form method="get" id="filterForm">
+      {% block filter_content %}
+        {# Override this block to add custom filters #}
+        <p class="text-muted">No additional filters available.</p>
+      {% endblock filter_content %}
+      {% block filter_actions %}
+        <div class="d-grid gap-2 mt-4">
+          <button type="submit" class="btn btn-primary">
+            <c-icon name="check" />
+            Apply Filters
+          </button>
+          <a href="{{ request.path }}"
+             class="btn btn-outline-secondary">
+            <c-icon name="x" />
+            Clear All
+          </a>
+        </div>
+      {% endblock filter_actions %}
+    </form>
+  </div>
+</div>

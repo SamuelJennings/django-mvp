@@ -1,0 +1,290 @@
+/* =============================================================================
+   SIDEBAR STYLES
+   
+   Structure:
+   - .sidebar: Base sidebar component (receives state classes like .collapsed)
+   - .sidebar-main: Offcanvas wrapper for site navigation (layout only)
+   
+   Note: Only structural/layout styles - no colors, margins, padding, transitions
+   Note: State classes are applied to .sidebar, not the wrapper
+   ============================================================================= */
+
+/* Sidebar Component
+   Used in: cotton/sidebar/index.html
+   Purpose: Base sidebar styles shared across all sidebar types
+   --------------------------------------------------------------------------- */
+.sidebar {
+  --sidebar-width: 280px;
+  --sidebar-max-width: 300px;
+  --sidebar-min-width: 280px;
+  --sidebar-collapsed-width: 64px;
+  --sidebar-collapsed-padding: 6px;
+
+  width: var(--sidebar-width);
+  height: 100%;
+  max-width: var(--sidebar-max-width);
+  min-width: var(--sidebar-min-width);
+  flex-shrink: 0;
+  transition: width 0.3s ease, min-width 0.3s ease, max-width 0.3s ease;
+  
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    transition: background-color 0.2s ease;
+  }
+
+  &:hover {
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.3);
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+
+  /* Bootstrap column compatibility */
+  &[class*="col-"] {
+    width: auto;
+    flex-basis: auto;
+  }
+
+  &.sidebar-primary {
+    @extend .offcanvas-start;
+  }
+  &.sidebar-secondary {
+    @extend .offcanvas-end;
+  }
+
+  .sidebar-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .sidebar-header {
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .sidebar-footer {
+    flex-shrink: 0;
+    margin-top: auto;
+  }
+
+  .sidebar-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* Text overflow handling */
+  .menu-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Sidebar link hover transitions */
+  .menu-item {
+    transition: background-color 0.2s ease;
+  }
+
+  /* Default visibility: hide icon, show logo */
+  .sidebar-icon {
+    display: none;
+  }
+
+  .sidebar-logo {
+    display: block;
+  }
+
+  /* Collapsed State
+     Applied by sidebar.js when user toggles collapse
+     --------------------------------------------------------------------------- */
+  &.collapsed {
+    width: var(--sidebar-collapsed-width);
+    min-width: var(--sidebar-collapsed-width);
+    overflow: visible;
+
+    /* Hide text elements */
+    .menu-text,
+    .menu-heading {
+      display: none;
+    }
+
+    /* Center menu items */
+    .menu-item {
+      justify-content: center;
+    }
+
+    .menu-icon {
+      margin-right: 0 !important;
+    }
+
+    /* Branding - Show icon, hide logo */
+    .sidebar-logo {
+      display: none !important;
+    }
+
+    .sidebar-icon {
+      display: flex !important;
+    }
+
+    /* Hide branding if no icon is provided */
+    .sidebar-branding.no-icon {
+      display: none !important;
+    }
+
+    /* Visibility toggles */
+    .collapsed-only {
+      display: flex !important;
+    }
+
+    .expanded-only {
+      display: none !important;
+    }
+
+    .hide-on-collapse {
+      display: none !important;
+    }
+
+    .show-on-collapse {
+      display: block !important;
+    }
+
+    /* Dropdown widgets for collapsed state */
+    .dropend {
+      > .menu-item {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+
+  /* Expanded State (default)
+     --------------------------------------------------------------------------- */
+  &:not(.collapsed) {
+    .sidebar-logo {
+      display: flex !important;
+    }
+
+    .sidebar-icon {
+      display: none !important;
+    }
+
+    .collapsed-only {
+      display: none !important;
+    }
+
+    .expanded-only {
+      display: flex !important;
+    }
+
+    .hide-on-expanded {
+      display: none !important;
+    }
+
+    .show-on-expanded {
+      display: block !important;
+    }
+  }
+}
+
+/* Sidebar Branding
+   Used in: structure/sidebar/brand.html
+   Purpose: Logo/icon area at top of sidebar with hover-to-expand functionality
+   --------------------------------------------------------------------------- */
+.sidebar-branding {
+  --sidebar-brand-max-height: auto;
+  --sidebar-brand-max-width: 80%;
+  
+  display: flex;
+  justify-content: center;
+
+  .sidebar-branding-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    
+    img {
+      max-height: var(--sidebar-brand-max-height);
+      max-width: var(--sidebar-brand-max-width);
+      object-fit: contain;
+    }
+  }
+
+  .sidebar-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    
+    img {
+      max-height: var(--sidebar-brand-max-height);
+      max-width: var(--sidebar-brand-max-width);
+      object-fit: contain;
+    }
+  }
+
+  .sidebar.collapsed & {
+    position: relative;
+
+    .sidebar-branding-link {
+      position: relative;
+      z-index: 2;
+    }
+
+    .sidebar-brand-toggle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &:hover .sidebar-branding-link {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* In collapsed state, icon should fill container (typically square) */
+    .sidebar-icon img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+}
+
+/* Sidebar Toggle Buttons
+   Used in: sidebar/toggle.html, structure/sidebar/index.html, structure/sidebar/brand.html
+   Purpose: Interactive buttons to collapse/expand sidebar
+   --------------------------------------------------------------------------- */
+.sidebar-toggle {
+  cursor: pointer;
+}
+

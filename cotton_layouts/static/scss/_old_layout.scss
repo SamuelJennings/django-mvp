@@ -1,0 +1,347 @@
+// Core Layout Structure - Inner Layout only
+// Note: .sidebar-layout and #page-sidebar moved to _new_sidebar.scss
+
+// Inner Layout Structure
+.inner-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+// Inner Sidebar Structural Styles
+.inner-primary,
+.inner-secondary {
+  position: relative;
+  flex-shrink: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+}
+
+.inner-primary {
+  width: var(--inner-primary-width, 250px);
+  max-width: var(--inner-primary-max-width, 300px);
+  min-width: var(--inner-primary-min-width, 60px);
+
+  &.collapsed {
+    width: var(--inner-primary-min-width, 60px) !important;
+    min-width: var(--inner-primary-min-width, 60px) !important;
+
+    .inner-sidebar-content > *:not(.collapsed-only) {
+      display: none;
+    }
+
+    .collapsed-only {
+      display: block !important;
+    }
+
+    .expanded-only {
+      display: none !important;
+    }
+
+    .inner-sidebar-toggle i {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.inner-secondary {
+  width: var(--inner-secondary-width, 250px);
+  max-width: var(--inner-secondary-max-width, 300px);
+  min-width: var(--inner-secondary-min-width, 60px);
+
+  &.collapsed {
+    width: var(--inner-secondary-min-width, 60px) !important;
+    min-width: var(--inner-secondary-min-width, 60px) !important;
+
+    .inner-sidebar-content > *:not(.collapsed-only) {
+      display: none;
+    }
+
+    .collapsed-only {
+      display: block !important;
+    }
+
+    .expanded-only {
+      display: none !important;
+    }
+
+    .inner-sidebar-toggle i {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.collapsed-only {
+  display: none;
+}
+
+.inner-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+// Inner Sidebar Toggle Positioning
+.inner-sidebar-toggle {
+  position: absolute;
+  top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.inner-primary .inner-sidebar-toggle {
+  right: 10px;
+}
+
+.inner-secondary .inner-sidebar-toggle {
+  left: 10px;
+}
+
+.inner-sidebar-content {
+  padding: 1rem;
+}
+
+// Deprecated toggle classes (keeping for backwards compatibility)
+.inner-primary-toggle,
+.inner-secondary-toggle {
+  z-index: 10;
+}
+
+// Breakpoint Configuration (Bootstrap-aligned but independent)
+$layout-breakpoints: (
+  "sm": 576px,
+  "md": 768px,
+  "lg": 992px,
+  "xl": 1200px,
+  "xxl": 1400px,
+);
+
+// Layout Mode Utility Classes
+// Generate responsive utilities for each breakpoint
+@each $name, $width in $layout-breakpoints {
+  // Hide element below breakpoint when sidebar toggle is active
+  // Usage: Add .hide-if-sidebar-hidden to navbar menu items
+  body.hide-sidebar-#{$name} .hide-if-sidebar-hidden {
+    @media (max-width: ($width - 1px)) {
+      display: none !important;
+    }
+  }
+
+  // Show element only below breakpoint when sidebar toggle is active
+  // Usage: Add .show-if-sidebar-hidden to hamburger button
+  body.hide-sidebar-#{$name} .show-if-sidebar-hidden {
+    display: none !important;
+
+    @media (max-width: ($width - 1px)) {
+      display: block !important;
+    }
+  }
+
+  // Hide element when sidebar is in-flow (above breakpoint)
+  // Show element when sidebar is offcanvas (below breakpoint)
+  // Usage: Add .hide-if-sidebar-visible to offcanvas dismiss button
+  body.hide-sidebar-#{$name} .hide-if-sidebar-visible {
+    // Hide above breakpoint (when sidebar is in-flow)
+    @media (min-width: $width) {
+      display: none !important;
+    }
+
+    // Show below breakpoint (when sidebar is offcanvas)
+    @media (max-width: ($width - 1px)) {
+      display: block !important;
+    }
+  }
+}
+
+// Layout-specific overrides for hide-if-sidebar-visible
+// In navbar-only mode, sidebar is always offcanvas, so always show the dismiss button
+body.layout-navbar .hide-if-sidebar-visible {
+  display: block !important;
+}
+
+// Layout Mode: Navbar Only
+// Sidebar is always offcanvas (never in-flow)
+body.layout-navbar {
+  // Sidebar uses Bootstrap offcanvas - no custom width/position needed
+
+  // Hide the sidebar footer toggle button (not needed in navbar-only mode)
+  #page-sidebar .border-top {
+    display: none !important;
+  }
+
+  // Navbar is always visible
+  .navbar {
+    display: flex !important;
+  }
+}
+
+// Sidebar Collapse Toggle Visibility
+// Generate responsive visibility for collapse toggle based on layout mode
+@each $name, $width in $layout-breakpoints {
+  // In sidebar-only and both modes, show collapse toggle when sidebar is in-flow
+  body.layout-sidebar.hide-sidebar-#{$name},
+  body.layout-both.hide-sidebar-#{$name} {
+    @media (min-width: $width) {
+      #page-sidebar.collapsible .sidebar-collapse-toggle {
+        display: block !important;
+      }
+    }
+  }
+}
+
+// Never show collapse toggle in navbar-only mode (sidebar always offcanvas)
+body.layout-navbar .sidebar-collapse-toggle {
+  display: none !important;
+}
+
+// Layout Mode: Navbar Only
+// Sidebar is in-flow above breakpoint, offcanvas below
+// Navbar is ONLY visible below breakpoint (when sidebar is offcanvas)
+body.layout-sidebar {
+  // Never show navbar menu items in sidebar mode
+  .hide-if-sidebar-hidden {
+    display: none !important;
+  }
+
+  // Navbar and hamburger visibility controlled by breakpoint classes below
+  // Above breakpoint: sidebar is in-flow, navbar hidden
+  // Below breakpoint: sidebar is offcanvas, navbar visible
+}
+
+// Generate responsive behavior for each breakpoint in sidebar mode
+@each $name, $width in $layout-breakpoints {
+  body.layout-sidebar.hide-sidebar-#{$name} {
+    // Above breakpoint: sidebar is in document flow, navbar hidden
+    @media (min-width: $width) {
+      .sidebar-layout > #page-sidebar {
+        position: relative;
+        width: auto;
+        // width: 260px;
+        // Override Bootstrap offcanvas hiding - make sidebar visible
+        visibility: visible !important;
+        transform: none !important;
+      }
+
+      // Hide navbar entirely above breakpoint
+      .navbar {
+        display: none !important;
+      }
+
+      // Hide hamburger above breakpoint
+      .show-if-sidebar-hidden {
+        display: none !important;
+      }
+    }
+
+    // Below breakpoint: sidebar is offcanvas, navbar visible
+    @media (max-width: ($width - 1px)) {
+      .sidebar-layout > #page-sidebar {
+        // Bootstrap offcanvas handles positioning and visibility
+        position: fixed;
+      }
+
+      // Show navbar below breakpoint
+      .navbar {
+        display: flex !important;
+      }
+
+      // Show hamburger below breakpoint
+      .show-if-sidebar-hidden {
+        display: block !important;
+      }
+    }
+  }
+}
+
+// Layout Mode: Both
+// Both navbar and sidebar visible above breakpoint
+// Below breakpoint, navbar shows with hamburger, sidebar becomes offcanvas
+// Navbar menu is ALWAYS hidden (all navigation through sidebar)
+body.layout-both {
+  // Never show navbar menu items in both mode
+  .hide-if-sidebar-hidden {
+    display: none !important;
+  }
+}
+
+// Generate responsive behavior for each breakpoint in both mode
+@each $name, $width in $layout-breakpoints {
+  body.layout-both.hide-sidebar-#{$name} {
+    // Above breakpoint: both navbar and sidebar visible
+    @media (min-width: $width) {
+      .sidebar-layout > #page-sidebar {
+        position: relative;
+        width: auto;
+        // width: 260px;
+        // Override Bootstrap offcanvas hiding - make sidebar visible
+        visibility: visible !important;
+        transform: none !important;
+      }
+
+      // Show navbar above breakpoint
+      .navbar {
+        display: flex !important;
+      }
+
+      // Hide hamburger above breakpoint (sidebar already visible)
+      .show-if-sidebar-hidden {
+        display: none !important;
+      }
+    }
+
+    // Below breakpoint: sidebar is offcanvas, navbar visible with hamburger
+    @media (max-width: ($width - 1px)) {
+      .sidebar-layout > #page-sidebar {
+        // Bootstrap offcanvas handles positioning and visibility
+        position: fixed;
+      }
+
+      // Show navbar below breakpoint
+      .navbar {
+        display: flex !important;
+      }
+
+      // Show hamburger below breakpoint
+      .show-if-sidebar-hidden {
+        display: block !important;
+      }
+    }
+  }
+}
+
+// Utility Classes
+.show-when-hidden {
+  display: none;
+}
+
+body.sidebar-hidden .show-when-hidden {
+  display: block;
+}
+
+// Responsive Adjustments
+@media (max-width: 991px) {
+  .inner-layout {
+    flex-direction: column !important;
+  }
+
+  .inner-primary,
+  .inner-secondary {
+    width: 100% !important;
+    max-width: none !important;
+    border: none !important;
+    border-bottom: 1px solid var(--bs-border-color) !important;
+  }
+}
+

@@ -1,0 +1,14 @@
+{% load flex_menu easy_icons %}
+
+{% comment %}
+Parent items in dropdowns are rendered as headers followed by their children.
+This matches the Bootstrap dropdown pattern with section headers.
+{% endcomment %}
+{% if label %}
+  <c-dropdown.header>
+    {{ label }}
+  </c-dropdown.header>
+{% endif %}
+{% for child in children %}
+  {% render_item child renderer=renderer %}
+{% endfor %}

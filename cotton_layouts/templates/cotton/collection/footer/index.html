@@ -1,0 +1,15 @@
+{% load i18n %}
+
+<c-vars page_obj="" table="" />
+<div class="bottom-info-bar border-top">
+  <div class="container-fluid px-3">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <!-- Record count -->
+      <c-collection.footer.record_count :page_obj="page_obj" :table="table" />
+      <!-- Pagination -->
+      <c-collection.footer.pagination :page_obj="page_obj" :table="table" />
+      <!-- Right side - empty placeholder for alignment -->
+      <div class="d-none d-md-block" style="width: 150px;"></div>
+    </div>
+  </div>
+</div>

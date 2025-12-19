@@ -1,0 +1,40 @@
+{% load flex_menu %}
+<c-vars :start="{'navbar.brand': {}}"
+        fixed
+        border
+        variant
+        sidebar_visible
+        layout="sidebar" />
+<nav id="page-navbar"
+     class="navbar bg-body{% if variant %} navbar-{{ variant }}{% endif %}{% if border %} border-bottom shadow-sm{% endif %}{% if fixed %} sticky-top{% endif %}">
+  <div class="container-fluid px-3">
+    <c-navbar.sidebar-toggle :hide_at="sidebar_visible"
+                             class="show-if-sidebar-hidden" />
+    {% if layout != 'both' %}
+      {% for comp, config in start.items %}<c-component is="{{ comp }}" :attrs="config" />{% endfor %}
+    {% endif %}
+    <!-- Desktop Navigation Menu (Hidden based on layout mode) -->
+    <div class="me-auto hide-if-sidebar-hidden">
+      <div class="navbar-nav d-none">{% render_menu 'Site Navigation' renderer="navbar" %}</div>
+    </div>
+    <!-- Desktop Search Form -->
+    <c-navbar.search collapsible="True" />
+    {% if layout != 'both' %}<c-structure.sidebar.widgets hide_labels class="d-flex hide-if-sidebar-hidden" />{% endif %}
+    <!-- Desktop Action Group -->
+    <div class="d-none d-lg-flex align-items-center gap-3 hide-if-sidebar-hidden">
+      <!-- Login/Profile -->
+      <div class="ms-2">
+        <!-- For unauthenticated users -->
+        {% comment %} <button class="btn btn-primary btn-sm d-none" id="loginBtn">
+          <c-icon name="person" class="me-1" />
+          Login
+        </button> {% endcomment %}
+        <!-- For authenticated users -->
+        <c-navbar.profile-dropdown :menu_items="[ {'icon': 'person', 'text': 'Profile', 'url': '#'}, {'icon': 'settings', 'text': 'Settings', 'url': '#'}, {'divider': True}, {'icon': 'logout', 'text': 'Logout', 'url': '#'} ]" />
+      </div>
+    </div>
+    <!-- Mobile Profile (Far Right on Mobile) -->
+    <c-navbar.profile-dropdown extra_classes="d-lg-none show-if-sidebar-hidden"
+                               :menu_items="[ {'icon': 'person', 'text': 'Profile', 'url': '#'}, {'icon': 'settings', 'text': 'Settings', 'url': '#'}, {'divider': True}, {'icon': 'logout', 'text': 'Logout', 'url': '#'} ]" />
+  </div>
+</nav>

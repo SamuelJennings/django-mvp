@@ -1,0 +1,12 @@
+<c-vars icon text hide_label />
+{# djlint:off #}
+{% with href|yesno:"a,button" as element %}
+  <{{ element }} class="btn btn-link d-inline-flex gap-2 text-reset text-decoration-none p-0 {{ class }}"
+          title="{{ text }}" {{ attrs }}>
+    <c-icon name="{{ icon }}" />
+    {% if not hide_label %}
+    {{ text }}
+    {% endif %}
+  </{{ element }}>
+{% endwith %}
+{# djlint:on #}

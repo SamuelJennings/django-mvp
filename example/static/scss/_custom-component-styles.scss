@@ -1,0 +1,209 @@
+// Custom Component Styles
+// This file demonstrates applying the CSS variables to actual components
+
+// ============================================================================
+// SIDEBAR STYLES
+// ============================================================================
+
+.sidebar {
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  color: var(--sidebar-text);
+  
+  // Menu items
+  .menu-item {
+    color: var(--sidebar-text);
+    transition: all var(--transition-speed) var(--transition-timing);
+    
+    &:hover {
+      background-color: var(--sidebar-menu-hover-bg);
+    }
+    
+    &.active {
+      background-color: var(--sidebar-menu-active-bg);
+      color: var(--sidebar-menu-active-color);
+      border-left: 3px solid var(--sidebar-menu-active-border);
+    }
+  }
+  
+  // Menu headings
+  .menu-heading {
+    color: var(--sidebar-text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  // Header
+  .sidebar-header {
+    background: var(--sidebar-header-bg);
+  }
+  
+  // Footer
+  .sidebar-footer {
+    background: var(--sidebar-footer-bg);
+    border-top: 1px solid var(--sidebar-footer-border);
+  }
+  
+  // Branding
+  .sidebar-branding {
+    img, svg {
+      max-height: var(--sidebar-brand-max-height);
+      max-width: var(--sidebar-brand-max-width);
+    }
+  }
+}
+
+// ============================================================================
+// NAVBAR STYLES
+// ============================================================================
+
+#page-navbar {
+  background: var(--navbar-bg);
+  color: var(--navbar-text);
+  box-shadow: var(--navbar-shadow);
+  border-bottom: 1px solid var(--navbar-border);
+  
+  a {
+    color: var(--navbar-text);
+    
+    &:hover {
+      color: var(--navbar-text-hover);
+    }
+  }
+  
+  .navbar-brand {
+    color: var(--navbar-text);
+    font-weight: 600;
+  }
+}
+
+// ============================================================================
+// INNER LAYOUT (Content Area Sidebars)
+// ============================================================================
+
+.inner-layout {
+  height: 100%;
+  display: flex;
+  gap: 0;
+}
+
+.inner-primary {
+  background: var(--inner-primary-bg);
+  border-right: 1px solid var(--inner-primary-border);
+  width: var(--inner-primary-width);
+  max-width: var(--inner-primary-max-width);
+  min-width: var(--inner-primary-min-width);
+  
+  &.collapsed {
+    width: var(--inner-primary-min-width);
+    min-width: var(--inner-primary-min-width);
+  }
+  
+  // Toggle button
+  .inner-primary-toggle {
+    background: var(--inner-toggle-bg);
+    border: 1px solid var(--inner-toggle-border);
+    box-shadow: var(--inner-toggle-shadow);
+    
+    &:hover {
+      background: var(--inner-toggle-hover-bg);
+    }
+  }
+}
+
+.inner-secondary {
+  background: var(--inner-secondary-bg);
+  border-left: 1px solid var(--inner-secondary-border);
+  width: var(--inner-secondary-width);
+  max-width: var(--inner-secondary-max-width);
+  min-width: var(--inner-secondary-min-width);
+  
+  &.collapsed {
+    width: var(--inner-secondary-min-width);
+    min-width: var(--inner-secondary-min-width);
+  }
+  
+  // Toggle button
+  .inner-secondary-toggle {
+    background: var(--inner-toggle-bg);
+    border: 1px solid var(--inner-toggle-border);
+    box-shadow: var(--inner-toggle-shadow);
+    
+    &:hover {
+      background: var(--inner-toggle-hover-bg);
+    }
+  }
+}
+
+.inner-main {
+  flex: 1;
+  background: var(--inner-main-bg);
+  padding: var(--inner-main-padding);
+  overflow-y: auto;
+  min-width: 0; // Prevent flex overflow
+}
+
+// ============================================================================
+// CARDS
+// ============================================================================
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  
+  .card-header {
+    background: var(--card-header-bg);
+    border-bottom: 1px solid var(--card-header-border);
+  }
+}
+
+// ============================================================================
+// SCROLLBARS
+// ============================================================================
+
+.sidebar,
+.inner-primary,
+.inner-secondary,
+.inner-main {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 4px;
+    
+    &:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
+  }
+}
+
+// ============================================================================
+// UTILITIES
+// ============================================================================
+
+// Smooth transitions
+.sidebar,
+.inner-primary,
+.inner-secondary,
+.menu-item {
+  transition: all var(--transition-speed) var(--transition-timing);
+}
+
+// Ensure empty sidebars collapse
+.inner-primary:empty,
+.inner-secondary:empty {
+  display: none;
+}

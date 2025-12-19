@@ -1,0 +1,23 @@
+{% extends "layouts/base.html" %}
+{% block body %}
+  <body class="layout-{{ page_config.layout }}">
+    <div class="sidebar-layout hide-sidebar-{{ page_config.navigation.toggle_at }}">
+      <c-structure.sidebar :show_at="page_config.navigation.toggle_at|default:'lg'"
+                           :attrs="page_config.sidebar"
+                           :brand="page_config.brand"
+                           :layout="page_config.layout|default:'sidebar'"
+                           :toggle_at="page_config.navigation.toggle_at|default:'lg'"
+                           :collapsible="page_config.navigation.collapsible|default:True" />
+      <div class="main-column">
+        <c-structure.navbar :attrs="page_config.navbar"
+                            :sidebar_visible="page_config.navigation.toggle_at|default:'lg'"
+                            :brand="page_config.brand"
+                            :layout="page_config.layout|default:'sidebar'" />
+        <c-structure.main>
+          {% block content %}
+          {% endblock content %}
+        </c-structure.main>
+      </div>
+    </div>
+  </body>
+{% endblock body %}
