@@ -1,0 +1,172 @@
+/* =============================================================================
+   PAGE-LEVEL ELEMENTS
+   
+   Structure:
+   - .page-toolbar: Action toolbar for filters, search, controls
+   - .page-breadcrumbs: Breadcrumb navigation
+   - .page-header: Page title and metadata container
+   - .page-title: Main page heading
+   - .page-subtitle: Optional subtitle/description
+   - .page-actions: Action buttons in header
+   - .page-content: Main content wrapper
+   
+   Note: These components exist within .app-main (Level 2 of layout hierarchy)
+   ============================================================================= */
+
+/* Page Toolbar
+   Used for: Search, filters, sorting controls, bulk actions
+   --------------------------------------------------------------------------- */
+.page-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--page-toolbar-bg, var(--bs-body-bg));
+  border-bottom: 1px solid var(--page-toolbar-border, var(--bs-border-color));
+  flex-wrap: wrap;
+
+  /* Mobile: Stack vertically */
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Page Breadcrumbs
+   Used for: Navigation hierarchy, current location
+   --------------------------------------------------------------------------- */
+.page-breadcrumbs {
+  padding: 0.5rem 0;
+  
+  .breadcrumb {
+    margin-bottom: 0;
+    background: transparent;
+  }
+}
+
+/* Page Header
+   Used for: Page title, subtitle, and primary actions
+   --------------------------------------------------------------------------- */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: var(--page-header-padding, 1.5rem 0);
+  flex-wrap: wrap;
+
+  /* Mobile: Stack vertically */
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Page Title
+   Used for: Main page heading (h1)
+   --------------------------------------------------------------------------- */
+.page-title {
+  font-size: var(--page-title-size, 2rem);
+  font-weight: var(--page-title-weight, 600);
+  line-height: 1.2;
+  margin: 0;
+  color: var(--page-title-color, var(--bs-heading-color));
+
+  /* Responsive sizing */
+  @media (max-width: 767px) {
+    font-size: var(--page-title-size-mobile, 1.5rem);
+  }
+}
+
+/* Page Subtitle
+   Used for: Optional description text below title
+   --------------------------------------------------------------------------- */
+.page-subtitle {
+  font-size: var(--page-subtitle-size, 1rem);
+  color: var(--page-subtitle-color, var(--bs-secondary-color));
+  margin: 0.5rem 0 0 0;
+  line-height: 1.5;
+}
+
+/* Page Actions
+   Used for: Action buttons in page header
+   --------------------------------------------------------------------------- */
+.page-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+
+  /* Mobile: Full width */
+  @media (max-width: 767px) {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+/* Page Content
+   Used for: Main content wrapper within .app-main
+   --------------------------------------------------------------------------- */
+.page-content {
+  padding: var(--page-content-padding, 0);
+  flex: 1 1 auto;
+  min-height: 0; /* Allow flex child to shrink */
+}
+
+/* Page Content Variants
+   --------------------------------------------------------------------------- */
+
+/* Centered content (for forms, detail views) */
+.page-content.centered {
+  max-width: var(--page-content-max-width, 1200px);
+  margin: 0 auto;
+}
+
+/* Full width content (for tables, grids) */
+.page-content.full-width {
+  max-width: none;
+}
+
+/* With sidebar layout */
+.page-content.with-sidebar {
+  display: flex;
+  gap: 1.5rem;
+
+  @media (max-width: 991px) {
+    flex-direction: column;
+  }
+}
+
+/* CSS Variables for Page Elements
+   --------------------------------------------------------------------------- */
+:root {
+  /* Toolbar */
+  --page-toolbar-bg: var(--bs-body-bg);
+  --page-toolbar-border: var(--bs-border-color);
+  --page-toolbar-padding: 0.75rem 1rem;
+  
+  /* Header */
+  --page-header-padding: 1.5rem 0;
+  
+  /* Title */
+  --page-title-size: 2rem;
+  --page-title-size-mobile: 1.5rem;
+  --page-title-weight: 600;
+  --page-title-color: var(--bs-heading-color);
+  
+  /* Subtitle */
+  --page-subtitle-size: 1rem;
+  --page-subtitle-color: var(--bs-secondary-color);
+  
+  /* Content */
+  --page-content-padding: 0;
+  --page-content-max-width: 1200px;
+}
+
+/* Dark Mode Overrides
+   --------------------------------------------------------------------------- */
+[data-bs-theme="dark"] {
+  --page-toolbar-bg: var(--bs-dark);
+  --page-toolbar-border: var(--bs-border-color);
+}

@@ -1,0 +1,7 @@
+<c-vars gap="0" class />
+<div class="content-shell d-flex gap-{{ gap }} {{ class }}"
+     {{ attrs }}>
+  {{ primary_sidebar }}
+  <div class="content-main flex-grow-1 overflow-auto">{{ slot }}</div>
+  {{ secondary_sidebar }}
+</div>

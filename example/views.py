@@ -13,29 +13,14 @@ class ThemeTestView(TemplateView):
     template_name = "demo/theme_test.html"
 
 
-class LayoutDemoView(TemplateView):
-    """Unified layout demo view that uses PAGE_CONFIG settings.
+class HomeView(TemplateView):
+    """Interactive home page with layout system demonstration.
 
-    This view displays layout demonstrations based on configuration
-    in settings.PAGE_CONFIG. The layout type is determined by the
-    'layout' key in PAGE_CONFIG.
-
-    Supported layouts:
-    - 'navbar': Top navigation bar layout (navbar_layout.html)
-    - 'sidebar': Fixed sidebar layout (sidebar_layout.html)
-
-    The template is automatically selected based on the configuration.
-    If no layout is specified, defaults to 'navbar'.
-
-    Example PAGE_CONFIG:
-        PAGE_CONFIG = {
-            'layout': 'sidebar',  # or 'navbar'
-            'brand': {...},
-            'actions': [...],
-        }
+    Provides an interactive demo of the layout system with real-time
+    mode switching between navbar, sidebar, and both layouts.
     """
 
-    template_name = "layouts/standard.html"  # Default template
+    template_name = "demo/layout_switcher.html"
 
 
 class ProductListView(ListItemTemplateMixin, SearchOrderMixin, ListView):
@@ -272,52 +257,3 @@ class TaskDetailView(DetailView):
     model = Task
     template_name = "example/task_detail.html"
     context_object_name = "task"
-
-
-# Layout Demo Views
-class DemoNavbarOnlyView(TemplateView):
-    """Navbar only layout demo."""
-
-    template_name = "demo/navbar_only.html"
-
-
-class DemoSidebarOnlyView(TemplateView):
-    """Sidebar only layout demo."""
-
-    template_name = "demo/sidebar_only.html"
-
-
-class DemoBothLayoutView(TemplateView):
-    """Both (sidebar + navbar) layout demo."""
-
-    template_name = "demo/both_layout.html"
-
-
-class DemoSingleColumnView(TemplateView):
-    """Single column layout demo."""
-
-    template_name = "demo/single_column.html"
-
-
-class DemoSidebarLeftView(TemplateView):
-    """Left sidebar layout demo."""
-
-    template_name = "demo/sidebar_left.html"
-
-
-class DemoSidebarRightView(TemplateView):
-    """Right sidebar layout demo."""
-
-    template_name = "demo/sidebar_right.html"
-
-
-class DemoDualSidebarView(TemplateView):
-    """Dual sidebar layout demo."""
-
-    template_name = "demo/dual_sidebar.html"
-
-
-class DemoLayoutSwitcherView(TemplateView):
-    """Interactive layout switcher demo with live mode changes."""
-
-    template_name = "demo/layout_switcher.html"

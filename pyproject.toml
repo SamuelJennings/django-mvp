@@ -1,14 +1,14 @@
 [tool.poetry]
-name = "django-cotton-layouts"
+name = "django-mvp"
 version = "0.1.0"
-description = "Application layouts and UI patterns for Django Cotton - designed for research portals and data-centric applications."
+description = "Minimum Viable Product framework for Django - scaffold production-ready applications with sophisticated layouts and UI patterns designed for research portals and data-centric applications."
 authors = ["Sam <samuel.scott.jennings@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "cotton_layouts"}]
-homepage = "https://github.com/SamuelJennings/django-cotton-layouts"
-repository = "https://github.com/SamuelJennings/django-cotton-layouts"
-keywords = ["django", "cotton", "bootstrap", "layouts", "portal", "research", "data"]
+packages = [{include = "mvp"}]
+homepage = "https://github.com/SamuelJennings/django-mvp"
+repository = "https://github.com/SamuelJennings/django-mvp"
+keywords = ["django", "mvp", "minimum viable product", "bootstrap", "layouts", "portal", "research", "data", "scaffold"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Framework :: Django",
@@ -178,7 +178,7 @@ addopts = [
 ]
 
 [tool.coverage.run]
-source = ["cotton_layouts"]
+source = ["mvp"]
 omit = [
     "*/tests/*",
     "*/migrations/*",

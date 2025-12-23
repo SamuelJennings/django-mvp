@@ -1,0 +1,40 @@
+{% load static %}
+<c-vars url="/"
+        text
+        icon
+        image_light
+        image_dark
+        logo_height="auto"
+        logo_width="auto"
+        logo_max_height="2rem" />
+<!-- Navbar Brand: Logo image OR icon+text -->
+<a class="navbar-brand me-4 d-flex align-items-center show-if-sidebar-hidden"
+   href="{{ url }}">
+        {% if image_light or image_dark %}
+                {# Full logo image mode - theme aware #}
+                <div class="navbar-logo">
+                        {% if image_light %}
+                                <img src="{% static image_light %}"
+                                     alt="{{ text }}"
+                                     class="d-block"
+                                     style="max-height: {{ logo_max_height }};
+                                            width: {{ logo_width }};
+                                            height: {{ logo_height }}"
+                                     data-bs-theme-value="light" />
+                        {% endif %}
+                        {% if image_dark %}
+                                <img src="{% static image_dark %}"
+                                     alt="{{ text }}"
+                                     class="d-none"
+                                     style="max-height: {{ logo_max_height }};
+                                            width: {{ logo_width }};
+                                            height: {{ logo_height }}"
+                                     data-bs-theme-value="dark" />
+                        {% endif %}
+                </div>
+        {% else %}
+                {# Icon + text mode #}
+                {% if icon %}<c-icon name="{{ icon }}" class="me-2" />{% endif %}
+                {% if text %}<span class="fw-semibold">{{ text }}</span>{% endif %}
+        {% endif %}
+</a>

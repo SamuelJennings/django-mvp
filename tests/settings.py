@@ -27,9 +27,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "compressor",
-    "django_browser_reload",
+    # "django_browser_reload",  # Optional, commented for testing
     "example",
-    "cotton_layouts",
+    "mvp",
     "easy_icons",
     "crispy_forms",
     "crispy_bootstrap5",
@@ -48,7 +48,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
+    # "django_browser_reload.middleware.BrowserReloadMiddleware",  # Optional
 ]
 
 ROOT_URLCONF = "example.urls"
@@ -63,7 +63,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "cotton_layouts.context_processors.page_config",
+                "mvp.context_processors.page_config",
             ],
         },
     },
@@ -87,10 +87,7 @@ STATICFILES_FINDERS = (
     "compressor.finders.CompressorFinder",
 )
 
-STATICFILES_DIRS = [
-    BASE_DIR / "cotton_layouts" / "static" / "dist",
-    BASE_DIR / "node_modules",  # For Vite dev server to serve Bootstrap Icons fonts
-]
+STATICFILES_DIRS = []
 
 STORAGES = {
     "staticfiles": {
@@ -191,47 +188,43 @@ FLEX_MENUS = {
     "log_url_failures": DEBUG,
 }
 
-# Page configuration for cotton-layouts
 PAGE_CONFIG = {
-    "layout": "both",  # Options: 'sidebar', 'navbar', or 'both'
     "brand": {
-        "text": "Cotton Layouts",
+        "text": "Django MVP",
         "image_light": "dac_bg_white.svg",  # Path to light theme logo
         "image_dark": "dac_bg_transparent.svg",  # Path to dark theme logo
         "icon_light": "icon.svg",  # Path to light theme icon/favicon
-        "icon_dark": None,  # Path to dark theme icon/favicon
+        "icon_dark": None,  # Path to dark theme icon/favicon (optional)
     },
-    "navigation": {
-        "toggle_at": "lg",  # BS5 breakpoint where layout switches (sm, md, lg, xl, xxl)
-        "collapsible": True,  # Whether the sidebar can collapse to icons only
-    },
-    "navbar": {
-        "fixed": True,  # Whether the navbar is fixed to the top
-        "border": True,  # Whether the navbar has a shadow
-        "variant": "dark",  # Bootstrap navbar variant: light, dark, or null for auto
-        "start": {
-            "navbar.brand": {},
-        },
-        "end": {
-            "navbar.menu": {
-                "menu": "navbar",
-            },
-        },
-    },
+    # Sidebar configuration (per-region keys only)
     "sidebar": {
-        "width": "280px",  # Width of the sidebar when expanded
+        "show_at": False,  # False = navbar-only mode (default per spec)
+        # Or set to 'sm', 'md', 'lg', 'xl', 'xxl' to show in-flow at that breakpoint
+        "collapsible": True,  # Whether sidebar can collapse to icon-only mode (default: True)
+        # "width": "280px",  # Optional: custom sidebar width (default: 260px)
     },
+    # Navbar configuration (per-region keys only)
+    "navbar": {
+        "fixed": False,  # Whether navbar is fixed to top (default: False)
+        "border": False,  # Whether navbar has bottom border (default: False)
+        "menu_visible_at": "sm",  # Show navbar menu at this breakpoint (default: "sm" per spec)
+        # Only applies when sidebar.show_at is False (navbar-only mode)
+        # Set to False to never show navbar menu (sidebar toggle only)
+        # Options: 'sm', 'md', 'lg', 'xl', 'xxl', or False
+    },
+    # Navigation actions (rendered in active region without duplication)
     "actions": [
         {
             "icon": "github",
-            "text": "View on GitHub",
-            "href": "https://github.com/yourusername/yourrepo",
+            "text": "GitHub",
+            "href": "https://github.com/django-mvp/django-mvp",
             "target": "_blank",
         },
         {
-            "icon": "support",
-            "text": "Support",
-            "href": "/support/",
+            "icon": "documentation",
+            "text": "Documentation",
+            "href": "/docs/",
+            "target": "_blank",
         },
     ],
 }
