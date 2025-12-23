@@ -1,0 +1,21 @@
+{% extends "layouts/base.html" %}
+{% block body %}
+  <body class="{% if page_config.sidebar.show_at %}sidebar-at-{{ page_config.sidebar.show_at }}{% else %}navbar-only{% endif %}">
+    <div class="app-shell {% if page_config.sidebar.show_at %}hide-sidebar-{{ page_config.sidebar.show_at }}{% endif %}">
+      <c-structure.sidebar :show_at="page_config.sidebar.show_at"
+                           :attrs="page_config.sidebar"
+                           :brand="page_config.brand"
+                           :collapsible="page_config.sidebar.collapsible" />
+      <div class="app-column">
+        <c-structure.navbar :attrs="page_config.navbar"
+                            :sidebar_show_at="page_config.sidebar.show_at"
+                            :menu_visible_at="page_config.navbar.menu_visible_at"
+                            :brand="page_config.brand" />
+        <c-structure.main>
+          {% block content %}
+          {% endblock content %}
+        </c-structure.main>
+      </div>
+    </div>
+  </body>
+{% endblock body %}

@@ -1,12 +1,12 @@
-# Django Cotton Layouts
+# Django MVP
 
-Application layouts and UI patterns for Django Cotton - designed for research portals, data-centric applications, and admin-heavy Django projects.
+**Minimum Viable Product framework for Django** - Scaffold production-ready applications with sophisticated layouts and UI patterns designed for research portals, data-centric applications, and admin-heavy Django projects.
 
 **Note:** This project is currently in alpha development. The API may change as we refine the layout patterns and components.
 
 ## Overview
 
-Django Cotton Layouts provides sophisticated, production-ready layout patterns built on top of [django-cotton](https://github.com/wrabit/django-cotton) and [django-cotton-bs5](https://github.com/SamuelJennings/django-cotton-bs5). It's designed for applications that need:
+Django MVP (Minimum Viable Product) provides a batteries-included starter framework built on top of [django-cotton](https://github.com/wrabit/django-cotton) and [django-cotton-bs5](https://github.com/SamuelJennings/django-cotton-bs5). It allows you to quickly scaffold a minimum viable product that looks good from the start and can continue being used through project maturation. It's designed for applications that need:
 
 - **Collapsible sidebar navigation** with responsive mobile transforms
 - **List/detail view patterns** with integrated filtering, search, and pagination
@@ -14,16 +14,28 @@ Django Cotton Layouts provides sophisticated, production-ready layout patterns b
 - **Responsive navbar** with desktop and mobile variants
 - **Data-centric UI patterns** optimized for research portals and institutional data repositories
 
+## Architecture
+
+Django MVP uses a **three-level nested layout system**:
+
+1. **Outer Layout (Application Shell)** - Site navigation, navbar, and footer
+2. **Page Content Area** - Toolbars, breadcrumbs, page headers
+3. **Inner Content Layout** - Dual collapsible sidebars for content organization
+
+For detailed documentation on structure and naming conventions, see [STRUCTURE_AND_NAMING.md](docs/STRUCTURE_AND_NAMING.md).
+
 ## Features
 
 ### Layout Components
 
-- **Sidebar Layouts** - Collapsible sidebar with menu sections, mobile-responsive
+- **Application Shell** - Responsive outer layout with collapsible site sidebar, navbar, and optional sticky footer
+- **Site Sidebar** - Collapsible navigation sidebar with menu sections, mobile offcanvas mode
+- **Content Sidebars** - Dual collapsible sidebars (left/right) for organizing content within pages
 - **Detail Views** - Complex detail view layouts with plugin support
 - **List Views** - Filterable, searchable, paginated list views
 - **Navbar System** - Desktop/mobile responsive navigation with dropdown support
 - **Page Headers** - Responsive page headers with actions and breadcrumbs
-- **Dashboard Layouts** - 2-column responsive dashboard patterns
+- **Footer Component** - Optional sticky or flow footer with responsive configuration
 
 ### View Mixins
 
@@ -43,10 +55,10 @@ Custom renderers for [django-flex-menus](https://github.com/SamuelJennings/djang
 ## Installation
 
 ```bash
-pip install django-cotton-layouts
+pip install django-mvp
 ```
 
-Add `cotton_layouts` to your `INSTALLED_APPS` in `settings.py`:
+Add `mvp` to your `INSTALLED_APPS` in `settings.py`:
 
 ```python
 INSTALLED_APPS = [
@@ -55,7 +67,7 @@ INSTALLED_APPS = [
     "cotton_bs5",
     "flex_menu",
     "easy_icons",
-    "cotton_layouts",
+    "mvp",
     ...
 ]
 ```
@@ -71,7 +83,7 @@ TEMPLATES = [
         "OPTIONS": {
             "context_processors": [
                 ...
-                "cotton_layouts.context_processors.page_config",
+                "mvp.context_processors.page_config",
             ],
         },
     },
@@ -131,17 +143,17 @@ Add custom renderers for `django-flex-menus`:
 ```python
 FLEX_MENUS = {
     "renderers": {
-        "sidebar": "cotton_layouts.renderers.SidebarRenderer",
-        "navbar": "cotton_layouts.renderers.NavbarRenderer",
-        "mobile_navbar": "cotton_layouts.renderers.MobileNavbarRenderer",
-        "dropdown": "cotton_layouts.renderers.DropdownRenderer",
+        "sidebar": "mvp.renderers.SidebarRenderer",
+        "navbar": "mvp.renderers.NavbarRenderer",
+        "mobile_navbar": "mvp.renderers.MobileNavbarRenderer",
+        "dropdown": "mvp.renderers.DropdownRenderer",
     },
 }
 ```
 
 ## Configuration System
 
-Django Cotton Layouts uses a **centralized configuration approach** via the `PAGE_CONFIG` dictionary in your Django settings. This configuration is injected into all templates through a context processor, allowing you to control layout behavior, branding, navigation, and UI components from a single location.
+Django MVP uses a **centralized configuration approach** via the `PAGE_CONFIG` dictionary in your Django settings. This configuration is injected into all templates through a context processor, allowing you to control layout behavior, branding, navigation, and UI components from a single location.
 
 ### The PAGE_CONFIG Dictionary
 
@@ -168,6 +180,15 @@ PAGE_CONFIG = {
             "show_at": "lg",      # Bootstrap breakpoint (sm, md, lg, xl, xxl)
             "width": "280px",     # Custom sidebar width (optional)
         },
+    },
+    
+    # Footer configuration
+    "footer": {
+        "visible": True,          # Show/hide footer
+        "sticky": "md",           # Stick to bottom: True, False, or breakpoint ('sm', 'md', 'lg', etc.)
+        # sticky=True: Always stick to bottom
+        # sticky=False: Always flow with content
+        # sticky='md': Stick on mobile (below md), flow on desktop (md and above)
     },
     
     # Action widgets (e.g., theme toggle, external links)

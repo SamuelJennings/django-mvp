@@ -1,130 +1,137 @@
 {% extends "layouts/standard.html" %}
 {% load static %}
 {% block content %}
-  <div class="container-fluid">
-    <div class="row mb-4">
-      <div class="col">
-        <h1 class="mb-3">Layout System Demo</h1>
-        <p class="lead">Interactive demonstration of the flexible layout system with real-time mode switching.</p>
-      </div>
-    </div>
-    <!-- Layout Controls -->
-    <div class="row mb-4">
-      <div class="col-md-6">
-        <div class="demo-card p-4">
-          <h3 class="h5 mb-3">Layout Mode</h3>
-          <select class="form-select" id="layoutModeSelect">
-            <option value="navbar">Navbar Only</option>
-            <option value="sidebar">Sidebar Only</option>
-            <option value="both" selected>Both</option>
-          </select>
+  <c-layouts.inner>
+    <div class="container px-3 py-4">
+      <div class="row mb-4">
+        <div class="col">
+          <h1 class="mb-3">Layout System Demo</h1>
+          <p class="lead">Interactive demonstration of the flexible layout system with real-time mode switching.</p>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="demo-card p-4">
-          <h3 class="h5 mb-3">Toggle Breakpoint</h3>
-          <select class="form-select" id="toggleBreakpointSelect">
-            <option value="sm">SM (576px)</option>
-            <option value="md">MD (768px)</option>
-            <option value="lg" selected>LG (992px)</option>
-            <option value="xl">XL (1200px)</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <!-- Feature Explanation -->
-    <div class="row mb-4">
-      <div class="col">
-        <div class="demo-card p-4">
-          <h3 class="h5 mb-3">How It Works</h3>
-          <div class="row">
-            <div class="col-md-4">
-              <h4 class="h6">Navbar Only Mode</h4>
-              <p class="small text-muted">
-                Top navigation bar is always visible. Sidebar is always offcanvas (accessible via hamburger menu).
-              </p>
-            </div>
-            <div class="col-md-4">
-              <h4 class="h6">Sidebar Only Mode</h4>
-              <p class="small text-muted">
-                Sidebar is in-flow above breakpoint (no navbar). Below breakpoint, navbar appears with hamburger to access offcanvas sidebar.
-              </p>
-            </div>
-            <div class="col-md-4">
-              <h4 class="h6">Both Mode</h4>
-              <p class="small text-muted">
-                Both navbar and sidebar visible above breakpoint. Below breakpoint, sidebar becomes offcanvas, accessible via hamburger in navbar.
-              </p>
+      <!-- Feature Explanation -->
+      <div class="row mb-4">
+        <div class="col">
+          <div class="demo-card p-4">
+            <h3 class="h5 mb-3">How It Works</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h4 class="h6">Navbar Only Mode</h4>
+                <p class="small text-muted">
+                  Top navigation bar is always visible. Sidebar is always offcanvas (accessible via hamburger menu).
+                </p>
+              </div>
+              <div class="col-md-4">
+                <h4 class="h6">Sidebar Only Mode</h4>
+                <p class="small text-muted">
+                  Sidebar is in-flow above breakpoint (no navbar). Below breakpoint, navbar appears with hamburger to access offcanvas sidebar.
+                </p>
+              </div>
+              <div class="col-md-4">
+                <h4 class="h6">Both Mode</h4>
+                <p class="small text-muted">
+                  Both navbar and sidebar visible above breakpoint. Below breakpoint, sidebar becomes offcanvas, accessible via hamburger in navbar.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- Demo Content -->
-    <div class="row">
-      <div class="col-lg-8 mb-4">
-        <div class="demo-card p-4">
-          <h3 class="h5 mb-3">Sample Content Area</h3>
-          <p>
-            This is the main content area. Resize your browser window to see how the layout responds at different breakpoints.
-          </p>
-          <p>The sidebar collapse feature is only available when the sidebar is in document flow (not in offcanvas mode).</p>
-          <h4 class="h6 mt-4 mb-2">Features Demonstrated:</h4>
-          <ul>
-            <li>Responsive layout switching based on window width</li>
-            <li>Sidebar collapse/expand (when in-flow)</li>
-            <li>Offcanvas sidebar (when below breakpoint)</li>
-            <li>Dynamic visibility of navigation elements</li>
-            <li>LocalStorage persistence of sidebar state</li>
-          </ul>
+      <!-- Demo Content -->
+      <div class="row mb-4">
+        <div class="col">
+          <div class="demo-card p-4">
+            <h3 class="h5 mb-3">Sample Content Area</h3>
+            <p>
+              This is the main content area. Resize your browser window to see how the layout responds at different breakpoints.
+            </p>
+            <p>The sidebar collapse feature is only available when the sidebar is in document flow (not in offcanvas mode).</p>
+            <h4 class="h6 mt-4 mb-2">Features Demonstrated:</h4>
+            <ul>
+              <li>Responsive layout switching based on window width</li>
+              <li>Sidebar collapse/expand (when in-flow)</li>
+              <li>Offcanvas sidebar (when below breakpoint)</li>
+              <li>Dynamic visibility of navigation elements</li>
+              <li>LocalStorage persistence of sidebar state</li>
+              <li>Secondary content sidebar (like this one!)</li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div class="col-lg-4 mb-4">
-        <div class="demo-card p-4">
+      <!-- Example Cards -->
+      <div class="row">
+        {% for i in "123456" %}
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="demo-card p-3">
+              <h4 class="h6 mb-2">Card {{ forloop.counter }}</h4>
+              <p class="small text-muted mb-0">Sample card content demonstrating grid layout within the flexible layout system.</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      {% lorem 6 p random %}
+    </div>
+    <c-slot name="secondary_sidebar">
+      <c-sidebar collapsible heading="About">
+        <!-- Layout Controls -->
+        <div class="card p-3 mb-3">
+          <h3 class="h6 mb-3">Layout Controls</h3>
+          <div class="mb-3">
+            <label for="layoutModeSelect" class="form-label small">Layout Mode</label>
+            <select class="form-select form-select-sm"
+                    id="layoutModeSelect">
+              <option value="navbar">Navbar Only</option>
+              <option value="sidebar">Sidebar Only</option>
+              <option value="both" selected>Both</option>
+            </select>
+          </div>
+          <div>
+            <label for="toggleBreakpointSelect"
+                   class="form-label small">Toggle Breakpoint</label>
+            <select class="form-select form-select-sm"
+                    id="toggleBreakpointSelect">
+              <option value="sm">SM (576px)</option>
+              <option value="md">MD (768px)</option>
+              <option value="lg" selected>LG (992px)</option>
+              <option value="xl">XL (1200px)</option>
+            </select>
+          </div>
+        </div>
+        <!-- Current State -->
+        <div class="card p-3">
           <h3 class="h6 mb-3">Current State</h3>
-          <table class="table table-sm">
+          <table class="table table-sm mb-0">
             <tbody>
               <tr>
-                <td>Layout Mode:</td>
-                <td>
+                <td class="small">Layout Mode:</td>
+                <td class="small">
                   <strong><span id="stateLayout">both</span></strong>
                 </td>
               </tr>
               <tr>
-                <td>Breakpoint:</td>
-                <td>
+                <td class="small">Breakpoint:</td>
+                <td class="small">
                   <strong><span id="stateBreakpoint">lg</span></strong>
                 </td>
               </tr>
               <tr>
-                <td>Sidebar State:</td>
-                <td>
+                <td class="small">Sidebar State:</td>
+                <td class="small">
                   <strong><span id="stateSidebar">in-flow</span></strong>
                 </td>
               </tr>
               <tr>
-                <td>Navbar Visible:</td>
-                <td>
+                <td class="small">Navbar Visible:</td>
+                <td class="small">
                   <strong><span id="stateNavbar">yes</span></strong>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-      </div>
-    </div>
-    <!-- Example Cards -->
-    <div class="row">
-      {% for i in "123456" %}
-        <div class="col-md-6 col-lg-4 mb-4">
-          <div class="demo-card p-3">
-            <h4 class="h6 mb-2">Card {{ forloop.counter }}</h4>
-            <p class="small text-muted mb-0">Sample card content demonstrating grid layout within the flexible layout system.</p>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
+      </c-sidebar>
+    </c-slot>
+  </c-layouts.inner>
   <script>
     (function() {
       'use strict';
@@ -160,9 +167,6 @@
 
         const minWidth = breakpointWidths[breakpoint] || 992;
         const isAboveBreakpoint = width >= minWidth;
-
-        // Update window width
-        document.getElementById('windowWidth').textContent = width;
 
         // Determine sidebar state
         let sidebarState = 'offcanvas';

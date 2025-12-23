@@ -1,0 +1,127 @@
+/* =============================================================================
+   BACKWARDS COMPATIBILITY ALIASES
+   
+   This file provides class aliases for the old naming scheme to maintain
+   backwards compatibility during the migration period.
+   
+   OLD NAME                → NEW NAME
+   ----------------        → ----------------
+   .sidebar-layout         → .app-shell
+   .main-column            → .app-column
+   .main-content           → .app-main
+   .inner-layout           → .content-shell
+   .inner-primary          → .content-sidebar-left
+   .inner-secondary        → .content-sidebar-right
+   .inner-main             → .content-main
+   
+   DEPRECATION NOTICE:
+   These aliases will be removed in v1.0. Please update your templates to use
+   the new semantic class names. See docs/STRUCTURE_AND_NAMING.md for details.
+   
+   ============================================================================= */
+
+/* Level 1: Outer Layout Aliases
+   --------------------------------------------------------------------------- */
+
+.app-shell {
+  /* New semantic name aliased to .sidebar-layout for now */
+  @extend .sidebar-layout;
+}
+
+.app-column {
+  /* New semantic name aliased to .main-column for now */
+  @extend .main-column;
+}
+
+.app-main {
+  /* New semantic name aliased to .main-content for now */
+  @extend .main-content;
+}
+
+/* Level 3: Inner Content Layout Aliases
+   --------------------------------------------------------------------------- */
+
+.content-shell {
+  /* New semantic name aliased to .inner-layout for now */
+  @extend .inner-layout;
+}
+
+.content-sidebar-left {
+  /* New semantic name aliased to .inner-primary for now */
+  @extend .inner-primary;
+}
+
+.content-sidebar-right {
+  /* New semantic name aliased to .inner-secondary for now */
+  @extend .inner-secondary;
+}
+
+.content-main {
+  /* New semantic name aliased to .inner-main for now */
+  @extend .inner-main;
+}
+
+/* Utility Class Aliases
+   --------------------------------------------------------------------------- */
+
+.inner-sidebar-content {
+  /* Deprecated: Use .content-sidebar-content instead */
+  position: relative;
+  height: 100%;
+}
+
+.inner-primary-toggle {
+  /* Deprecated: Use .content-sidebar-toggle-left instead */
+  z-index: 10;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.inner-secondary-toggle {
+  /* Deprecated: Use .content-sidebar-toggle-right instead */
+  z-index: 10;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+/* Visibility Utility Aliases
+   --------------------------------------------------------------------------- */
+
+.collapsed-only {
+  /* Still valid but prefer .visible-collapsed for clarity */
+  display: none;
+}
+
+.expanded-only {
+  /* Still valid but prefer .visible-expanded for clarity */
+  display: block;
+}
+
+/* Migration Note:
+   
+   If you see these classes in your templates, please update them:
+   
+   BEFORE:
+   <div class="inner-layout">
+     <div class="inner-primary">...</div>
+     <div class="inner-main">...</div>
+     <div class="inner-secondary">...</div>
+   </div>
+   
+   AFTER:
+   <div class="content-shell">
+     <div class="content-sidebar-left">...</div>
+     <div class="content-main">...</div>
+     <div class="content-sidebar-right">...</div>
+   </div>
+   
+   For a complete migration guide, see: docs/STRUCTURE_AND_NAMING.md
+*/

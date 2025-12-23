@@ -8,15 +8,7 @@ from .views import (
     ArticleListView,
     CategoryDetailView,
     CategoryListView,
-    DemoBothLayoutView,
-    DemoDualSidebarView,
-    DemoLayoutSwitcherView,
-    DemoNavbarOnlyView,
-    DemoSidebarLeftView,
-    DemoSidebarOnlyView,
-    DemoSidebarRightView,
-    DemoSingleColumnView,
-    LayoutDemoView,
+    HomeView,
     ProductDetailView,
     ProductListView,
     TaskDetailView,
@@ -25,19 +17,9 @@ from .views import (
 )
 
 urlpatterns = [
-    # Layout demos
-    path("", LayoutDemoView.as_view(), name="index"),
-    path("demo/", LayoutDemoView.as_view(), name="layout_demo"),
+    # Home page with layout demo
+    path("", HomeView.as_view(), name="index"),
     path("demo/theme-test/", ThemeTestView.as_view(), name="theme_test"),
-    # New layout demos
-    path("demo/navbar-only/", DemoNavbarOnlyView.as_view(), name="demo_navbar_only"),
-    path("demo/sidebar-only/", DemoSidebarOnlyView.as_view(), name="demo_sidebar_only"),
-    path("demo/both-layout/", DemoBothLayoutView.as_view(), name="demo_both_layout"),
-    path("demo/layout-switcher/", DemoLayoutSwitcherView.as_view(), name="demo_layout_switcher"),
-    path("demo/single-column/", DemoSingleColumnView.as_view(), name="demo_single_column"),
-    path("demo/sidebar-left/", DemoSidebarLeftView.as_view(), name="demo_sidebar_left"),
-    path("demo/sidebar-right/", DemoSidebarRightView.as_view(), name="demo_sidebar_right"),
-    path("demo/dual-sidebar/", DemoDualSidebarView.as_view(), name="demo_dual_sidebar"),
     # Products
     path("products/", ProductListView.as_view(), name="product_list"),
     path("products/<slug:slug>/", ProductDetailView.as_view(), name="product_detail"),

@@ -1,11 +1,27 @@
 {% extends "base.html" %}
 {% load static compress django_browser_reload %}
+{# 
+  Example Project Base Template
+  
+  This template demonstrates how to customize the package's base.html while
+  preserving the PAGE_CONFIG system. The page_config context variable is
+  automatically available via cotton_layouts.context_processors.page_config.
+  
+  Configuration Flow:
+  1. settings.py: Define PAGE_CONFIG dict with brand, sidebar, navbar, actions
+  2. Context processor: Validates config, applies defaults, exposes as page_config
+  3. This template: Accesses page_config.brand.icon_light/icon_dark for favicons
+  4. layouts/standard.html: Passes config sections to components via :attrs
+  5. Components: Receive configuration as attributes, render conditionally
+  
+  See docs/LAYOUT_CONFIGURATION.md for complete configuration reference.
+#}
 {# Override the head block to use custom theme instead of package default #}
 {% block head %}
   <meta charset="UTF-8" />
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0" />
-  {# Favicon support #}
+  {# Favicon support - uses page_config.brand.icon_light/icon_dark #}
   {% if page_config.brand.icon_light %}
     <link rel="icon"
           href="{% static page_config.brand.icon_light %}"

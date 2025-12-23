@@ -59,6 +59,25 @@ and mode='info' for conceptual understanding.
 - All components should be aria compliant and accessible by default.
 - Components build on top of `django-cotton-bs5` for base Bootstrap 5 components.
 
+### Architecture
+
+Django Cotton Layouts uses a **three-level nested flex layout system**:
+
+1. **Outer Layout (Application Shell)** - `.app-shell`, `.site-sidebar`, `.app-column`, `.app-main`, `.app-footer`
+2. **Page Content Area** - `.page-toolbar`, `.page-breadcrumbs`, `.page-header`, `.page-content`
+3. **Inner Content Layout** - `.content-shell`, `.content-sidebar-left`, `.content-main`, `.content-sidebar-right`
+
+**IMPORTANT**: Always use the semantic class names defined in `docs/STRUCTURE_AND_NAMING.md`:
+- Use `.app-shell` not `.sidebar-layout`
+- Use `.site-sidebar` for site navigation sidebar
+- Use `.app-column` not `.main-column`
+- Use `.app-main` not `.main-content`
+- Use `.content-sidebar-left` not `.inner-primary`
+- Use `.content-sidebar-right` not `.inner-secondary`
+- Use `.content-main` not `.inner-main`
+
+Old class names are aliased for backwards compatibility but should not be used in new code.
+
 ### Core Purpose
 The primary goal of this package is to provide a **modern, sleek, and functional batteries-included starter pack** for creating data-driven dashboards and websites. It offers:
 

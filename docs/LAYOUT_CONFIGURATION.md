@@ -1,10 +1,14 @@
 # Layout Configuration Guide
 
-Django Cotton Layouts provides three flexible layout modes to suit different application needs. All layouts use responsive design principles and adapt seamlessly to mobile devices.
+Django Cotton Layouts provides a flexible, configuration-driven outer layout system. Layout behavior is determined by **per-region settings** in the `PAGE_CONFIG` dictionary, allowing fine-grained control over navigation placement, branding, and responsive behavior.
 
 ## Overview
 
-The `layout` configuration controls **visibility at different screen sizes** for the sidebar and navbar components. Both components are always rendered in the DOM, with Bootstrap's responsive utilities controlling their visibility.
+Django Cotton Layouts uses a **per-region configuration approach** where layout mode is derived from individual component settings rather than a top-level `layout` key. The primary control is `sidebar.show_at`:
+
+- **`sidebar.show_at=False`** → Navbar-only mode (default)
+- **`sidebar.show_at="lg"`** → Sidebar mode with primary navigation in sidebar
+- **Actions and navigation render in the active region only** (no duplication)
 
 ## Configuration Key
 
@@ -12,119 +16,192 @@ Add to your Django `settings.py`:
 
 ```python
 PAGE_CONFIG = {
-    "layout": "sidebar",  # Options: 'sidebar', 'navbar', or 'both'
-    # ... other config
+    "brand": {...},
+    "sidebar": {...},
+    "navbar": {...},
+    "actions": [...],
 }
 ```
+
+**JSON Schema**: See `specs/001-outer-layout-config/contracts/page_config.schema.json` for the complete contract.
 
 ---
 
 ## Layout Modes
 
-### 1. **Sidebar Layout** (Default)
-
-**Best for**: Admin panels, documentation sites, desktop-first applications
-
-**Desktop behavior**: Sidebar only  
-**Mobile behavior**: Navbar with sidebar toggle
-
-```python
-PAGE_CONFIG = {
-    "layout": "sidebar",
-    "sidebar": {
-        "collapsible": True,
-        "width": "280px",
-        "show_at": "lg",  # Sidebar visible on lg+ screens (≥992px)
-    },
-    "navbar": {
-        "fixed": True,
-        "border": True,
-        "variant": "light",
-    },
-}
-```
-
-**Responsive Behavior**:
-- **≥992px (lg and above)**: Sidebar visible, navbar hidden
-- **<992px (below lg)**: Navbar visible, sidebar accessible via toggle (offcanvas)
-
-**Use this when**: You want a traditional desktop application feel with a persistent sidebar
-
----
-
-### 2. **Navbar Layout**
+### 1. **Navbar-Only Layout** (Default)
 
 **Best for**: Marketing sites, blogs, public-facing web applications
 
-**Desktop behavior**: Navbar only  
-**Mobile behavior**: Navbar with sidebar toggle
+**Desktop behavior**: Navbar with primary navigation  
+**Mobile behavior**: Navbar with sidebar offcanvas
 
 ```python
 PAGE_CONFIG = {
-    "layout": "navbar",
+    "brand": {
+        "text": "My Site",
+        "image_light": "img/logo-light.svg",
+        "image_dark": "img/logo-dark.svg",
+    },
     "sidebar": {
-        "width": "300px",
-        "show_at": "lg",
+        "show_at": False,  # Navbar-only mode
+        "collapsible": True,  # Sidebar available via offcanvas
+        "width": "280px",
     },
     "navbar": {
-        "fixed": True,
-        "border": True,
-        "variant": "dark",
+        "fixed": False,
+        "border": False,
+        "menu_visible_at": "sm",  # Show primary menu from sm breakpoint
     },
+    "actions": [
+        {"icon": "github", "text": "GitHub", "href": "https://github.com/..."},
+    ],
 }
 ```
 
 **Responsive Behavior**:
-- **All screen sizes**: Navbar always visible
-- **Sidebar**: Completely hidden, only accessible via toggle button in navbar (opens as offcanvas)
+- **All screen sizes**: Navbar visible with brand and actions
+- **≥576px (sm and above)**: Primary navigation menu visible in navbar
+- **<576px (below sm)**: Primary navigation accessible via sidebar offcanvas toggle
+- **Actions**: Rendered in navbar (active region)
 
 **Use this when**: You want a modern, web-first design with top navigation
 
 ---
 
-### 3. **Both Layout**
+### 2. **Sidebar Layout**
 
-**Best for**: Complex dashboards, data-heavy applications, enterprise software
+**Best for**: Admin panels, documentation sites, desktop-first applications
 
-**Desktop behavior**: Both sidebar and navbar (navbar acts as utility bar)  
-**Mobile behavior**: Navbar with sidebar toggle
+**Desktop behavior**: Sidebar with primary navigation, navbar for utilities  
+**Mobile behavior**: Navbar with sidebar offcanvas toggle
 
 ```python
 PAGE_CONFIG = {
-    "layout": "both",
+    "brand": {
+        "text": "Admin Dashboard",
+        "image_light": "img/logo-light.svg",
+        "image_dark": "img/logo-dark.svg",
+    },
     "sidebar": {
+        "show_at": "lg",  # Sidebar visible on lg+ screens (≥992px)
         "collapsible": True,
         "width": "260px",
-        "show_at": "xl",  # Both visible on xl+ screens (≥1200px)
     },
     "navbar": {
         "fixed": True,
         "border": True,
-        "variant": "dark",
+        "menu_visible_at": False,  # Ignored when sidebar in-flow
     },
+    "actions": [
+        {"icon": "add", "text": "New", "href": "/new/"},
+        {"icon": "settings", "text": "Settings", "href": "/settings/"},
+    ],
 }
 ```
 
 **Responsive Behavior**:
-- **≥1200px (xl and above)**: Both sidebar AND navbar visible simultaneously
-- **<1200px (below xl)**: Navbar visible, sidebar accessible via toggle (offcanvas)
+- **≥992px (lg and above)**: Sidebar visible with brand, primary navigation, and actions
+- **<992px (below lg)**: Navbar visible, sidebar accessible via toggle (offcanvas)
+- **Actions**: Rendered in sidebar when in-flow, navbar when offcanvas
+- **Primary navigation**: Always in sidebar (never duplicated in navbar)
 
-**Special Behavior**: When `layout='both'`, the navbar's brand, menu, and action widgets are **automatically hidden**. The navbar serves as a utility bar (search, profile, etc.) while the sidebar provides primary navigation.
+**Use this when**: You want a traditional desktop application feel with persistent sidebar
 
-**Use this when**: You need maximum navigation flexibility with both persistent sidebar and top navbar
+**Important**: When `sidebar.show_at` is a breakpoint, `navbar.menu_visible_at` is automatically ignored to prevent duplicate navigation rendering
+
+---
+
+## Configuration Schema
+
+### Top-Level Keys
+
+```python
+PAGE_CONFIG = {
+    "brand": {...},      # Required: Brand identity configuration
+    "sidebar": {...},    # Required: Sidebar component configuration
+    "navbar": {...},     # Required: Navbar component configuration  
+    "actions": [...],    # Required: Global action widgets (can be empty list)
+}
+```
+
+### Brand Configuration
+
+```python
+"brand": {
+    "text": "Site Name",              # Required: Fallback text
+    "image_light": "path/logo.svg",   # Optional: Light theme brand image
+    "image_dark": "path/logo.svg",    # Optional: Dark theme brand image
+    "icon_light": "path/icon.svg",    # Optional: Light theme favicon
+    "icon_dark": "path/icon.svg",     # Optional: Dark theme favicon
+}
+```
+
+**Fallback Behavior**: If theme-appropriate image is missing, brand text is displayed with full accessibility preserved.
+
+### Sidebar Configuration
+
+```python
+"sidebar": {
+    "show_at": False,     # False/None (navbar-only) or "sm"|"md"|"lg"|"xl"|"xxl" (sidebar mode)
+    "collapsible": True,  # Optional: Allow sidebar collapse (default: True)
+    "width": "280px",     # Optional: Sidebar width (default: "260px")
+}
+```
+
+**Key Behaviors**:
+- `show_at=False` → Navbar-only mode (sidebar offcanvas only)
+- `show_at="lg"` → Sidebar in-flow at ≥992px, offcanvas below
+- When sidebar is in-flow, `navbar.menu_visible_at` is ignored (prevents duplication)
+
+### Navbar Configuration
+
+```python
+"navbar": {
+    "fixed": False,            # Optional: Fixed positioning (default: False)
+    "border": False,           # Optional: Bottom border (default: False)
+    "menu_visible_at": "sm",   # Optional: Breakpoint for primary menu (default: "sm")
+                              # Ignored when sidebar.show_at is a breakpoint
+}
+```
+
+**Key Behaviors**:
+- `menu_visible_at` only applies in navbar-only mode (`sidebar.show_at=False`)
+- When sidebar is in-flow, navbar never shows primary navigation
+
+### Actions Configuration
+
+```python
+"actions": [
+    {
+        "icon": "github",                    # Required: Icon name (django-easy-icons)
+        "text": "GitHub",                    # Required: Accessible text label
+        "href": "https://github.com/...",   # Required: Link target
+        "target": "_blank",                  # Optional: Link target attribute
+        "id": "github-action",               # Optional: HTML id attribute
+    },
+]
+```
+
+**Rendering Rules**:
+- Actions render in the **active navigation region only** (no duplication)
+- When `sidebar.show_at` is a breakpoint → actions in sidebar
+- When `sidebar.show_at=False` → actions in navbar
+- Below sidebar breakpoint → actions move to navbar with sidebar
 
 ---
 
 ## Complete Configuration Examples
 
-### Minimal Sidebar Layout
+### Minimal Navbar-Only (Default)
 
 ```python
+# Uses all defaults - no config needed, but can customize:
 PAGE_CONFIG = {
-    "layout": "sidebar",  # Optional: defaults to 'sidebar'
-    "sidebar": {
-        "show_at": "lg",
-    },
+    "brand": {"text": "My Site"},
+    "sidebar": {"show_at": False},
+    "navbar": {"menu_visible_at": "sm"},
+    "actions": [],
 }
 ```
 
@@ -132,49 +209,48 @@ PAGE_CONFIG = {
 
 ```python
 PAGE_CONFIG = {
-    "layout": "navbar",
     "brand": {
         "text": "My SaaS",
         "image_light": "img/logo-light.svg",
         "image_dark": "img/logo-dark.svg",
+        "icon_light": "img/favicon-light.svg",
+        "icon_dark": "img/favicon-dark.svg",
     },
     "sidebar": {
+        "show_at": False,  # Navbar-only
+        "collapsible": True,
         "width": "300px",
-        "show_at": "lg",
     },
     "navbar": {
         "fixed": True,
         "border": True,
-        "variant": "dark",
-        "start": {"navbar.brand": {}},
-        "end": {"navbar.menu": {"menu": "navbar"}},
+        "menu_visible_at": "sm",  # Primary menu visible from sm up
     },
     "actions": [
         {"icon": "github", "text": "GitHub", "href": "https://github.com/...", "target": "_blank"},
+        {"icon": "user", "text": "Profile", "href": "/profile/"},
     ],
 }
 ```
 
-### Enterprise Both Layout
+### Desktop Sidebar Layout
 
 ```python
 PAGE_CONFIG = {
-    "layout": "both",
     "brand": {
         "text": "Dashboard",
         "image_light": "img/logo-light.svg",
         "image_dark": "img/logo-dark.svg",
     },
     "sidebar": {
+        "show_at": "lg",  # Sidebar mode - in-flow at ≥992px
         "collapsible": True,
         "width": "280px",
-        "show_at": "xl",  # Requires wider screens for both layouts
     },
     "navbar": {
         "fixed": True,
         "border": True,
-        "variant": "dark",
-        "start": {"navbar.brand": {}},
+        "menu_visible_at": False,  # Ignored - sidebar controls navigation
     },
     "actions": [
         {"icon": "add", "text": "New Project", "href": "/projects/new/"},
@@ -187,7 +263,7 @@ PAGE_CONFIG = {
 
 ## Breakpoint Reference
 
-The `sidebar.show_at` setting uses Bootstrap 5 breakpoints:
+The `sidebar.show_at` and `navbar.menu_visible_at` settings use Bootstrap 5 breakpoints:
 
 | Breakpoint | Min Width | Typical Device |
 |------------|-----------|----------------|
@@ -197,46 +273,115 @@ The `sidebar.show_at` setting uses Bootstrap 5 breakpoints:
 | `xl` | 1200px | Large desktop |
 | `xxl` | 1400px | Extra large desktop |
 
-**Recommendation**: 
-- Use `lg` for `layout='sidebar'` (most common)
-- Use `xl` for `layout='both'` (needs more space)
+**Validation**: Invalid breakpoint values trigger a warning and fallback to safe defaults (logged via Django's logging system).
+
+**Recommendations**: 
+- Use `"sm"` for `navbar.menu_visible_at` in navbar-only mode (most mobile-friendly)
+- Use `"lg"` for `sidebar.show_at` in sidebar mode (most common desktop breakpoint)
+- Use `"xl"` for `sidebar.show_at` when you need more horizontal space
 
 ---
 
 ## Quick Comparison
 
-| Layout | Desktop | Mobile | Navbar Content | Best For |
-|--------|---------|--------|----------------|----------|
-| `sidebar` | Sidebar only | Navbar + toggle | Brand, menu, actions | Admin panels, docs |
-| `navbar` | Navbar only | Navbar + toggle | Brand, menu, actions | Marketing sites, blogs |
-| `both` | Sidebar + navbar | Navbar + toggle | **Utilities only** (search, profile) | Dashboards, enterprise apps |
+| Configuration | Desktop | Mobile | Navigation Location | Actions Location | Best For |
+|---------------|---------|--------|---------------------|------------------|----------|
+| `sidebar.show_at=False` | Navbar | Navbar + offcanvas | Navbar from `menu_visible_at` | Navbar | Marketing, blogs |
+| `sidebar.show_at="lg"` | Sidebar | Navbar + offcanvas | Always sidebar | Sidebar (desktop), Navbar (mobile) | Admin panels, docs |
 
-**Note**: When `layout='both'`, the navbar automatically hides brand, menu, and action widgets to avoid duplication with the sidebar.
+**Key Rule**: Navigation and actions **never duplicate**. They render in the active region based on `sidebar.show_at` and viewport size.
+
+---
+
+## Default Configuration
+
+Out of the box, Django Cotton Layouts uses these defaults (requires no configuration):
+
+```python
+# Implicit defaults - no PAGE_CONFIG needed
+{
+    "brand": {
+        "text": "Django MVP",
+    },
+    "sidebar": {
+        "show_at": False,      # Navbar-only mode
+        "collapsible": True,
+        "width": "260px",
+    },
+    "navbar": {
+        "fixed": False,
+        "border": False,
+        "menu_visible_at": "sm",  # Primary menu from sm up
+    },
+    "actions": [],
+}
+```
+
+**Override any key** to customize behavior. Missing optional keys fall back to these defaults.
+
+---
+
+## Context Processor Integration
+
+Configuration is exposed to templates via `cotton_layouts.context_processors.page_config`:
+
+```python
+# settings.py
+TEMPLATES = [
+    {
+        'OPTIONS': {
+            'context_processors': [
+                # ...
+                'cotton_layouts.context_processors.page_config',
+            ],
+        },
+    },
+]
+```
+
+Templates access configuration via `{{ page_config }}`:
+
+```html
+{# layouts/standard.html - passing config to components #}
+<c-structure.sidebar :attrs="page_config.sidebar" :brand="page_config.brand" />
+<c-structure.navbar :attrs="page_config.navbar" :brand="page_config.brand" />
+```
+
+**Dynamic Attrs (`:attrs`)**: Cotton's `:attrs` syntax expands dictionaries into component attributes, enabling configuration passthrough without manual attribute mapping.
 
 ---
 
 ## Migration Guide
 
-If you're upgrading from a version without `layout` config:
+If you're upgrading from a version with the old `layout` key:
 
-**Before** (implicit behavior):
+**Before** (old system with top-level layout key):
 ```python
 PAGE_CONFIG = {
+    "layout": "navbar",  # Top-level layout key
     "sidebar": {"show_at": "lg"},
     "navbar": {...},
 }
 ```
 
-**After** (explicit, same behavior):
+**After** (new per-region system):
 ```python
 PAGE_CONFIG = {
-    "layout": "sidebar",  # Makes it explicit
-    "sidebar": {"show_at": "lg"},
-    "navbar": {...},
+    # No top-level layout key
+    "sidebar": {"show_at": False},  # False = navbar-only
+    "navbar": {"menu_visible_at": "sm"},
+    # ... rest of config
 }
 ```
 
-The default is `"sidebar"`, so existing configurations continue to work without changes.
+**Migration Steps**:
+1. Remove `"layout"` key
+2. Set `sidebar.show_at`:
+   - `layout="navbar"` → `sidebar.show_at=False`
+   - `layout="sidebar"` → `sidebar.show_at="lg"` (or your preferred breakpoint)
+   - `layout="both"` → Not directly supported; sidebar mode provides similar behavior
+3. Add `navbar.menu_visible_at="sm"` for navbar-only mode
+4. Ensure `actions` is a list (not nested under navigation)
 
 ---
 
@@ -244,29 +389,44 @@ The default is `"sidebar"`, so existing configurations continue to work without 
 
 ### How It Works
 
-1. **Both components are always rendered** in the HTML
-2. **Responsive classes control visibility**:
-   - `layout='sidebar'`: Navbar gets `d-lg-none` (hidden on large screens)
-   - `layout='navbar'`: Sidebar gets `d-none` (always hidden)
-   - `layout='both'`: Neither gets hidden classes
-3. **Below breakpoint**: All layouts behave the same (navbar + offcanvas sidebar)
+1. **Context processor** validates and enriches `PAGE_CONFIG` from settings
+2. **Defaults applied** for missing keys during context processing
+3. **Templates consume config** via Cotton's `:attrs` dynamic attribute syntax
+4. **Components render conditionally** based on `sidebar.show_at` and viewport
+5. **Responsive classes applied** automatically based on breakpoint configuration
+
+### Single-Source Navigation Principle
+
+Django Cotton Layouts enforces **zero duplicate navigation** rendering:
+
+- **When `sidebar.show_at` is a breakpoint** (e.g., `"lg"`):
+  - Primary navigation: Sidebar only (at all viewports)
+  - Actions: Sidebar when in-flow (≥breakpoint), navbar when offcanvas (<breakpoint)
+  - `navbar.menu_visible_at`: Ignored (logged warning if set)
+
+- **When `sidebar.show_at=False`** (navbar-only mode):
+  - Primary navigation: Navbar from `menu_visible_at` breakpoint up
+  - Actions: Always navbar
+  - Below `menu_visible_at`: Navigation available via sidebar offcanvas
 
 ### CSS Classes Applied
 
-**Sidebar (`layout='navbar'`)**:
+**Sidebar (navbar-only mode, `show_at=False`)**:
 ```html
-<div id="page-sidebar" class="offcanvas-lg d-none">
+<!-- Always offcanvas, never in-flow -->
+<div id="page-sidebar" class="offcanvas offcanvas-start">
 ```
 
-**Navbar (`layout='sidebar'`)**:
+**Sidebar (sidebar mode, `show_at="lg"`)**:
 ```html
+<!-- In-flow at ≥lg, offcanvas below -->
+<div id="page-sidebar" class="offcanvas-lg offcanvas-start">
+```
+
+**Navbar (responsive visibility based on sidebar)**:
+```html
+<!-- Example: Hidden when sidebar in-flow at ≥lg -->
 <nav id="page-navbar" class="navbar d-lg-none">
-```
-
-**Both (`layout='both'`)**:
-```html
-<div id="page-sidebar" class="offcanvas-xl">
-<nav id="page-navbar" class="navbar">
 ```
 
 ---
@@ -274,16 +434,61 @@ The default is `"sidebar"`, so existing configurations continue to work without 
 ## Troubleshooting
 
 **Q: My sidebar isn't showing on desktop**  
-A: Check `layout` is set to `'sidebar'` or `'both'`, and `sidebar.show_at` matches your screen size
+A: Check `sidebar.show_at` is set to a breakpoint like `"lg"` (not `False`), and verify your viewport width meets the breakpoint minimum.
 
-**Q: I want navbar on desktop too**  
-A: Use `layout='both'`
+**Q: I see duplicate navigation in both sidebar and navbar**  
+A: This should never happen. Check your `sidebar.show_at` setting:
+- If it's a breakpoint → navbar should never show primary navigation
+- If it's `False` → navigation should only appear in navbar
+- Review console/logs for configuration warnings
+
+**Q: Actions aren't showing in the navbar**  
+A: Check if `sidebar.show_at` is a breakpoint and your viewport is above that breakpoint. Actions move to the sidebar when it's in-flow.
 
 **Q: Sidebar won't collapse to icons**  
-A: Set `sidebar.collapsible: True` in your config
+A: Set `sidebar.collapsible=True` in your config. Ensure the sidebar component templates support collapse behavior.
 
-**Q: I need different breakpoints for sidebar and navbar**  
-A: Currently, both use `sidebar.show_at`. For more granular control, consider adding a top-level `breakpoint` config (see roadmap)
+**Q: Invalid breakpoint warning in logs**  
+A: Use only valid Bootstrap 5 breakpoints: `"sm"`, `"md"`, `"lg"`, `"xl"`, `"xxl"`. Typos like `"large"` or `"desktop"` will trigger fallback to defaults.
+
+**Q: Brand images not showing**  
+A: Verify paths are correct and files exist. Check `STATIC_URL` is configured properly. If images are missing, the system falls back to `brand.text` display.
+
+**Q: How do I get both sidebar and navbar with navigation?**  
+A: This is intentionally not supported to prevent duplicate navigation. Use sidebar mode (`sidebar.show_at="lg"`) - the navbar remains present for utilities, search, profile, etc., but primary navigation stays in the sidebar.
+
+---
+
+## Best Practices
+
+### 1. Start with Defaults
+The default configuration (navbar-only, `sidebar.show_at=False`) works for most projects. Only customize when you have specific needs.
+
+### 2. Choose the Right Breakpoint
+- **Mobile-first sites**: Use `sidebar.show_at=False` (navbar-only)
+- **Desktop-first apps**: Use `sidebar.show_at="lg"` 
+- **Wide dashboards**: Use `sidebar.show_at="xl"` if you have complex layouts
+
+### 3. Test Responsive Behavior
+Always test your layout at:
+- Mobile (<576px)
+- Tablet (768px)
+- Desktop (992px or 1200px depending on breakpoint)
+
+### 4. Use Brand Images Wisely
+Provide both light and dark theme images for professional appearance. Keep file sizes small (<20KB) for fast loading.
+
+### 5. Keep Actions Minimal
+Limit actions to 2-4 items. Too many actions clutter the navigation. Consider user menu dropdowns for profile/settings.
+
+### 6. Leverage Dynamic Attrs
+When building custom components that consume `page_config`, use `:attrs` for clean configuration passthrough:
+
+```html
+<c-my-component :attrs="page_config.sidebar" />
+```
+
+This automatically passes all sidebar config keys as component attributes.
 
 ---
 
@@ -291,7 +496,10 @@ A: Currently, both use `sidebar.show_at`. For more granular control, consider ad
 
 Future improvements being considered:
 
-- [ ] Independent breakpoint control for sidebar and navbar
-- [ ] `visibility` config for more granular control
-- [ ] Additional layout modes (e.g., `navbar-top-sidebar-bottom`)
+- [ ] Independent breakpoint control for sidebar visibility vs primary navigation placement
+- [ ] Additional responsive control patterns (e.g., sidebar auto-collapse on scroll)
+- [ ] Enhanced navbar utility area configuration for search, notifications, user menu
+- [ ] Theme variant support beyond light/dark (custom color schemes)
+- [ ] Per-page configuration overrides via view context
 
+See project issues and milestones for discussion and status.
