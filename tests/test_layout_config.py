@@ -116,7 +116,7 @@ class TestLayoutConfiguration:
         """Test that default layout is 'sidebar' when not specified."""
         from unittest.mock import Mock
 
-        from cotton_layouts.context_processors import page_config
+        from mvp.context_processors import page_config
 
         # Mock request
         request = Mock()
@@ -130,7 +130,7 @@ class TestLayoutConfiguration:
         """Test that context processor preserves explicit layout setting."""
         from unittest.mock import Mock
 
-        from cotton_layouts.context_processors import page_config
+        from mvp.context_processors import page_config
 
         request = Mock()
 

@@ -1,5 +1,195 @@
 /* Inner Layout Styles - Dual collapsible sidebars for content areas */
 
+/* =====================================================
+   New Semantic Class Names (Preferred)
+   ===================================================== */
+
+.content-shell {
+  display: flex;
+  min-height: 0;
+  position: relative;
+}
+
+.content-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+.content-sidebar-left {
+  position: relative;
+  width: var(--content-primary-width, 280px);
+  flex-shrink: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.3s ease;
+
+  /* Scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }
+
+  &:hover {
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.3);
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+
+  /* Offcanvas integration for mobile */
+  @media (max-width: 767px) {
+    /* Bootstrap handles offcanvas positioning */
+    /* These styles ensure proper sidebar appearance at desktop breakpoints */
+  }
+
+  /* Desktop: Fixed sidebar */
+  @media (min-width: 768px) {
+    border-right: 1px solid var(--bs-border-color);
+  }
+}
+
+.content-sidebar-right {
+  position: relative;
+  width: var(--content-secondary-width, 250px);
+  flex-shrink: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.3s ease;
+
+  /* Scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }
+
+  &:hover {
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.3);
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+
+  /* Offcanvas integration for mobile */
+  @media (max-width: 767px) {
+    /* Bootstrap handles offcanvas positioning */
+  }
+
+  /* Desktop: Fixed sidebar */
+  @media (min-width: 768px) {
+    border-left: 1px solid var(--bs-border-color);
+  }
+}
+
+/* Collapsible Sidebar Styles */
+.collapsible {
+  transition: width 0.3s ease, min-width 0.3s ease;
+  position: relative;
+
+  &.collapsed {
+    width: 60px !important;
+    min-width: 60px !important;
+
+    .offcanvas-body > *:not(.collapse-toggle):not(.collapsed-only) {
+      display: none;
+    }
+
+    .expanded-only {
+      display: none !important;
+    }
+
+    .collapsed-only {
+      display: block !important;
+    }
+
+    .collapse-toggle i {
+      transform: rotate(180deg);
+    }
+  }
+
+  &:not(.collapsed) {
+    .collapsed-only {
+      display: none !important;
+    }
+  }
+}
+
+/* Collapse Toggle Button */
+.collapse-toggle {
+  position: absolute;
+  top: 50%;
+  right: -12px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 48px;
+  border: 1px solid var(--bs-border-color);
+  background: var(--bs-body-bg);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+  opacity: 0.7;
+
+  &:hover {
+    opacity: 1;
+    background: var(--bs-secondary-bg);
+  }
+
+  i {
+    transition: transform 0.3s ease;
+  }
+}
+
+/* Utility classes for collapsed-only content */
+.collapsed-only {
+  display: none;
+}
+
+.expanded-only {
+  display: block;
+}
+
+/* =====================================================
+   Legacy Class Names (Backwards Compatibility)
+   ===================================================== */
+
 .inner-layout {
   min-height: 0; /* Allow flex child to shrink */
 

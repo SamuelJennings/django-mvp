@@ -88,7 +88,7 @@ yarn.lock
 pnpm-lock.yaml
 
 # Vite build output
-cotton_layouts/static/dist/
+mvp/static/dist/
 .vite/
 
 # Temporary test files (must follow tmp_*.py pattern)

@@ -1,0 +1,210 @@
+/**
+ * InnerLayoutManager - Manages collapsible sidebar behavior in the inner layout
+ *
+ * Features:
+ * - Toggle collapse state for primary and secondary sidebars
+ * - Persist collapse state to localStorage
+ * - Handle responsive behavior (disable collapse in offcanvas mode)
+ * - Emit custom events for state changes
+ * - Keyboard navigation support
+ */
+
+class InnerLayoutManager {
+  constructor(options = {}) {
+    this.primarySidebar = document.getElementById('primary-sidebar');
+    this.secondarySidebar = document.getElementById('secondary-sidebar');
+    this.breakpoint = options.breakpoint || 'md';
+    this.primaryCollapsed = options.primaryCollapsed || false;
+    this.secondaryCollapsed = options.secondaryCollapsed || false;
+  }
+
+  /**
+   * Initialize the inner layout manager
+   * Sets up event listeners and restores state from localStorage
+   */
+  init(): void {
+    // Restore state from localStorage
+    const storedPrimaryState = localStorage.getItem('innerlayout_primary_collapsed');
+    if (storedPrimaryState !== null) {
+      this.primaryCollapsed = storedPrimaryState === 'true';
+    }
+
+    const storedSecondaryState = localStorage.getItem('innerlayout_secondary_collapsed');
+    if (storedSecondaryState !== null) {
+      this.secondaryCollapsed = storedSecondaryState === 'true';
+    }
+
+    // Apply initial states
+    if (this.primarySidebar && this.primaryCollapsed && !this.isOffcanvasMode()) {
+      this.primarySidebar.classList.add('collapsed');
+    }
+
+    if (this.secondarySidebar && this.secondaryCollapsed && !this.isOffcanvasMode()) {
+      this.secondarySidebar.classList.add('collapsed');
+    }
+
+    // Set up event listeners
+    this.setupEventListeners();
+
+    // Emit init event
+    this.emitEvent('innerlayout:initialized');
+  }
+
+  /**
+   * Set up event listeners for collapse toggles and window resize
+   */
+  private setupEventListeners(): void {
+    // Collapse toggle buttons
+    const collapseToggles = document.querySelectorAll('.collapse-toggle');
+    collapseToggles.forEach((toggle) => {
+      toggle.addEventListener('click', (e) => {
+        const target = (e.currentTarget as HTMLElement).getAttribute('data-target');
+        if (target === 'primary-sidebar') {
+          this.toggleCollapse('primary');
+        } else if (target === 'secondary-sidebar') {
+          this.toggleCollapse('secondary');
+        }
+      });
+    });
+
+    // Window resize listener
+    window.addEventListener('resize', () => {
+      this.handleResize();
+    });
+
+    // Bootstrap offcanvas events
+    if (this.primarySidebar) {
+      this.primarySidebar.addEventListener('shown.bs.offcanvas', () => {
+        this.emitEvent('innerlayout:offcanvasmode', { sidebar: 'primary', shown: true });
+      });
+
+      this.primarySidebar.addEventListener('hidden.bs.offcanvas', () => {
+        this.emitEvent('innerlayout:offcanvasmode', { sidebar: 'primary', shown: false });
+      });
+    }
+
+    if (this.secondarySidebar) {
+      this.secondarySidebar.addEventListener('shown.bs.offcanvas', () => {
+        this.emitEvent('innerlayout:offcanvasmode', { sidebar: 'secondary', shown: true });
+      });
+
+      this.secondarySidebar.addEventListener('hidden.bs.offcanvas', () => {
+        this.emitEvent('innerlayout:offcanvasmode', { sidebar: 'secondary', shown: false });
+      });
+    }
+  }
+
+  /**
+   * Toggle collapse state for a sidebar
+   * @param sidebar - Which sidebar to toggle ('primary' or 'secondary')
+   */
+  toggleCollapse(sidebar: 'primary' | 'secondary'): void {
+    // Cannot collapse in offcanvas mode
+    if (this.isOffcanvasMode()) {
+      console.warn('Cannot collapse sidebar in offcanvas mode');
+      return;
+    }
+
+    const element = sidebar === 'primary' ? this.primarySidebar : this.secondarySidebar;
+    if (!element) return;
+
+    const isCollapsed = element.classList.contains('collapsed');
+    const newState = !isCollapsed;
+
+    if (newState) {
+      element.classList.add('collapsed');
+      this.emitEvent('innerlayout:collapsed', { sidebar });
+    } else {
+      element.classList.remove('collapsed');
+      this.emitEvent('innerlayout:expanded', { sidebar });
+    }
+
+    // Update internal state
+    if (sidebar === 'primary') {
+      this.primaryCollapsed = newState;
+      localStorage.setItem('innerlayout_primary_collapsed', String(newState));
+    } else {
+      this.secondaryCollapsed = newState;
+      localStorage.setItem('innerlayout_secondary_collapsed', String(newState));
+    }
+  }
+
+  /**
+   * Check if a sidebar is currently collapsed
+   * @param sidebar - Which sidebar to check ('primary' or 'secondary')
+   * @returns true if collapsed, false otherwise
+   */
+  isCollapsed(sidebar: 'primary' | 'secondary'): boolean {
+    const element = sidebar === 'primary' ? this.primarySidebar : this.secondarySidebar;
+    return element ? element.classList.contains('collapsed') : false;
+  }
+
+  /**
+   * Check if viewport is in offcanvas mode (below breakpoint)
+   * @returns true if in offcanvas mode, false otherwise
+   */
+  isOffcanvasMode(): boolean {
+    const breakpointMap: { [key: string]: number } = {
+      sm: 576,
+      md: 768,
+      lg: 992,
+      xl: 1200,
+      xxl: 1400,
+    };
+
+    const breakpointPx = breakpointMap[this.breakpoint] || 768;
+    return window.innerWidth < breakpointPx;
+  }
+
+  /**
+   * Handle window resize events
+   * Removes collapsed state if entering offcanvas mode
+   */
+  private handleResize(): void {
+    if (this.isOffcanvasMode()) {
+      // Remove collapsed state in offcanvas mode
+      if (this.primarySidebar && this.primarySidebar.classList.contains('collapsed')) {
+        this.primarySidebar.classList.remove('collapsed');
+      }
+      if (this.secondarySidebar && this.secondarySidebar.classList.contains('collapsed')) {
+        this.secondarySidebar.classList.remove('collapsed');
+      }
+    } else {
+      // Restore collapsed state from stored values
+      if (this.primarySidebar && this.primaryCollapsed) {
+        this.primarySidebar.classList.add('collapsed');
+      }
+      if (this.secondarySidebar && this.secondaryCollapsed) {
+        this.secondarySidebar.classList.add('collapsed');
+      }
+    }
+  }
+
+  /**
+   * Emit a custom event
+   * @param eventName - Name of the event
+   * @param detail - Event detail data
+   */
+  private emitEvent(eventName: string, detail: any = {}): void {
+    const event = new CustomEvent(eventName, { detail, bubbles: true });
+    document.dispatchEvent(event);
+  }
+}
+
+// Auto-initialize on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+  // Check if any collapsible sidebars exist
+  const hasCollapsible = document.querySelector('.collapsible');
+  if (hasCollapsible) {
+    const contentShell = document.querySelector('.content-shell');
+    const breakpoint = contentShell?.getAttribute('data-breakpoint') || 'md';
+
+    const manager = new InnerLayoutManager({ breakpoint });
+    manager.init();
+
+    // Expose to window for external access
+    (window as any).innerLayoutManager = manager;
+  }
+});
+
+export { InnerLayoutManager, InnerLayoutOptions };

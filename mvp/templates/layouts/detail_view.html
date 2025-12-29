@@ -1,6 +1,6 @@
 {% extends "layouts/standard.html" %}
 {% block content %}
-  <c-layouts.sidebar>
+  <c-layouts.inner>
     <c-slot name="sidebar">
       {% block sidebar %}
       {% endblock sidebar %}
@@ -32,5 +32,5 @@
         </div>
       {% endblock main %}
     </div>
-  </c-layouts.sidebar>
+  </c-layouts.inner>
 {% endblock content %}

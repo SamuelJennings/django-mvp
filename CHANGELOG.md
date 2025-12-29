@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Actions placement**: Actions automatically render in the active navigation region based on viewport and configuration
   - **Brand fallback**: Automatic fallback to text when theme-appropriate images are missing
   - **Breakpoint validation**: Validates Bootstrap 5 breakpoints (`sm`, `md`, `lg`, `xl`, `xxl`) with warning logs for invalid values
-  - **Context processor integration**: `cotton_layouts.context_processors.page_config` exposes validated configuration to all templates
+  - **Context processor integration**: `mvp.context_processors.page_config` exposes validated configuration to all templates
   - **Dynamic attr passthrough**: Uses Cotton's `:attrs` syntax for clean configuration flow to components
 - Comprehensive test suite for layout configuration system covering navigation placement, brand/actions, responsive behavior, and edge cases
 - Updated documentation in `docs/LAYOUT_CONFIGURATION.md` with complete schema reference, examples, and migration guide

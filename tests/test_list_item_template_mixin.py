@@ -4,8 +4,8 @@ import pytest
 from django.test import RequestFactory
 from django.views.generic import ListView
 
-from cotton_layouts.views import ListItemTemplateMixin
 from example.models import Article, Category, Product
+from mvp.views import ListItemTemplateMixin
 
 
 class TestListItemTemplateMixin:
@@ -140,7 +140,7 @@ class TestListItemTemplateMixin:
     @pytest.mark.django_db
     def test_mixin_works_with_multiple_inheritance(self, request_factory):
         """Test that mixin works correctly with multiple inheritance."""
-        from cotton_layouts.views import SearchOrderMixin
+        from mvp.views import SearchOrderMixin
 
         class ProductListView(ListItemTemplateMixin, SearchOrderMixin, ListView):
             model = Product

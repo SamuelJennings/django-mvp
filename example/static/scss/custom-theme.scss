@@ -25,7 +25,7 @@
 // 3. PACKAGE DEFAULT VARIABLES
 // Load the package's variable definitions (if any)
 // ============================================================================
-@import "scss/variables"; // From cotton_layouts package
+@import "scss/variables"; // From mvp package
 
 // ============================================================================
 // 4. BOOTSTRAP CORE
@@ -75,10 +75,10 @@
 // ============================================================================
 // 5. PACKAGE LAYOUT COMPONENTS
 // Load the package's core layout and sidebar styles
-// Note: These paths resolve via Django's static file finder to cotton_layouts/static/
+// Note: These paths resolve via Django's static file finder to mvp/static/
 // ============================================================================
 @import "scss/outer-layout";    // Level 1: Application shell
-@import "scss/sidebar";       // From cotton_layouts/static/scss/_sidebar.scss
+@import "scss/sidebar";       // From mvp/static/scss/_sidebar.scss
 @import "scss/page";           // Level 2: Page elements
 @import "scss/content-layout";   // Level 3: Content layout
 @import "scss/navbar";         // Navbar component

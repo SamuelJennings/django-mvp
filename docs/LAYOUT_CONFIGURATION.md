@@ -323,7 +323,7 @@ Out of the box, Django Cotton Layouts uses these defaults (requires no configura
 
 ## Context Processor Integration
 
-Configuration is exposed to templates via `cotton_layouts.context_processors.page_config`:
+Configuration is exposed to templates via `mvp.context_processors.page_config`:
 
 ```python
 # settings.py
@@ -332,7 +332,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 # ...
-                'cotton_layouts.context_processors.page_config',
+                'mvp.context_processors.page_config',
             ],
         },
     },

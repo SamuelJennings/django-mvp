@@ -185,7 +185,7 @@ Use in views or context processors to validate components exist.
 Add validation and defaults:
 
 ```python
-# cotton_layouts/conf.py
+# mvp/conf.py
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -239,7 +239,7 @@ def get_page_config():
 Update context processor:
 
 ```python
-# cotton_layouts/context_processors.py
+# mvp/context_processors.py
 
 from .conf import get_page_config
 
@@ -482,9 +482,9 @@ def test_menu_items_keyboard_accessible():
 ### 6.1 Add Debug Mode
 
 ```python
-# cotton_layouts/conf.py
+# mvp/conf.py
 
-DEBUG_MODE = getattr(settings, "COTTON_LAYOUTS_DEBUG", settings.DEBUG)
+DEBUG_MODE = getattr(settings, "MVP_DEBUG", settings.DEBUG)
 
 if DEBUG_MODE:
     # Add data attributes showing component source
@@ -504,7 +504,7 @@ Add to templates:
 ### 6.2 Create CLI Tool
 
 ```python
-# cotton_layouts/management/commands/layout_check.py
+# mvp/management/commands/layout_check.py
 
 from django.core.management.base import BaseCommand
 

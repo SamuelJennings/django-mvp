@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'cotton_layouts/**'
+      - 'mvp/**'
       - 'tests/**'
       - 'pyproject.toml'
       - 'poetry.lock'
@@ -13,7 +13,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - 'cotton_layouts/**'
+      - 'mvp/**'
       - 'tests/**'
       - 'pyproject.toml'
       - 'poetry.lock'
@@ -52,7 +52,7 @@ jobs:
       - name: Run tests
         run: |
           if [ "${{ matrix.python-version }}" = "3.12" ] && [ "${{ matrix.django-version }}" = "5.2" ]; then
-            poetry run pytest --cov=cotton_layouts --cov-report=xml
+            poetry run pytest --cov=mvp --cov-report=xml
           else
             poetry run pytest
           fi
