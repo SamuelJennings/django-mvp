@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'docs/**'
-      - 'cotton_layouts/templates/**'
+      - 'mvp/templates/**'
       - 'README.md'
   workflow_dispatch:
 

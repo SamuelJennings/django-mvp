@@ -258,7 +258,7 @@ Instead of modifying `base.html`, customize layouts by **extending blocks** in `
 
 ```html
 {# templates/layouts/base.html in your project #}
-{% extends "cotton_layouts/layouts/base.html" %}
+{% extends "mvp/layouts/base.html" %}
 
 {% block extra_css %}
   <link rel="stylesheet" href="{% static 'css/custom.css' %}">
@@ -294,7 +294,7 @@ The sidebar layout system provides flexible width control through CSS variables,
 
 ### Sidebar Width Configuration
 
-The `c-layouts.sidebar` and `c-sidebar` components support multiple width control methods:
+The `c-layouts.inner` and `c-sidebar` components support multiple width control methods:
 
 #### Width Attributes
 
@@ -321,12 +321,12 @@ The `c-layouts.sidebar` and `c-sidebar` components support multiple width contro
 #### Fixed Width Sidebar
 
 ```html
-<c-layouts.sidebar width="280px">
+<c-layouts.inner width="280px">
   <c-slot name="sidebar">
     <nav>Sidebar content</nav>
   </c-slot>
   <div>Main content</div>
-</c-layouts.sidebar>
+</c-layouts.inner>
 ```
 
 #### Width with Constraints
@@ -334,12 +334,12 @@ The `c-layouts.sidebar` and `c-sidebar` components support multiple width contro
 Prevent the sidebar from becoming too wide or too narrow:
 
 ```html
-<c-layouts.sidebar width="280px" max_width="350px" min_width="200px">
+<c-layouts.inner width="280px" max_width="350px" min_width="200px">
   <c-slot name="sidebar">
     <nav>Sidebar content</nav>
   </c-slot>
   <div>Main content</div>
-</c-layouts.sidebar>
+</c-layouts.inner>
 ```
 
 #### Responsive Width with Bootstrap Columns
@@ -347,12 +347,12 @@ Prevent the sidebar from becoming too wide or too narrow:
 Use Bootstrap's responsive column classes for breakpoint-based sizing:
 
 ```html
-<c-layouts.sidebar col_class="col-12 col-md-4 col-lg-3 col-xl-2">
+<c-layouts.inner col_class="col-12 col-md-4 col-lg-3 col-xl-2">
   <c-slot name="sidebar">
     <nav>Sidebar content</nav>
   </c-slot>
   <div>Main content</div>
-</c-layouts.sidebar>
+</c-layouts.inner>
 ```
 
 This creates a sidebar that:
@@ -366,31 +366,31 @@ This creates a sidebar that:
 Combine fixed width with max-width and responsive classes:
 
 ```html
-<c-layouts.sidebar width="280px" 
+<c-layouts.inner width="280px" 
                    max_width="350px" 
                    col_class="col-lg-3">
   <c-slot name="sidebar">
     <nav>Sidebar content</nav>
   </c-slot>
   <div>Main content</div>
-</c-layouts.sidebar>
+</c-layouts.inner>
 ```
 
 #### Reversed Sidebar (Right Side)
 
 ```html
-<c-layouts.sidebar reverse width="250px">
+<c-layouts.inner reverse width="250px">
   <c-slot name="sidebar">
     <aside>Metadata sidebar</aside>
   </c-slot>
   <article>Article content</article>
-</c-layouts.sidebar>
+</c-layouts.inner>
 ```
 
 #### Collapsible Sidebar
 
 ```html
-<c-layouts.sidebar collapsible width="280px">
+<c-layouts.inner collapsible width="280px">
   <c-slot name="sidebar">
     <nav>
       <c-sidebar.menu-item icon="home" text="Home" href="/" />
@@ -398,7 +398,7 @@ Combine fixed width with max-width and responsive classes:
     </nav>
   </c-slot>
   <div>Main content</div>
-</c-layouts.sidebar>
+</c-layouts.inner>
 ```
 
 When collapsed, the sidebar shrinks to icon-only mode (60px wide).
@@ -409,13 +409,13 @@ Create complex layouts with sidebars on both sides:
 
 ```html
 {# Left sidebar: Navigation #}
-<c-layouts.sidebar width="200px" max_width="250px">
+<c-layouts.inner width="200px" max_width="250px">
   <c-slot name="sidebar">
     <nav>Navigation links</nav>
   </c-slot>
   
   {# Right sidebar: Metadata #}
-  <c-layouts.sidebar reverse col_class="col-12 col-lg-3 col-xl-2">
+  <c-layouts.inner reverse col_class="col-12 col-lg-3 col-xl-2">
     <c-slot name="sidebar">
       <aside>Article metadata</aside>
     </c-slot>
@@ -425,8 +425,8 @@ Create complex layouts with sidebars on both sides:
       <h1>Article Title</h1>
       <p>Content here...</p>
     </article>
-  </c-layouts.sidebar>
-</c-layouts.sidebar>
+  </c-layouts.inner>
+</c-layouts.inner>
 ```
 
 ### Global Sidebar Configuration

@@ -1,21 +1,9 @@
 {% extends "layouts/standard.html" %}
 {% load humanize %}
-{# 
-  Product Detail Template
-  
-  This template extends layouts/standard.html, which handles all outer layout
-  rendering (sidebar, navbar, brand, actions) using the PAGE_CONFIG settings.
-  
-  You only need to define page-specific content in the {% block content %} - 
-  the configuration system handles navigation placement, responsive behavior,
-  and brand/action rendering automatically.
-  
-  See docs/LAYOUT_CONFIGURATION.md for configuration options.
-#}
 {% block content %}
   <c-container gap="3" fill :padding="False" class="pt-5 pb-3">
-    <c-layouts.sidebar width="200px" max_width="250px" reverse>
-      <c-slot name="sidebar">
+    <c-layouts.inner width="200px" max_width="250px" reverse>
+      <c-slot name="primary_sidebar">
         {# Category info #}
         <c-card class="mb-4">
           <c-slot name="header">
@@ -160,6 +148,6 @@
                   {% if not product.is_available or product.stock == 0 %}disabled{% endif %}>Add to Cart</button>
         </div>
       </c-card>
-    </c-layouts.sidebar>
+    </c-layouts.inner>
   </c-container>
 {% endblock content %}

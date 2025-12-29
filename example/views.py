@@ -2,7 +2,7 @@
 
 from django.views.generic import DetailView, ListView, TemplateView
 
-from cotton_layouts.views import ListItemTemplateMixin, SearchOrderMixin
+from mvp.views import ListItemTemplateMixin, SearchOrderMixin
 
 from .models import Article, Category, Product, Task
 
@@ -20,7 +20,7 @@ class HomeView(TemplateView):
     mode switching between navbar, sidebar, and both layouts.
     """
 
-    template_name = "demo/layout_switcher.html"
+    template_name = "demo/home.html"
 
 
 class ProductListView(ListItemTemplateMixin, SearchOrderMixin, ListView):

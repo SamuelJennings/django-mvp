@@ -88,19 +88,19 @@ After manual updates are complete:
 ### Created:
 - `docs/STRUCTURE_AND_NAMING.md`
 - `docs/IMPROVEMENTS.md`
-- `cotton_layouts/static/scss/_page.scss`
-- `cotton_layouts/static/scss/_footer.scss`
-- `cotton_layouts/static/scss/_backwards-compat.scss`
+- `mvp/static/scss/_page.scss`
+- `mvp/static/scss/_footer.scss`
+- `mvp/static/scss/_backwards-compat.scss`
 
 ### Renamed:
-- `cotton_layouts/static/scss/_layout.scss` → `_outer-layout.scss`
-- `cotton_layouts/static/scss/_inner-layout.scss` → `_content-layout.scss`
+- `mvp/static/scss/_layout.scss` → `_outer-layout.scss`
+- `mvp/static/scss/_inner-layout.scss` → `_content-layout.scss`
 
 ### Modified:
 - `README.md`
 - `.github/instructions/general.instructions.md`
-- `cotton_layouts/static/scss/stylesheet.scss`
-- `cotton_layouts/static/scss/_outer-layout.scss`
+- `mvp/static/scss/stylesheet.scss`
+- `mvp/static/scss/_outer-layout.scss`
 
 ## Expected Benefits
 

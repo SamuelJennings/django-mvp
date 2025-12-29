@@ -1,0 +1,43 @@
+{% extends "layouts/standard.html" %}
+{% load cotton %}
+{% block content %}
+  <c-page.toolbar>
+    <c-slot name="start">
+      <h1>Basic Inner Layout (No Sidebars)</h1>
+    </c-slot>
+  </c-page.toolbar>
+  <c-page.content>
+    <c-layouts.inner>
+      <div class="container-fluid py-4">
+        <h2>Single Column Layout</h2>
+        <p>This is a basic inner layout with no sidebars. The main content area expands to fill the full width.</p>
+        <div class="row g-4 mt-3">
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Feature 1</h5>
+                <p class="card-text">Full-width responsive layout adapts to all screen sizes.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Feature 2</h5>
+                <p class="card-text">Clean, distraction-free content presentation.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Feature 3</h5>
+                <p class="card-text">Perfect for articles, forms, and focused content.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </c-layouts.inner>
+  </c-page.content>
+{% endblock %}

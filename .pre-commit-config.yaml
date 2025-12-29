@@ -41,7 +41,7 @@ repos:
         entry: poetry run mypy
         language: system
         types: [python]
-        files: ^cotton_layouts/
+        files: ^mvp/
   - repo: local
     hooks:
       - id: deptry

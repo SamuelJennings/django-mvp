@@ -93,7 +93,7 @@ The primary goal of this package is to provide a **modern, sleek, and functional
 Django Cotton Layouts uses a **configuration-driven approach** where all layout behavior, branding, navigation, and UI settings are controlled via a single `PAGE_CONFIG` dictionary in Django settings.
 
 **Context Processor:**
-- `cotton_layouts.context_processors.page_config` injects `page_config` into all templates
+- `mvp.context_processors.page_config` injects `page_config` into all templates
 - This makes configuration globally available without passing it explicitly in views
 - Configuration is accessed as `{{ page_config.key }}` in templates
 

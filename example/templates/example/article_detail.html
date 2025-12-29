@@ -3,9 +3,9 @@
 {% block content %}
   {# Example: Dual sidebar layout with navigation and metadata #}
   {# Left sidebar: Navigation with fixed width and max-width constraint #}
-  <c-layouts.sidebar width="200px"
-                     max_width="250px"
-                     sidebar_class="bg-light border-end">
+  <c-layouts.inner width="200px"
+                   max_width="250px"
+                   sidebar_class="bg-light border-end">
     <c-slot name="sidebar">
       <div class="p-3">
         <h6 class="text-muted mb-3">Navigation</h6>
@@ -23,8 +23,8 @@
       </div>
     </c-slot>
     {# Right sidebar (reversed): Metadata with responsive width using Bootstrap columns #}
-    <c-layouts.sidebar reverse
-                       sidebar_class="col-12 col-lg-3 col-xl-2 bg-body-tertiary border-start">
+    <c-layouts.inner reverse
+                     sidebar_class="col-12 col-lg-3 col-xl-2 bg-body-tertiary border-start">
       <c-slot name="sidebar">
         <div class="p-3">
           <h6 class="text-muted mb-3">Article Info</h6>
@@ -103,6 +103,6 @@
           </c-card>
         {% endif %}
       </article>
-    </c-layouts.sidebar>
-  </c-layouts.sidebar>
+    </c-layouts.inner>
+  </c-layouts.inner>
 {% endblock content %}

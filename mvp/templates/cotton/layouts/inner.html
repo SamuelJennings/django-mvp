@@ -1,7 +1,79 @@
-<c-vars gap="0" class />
+<c-vars primary_width="280px"
+        secondary_width="250px"
+        breakpoint="md"
+        gap="0"
+        collapse_primary="false"
+        collapse_secondary="false"
+        class />
 <div class="content-shell d-flex gap-{{ gap }} {{ class }}"
+     style="--content-primary-width: {{ primary_width }};
+            --content-secondary-width: {{ secondary_width }}"
+     data-breakpoint="{{ breakpoint }}"
      {{ attrs }}>
-  {{ primary_sidebar }}
-  <div class="content-main flex-grow-1 overflow-auto">{{ slot }}</div>
-  {{ secondary_sidebar }}
+  {# Primary Sidebar (Left) - Offcanvas on mobile, fixed sidebar on desktop #}
+  {% if primary_sidebar %}
+    <div class="content-sidebar-left offcanvas-{{ breakpoint }} offcanvas-start{% if collapse_primary == 'true' %} collapsible{% endif %}"
+         id="primary-sidebar"
+         tabindex="-1"
+         role="complementary"
+         aria-label="Primary sidebar"
+         data-bs-backdrop="false">
+      {# Offcanvas Header (visible only on mobile) #}
+      <div class="offcanvas-header d-{{ breakpoint }}-none">
+        <h5 class="offcanvas-title">Navigation</h5>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+      </div>
+      {# Offcanvas Body (contains sidebar content) #}
+      <div class="offcanvas-body">
+        {{ primary_sidebar }}
+        {# Collapse Toggle Button (visible only on desktop when collapse enabled) #}
+        {% if collapse_primary == 'true' %}
+          <button type="button"
+                  class="collapse-toggle d-none d-{{ breakpoint }}-block"
+                  data-target="primary-sidebar"
+                  aria-label="Toggle sidebar collapse">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+  {# Main Content - Always Rendered #}
+  <div class="content-main flex-grow-1 overflow-auto"
+       role="main"
+       aria-label="Main content">{{ slot }}</div>
+  {# Secondary Sidebar (Right) - Offcanvas on mobile, fixed sidebar on desktop #}
+  {% if secondary_sidebar %}
+    <div class="content-sidebar-right offcanvas-{{ breakpoint }} offcanvas-end{% if collapse_secondary == 'true' %} collapsible{% endif %}"
+         id="secondary-sidebar"
+         tabindex="-1"
+         role="complementary"
+         aria-label="Secondary sidebar"
+         data-bs-backdrop="false">
+      {# Offcanvas Header (visible only on mobile) #}
+      <div class="offcanvas-header d-{{ breakpoint }}-none">
+        <h5 class="offcanvas-title">Additional Info</h5>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+      </div>
+      {# Offcanvas Body (contains sidebar content) #}
+      <div class="offcanvas-body">
+        {{ secondary_sidebar }}
+        {# Collapse Toggle Button (visible only on desktop when collapse enabled) #}
+        {% if collapse_secondary == 'true' %}
+          <button type="button"
+                  class="collapse-toggle d-none d-{{ breakpoint }}-block"
+                  data-target="secondary-sidebar"
+                  aria-label="Toggle sidebar collapse">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
 </div>

@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "compressor",
-    # "django_browser_reload",  # Optional, commented for testing
+    "django_browser_reload",  # Optional, commented for testing
     "example",
     "mvp",
     "easy_icons",
@@ -48,7 +48,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.common.CommonMiddleware",
-    # "django_browser_reload.middleware.BrowserReloadMiddleware",  # Optional
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = "example.urls"
@@ -181,9 +181,9 @@ EASY_ICONS = {
 # Flex Menu configuration
 FLEX_MENUS = {
     "renderers": {
-        "sidebar": "cotton_layouts.renderers.SidebarRenderer",
-        "navbar": "cotton_layouts.renderers.NavbarRenderer",
-        "dropdown": "cotton_layouts.renderers.DropdownRenderer",
+        "sidebar": "mvp.renderers.SidebarRenderer",
+        "navbar": "mvp.renderers.NavbarRenderer",
+        "dropdown": "mvp.renderers.DropdownRenderer",
     },
     "log_url_failures": DEBUG,
 }

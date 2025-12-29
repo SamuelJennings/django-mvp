@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'cotton_layouts/**'
+      - 'mvp/**'
       - 'pyproject.toml'
       - 'poetry.lock'
       - '.pre-commit-config.yaml'
@@ -13,7 +13,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - 'cotton_layouts/**'
+      - 'mvp/**'
       - 'pyproject.toml'
       - 'poetry.lock'
       - '.pre-commit-config.yaml'
@@ -59,7 +59,7 @@ jobs:
       - name: Run bandit security linter
         run: |
           poetry add --group dev bandit[toml]
-          poetry run bandit -r cotton_layouts/ -f json -o bandit-report.json || true
+          poetry run bandit -r mvp/ -f json -o bandit-report.json || true
 
       - name: Upload bandit report
         uses: actions/upload-artifact@v5

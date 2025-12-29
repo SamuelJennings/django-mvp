@@ -1,6 +1,6 @@
 from flex_menu import MenuItem
 
-from cotton_layouts.menus import SiteNavigation
+from mvp.menus import SiteNavigation
 
 SiteNavigation.append(
     MenuItem(
