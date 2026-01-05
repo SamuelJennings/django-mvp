@@ -8,7 +8,7 @@ def test_app_config():
     """Test that the app is properly configured."""
     app_config = apps.get_app_config("mvp")
     assert app_config.name == "mvp"
-    assert app_config.verbose_name == "Cotton Layouts"
+    assert app_config.verbose_name == "Django MVP"
 
 
 def test_app_installed():

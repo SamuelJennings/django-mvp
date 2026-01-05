@@ -1,0 +1,7 @@
+<c-vars show_header="True"
+        container_class="container-fluid" />
+{% if show_header == "True" %}
+  <div class="app-content-header">
+    <div class="{{ container_class }}">{{ header }}</div>
+  </div>
+{% endif %}

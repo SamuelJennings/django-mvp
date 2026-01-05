@@ -1,0 +1,137 @@
+# Contributing to Django MVP
+
+Thank you for your interest in contributing to Django MVP! This guide will help you get started.
+
+## Core Principles
+
+This project follows the principles defined in [.specify/memory/constitution.md](.specify/memory/constitution.md). Please read it before contributing.
+
+**Key requirements:**
+
+- **Test-First**: Tests MUST be written before implementation (Red → Green → Refactor)
+- **Documentation-First**: Public behavior changes MUST include documentation updates
+- **Component Quality**: All components MUST be accessible and use semantic HTML
+
+## Development Setup
+
+1. Clone the repository
+2. Install dependencies with Poetry:
+
+   ```bash
+   poetry install
+   ```
+
+3. Run tests to verify setup:
+
+   ```bash
+   poetry run pytest
+   ```
+
+## Testing Requirements
+
+### Cotton Component Testing
+
+All Cotton components MUST be tested using the following pattern:
+
+```python
+import pytest
+from django_cotton import render_component
+
+
+@pytest.fixture
+def mock_request(rf):
+    """Use pytest-django's rf fixture for request factory."""
+    return rf.get("/")
+
+
+def test_my_component(mock_request):
+    """Test component rendering."""
+    # Use slash notation for component paths
+    html = render_component(mock_request, "app/my-component", {
+        "my_var": "value",
+    })
+
+    assert "expected-content" in html
+```
+
+**Important:**
+
+- Use `django_cotton.render_component()` - NOT `Template()` or `render_to_string()`
+- Use pytest-django's `rf` fixture - NOT `RequestFactory()` directly
+- Use **slash notation** for component paths: `"app/wrapper"` not `"app.wrapper"`
+- Test with c-vars, slots, and edge cases (missing optional vars, etc.)
+
+### Running Tests
+
+```bash
+# Run all tests
+poetry run pytest
+
+# Run with coverage
+poetry run pytest --cov=mvp
+
+# Run specific test file
+poetry run pytest tests/test_app_components.py
+
+# Run with verbose output
+poetry run pytest -xvs
+```
+
+## Code Quality
+
+Before submitting a pull request:
+
+1. **Run tests:**
+
+   ```bash
+   poetry run pytest
+   ```
+
+2. **Run linting:**
+
+   ```bash
+   poetry run ruff check .
+   ```
+
+3. **Format code:**
+
+   ```bash
+   poetry run ruff format .
+   ```
+
+4. **Format templates:**
+
+   ```bash
+   poetry run djlint mvp/templates --reformat
+   ```
+
+## Pull Request Process
+
+1. Create a feature branch from `main`
+2. Write failing tests for your feature
+3. Implement the feature to make tests pass
+4. Update documentation
+5. Run all quality checks
+6. Submit PR with:
+   - Clear description of changes
+   - Link to any related issues
+   - Confirmation that tests pass
+   - Note any breaking changes
+
+## Component Development
+
+When creating or modifying Cotton components:
+
+1. **Use snake_case/kebab-case for filenames:** `small-box.html`, `info_box.html`
+2. **Document all c-vars** with comments in the component
+3. **Provide default values** for optional c-vars
+4. **Use semantic HTML** with appropriate ARIA attributes
+5. **Test all component states:** default, with custom c-vars, with slots
+
+## Questions?
+
+- Check the [constitution](.specify/memory/constitution.md) for project rules
+- Review existing components and tests for examples
+- Open an issue for discussion
+
+Thank you for contributing!

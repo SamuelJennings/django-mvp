@@ -1,0 +1,9 @@
+<c-vars body_class
+        fixed_sidebar="False"
+        sidebar_expand="lg" />
+<div class="app-wrapper{% if body_class %} {{ body_class }}{% endif %}{% if fixed_sidebar == 'True' %} layout-fixed{% endif %}{% if sidebar_expand %} sidebar-expand-{{ sidebar_expand }}{% endif %}">
+  {{ header }}
+  {{ sidebar }}
+  {{ main }}
+  {{ footer }}
+</div>
