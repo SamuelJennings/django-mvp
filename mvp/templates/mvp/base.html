@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
-  <!--begin::App Wrapper-->
   <div class="app-wrapper">
     {% block app_header %}
-      <!--begin::App Header-->
       <nav class="app-header navbar navbar-expand bg-body">
         <!--begin::Container-->
         <div class="container-fluid">
@@ -30,13 +28,10 @@
         </div>
         <!--end::Container-->
       </nav>
-      <!--end::App Header-->
     {% endblock app_header %}
     {% block app_sidebar %}
-      <!--begin::App Sidebar-->
       <aside class="app-sidebar bg-body-secondary shadow"
              data-bs-theme="dark">
-        <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
           <a href="/" class="brand-link">
@@ -49,11 +44,8 @@
           </a>
           <!--end::Brand Link-->
         </div>
-        <!--end::Sidebar Brand-->
-        <!--begin::Sidebar Wrapper-->
         <div class="sidebar-wrapper">
           <nav class="mt-2">
-            <!--begin::Sidebar Menu-->
             <ul class="nav sidebar-menu flex-column"
                 data-lte-toggle="treeview"
                 role="menu"
@@ -62,10 +54,8 @@
                 {# Override this block to add sidebar menu items #}
               {% endblock sidebar_menu %}
             </ul>
-            <!--end::Sidebar Menu-->
           </nav>
         </div>
-        <!--end::Sidebar Wrapper-->
       </aside>
       <!--end::App Sidebar-->
     {% endblock app_sidebar %}

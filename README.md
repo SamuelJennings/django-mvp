@@ -175,13 +175,13 @@ The MVP configuration is made available in all templates via the `mvp_config` co
 Django MVP follows a simple template hierarchy:
 
 1. **`base.html`** - Foundation HTML structure with AdminLTE CSS/JS
-2. **`layouts/adminlte.html`** - AdminLTE app-wrapper layout structure
-3. **Your templates** - Extend `layouts/adminlte.html` and override blocks
+2. **`mvp/base.html`** - AdminLTE app-wrapper layout structure
+3. **Your templates** - Extend `mvp/base.html` and override blocks
 
 Example page template:
 
 ```html
-{% extends "layouts/adminlte.html" %}
+{% extends "mvp/base.html" %}
 
 {% block content %}
   <div class="container-fluid">
@@ -196,7 +196,7 @@ Create a custom base layout in your project to override blocks:
 
 ```html
 {# templates/layouts/base.html in your project #}
-{% extends "mvp/layouts/adminlte.html" %}
+{% extends "mvp/mvp/base.html" %}
 
 {% block extra_css %}
   <link rel="stylesheet" href="{% static 'css/custom.css' %}">
@@ -208,7 +208,7 @@ Create a custom base layout in your project to override blocks:
 ### Basic Page Template
 
 ```html
-{% extends "layouts/adminlte.html" %}
+{% extends "mvp/base.html" %}
 
 {% block content %}
   <div class="app-content">
@@ -223,7 +223,7 @@ Create a custom base layout in your project to override blocks:
 ### With Page Header and Breadcrumbs
 
 ```html
-{% extends "layouts/adminlte.html" %}
+{% extends "mvp/base.html" %}
 
 {% block page_header %}
   <div class="app-content-header">

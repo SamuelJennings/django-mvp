@@ -134,10 +134,10 @@ MVP = {
 The template system follows a simple hierarchy:
 
 1. **`base.html`** - Foundation HTML structure with AdminLTE CSS/JS from CDN
-2. **`layouts/adminlte.html`** - AdminLTE app-wrapper layout structure with blocks
-3. **User templates** - Extend `layouts/adminlte.html` and override blocks
+2. **`mvp/base.html`** - AdminLTE app-wrapper layout structure with blocks
+3. **User templates** - Extend `mvp/base.html` and override blocks
 
-**Key blocks in layouts/adminlte.html:**
+**Key blocks in mvp/base.html:**
 - `page_title` - Page title in header
 - `breadcrumbs` - Breadcrumb navigation
 - `sidebar_menu` - Sidebar menu items
@@ -149,7 +149,7 @@ The template system follows a simple hierarchy:
 #### Key Design Patterns
 
 1. **Extend, Don't Modify**
-   - Users extend `layouts/adminlte.html`, not modify package templates
+   - Users extend `mvp/base.html`, not modify package templates
    - Customizations happen in project-level templates
    - Package templates remain pristine and upgradable
 
