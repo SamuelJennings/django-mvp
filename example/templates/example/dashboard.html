@@ -1,15 +1,17 @@
 {% extends "layouts/adminlte.html" %}
 {% load cotton %}
-
-{% block page_title %}Dashboard{% endblock page_title %}
-
+{% block page_title %}
+  Dashboard
+{% endblock page_title %}
 {% block breadcrumbs %}
   <ol class="breadcrumb float-sm-end">
-    <li class="breadcrumb-item"><a href="/">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+    <li class="breadcrumb-item">
+      <a href="/">Home</a>
+    </li>
+    <li class="breadcrumb-item active"
+        aria-current="page">Dashboard</li>
   </ol>
 {% endblock breadcrumbs %}
-
 {% block sidebar_menu %}
   <li class="nav-item">
     <a href="/" class="nav-link active">
@@ -40,49 +42,40 @@
     </a>
   </li>
 {% endblock sidebar_menu %}
-
 {% block content %}
   <div class="container-fluid">
     <!--begin::Row - Dashboard Widgets-->
     <div class="row">
       <div class="col-lg-3 col-6">
-        <c-adminlte.small-box 
-          number="150"
-          text="New Orders"
-          icon="cart"
-          bg_class="text-bg-primary"
-          href="#" />
+        <c-adminlte.small-box number="150"
+                              text="New Orders"
+                              icon="cart"
+                              bg_class="text-bg-primary"
+                              href="#" />
       </div>
-      
       <div class="col-lg-3 col-6">
-        <c-adminlte.small-box 
-          number="53%"
-          text="Bounce Rate"
-          icon="graph-up-arrow"
-          bg_class="text-bg-success"
-          href="#" />
+        <c-adminlte.small-box number="53%"
+                              text="Bounce Rate"
+                              icon="graph-up-arrow"
+                              bg_class="text-bg-success"
+                              href="#" />
       </div>
-      
       <div class="col-lg-3 col-6">
-        <c-adminlte.small-box 
-          number="44"
-          text="User Registrations"
-          icon="people"
-          bg_class="text-bg-warning"
-          href="#" />
+        <c-adminlte.small-box number="44"
+                              text="User Registrations"
+                              icon="people"
+                              bg_class="text-bg-warning"
+                              href="#" />
       </div>
-      
       <div class="col-lg-3 col-6">
-        <c-adminlte.small-box 
-          number="65"
-          text="Unique Visitors"
-          icon="eye"
-          bg_class="text-bg-danger"
-          href="#" />
+        <c-adminlte.small-box number="65"
+                              text="Unique Visitors"
+                              icon="eye"
+                              bg_class="text-bg-danger"
+                              href="#" />
       </div>
     </div>
     <!--end::Row-->
-    
     <!--begin::Row - Content Cards-->
     <div class="row mt-4">
       <div class="col-lg-8">
@@ -91,53 +84,77 @@
             <div class="card-header border-0">
               <h3 class="card-title">Welcome to Django MVP</h3>
               <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+                <button type="button"
+                        class="btn btn-tool"
+                        data-lte-toggle="card-collapse">
                   <i class="bi bi-dash"></i>
                 </button>
               </div>
             </div>
           </c-slot>
-          
           <c-slot name="body">
             <div class="card-body">
               <h4>AdminLTE 4 Integration</h4>
               <p>
-                Django MVP now provides a complete AdminLTE 4 admin dashboard template system 
+                Django MVP now provides a complete AdminLTE 4 admin dashboard template system
                 for Django using django-cotton components.
               </p>
-              
               <c-adminlte.callout variant="info">
                 <c-slot name="title">
-                  <h5><i class="bi bi-info-circle"></i> Key Features</h5>
+                  <h5>
+                    <i class="bi bi-info-circle"></i> Key Features
+                  </h5>
                 </c-slot>
                 <ul class="mb-0">
-                  <li><strong>AdminLTE Layout System</strong> - Full grid-based app-wrapper structure</li>
-                  <li><strong>Configuration-Driven</strong> - Control layout via MVP settings</li>
-                  <li><strong>Cotton Components</strong> - AdminLTE-specific reusable components</li>
-                  <li><strong>Bootstrap 5</strong> - Built on Bootstrap 5 framework</li>
+                  <li>
+                    <strong>AdminLTE Layout System</strong> - Full grid-based app-wrapper structure
+                  </li>
+                  <li>
+                    <strong>Configuration-Driven</strong> - Control layout via MVP settings
+                  </li>
+                  <li>
+                    <strong>Cotton Components</strong> - AdminLTE-specific reusable components
+                  </li>
+                  <li>
+                    <strong>Bootstrap 5</strong> - Built on Bootstrap 5 framework
+                  </li>
                 </ul>
               </c-adminlte.callout>
-              
               <h5 class="mt-4">Available Components</h5>
               <div class="row">
                 <div class="col-md-6">
                   <ul>
-                    <li><code>&lt;c-adminlte.small-box /&gt;</code></li>
-                    <li><code>&lt;c-adminlte.info-box /&gt;</code></li>
-                    <li><code>&lt;c-adminlte.card /&gt;</code></li>
-                    <li><code>&lt;c-adminlte.callout /&gt;</code></li>
+                    <li>
+                      <code>&lt;c-adminlte.small-box /&gt;</code>
+                    </li>
+                    <li>
+                      <code>&lt;c-adminlte.info-box /&gt;</code>
+                    </li>
+                    <li>
+                      <code>&lt;c-adminlte.card /&gt;</code>
+                    </li>
+                    <li>
+                      <code>&lt;c-adminlte.callout /&gt;</code>
+                    </li>
                   </ul>
                 </div>
                 <div class="col-md-6">
                   <ul>
-                    <li><code>&lt;c-adminlte.timeline /&gt;</code></li>
-                    <li><code>&lt;c-adminlte.timeline-item /&gt;</code></li>
-                    <li><code>&lt;c-adminlte.direct-chat /&gt;</code></li>
-                    <li><code>&lt;c-adminlte.chat-message /&gt;</code></li>
+                    <li>
+                      <code>&lt;c-adminlte.timeline /&gt;</code>
+                    </li>
+                    <li>
+                      <code>&lt;c-adminlte.timeline-item /&gt;</code>
+                    </li>
+                    <li>
+                      <code>&lt;c-adminlte.direct-chat /&gt;</code>
+                    </li>
+                    <li>
+                      <code>&lt;c-adminlte.chat-message /&gt;</code>
+                    </li>
                   </ul>
                 </div>
               </div>
-              
               <h5 class="mt-4">Configuration Example</h5>
               <pre class="bg-light p-3 rounded"><code>MVP = {
     'brand': {
@@ -157,7 +174,6 @@
           </c-slot>
         </c-adminlte.card>
       </div>
-      
       <div class="col-lg-4">
         <c-adminlte.card variant="success" outline>
           <c-slot name="header">
@@ -165,88 +181,71 @@
               <h3 class="card-title">Recent Activity</h3>
             </div>
           </c-slot>
-          
           <c-slot name="body">
             <div class="card-body">
               <c-adminlte.timeline>
-                <c-adminlte.timeline-item
-                  icon="check-circle"
-                  icon_class="text-success"
-                  time="2 mins ago"
-                  text="AdminLTE components created" />
-                
-                <c-adminlte.timeline-item
-                  icon="info-circle"
-                  icon_class="text-info"
-                  time="10 mins ago"
-                  text="Dashboard updated" />
-                
-                <c-adminlte.timeline-item
-                  icon="star"
-                  icon_class="text-warning"
-                  time="1 hour ago"
-                  text="Base template configured" />
-                
-                <c-adminlte.timeline-item
-                  icon="gear"
-                  icon_class="text-secondary"
-                  time="2 hours ago"
-                  text="MVP config updated" />
+                <c-adminlte.timeline-item icon="check-circle"
+                                          icon_class="text-success"
+                                          time="2 mins ago"
+                                          text="AdminLTE components created" />
+                <c-adminlte.timeline-item icon="info-circle"
+                                          icon_class="text-info"
+                                          time="10 mins ago"
+                                          text="Dashboard updated" />
+                <c-adminlte.timeline-item icon="star"
+                                          icon_class="text-warning"
+                                          time="1 hour ago"
+                                          text="Base template configured" />
+                <c-adminlte.timeline-item icon="gear"
+                                          icon_class="text-secondary"
+                                          time="2 hours ago"
+                                          text="MVP config updated" />
               </c-adminlte.timeline>
             </div>
           </c-slot>
         </c-adminlte.card>
-        
         <c-adminlte.callout variant="warning" class="mt-3">
           <c-slot name="title">
-            <h5><i class="bi bi-exclamation-triangle"></i> Note</h5>
+            <h5>
+              <i class="bi bi-exclamation-triangle"></i> Note
+            </h5>
           </c-slot>
-          <p class="mb-0">
-            Make sure to include the AdminLTE CSS and JavaScript from the CDN in your base template.
-          </p>
+          <p class="mb-0">Make sure to include the AdminLTE CSS and JavaScript from the CDN in your base template.</p>
         </c-adminlte.callout>
       </div>
     </div>
     <!--end::Row-->
-    
     <!--begin::Row - Info Boxes-->
     <div class="row mt-4">
       <div class="col-md-3">
-        <c-adminlte.info-box
-          number="1,410"
-          text="Total Orders"
-          icon="cart-check"
-          bg_class="bg-light"
-          icon_bg_class="bg-primary" />
+        <c-adminlte.info-box number="1,410"
+                             text="Total Orders"
+                             icon="cart-check"
+                             bg_class="bg-light"
+                             icon_bg_class="bg-primary" />
       </div>
-      
       <div class="col-md-3">
-        <c-adminlte.info-box
-          number="$53,000"
-          text="Revenue"
-          icon="currency-dollar"
-          bg_class="bg-light"
-          icon_bg_class="bg-success"
-          progress="70"
-          progress_text="70% Increase in 30 Days" />
+        <c-adminlte.info-box number="$53,000"
+                             text="Revenue"
+                             icon="currency-dollar"
+                             bg_class="bg-light"
+                             icon_bg_class="bg-success"
+                             progress="70"
+                             progress_text="70% Increase in 30 Days" />
       </div>
-      
       <div class="col-md-3">
-        <c-adminlte.info-box
-          number="93,139"
-          text="Page Views"
-          icon="eye"
-          bg_class="bg-light"
-          icon_bg_class="bg-warning" />
+        <c-adminlte.info-box number="93,139"
+                             text="Page Views"
+                             icon="eye"
+                             bg_class="bg-light"
+                             icon_bg_class="bg-warning" />
       </div>
-      
       <div class="col-md-3">
-        <c-adminlte.info-box
-          number="13,648"
-          text="Unique Visitors"
-          icon="people"
-          bg_class="bg-light"
-          icon_bg_class="bg-danger" />
+        <c-adminlte.info-box number="13,648"
+                             text="Unique Visitors"
+                             icon="people"
+                             bg_class="bg-light"
+                             icon_bg_class="bg-danger" />
       </div>
     </div>
     <!--end::Row-->

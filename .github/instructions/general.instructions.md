@@ -4,7 +4,7 @@ applyTo: '**'
 
 # Copilot Instructions
 
-These instructions apply to all code in this repository.  
+These instructions apply to all code in this repository.
 Please follow them when suggesting code completions.
 
 ## IMPORTANT
