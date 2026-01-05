@@ -26,6 +26,7 @@ All behavior changes MUST be driven by tests written first.
 - Tests MUST be written and observed failing before implementation work begins (Red → Green → Refactor).
 - All new or changed Python behavior MUST have pytest coverage.
 - Django integration behavior MUST have pytest-django coverage.
+- Cotton component tests MUST use `django_cotton.render_component()` with pytest-django's `rf` fixture (NOT Template() or render_to_string).
 - User-visible/UI behavior MUST have pytest-playwright coverage when the change affects rendered output, interactions, or accessibility.
 - Pull requests MUST NOT be merged with failing tests, or without new/updated tests for behavior changes.
 - The only acceptable exception is a docs-only change (no runtime behavior impact).

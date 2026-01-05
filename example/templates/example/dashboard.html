@@ -14,32 +14,32 @@
 {% endblock breadcrumbs %}
 {% block sidebar_menu %}
   <li class="nav-item">
-    <a href="/" class="nav-link active">
+    <c-nav.link href="/" active>
       <i class="nav-icon bi bi-speedometer2"></i>
       <p>Dashboard</p>
-    </a>
+    </c-nav.link>
   </li>
   <li class="nav-item">
-    <a href="#" class="nav-link">
+    <c-nav.link href="#">
       <i class="nav-icon bi bi-box-seam"></i>
       <p>
         Products
         <span class="badge text-bg-success">24</span>
       </p>
-    </a>
+    </c-nav.link>
   </li>
   <li class="nav-item">
-    <a href="#" class="nav-link">
+    <c-nav.link href="#">
       <i class="nav-icon bi bi-people"></i>
       <p>Users</p>
-    </a>
+    </c-nav.link>
   </li>
   <li class="nav-header">SETTINGS</li>
   <li class="nav-item">
-    <a href="#" class="nav-link">
+    <c-nav.link href="#">
       <i class="nav-icon bi bi-gear"></i>
       <p>Settings</p>
-    </a>
+    </c-nav.link>
   </li>
 {% endblock sidebar_menu %}
 {% block content %}
@@ -50,28 +50,28 @@
         <c-adminlte.small-box number="150"
                               text="New Orders"
                               icon="cart"
-                              bg_class="text-bg-primary"
+                              class="text-bg-primary"
                               href="#" />
       </div>
       <div class="col-lg-3 col-6">
         <c-adminlte.small-box number="53%"
                               text="Bounce Rate"
                               icon="graph-up-arrow"
-                              bg_class="text-bg-success"
+                              class="text-bg-success"
                               href="#" />
       </div>
       <div class="col-lg-3 col-6">
         <c-adminlte.small-box number="44"
                               text="User Registrations"
                               icon="people"
-                              bg_class="text-bg-warning"
+                              class="text-bg-warning"
                               href="#" />
       </div>
       <div class="col-lg-3 col-6">
         <c-adminlte.small-box number="65"
                               text="Unique Visitors"
                               icon="eye"
-                              bg_class="text-bg-danger"
+                              class="text-bg-danger"
                               href="#" />
       </div>
     </div>
@@ -204,14 +204,6 @@
             </div>
           </c-slot>
         </c-adminlte.card>
-        <c-adminlte.callout variant="warning" class="mt-3">
-          <c-slot name="title">
-            <h5>
-              <i class="bi bi-exclamation-triangle"></i> Note
-            </h5>
-          </c-slot>
-          <p class="mb-0">Make sure to include the AdminLTE CSS and JavaScript from the CDN in your base template.</p>
-        </c-adminlte.callout>
       </div>
     </div>
     <!--end::Row-->
@@ -220,16 +212,13 @@
       <div class="col-md-3">
         <c-adminlte.info-box number="1,410"
                              text="Total Orders"
-                             icon="cart-check"
-                             bg_class="bg-light"
-                             icon_bg_class="bg-primary" />
+                             icon="cart-check" />
       </div>
       <div class="col-md-3">
         <c-adminlte.info-box number="$53,000"
                              text="Revenue"
                              icon="currency-dollar"
-                             bg_class="bg-light"
-                             icon_bg_class="bg-success"
+                             variant="success"
                              progress="70"
                              progress_text="70% Increase in 30 Days" />
       </div>
@@ -237,15 +226,13 @@
         <c-adminlte.info-box number="93,139"
                              text="Page Views"
                              icon="eye"
-                             bg_class="bg-light"
-                             icon_bg_class="bg-warning" />
+                             variant="warning" />
       </div>
       <div class="col-md-3">
         <c-adminlte.info-box number="13,648"
                              text="Unique Visitors"
                              icon="people"
-                             bg_class="bg-light"
-                             icon_bg_class="bg-danger" />
+                             variant="danger" />
       </div>
     </div>
     <!--end::Row-->

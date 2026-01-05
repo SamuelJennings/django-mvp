@@ -1,14 +1,14 @@
 <c-vars number=""
         text=""
         icon=""
-        bg_class="bg-info"
-        icon_bg_class="bg-danger"
+        class
+        variant="primary"
         progress=""
         progress_text=""
         href="" />
-<div class="info-box {{ bg_class }}">
+<div class="info-box {{ class }}">
   {% if icon %}
-    <span class="info-box-icon {{ icon_bg_class }}">
+    <span class="info-box-icon text-bg-{{ variant }}">
       <i class="bi bi-{{ icon }}"></i>
     </span>
   {% endif %}

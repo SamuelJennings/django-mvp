@@ -1,0 +1,13 @@
+<c-vars brand_text="Django MVP"
+        brand_logo=""
+        brand_url="/" />
+<div class="sidebar-brand">
+  <a href="{{ brand_url }}" class="brand-link">
+    {% if brand_logo %}
+      <img src="{{ brand_logo }}"
+           alt="{{ brand_text }}"
+           class="brand-image" />
+    {% endif %}
+    <span class="brand-text fw-light">{{ brand_text }}</span>
+  </a>
+</div>

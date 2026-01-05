@@ -1,0 +1,14 @@
+{% load cotton %}
+<c-vars brand_text="Django MVP"
+        brand_logo=""
+        brand_url="/"
+        class />
+<aside class="app-sidebar {{ class }} shadow"
+       data-bs-theme="{{ theme }}">
+  <c-app.sidebar.branding brand_text="{{ brand_text }}"
+                          brand_logo="{{ brand_logo }}"
+                          brand_url="{{ brand_url }}" />
+  <c-app.sidebar.menu theme="{{ theme }}" class>
+    {{ slot }}
+  </c-app.sidebar.menu>
+</aside>

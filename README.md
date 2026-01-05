@@ -261,7 +261,7 @@ Django MVP provides Cotton components for AdminLTE-specific widgets. Standard Bo
 ```html
 <c-adminlte.info-box
   icon="shopping-cart"
-  bg_class="text-bg-primary"
+  variant="text-bg-primary"
   number="150"
   text="New Orders" />
 ```
@@ -270,7 +270,7 @@ Django MVP provides Cotton components for AdminLTE-specific widgets. Standard Bo
 
 ```html
 <c-adminlte.small-box
-  bg_class="text-bg-success"
+  class="text-bg-success"
   number="53%"
   text="Bounce Rate"
   icon="chart-area"
