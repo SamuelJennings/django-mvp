@@ -63,7 +63,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "mvp.context_processors.page_config",
+                "mvp.context_processors.mvp_config",
             ],
         },
     },
@@ -188,7 +188,7 @@ FLEX_MENUS = {
     "log_url_failures": DEBUG,
 }
 
-PAGE_CONFIG = {
+MVP = {
     "layout_mode": "sidebar",  # "navbar", "sidebar", or "both"
     "brand": {
         "text": "Django MVP",

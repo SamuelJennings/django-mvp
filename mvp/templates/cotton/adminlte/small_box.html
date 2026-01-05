@@ -1,0 +1,23 @@
+<c-vars number=""
+        text=""
+        icon=""
+        bg_class="text-bg-primary"
+        href="#"
+        footer_text="More info"
+        icon_class="bi" />
+<div class="small-box {{ bg_class }}">
+  <div class="inner">
+    <h3>{{ number }}</h3>
+    <p>{{ text }}</p>
+  </div>
+  {% if icon %}
+    <c-icon class="small-box-icon" :name="icon" />
+    {% comment %} <i class="small-box-icon {{ icon_class }} bi-{{ icon }}"></i> {% endcomment %}
+  {% endif %}
+  {% if href %}
+    <a href="{{ href }}"
+       class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+      {{ footer_text }} <i class="bi bi-link-45deg"></i>
+    </a>
+  {% endif %}
+</div>

@@ -52,70 +52,78 @@ and mode='info' for conceptual understanding.
 - ❌ Never use: `poetry run python manage.py collectstatic`
 
 ## Package overview
-- This is a **Django app** providing application layouts and UI patterns.
+- This is a **Django app** providing AdminLTE 4 layouts and components.
 - This app uses `django-cotton` for reusable template components.
-- It ships reusable layout patterns and UI components as Django-Cotton templates (lives under templates/cotton/).
-- It is designed to be used in Django projects requiring sophisticated navigation, list/detail views, and data-centric interfaces.
+- It ships AdminLTE-specific components as Django-Cotton templates (lives under templates/cotton/adminlte/).
+- It is designed to be used in Django projects requiring sophisticated admin dashboards and data-centric interfaces.
 - All components should be aria compliant and accessible by default.
-- Components build on top of `django-cotton-bs5` for base Bootstrap 5 components.
+- Standard Bootstrap 5 components are provided by `django-cotton-bs5` package.
+
+### 🚨 CRITICAL: Cotton Component Naming Convention 🚨
+- **Cotton components ALWAYS use snake_case (kebab-case)**, never camelCase or PascalCase
+- ✅ Correct: `<c-adminlte.small-box />` or `<c-adminlte.info_box />`
+- ❌ Wrong: `<c-adminlte.smallBox />` or `<c-adminlte.SmallBox />`
+- Component file names: `small-box.html`, `info-box.html`, `timeline-item.html`
+- Component usage: `<c-adminlte.small-box />`, `<c-adminlte.info-box />`, `<c-adminlte.timeline-item />`
+- This is a **fundamental requirement** of django-cotton and must be followed strictly
 
 ### Architecture
 
-Django Cotton Layouts uses a **three-level nested flex layout system**:
+Django MVP mirrors AdminLTE 4's grid-based layout structure:
 
-1. **Outer Layout (Application Shell)** - `.app-shell`, `.site-sidebar`, `.app-column`, `.app-main`, `.app-footer`
-2. **Page Content Area** - `.page-toolbar`, `.page-breadcrumbs`, `.page-header`, `.page-content`
-3. **Inner Content Layout** - `.content-shell`, `.content-sidebar-left`, `.content-main`, `.content-sidebar-right`
+```
+.app-wrapper (grid container)
+├── .app-sidebar (navigation)
+├── .app-header (top navbar)
+├── .app-main (content area)
+│   ├── .app-content-header (page header/breadcrumbs)
+│   └── .app-content (main content)
+└── .app-footer (optional footer)
+```
 
-**IMPORTANT**: Always use the semantic class names defined in `docs/STRUCTURE_AND_NAMING.md`:
-- Use `.app-shell` not `.sidebar-layout`
-- Use `.site-sidebar` for site navigation sidebar
-- Use `.app-column` not `.main-column`
-- Use `.app-main` not `.main-content`
-- Use `.content-sidebar-left` not `.inner-primary`
-- Use `.content-sidebar-right` not `.inner-secondary`
-- Use `.content-main` not `.inner-main`
-
-Old class names are aliased for backwards compatibility but should not be used in new code.
+All layout behavior is controlled via the `MVP` configuration object in Django settings, requiring minimal template customization.
 
 ### Core Purpose
-The primary goal of this package is to provide a **modern, sleek, and functional batteries-included starter pack** for creating data-driven dashboards and websites. It offers:
+The primary goal of this package is to provide AdminLTE 4 for Django as reusable Cotton components:
 
-- **Zero-configuration layouts** that work out of the box
-- **Centralized configuration** via Django settings
-- **Minimal template customization** required from end users
-- **Sophisticated UI patterns** for data-centric applications
-- **Production-ready components** for research portals, admin interfaces, and institutional applications
+- **AdminLTE 4 Layout System** - Full grid-based app-wrapper structure
+- **Configuration-Driven Design** - Control via Django settings
+- **AdminLTE-Specific Components** - Cards, boxes, widgets, timeline, chat, etc.
+- **Bootstrap 5 Foundation** - Works with django-cotton-bs5 for base components
+- **Production-Ready** - Designed for data-centric applications and admin interfaces
 
 ### Configuration Architecture
 
-#### The PAGE_CONFIG System
-Django Cotton Layouts uses a **configuration-driven approach** where all layout behavior, branding, navigation, and UI settings are controlled via a single `PAGE_CONFIG` dictionary in Django settings.
+#### The MVP Configuration System
+Django MVP uses a **configuration-driven approach** where all layout behavior, branding, and UI settings are controlled via the `MVP` dictionary in Django settings.
 
 **Context Processor:**
-- `mvp.context_processors.page_config` injects `page_config` into all templates
+- `mvp.context_processors.mvp_config` injects `mvp` into all templates
 - This makes configuration globally available without passing it explicitly in views
-- Configuration is accessed as `{{ page_config.key }}` in templates
+- Configuration is accessed as `{{ mvp.key }}` in templates
 
 **Configuration Structure:**
 ```python
-PAGE_CONFIG = {
-    "layout": "sidebar",  # or "navbar"
+MVP = {
     "brand": {
-        "text": "Site Name",
-        "image_light": "path/to/logo-light.svg",
-        "image_dark": "path/to/logo-dark.svg",
-        "icon_light": "path/to/favicon-light.svg",
-        "icon_dark": "path/to/favicon-dark.svg",
+        "text": "My Application",
+        "logo": "img/logo.png",  # Optional logo image
+        "icon": "img/favicon.ico",  # Optional favicon
     },
-    "navigation": {
-        "sidebar": {
-            "collapsible": True,
-            "show_at": "lg",  # Bootstrap breakpoint
-            "width": "280px",  # Optional custom width
-        },
+    "layout": {
+        "fixed_sidebar": True,
+        "sidebar_expand": "lg",  # When sidebar expands: sm, md, lg, xl, xxl
+        "body_class": "layout-fixed sidebar-expand-lg",
     },
-    "actions": [  # Action widgets in navigation
+    "sidebar": {
+        "visible": True,
+        "width": "280px",  # Optional custom width
+    },
+    "footer": {
+        "visible": True,
+        "text": "© 2026 My Application",
+    },
+    "actions": [  # Action buttons/links in navbar
         {"icon": "github", "text": "GitHub", "href": "...", "target": "_blank"},
     ],
 }
@@ -123,92 +131,41 @@ PAGE_CONFIG = {
 
 #### Template Hierarchy
 
-The template system follows a strict hierarchy designed to minimize end-user customization:
+The template system follows a simple hierarchy:
 
-1. **`base.html`** (package-level)
-   - Foundation HTML structure
-   - Loads Bootstrap, icons, and compiled SCSS
-   - Configures favicons using `page_config.brand.icon_light/dark`
-   - Includes JavaScript bundles
-   - **NOT meant to be modified** by end users
+1. **`base.html`** - Foundation HTML structure with AdminLTE CSS/JS from CDN
+2. **`layouts/adminlte.html`** - AdminLTE app-wrapper layout structure with blocks
+3. **User templates** - Extend `layouts/adminlte.html` and override blocks
 
-2. **`layouts/base.html`** (package-level)
-   - Minimal template that extends `base.html`
-   - Provides extension points via blocks
-   - Can be extended in user projects for global customizations (e.g., extra CSS/JS)
-
-3. **`layouts/standard.html`** (package-level) ⭐ **KEY TEMPLATE**
-   - Extends `layouts/base.html`
-   - Implements the configured layout (sidebar or navbar)
-   - Passes `page_config` to navigation components
-   - Provides the `content` block for page-specific content
-   - **This is where layout logic lives**
-
-4. **Specialized layouts** (package-level)
-   - `layouts/list_view.html` - Extends `standard.html`, adds list view patterns
-   - `layouts/detail_view.html` - Extends `standard.html`, adds detail view patterns
-   - `layouts/form_view.html` - Extends `standard.html`, adds form patterns
-
-5. **User templates** (project-level)
-   - Extend `layouts/standard.html` or specialized layouts
-   - Override the `content` block
-   - Focus only on page-specific content, not layout structure
-
-#### Configuration Flow Through Components
-
-Components receive configuration using Cotton's `:attrs` syntax:
-
-**Example from `layouts/standard.html`:**
-```html
-<c-page.navigation.sidebar :attrs="page_config.navigation.sidebar"
-                           :brand="page_config.brand" />
-```
-
-**How `:attrs` works:**
-- `:attrs="dict"` expands a Python dictionary into component attributes
-- If `page_config.navigation.sidebar = {"collapsible": True, "show_at": "lg"}`
-- This becomes: `<c-page.navigation.sidebar collapsible="True" show_at="lg" />`
-
-**Benefits:**
-- Configuration is defined once in settings
-- Components automatically receive their configuration
-- No manual attribute passing required
-- Easy to override or extend configuration
-
-**Component-level consumption:**
-```html
-{# Inside a component like c-page.navigation.sidebar #}
-<c-vars collapsible="False" show_at="md" width="260px" />
-
-<div class="sidebar" 
-     data-collapsible="{{ collapsible }}"
-     data-show-at="{{ show_at }}"
-     style="width: {{ width }}">
-  ...
-</div>
-```
+**Key blocks in layouts/adminlte.html:**
+- `page_title` - Page title in header
+- `breadcrumbs` - Breadcrumb navigation
+- `sidebar_menu` - Sidebar menu items
+- `navbar_left` - Left navbar items
+- `navbar_right` - Right navbar items
+- `content` - Main page content
+- `app_header`, `app_sidebar`, `app_footer` - Full layout sections
 
 #### Key Design Patterns
 
 1. **Extend, Don't Modify**
-   - Users should extend `layouts/standard.html`, not modify package templates
+   - Users extend `layouts/adminlte.html`, not modify package templates
    - Customizations happen in project-level templates
    - Package templates remain pristine and upgradable
 
 2. **Block-based Customization**
-   - Package templates provide strategic `{% block %}` tags
+   - Layout template provides strategic `{% block %}` tags
    - Users override blocks for targeted customizations
-   - Example: `{% block extra_css %}` in `layouts/base.html`
+   - Example: `{% block extra_css %}` in `base.html`
 
 3. **Configuration Over Code**
-   - Behavior changes happen in `PAGE_CONFIG`, not template edits
+   - Behavior changes happen in `MVP`, not template edits
    - Reduces need for template overrides
    - Centralizes all settings in one place
 
 4. **Component Composition**
-   - Layout templates compose smaller components
-   - Components receive configuration via `:attrs`
-   - Example: `<c-page.navigation.sidebar :attrs="page_config.navigation.sidebar" />`
+   - Use AdminLTE components via Cotton: `<c-adminlte.small-box />`
+   - Use Bootstrap 5 components via django-cotton-bs5: `<c-bs5.button />`
 
 ## Linting & Style
 - Follow **Ruff** linting rules (see `pyproject.toml`).

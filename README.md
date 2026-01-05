@@ -1,56 +1,44 @@
 # Django MVP
 
-**Minimum Viable Product framework for Django** - Scaffold production-ready applications with sophisticated layouts and UI patterns designed for research portals, data-centric applications, and admin-heavy Django projects.
+**AdminLTE 4 for Django** - A modern, responsive admin dashboard template system built with Django Cotton, providing AdminLTE 4 layouts and components for building production-ready data-centric applications.
 
-**Note:** This project is currently in alpha development. The API may change as we refine the layout patterns and components.
+**Note:** This project is currently in active development. Version 1.0 will introduce AdminLTE 4 integration with breaking changes from previous versions.
 
 ## Overview
 
-Django MVP (Minimum Viable Product) provides a batteries-included starter framework built on top of [django-cotton](https://github.com/wrabit/django-cotton) and [django-cotton-bs5](https://github.com/SamuelJennings/django-cotton-bs5). It allows you to quickly scaffold a minimum viable product that looks good from the start and can continue being used through project maturation. It's designed for applications that need:
+Django MVP brings the powerful [AdminLTE 4](https://github.com/colorlibhq/AdminLTE) admin dashboard template to Django as a collection of reusable [django-cotton](https://github.com/wrabit/django-cotton) components. It provides:
 
-- **Collapsible sidebar navigation** with responsive mobile transforms
-- **List/detail view patterns** with integrated filtering, search, and pagination
-- **Plugin-based detail views** with categorized sidebar menus
-- **Responsive navbar** with desktop and mobile variants
-- **Data-centric UI patterns** optimized for research portals and institutional data repositories
+- **AdminLTE 4 Layout System** - Full implementation of AdminLTE's grid-based layout structure
+- **Configuration-Driven Design** - Control layout and appearance via Django settings
+- **Cotton Component Library** - AdminLTE-specific components (cards, boxes, widgets, etc.)
+- **Bootstrap 5 Foundation** - Built on Bootstrap 5 with [django-cotton-bs5](https://github.com/SamuelJennings/django-cotton-bs5) for base components
+- **Production-Ready** - Designed for data-centric applications, admin interfaces, and dashboards
+
+### What's Included
+
+Django MVP provides **AdminLTE-specific components only**. Standard Bootstrap 5 components (buttons, modals, forms, etc.) are provided by the separate `django-cotton-bs5` package. This includes:
+
+- **AdminLTE Layouts** - App wrapper, sidebar, header, main content area, footer
+- **AdminLTE Widgets** - Info boxes, small boxes, cards, direct chat
+- **AdminLTE Components** - Specialized components unique to AdminLTE
+- **View Mixins** - Python helpers for common patterns (search, ordering, pagination)
+- **Menu Integration** - Renderers for [django-flex-menus](https://github.com/SamuelJennings/django-flex-menus)
 
 ## Architecture
 
-Django MVP uses a **three-level nested layout system**:
+Django MVP mirrors AdminLTE 4's grid-based layout structure:
 
-1. **Outer Layout (Application Shell)** - Site navigation, navbar, and footer
-2. **Page Content Area** - Toolbars, breadcrumbs, page headers
-3. **Inner Content Layout** - Dual collapsible sidebars for content organization
+```
+.app-wrapper (grid container)
+├── .app-sidebar (navigation)
+├── .app-header (top navbar)
+├── .app-main (content area)
+│   ├── .app-content-header (page header/breadcrumbs)
+│   └── .app-content (main content)
+└── .app-footer (optional footer)
+```
 
-For detailed documentation on structure and naming conventions, see [STRUCTURE_AND_NAMING.md](docs/STRUCTURE_AND_NAMING.md).
-
-## Features
-
-### Layout Components
-
-- **Application Shell** - Responsive outer layout with collapsible site sidebar, navbar, and optional sticky footer
-- **Site Sidebar** - Collapsible navigation sidebar with menu sections, mobile offcanvas mode
-- **Content Sidebars** - Dual collapsible sidebars (left/right) for organizing content within pages
-- **Detail Views** - Complex detail view layouts with plugin support
-- **List Views** - Filterable, searchable, paginated list views
-- **Navbar System** - Desktop/mobile responsive navigation with dropdown support
-- **Page Headers** - Responsive page headers with actions and breadcrumbs
-- **Footer Component** - Optional sticky or flow footer with responsive configuration
-
-### View Mixins
-
-Python mixins for common patterns:
-- `SearchMixin` - Django admin-style multi-field search
-- `OrderMixin` - Dropdown-based result ordering
-- `SearchOrderMixin` - Combined search and ordering
-
-### Menu Integration
-
-Custom renderers for [django-flex-menus](https://github.com/SamuelJennings/django-flex-menus):
-- `SidebarRenderer` - Sidebar menu rendering
-- `NavbarRenderer` - Desktop navbar rendering
-- `MobileNavbarRenderer` - Mobile offcanvas navbar
-- `DropdownRenderer` - Dropdown menu rendering
+All layout behavior is controlled via the `MVP` configuration object in Django settings, requiring minimal template customization.
 
 ## Installation
 
@@ -58,23 +46,23 @@ Custom renderers for [django-flex-menus](https://github.com/SamuelJennings/djang
 pip install django-mvp
 ```
 
-Add `mvp` to your `INSTALLED_APPS` in `settings.py`:
+Add required apps to `INSTALLED_APPS` in `settings.py`:
 
 ```python
 INSTALLED_APPS = [
     ...
-    "django_cotton",
-    "cotton_bs5",
-    "flex_menu",
-    "easy_icons",
-    "mvp",
+    "django_cotton",      # Cotton template components
+    "cotton_bs5",         # Bootstrap 5 components
+    "easy_icons",         # Icon system
+    "flex_menu",          # Optional: menu system
+    "mvp",                # Django MVP
     ...
 ]
 ```
 
 ### Add Context Processor
 
-Add the `page_config` context processor to make configuration available in all templates:
+Add the MVP context processor to make configuration available in all templates:
 
 ```python
 TEMPLATES = [
@@ -83,16 +71,16 @@ TEMPLATES = [
         "OPTIONS": {
             "context_processors": [
                 ...
-                "mvp.context_processors.page_config",
+                "mvp.context_processors.mvp_config",
             ],
         },
     },
 ]
 ```
 
-### Configure Easy Icons
+### Configure Icons
 
-The layouts use Bootstrap Icons via `django-easy-icons`. Add this to your `settings.py`:
+Django MVP uses Bootstrap Icons via `django-easy-icons`:
 
 ```python
 EASY_ICONS = {
@@ -112,86 +100,55 @@ EASY_ICONS = {
             "arrow_right": "bi bi-arrow-right",
             "chevron_down": "bi bi-chevron-down",
             "chevron_up": "bi bi-chevron-up",
-            # Search & Filter
             "search": "bi bi-search",
             "filter": "bi bi-funnel",
-            # People & Organizations
             "person": "bi bi-person",
-            # Metadata
             "calendar": "bi bi-calendar3",
-            "documentation": "bi bi-book",
-            # Settings
             "settings": "bi bi-gear",
-            # Theme
             "theme_light": "bi bi-sun",
             "theme_dark": "bi bi-moon",
-            # Social & External
             "github": "bi bi-github",
-            # Auth
-            "logout": "bi bi-box-arrow-right",
         },
     },
 }
 ```
 
-These are the core icons used by the layouts. You can add more icons as needed for your application.
+## Configuration
 
-### Configure Flex Menus
+Django MVP uses a centralized `MVP` configuration dictionary in Django settings to control all layout behavior, branding, and navigation.
 
-Add custom renderers for `django-flex-menus`:
-
-```python
-FLEX_MENUS = {
-    "renderers": {
-        "sidebar": "mvp.renderers.SidebarRenderer",
-        "navbar": "mvp.renderers.NavbarRenderer",
-        "mobile_navbar": "mvp.renderers.MobileNavbarRenderer",
-        "dropdown": "mvp.renderers.DropdownRenderer",
-    },
-}
-```
-
-## Configuration System
-
-Django MVP uses a **centralized configuration approach** via the `PAGE_CONFIG` dictionary in your Django settings. This configuration is injected into all templates through a context processor, allowing you to control layout behavior, branding, navigation, and UI components from a single location.
-
-### The PAGE_CONFIG Dictionary
+### The MVP Configuration Object
 
 Add this to your `settings.py`:
 
 ```python
-PAGE_CONFIG = {
-    # Layout type: 'sidebar' or 'navbar' (default: 'navbar')
-    "layout": "sidebar",
-    
-    # Site branding configuration
+MVP = {
+    # Site branding
     "brand": {
         "text": "My Application",
-        "image_light": "img/logo-light.svg",  # Logo for light theme
-        "image_dark": "img/logo-dark.svg",    # Logo for dark theme
-        "icon_light": "img/icon-light.svg",   # Favicon for light theme
-        "icon_dark": "img/icon-dark.svg",     # Favicon for dark theme
+        "logo": "img/logo.png",  # Optional logo image
     },
-    
-    # Navigation configuration
-    "navigation": {
-        "sidebar": {
-            "collapsible": True,  # Allow sidebar to collapse to icon-only mode
-            "show_at": "lg",      # Bootstrap breakpoint (sm, md, lg, xl, xxl)
-            "width": "280px",     # Custom sidebar width (optional)
-        },
+
+    # AdminLTE layout options
+    "layout": {
+        "fixed_sidebar": True,     # Fixed sidebar position
+        "sidebar_expand": "lg",    # When sidebar expands: 'sm', 'md', 'lg', 'xl', 'xxl'
+        "body_class": "layout-fixed sidebar-expand-lg",  # Additional body classes
     },
-    
+
+    # Sidebar configuration
+    "sidebar": {
+        "visible": True,
+        "width": "280px",  # Optional custom width
+    },
+
     # Footer configuration
     "footer": {
-        "visible": True,          # Show/hide footer
-        "sticky": "md",           # Stick to bottom: True, False, or breakpoint ('sm', 'md', 'lg', etc.)
-        # sticky=True: Always stick to bottom
-        # sticky=False: Always flow with content
-        # sticky='md': Stick on mobile (below md), flow on desktop (md and above)
+        "visible": True,
+        "text": "© 2026 My Application",
     },
-    
-    # Action widgets (e.g., theme toggle, external links)
+
+    # Action buttons/links in navbar
     "actions": [
         {
             "icon": "github",
@@ -199,359 +156,180 @@ PAGE_CONFIG = {
             "href": "https://github.com/user/repo",
             "target": "_blank",
         },
-        {
-            "icon": "question-circle",
-            "text": "Support",
-            "href": "/support/",
-        },
     ],
 }
 ```
 
-### How Configuration Flows Through Templates
+### Configuration Flow
 
-The configuration system follows a hierarchical template structure:
-
-1. **`base.html`** - The foundation template that sets up HTML structure, loads static assets, and configures favicons using `page_config.brand.icon_light/dark`.
-
-2. **`layouts/base.html`** - Minimal base layout that typically just extends `base.html`. Not commonly modified by end users.
-
-3. **`layouts/standard.html`** - The **primary layout template** that:
-   - Extends `layouts/base.html`
-   - Configures the sidebar layout using `page_config.navigation.sidebar`
-   - Passes configuration to navigation components using `:attrs="page_config.navigation.sidebar"`
-   - Provides a `content` block for page-specific content
-
-4. **Your templates** - Extend `layouts/standard.html` and override the `content` block:
+The MVP configuration is made available in all templates via the `mvp_config` context processor:
 
 ```html
-{% extends "layouts/standard.html" %}
+<!-- Access in templates as {{ mvp }} -->
+{{ mvp.brand.text }}
+{{ mvp.layout.body_class }}
+```
+
+### Template Hierarchy
+
+Django MVP follows a simple template hierarchy:
+
+1. **`base.html`** - Foundation HTML structure with AdminLTE CSS/JS
+2. **`layouts/adminlte.html`** - AdminLTE app-wrapper layout structure
+3. **Your templates** - Extend `layouts/adminlte.html` and override blocks
+
+Example page template:
+
+```html
+{% extends "layouts/adminlte.html" %}
 
 {% block content %}
-  <div class="container py-4">
+  <div class="container-fluid">
     <h1>Your Page Content</h1>
   </div>
 {% endblock %}
 ```
 
-### Configuration via :attrs
-
-Components receive configuration using Cotton's `:attrs` syntax, which expands dictionaries into component attributes:
-
-```html
-<!-- In layouts/standard.html -->
-<c-page.navigation.sidebar :attrs="page_config.navigation.sidebar" 
-                           :brand="page_config.brand" />
-```
-
-If `page_config.navigation.sidebar = {"collapsible": True, "show_at": "lg"}`, this expands to:
-
-```html
-<c-page.navigation.sidebar collapsible="True" 
-                           show_at="lg" 
-                           :brand="page_config.brand" />
-```
-
 ### Customizing Layouts
 
-Instead of modifying `base.html`, customize layouts by **extending blocks** in `layouts/base.html` or creating a custom base template in your project:
+Create a custom base layout in your project to override blocks:
 
 ```html
 {# templates/layouts/base.html in your project #}
-{% extends "mvp/layouts/base.html" %}
+{% extends "mvp/layouts/adminlte.html" %}
 
 {% block extra_css %}
   <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 {% endblock %}
 ```
 
-### Pre-built Layout Templates
+## Quick Start
 
-Use these ready-made templates by extending them:
-
-- **`layouts/standard.html`** - Basic sidebar/navbar layout (most common)
-- **`layouts/list_view.html`** - List views with search, filters, and pagination
-- **`layouts/detail_view.html`** - Detail views with sidebar navigation
-- **`layouts/form_view.html`** - Form-based views (coming soon)
-
-Example extending list view:
+### Basic Page Template
 
 ```html
-{% extends "layouts/list_view.html" %}
+{% extends "layouts/adminlte.html" %}
 
-{% block list_content %}
-  {% for item in object_list %}
-    <c-card>
-      <h3>{{ item.title }}</h3>
-    </c-card>
-  {% endfor %}
+{% block content %}
+  <div class="app-content">
+    <div class="container-fluid">
+      <h1>Welcome to My Application</h1>
+      <p>Your content here...</p>
+    </div>
+  </div>
 {% endblock %}
 ```
 
-## Sidebar Layouts
-
-The sidebar layout system provides flexible width control through CSS variables, Bootstrap column classes, or both. Sidebars can be configured globally via `PAGE_CONFIG` or individually at the component level.
-
-### Sidebar Width Configuration
-
-The `c-layouts.inner` and `c-sidebar` components support multiple width control methods:
-
-#### Width Attributes
-
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `width` | string | Sets the sidebar width (e.g., `"280px"`, `"20rem"`, `"15%"`) |
-| `max_width` | string | Sets maximum width constraint (e.g., `"350px"`) |
-| `min_width` | string | Sets minimum width constraint (e.g., `"200px"`) |
-| `col_class` | string | Bootstrap column classes for responsive width (e.g., `"col-3 col-lg-2"`) |
-
-#### Other Sidebar Attributes
-
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `reverse` | boolean | `False` | Places sidebar on right side instead of left |
-| `border` | boolean | `False` | Adds border to sidebar (border-start or border-end) |
-| `collapsible` | boolean | `False` | Enables icon-only collapsed mode with toggle button |
-| `sidebar_id` | string | - | Custom ID for the sidebar element |
-| `sidebar_class` | string | - | Additional CSS classes for the sidebar |
-| `class` | string | - | Additional CSS classes for the layout container |
-
-### Usage Examples
-
-#### Fixed Width Sidebar
+### With Page Header and Breadcrumbs
 
 ```html
-<c-layouts.inner width="280px">
-  <c-slot name="sidebar">
-    <nav>Sidebar content</nav>
-  </c-slot>
-  <div>Main content</div>
-</c-layouts.inner>
+{% extends "layouts/adminlte.html" %}
+
+{% block page_header %}
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 class="mb-0">Dashboard</h3>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-end">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="app-content">
+    <div class="container-fluid">
+      <!-- Your dashboard content -->
+    </div>
+  </div>
+{% endblock %}
 ```
 
-#### Width with Constraints
+## AdminLTE Components
 
-Prevent the sidebar from becoming too wide or too narrow:
+Django MVP provides Cotton components for AdminLTE-specific widgets. Standard Bootstrap components (cards, buttons, modals, etc.) should use `django-cotton-bs5`.
+
+### Info Boxes
 
 ```html
-<c-layouts.inner width="280px" max_width="350px" min_width="200px">
-  <c-slot name="sidebar">
-    <nav>Sidebar content</nav>
-  </c-slot>
-  <div>Main content</div>
-</c-layouts.inner>
+<c-adminlte.info-box
+  icon="shopping-cart"
+  bg_class="text-bg-primary"
+  number="150"
+  text="New Orders" />
 ```
 
-#### Responsive Width with Bootstrap Columns
-
-Use Bootstrap's responsive column classes for breakpoint-based sizing:
+### Small Boxes
 
 ```html
-<c-layouts.inner col_class="col-12 col-md-4 col-lg-3 col-xl-2">
-  <c-slot name="sidebar">
-    <nav>Sidebar content</nav>
-  </c-slot>
-  <div>Main content</div>
-</c-layouts.inner>
+<c-adminlte.small-box
+  bg_class="text-bg-success"
+  number="53%"
+  text="Bounce Rate"
+  icon="chart-area"
+  href="/stats/" />
 ```
 
-This creates a sidebar that:
-- Takes full width on mobile (`col-12`)
-- 4 columns on medium screens (`col-md-4`)
-- 3 columns on large screens (`col-lg-3`)
-- 2 columns on extra-large screens (`col-xl-2`)
-
-#### Mixed Approach
-
-Combine fixed width with max-width and responsive classes:
+### Cards with Tools
 
 ```html
-<c-layouts.inner width="280px" 
-                   max_width="350px" 
-                   col_class="col-lg-3">
-  <c-slot name="sidebar">
-    <nav>Sidebar content</nav>
+<c-adminlte.card>
+  <c-slot name="header">
+    <h3 class="card-title">Monthly Report</h3>
+    <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+        <i class="bi bi-dash"></i>
+      </button>
+    </div>
   </c-slot>
-  <div>Main content</div>
-</c-layouts.inner>
+
+  <c-slot name="body">
+    Card content here
+  </c-slot>
+</c-adminlte.card>
 ```
 
-#### Reversed Sidebar (Right Side)
+## View Mixins
 
-```html
-<c-layouts.inner reverse width="250px">
-  <c-slot name="sidebar">
-    <aside>Metadata sidebar</aside>
-  </c-slot>
-  <article>Article content</article>
-</c-layouts.inner>
-```
+Python mixins for common patterns:
 
-#### Collapsible Sidebar
+### SearchMixin
 
-```html
-<c-layouts.inner collapsible width="280px">
-  <c-slot name="sidebar">
-    <nav>
-      <c-sidebar.menu-item icon="home" text="Home" href="/" />
-      <c-sidebar.menu-item icon="settings" text="Settings" href="/settings/" />
-    </nav>
-  </c-slot>
-  <div>Main content</div>
-</c-layouts.inner>
-```
-
-When collapsed, the sidebar shrinks to icon-only mode (60px wide).
-
-#### Nested Sidebars (Dual Sidebar Layout)
-
-Create complex layouts with sidebars on both sides:
-
-```html
-{# Left sidebar: Navigation #}
-<c-layouts.inner width="200px" max_width="250px">
-  <c-slot name="sidebar">
-    <nav>Navigation links</nav>
-  </c-slot>
-  
-  {# Right sidebar: Metadata #}
-  <c-layouts.inner reverse col_class="col-12 col-lg-3 col-xl-2">
-    <c-slot name="sidebar">
-      <aside>Article metadata</aside>
-    </c-slot>
-    
-    {# Main content in the center #}
-    <article>
-      <h1>Article Title</h1>
-      <p>Content here...</p>
-    </article>
-  </c-layouts.inner>
-</c-layouts.inner>
-```
-
-### Global Sidebar Configuration
-
-Configure sidebar width globally via `PAGE_CONFIG`:
+Django admin-style multi-field search:
 
 ```python
-PAGE_CONFIG = {
-    "layout": "sidebar",
-    "sidebar": {
-        "collapsible": True,
-        "show_at": "lg",      # Bootstrap breakpoint for mobile transform
-        "width": "280px",     # Sidebar width
-        "max_width": "320px", # Maximum width
-        "min_width": "200px", # Minimum width
-    },
-}
+from mvp.views import SearchMixin
+from django.views.generic import ListView
+
+class ProjectListView(SearchMixin, ListView):
+    model = Project
+    search_fields = ["title", "description", "owner__username"]
 ```
 
-These settings are passed to the `c-structure.sidebar` component in `layouts/standard.html` via `:attrs="page_config.sidebar"`.
+### OrderMixin
 
-### How Width Control Works
+Dropdown-based result ordering:
 
-Width control uses CSS custom properties (CSS variables) set inline on the sidebar element:
+```python
+from mvp.views import OrderMixin
+from django.views.generic import ListView
 
-```html
-<aside class="sidebar" style="--sidebar-width: 280px; --sidebar-max-width: 350px;">
-  <!-- Sidebar content -->
-</aside>
+class ProjectListView(OrderMixin, ListView):
+    model = Project
+    order_fields = {
+        "title": "Title A-Z",
+        "-title": "Title Z-A",
+        "-created": "Newest First",
+        "created": "Oldest First",
+    }
 ```
-
-The SCSS applies these variables:
-
-```scss
-.sidebar {
-  width: var(--sidebar-width, auto);
-  max-width: var(--sidebar-max-width, var(--sidebar-width, 300px));
-  min-width: var(--sidebar-min-width, auto);
-}
-```
-
-When Bootstrap column classes are used (via `col_class`), the sidebar respects flex-basis sizing while still applying max/min constraints if specified.
-
-### Best Practices
-
-1. **Use fixed widths for desktop navigation sidebars** - Provides consistent layout: `width="280px"`
-2. **Add max-width constraints** - Prevents sidebars from becoming too wide on large screens: `max_width="350px"`
-3. **Use Bootstrap columns for content sidebars** - Better responsive behavior: `col_class="col-lg-3"`
-4. **Combine approaches for complex layouts** - Mix fixed and responsive as needed
-5. **Test collapsed state** - If using `collapsible`, ensure icons are visible when collapsed
-
-
-## Quick Start
-
-### Basic Sidebar Layout
-
-```html
-<c-sidebar.layout>
-  <c-slot name="sidebar">
-    <c-sidebar.index>
-      <c-sidebar.menu-section title="Navigation">
-        <c-sidebar.menu-item href="/" label="Home" active />
-        <c-sidebar.menu-item href="/about" label="About" />
-      </c-sidebar.menu-section>
-    </c-sidebar.index>
-  </c-slot>
-
-  <c-slot name="main">
-    <h1>Main Content</h1>
-    <p>Your page content here...</p>
-  </c-slot>
-</c-sidebar.layout>
-```
-
-### List View with Filtering
-
-```html
-<c-list.index>
-  <c-slot name="header">
-    <c-list.header title="Projects" />
-  </c-slot>
-
-  <c-slot name="search">
-    <c-list.search-widget />
-  </c-slot>
-
-  <c-slot name="filters">
-    <!-- Your filter form here -->
-  </c-slot>
-
-  <c-slot name="results">
-    <!-- Your results here -->
-  </c-slot>
-
-  <c-slot name="pagination">
-    <c-list.pagination />
-  </c-slot>
-</c-list.index>
-```
-
-### Detail View with Sidebar
-
-```html
-<c-detail.layout>
-  <c-slot name="header">
-    <c-detail.header 
-      title="{{ object.title }}"
-      subtitle="{{ object.description }}" />
-  </c-slot>
-
-  <c-slot name="sidebar">
-    <c-sidebar.index>
-      <!-- Sidebar menu items -->
-    </c-sidebar.index>
-  </c-slot>
-
-  <c-slot name="content">
-    <!-- Main detail content -->
-  </c-slot>
-</c-detail.layout>
-```
-
-## Documentation
-
-Full documentation coming soon. For now, see the [example app](./example) for usage patterns.
 
 ## Requirements
 
@@ -559,37 +337,36 @@ Full documentation coming soon. For now, see the [example app](./example) for us
 - Django 4.2+
 - django-cotton 2.3.1+
 - django-cotton-bs5 0.5.0+
-- django-flex-menus 0.3.0+
 - django-easy-icons 0.3.0+
+- AdminLTE 4.x (CSS/JS included)
 
 ## Design Philosophy
 
-Django Cotton Layouts is built around these principles:
+Django MVP provides:
 
-1. **Component-based** - Reusable, composable Cotton components
-2. **Slot-driven** - Flexible content areas using Cotton's slot system
-3. **Responsive-first** - Mobile-friendly layouts that adapt to screen size
-4. **Accessible** - ARIA-compliant and keyboard-navigable
-5. **Integration-ready** - Works with flex-menus, easy-icons, and Bootstrap 5
+1. **AdminLTE Layout System** - Grid-based app-wrapper structure
+2. **Configuration-Driven** - Control via Django settings, not templates
+3. **AdminLTE Components Only** - Standard BS5 components in django-cotton-bs5
+4. **Production-Ready** - Built for data-centric dashboards and admin interfaces
 
 ## Use Cases
 
-This package is ideal for:
+Ideal for:
 
-- **Research data portals** managing projects, datasets, and samples
-- **Institutional repositories** with hierarchical data structures
-- **Admin-heavy applications** requiring sophisticated navigation
-- **Data-centric portals** with list/detail/filter patterns
-- **Community platforms** with member profiles and content management
+- **Admin dashboards** with metrics and data visualization
+- **Data management applications** requiring sophisticated layouts
+- **Internal tools** with complex navigation structures
+- **Research portals** managing datasets and projects
+- **SaaS admin interfaces** with multi-tenant support
 
 ## Contributing
 
-Contributions are welcome! This library follows django-cotton conventions and Bootstrap 5 standards. When adding new components:
+Contributions welcome! When adding components:
 
-1. Use `<c-vars />` for default values
-2. Include proper accessibility attributes
-3. Support responsive behavior
-4. Maintain consistent naming conventions
+1. Focus on AdminLTE-specific components only
+2. Use `<c-vars />` for default values
+3. Include proper ARIA attributes
+4. Support AdminLTE's data attributes and JS interactions
 5. Add tests for new components
 
 ## License
@@ -598,8 +375,9 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-Built on top of:
-- [django-cotton](https://github.com/wrabit/django-cotton) by @wrabit
-- [django-cotton-bs5](https://github.com/SamuelJennings/django-cotton-bs5)
-- [django-flex-menus](https://github.com/SamuelJennings/django-flex-menus)
-- [Bootstrap 5](https://getbootstrap.com/)
+Built with:
+
+- [AdminLTE](https://github.com/colorlibhq/AdminLTE) - The admin dashboard template
+- [django-cotton](https://github.com/wrabit/django-cotton) - Component system by @wrabit
+- [django-cotton-bs5](https://github.com/SamuelJennings/django-cotton-bs5) - Bootstrap 5 components
+- [Bootstrap 5](https://getbootstrap.com/) - CSS framework

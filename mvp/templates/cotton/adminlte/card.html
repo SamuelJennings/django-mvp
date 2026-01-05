@@ -1,0 +1,13 @@
+<c-vars variant="" outline="False" class="" />
+<div class="card {% if variant %}card-{{ variant }}{% endif %} {% if outline %}card-outline{% endif %} {{ class }}">
+  <c-slot name="header">
+    {# Card header content #}
+  </c-slot>
+  <c-slot name="body">
+    {# Card body content (default slot) #}
+    {{ slot }}
+  </c-slot>
+  <c-slot name="footer">
+    {# Card footer content #}
+  </c-slot>
+</div>
