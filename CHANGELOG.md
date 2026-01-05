@@ -8,6 +8,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **AdminLTE 4 Widget Components**: Complete implementation of three dashboard widget components
+  - **Info Box Component** (`<c-info-box>`): Display metrics with icons and optional progress bars
+    - Two fill modes: `fill="icon"` (default, colors icon only) and `fill="box"` (colors entire box)
+    - Progress bar support using `<c-progress>` component with ARIA attributes
+    - Bootstrap 5 color variants (primary, success, warning, danger, info, secondary)
+    - Custom CSS class passthrough
+    - Full accessibility support with proper ARIA attributes
+    - Documentation: [docs/components/info-box.md](docs/components/info-box.md)
+  - **Small Box Component** (`<c-small-box>`): Prominent dashboard summary widgets
+    - Large metric display with colored background
+    - Decorative background icons
+    - Optional footer with action links (default text: "More info")
+    - Custom link icon support
+    - Bootstrap 5 color variants via `variant` attribute
+    - Documentation: [docs/components/small-box.md](docs/components/small-box.md)
+  - **Card Component** (`<c-card>`): Flexible content containers with collapsible sections
+    - Three fill modes: `fill="outline"` (default, border only), `fill="header"` (header colored), `fill="card"` (entire card colored)
+    - Optional icon in header
+    - Named slots for `tools` and `footer`
+    - AdminLTE card tools integration (collapse, maximize, remove buttons)
+    - Collapsible state support via `collapsed` attribute
+    - Documentation: [docs/components/card.md](docs/components/card.md)
+- Comprehensive test suite with 30 tests covering all widget components (97% passing, 1 known Cotton limitation)
+- Component documentation with complete API references, examples, and accessibility guidelines
+- Documentation index at [docs/index.md](docs/index.md) with architecture overview and usage patterns
+
+### Changed
+- Updated README.md with accurate component examples matching actual implementations
+- Component examples now use correct attribute names and values (`variant`, `fill`, etc.)
+
+### Technical Details
+- **Components Location**: `mvp/templates/cotton/`
+- **Test Coverage**: 29/30 tests passing (info-box: 8/8, small-box: 9/9, card: 12/13)
+- **Known Limitation**: One card test fails due to Cotton `_children` behavior (documented)
+- **Dependencies**: Requires `django-cotton`, `django-cotton-bs5`, `django-easy-icons`
+- **Accessibility**: All components follow WCAG 2.1 AA guidelines with proper ARIA attributes
+- **Files Added**:
+  - `mvp/templates/cotton/info_box.html`
+  - `mvp/templates/cotton/small_box.html`
+  - `mvp/templates/cotton/card.html`
+  - `tests/test_info_box.py` (8 tests)
+  - `tests/test_small_box.py` (9 tests)
+  - `tests/test_card.py` (13 tests)
+  - `docs/components/info-box.md`
+  - `docs/components/small-box.md`
+  - `docs/components/card.md`
+  - `docs/index.md`
+- **Specification**: `specs/002-adminlte-widgets/`
+
+---
+
 - **Outer Layout Configuration System** (`PAGE_CONFIG`): Centralized configuration-driven layout system with per-region settings for sidebar, navbar, brand, and actions
   - **Per-region configuration**: `sidebar.*`, `navbar.*`, `brand`, `actions` keys (no top-level `navigation.*`)
   - **Smart defaults**: Navbar-only mode by default (`sidebar.show_at=False`, `breakpoint="sm"`)

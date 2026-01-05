@@ -9,6 +9,8 @@ Auto-generated from all feature plans. Last updated: 2025-12-23
 - N/A (template-only refactor) (001-layout-component-split)
 - Python 3.11+ + Django 4.2+, django-cotton (Cotton component system with c-vars and slots) (001-layout-component-split)
 - N/A (template-only feature) (001-layout-component-split)
+- Python 3.11+, Django 4.2+ + django-cotton (template engine), Bootstrap 5.3, AdminLTE 4, Bootstrap Icons (002-adminlte-widgets)
+- N/A (template-only components) (002-adminlte-widgets)
 
 - Python 3.11 (tests target) + Django, django-cotton, django-cotton-bs5, django-flex-menus, django-easy-icons, django-compressor, django-libsass, crispy-forms/bootstrap5 (001-outer-layout-config)
 
@@ -28,9 +30,9 @@ cd src; pytest; ruff check .
 Python 3.11 (tests target): Follow standard conventions
 
 ## Recent Changes
+- 002-adminlte-widgets: Added Python 3.11+, Django 4.2+ + django-cotton (template engine), Bootstrap 5.3, AdminLTE 4, Bootstrap Icons
 - 001-layout-component-split: Added Python 3.11+ + Django 4.2+, django-cotton (Cotton component system with c-vars and slots)
 - 001-layout-component-split: Added Python 3.11+ / Django 4.2+ + django-cotton (Cotton component system with c-vars and slots), AdminLTE 4 (CSS framework)
-- 002-inner-layout: Added Python 3.10-3.12 + Django 4.2-5.x, django-cotton ≥2.3.1, django-cotton-bs5 ^0.5.1, Bootstrap 5.3, django-compressor ^4.5.1, django-libsass ^0.9
 
 
 <!-- MANUAL ADDITIONS START -->

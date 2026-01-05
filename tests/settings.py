@@ -173,7 +173,15 @@ EASY_ICONS = {
             "table": "bi bi-table",
             # Action icons
             "add": "bi bi-plus-circle",
+            "plus": "bi bi-plus-lg",
+            "dash": "bi bi-dash-lg",
             "menu": "bi bi-list",
+            # Example
+            "cart": "bi bi-cart-fill",
+            "graph-up": "bi bi-graph-up-arrow",
+            "people": "bi bi-people",
+            "link": "bi bi-link-45deg",
+            "dollar": "bi bi-currency-dollar",
         },
     },
 }
