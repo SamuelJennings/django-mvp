@@ -254,47 +254,108 @@ Create a custom base layout in your project to override blocks:
 
 ## AdminLTE Components
 
-Django MVP provides Cotton components for AdminLTE-specific widgets. Standard Bootstrap components (cards, buttons, modals, etc.) should use `django-cotton-bs5`.
+Django MVP provides Cotton components for AdminLTE-specific widgets. Standard Bootstrap components (buttons, modals, forms, etc.) should use `django-cotton-bs5`.
 
-### Info Boxes
+**Available Components:**
+
+- [Info Box](docs/components/info-box.md) - Display metrics with icons and optional progress bars
+- [Small Box](docs/components/small-box.md) - Prominent dashboard summary widgets with action links
+- [Card](docs/components/card.md) - Flexible content containers with collapsible sections
+
+### Info Box
+
+Display key metrics with icons and optional progress indicators:
 
 ```html
-<c-adminlte.info-box
-  icon="shopping-cart"
-  variant="text-bg-primary"
+<c-info-box
+  icon="box-seam"
+  text="New Orders"
   number="150"
-  text="New Orders" />
+  variant="primary" />
+
+<!-- With progress bar -->
+<c-info-box
+  icon="add"
+  text="Downloads"
+  number="114,381"
+  variant="info"
+  progress="70"
+  description="70% Increase in 30 Days" />
+
+<!-- Box fill mode (entire box colored) -->
+<c-info-box
+  icon="briefcase"
+  text="Sales"
+  number="13,648"
+  variant="success"
+  fill="box" />
 ```
 
-### Small Boxes
+### Small Box
+
+Create prominent summary cards for dashboard overviews:
 
 ```html
-<c-adminlte.small-box
-  class="text-bg-success"
-  number="53%"
+<c-small-box
+  heading="150"
+  text="New Orders"
+  icon="cart"
+  variant="success" />
+
+<!-- With action link -->
+<c-small-box
+  heading="53%"
   text="Bounce Rate"
-  icon="chart-area"
-  href="/stats/" />
+  icon="chart"
+  variant="warning"
+  link="/stats/"
+  link_text="View details" />
 ```
 
-### Cards with Tools
+### Card
+
+Build flexible content containers with headers, bodies, and footers:
 
 ```html
-<c-adminlte.card>
-  <c-slot name="header">
-    <h3 class="card-title">Monthly Report</h3>
-    <div class="card-tools">
-      <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-        <i class="bi bi-dash"></i>
-      </button>
-    </div>
-  </c-slot>
+<!-- Basic card -->
+<c-card title="Monthly Report" variant="primary">
+  Card content here
+</c-card>
 
-  <c-slot name="body">
-    Card content here
+<!-- With icon and tools -->
+<c-card title="Revenue" icon="chart" variant="success" fill="header">
+  <c-slot name="tools">
+    <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+      <c-icon name="dash" />
+    </button>
   </c-slot>
-</c-adminlte.card>
+  
+  Revenue details and charts...
+  
+  <c-slot name="footer">
+    Last updated: January 2026
+  </c-slot>
+</c-card>
+
+<!-- Collapsible card -->
+<c-card title="Options" collapsed>
+  <c-slot name="tools">
+    <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+      <c-icon name="plus" />
+    </button>
+  </c-slot>
+  
+  Expandable content...
+</c-card>
 ```
+
+**Fill Modes for Cards:**
+
+- `fill="outline"` (default) - Colored border only
+- `fill="header"` - Colored header background
+- `fill="card"` - Entire card colored
+
+See the [component documentation](docs/components/) for complete API references, examples, and accessibility guidelines.
 
 ## View Mixins
 

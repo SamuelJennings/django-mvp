@@ -44,55 +44,86 @@
 {% endblock sidebar_menu %}
 {% block content %}
   <div class="container-fluid">
-    <!--begin::Row - Dashboard Widgets-->
-    <div class="row">
-      <div class="col-lg-3 col-6">
-        <c-adminlte.small-box number="150"
-                              text="New Orders"
-                              icon="cart"
-                              class="text-bg-primary"
-                              href="#" />
+    <!--begin::Row - Info Boxes-->
+    <section class="mb-4">
+      <h2>Info Box</h2>
+      <div class="row mt-4">
+        <div class="col-md-3">
+          <c-info-box number="1,410"
+                      text="Total Orders"
+                      variant="primary"
+                      icon="cart" />
+        </div>
+        <div class="col-md-3">
+          <c-info-box number="$53,000"
+                      text="Revenue"
+                      icon="dollar"
+                      variant="success"
+                      fill="box"
+                      progress="70"
+                      description="70% Increase this year" />
+        </div>
+        <div class="col-md-3">
+          <c-info-box number="93,139"
+                      text="Page Views"
+                      icon="eye"
+                      fill="box"
+                      variant="warning" />
+        </div>
+        <div class="col-md-3">
+          <c-info-box number="13,648"
+                      text="Unique Visitors"
+                      icon="people"
+                      variant="danger" />
+        </div>
       </div>
-      <div class="col-lg-3 col-6">
-        <c-adminlte.small-box number="53%"
-                              text="Bounce Rate"
-                              icon="graph-up-arrow"
-                              class="text-bg-success"
-                              href="#" />
+    </section>
+    <!--begin::Row - Small Box-->
+    <section class="mb-4">
+      <h2>Small Box</h2>
+      <div class="row">
+        <div class="col-lg-3 col-6">
+          <c-small-box heading="150"
+                       text="New Orders"
+                       icon="cart"
+                       variant="primary"
+                       link="#" />
+        </div>
+        <div class="col-lg-3 col-6">
+          <c-small-box heading="53%"
+                       text="Bounce Rate"
+                       icon="graph-up"
+                       variant="success"
+                       link="#"
+                       link_text="Custom link text" />
+        </div>
+        <div class="col-lg-3 col-6">
+          <c-small-box heading="44"
+                       text="User Registrations"
+                       icon="people"
+                       variant="warning"
+                       link="#" />
+        </div>
+        <div class="col-lg-3 col-6">
+          <c-small-box heading="65"
+                       text="Unique Visitors"
+                       icon="eye"
+                       variant="danger"
+                       link="#" />
+        </div>
       </div>
-      <div class="col-lg-3 col-6">
-        <c-adminlte.small-box number="44"
-                              text="User Registrations"
-                              icon="people"
-                              class="text-bg-warning"
-                              href="#" />
-      </div>
-      <div class="col-lg-3 col-6">
-        <c-adminlte.small-box number="65"
-                              text="Unique Visitors"
-                              icon="eye"
-                              class="text-bg-danger"
-                              href="#" />
-      </div>
-    </div>
-    <!--end::Row-->
+    </section>
     <!--begin::Row - Content Cards-->
-    <div class="row mt-4">
-      <div class="col-lg-8">
-        <c-adminlte.card variant="primary" outline>
-          <c-slot name="header">
-            <div class="card-header border-0">
-              <h3 class="card-title">Welcome to Django MVP</h3>
-              <div class="card-tools">
-                <button type="button"
-                        class="btn btn-tool"
-                        data-lte-toggle="card-collapse">
-                  <i class="bi bi-dash"></i>
-                </button>
-              </div>
-            </div>
-          </c-slot>
-          <c-slot name="body">
+    <section class="mb-4">
+      <h2>Cards</h2>
+      <div class="row mt-4">
+        <div class="col-lg-8">
+          <c-card variant="primary"
+                  title="Welcome to Django MVP"
+                  icon="cart"
+                  collapsible
+                  removable
+                  maximizable>
             <div class="card-body">
               <h4>AdminLTE 4 Integration</h4>
               <p>
@@ -125,13 +156,13 @@
                 <div class="col-md-6">
                   <ul>
                     <li>
-                      <code>&lt;c-adminlte.small-box /&gt;</code>
+                      <code>&lt;c-small-box /&gt;</code>
                     </li>
                     <li>
-                      <code>&lt;c-adminlte.info-box /&gt;</code>
+                      <code>&lt;c-info-box /&gt;</code>
                     </li>
                     <li>
-                      <code>&lt;c-adminlte.card /&gt;</code>
+                      <code>&lt;c-card /&gt;</code>
                     </li>
                     <li>
                       <code>&lt;c-adminlte.callout /&gt;</code>
@@ -155,33 +186,16 @@
                   </ul>
                 </div>
               </div>
-              <h5 class="mt-4">Configuration Example</h5>
-              <pre class="bg-light p-3 rounded"><code>MVP = {
-    'brand': {
-        'text': 'My Application',
-        'logo': 'img/logo.png',
-    },
-    'layout': {
-        'fixed_sidebar': True,
-        'sidebar_expand': 'lg',
-    },
-    'footer': {
-        'visible': True,
-        'text': '© 2026 My Application',
-    },
-}</code></pre>
             </div>
-          </c-slot>
-        </c-adminlte.card>
-      </div>
-      <div class="col-lg-4">
-        <c-adminlte.card variant="success" outline>
-          <c-slot name="header">
-            <div class="card-header">
-              <h3 class="card-title">Recent Activity</h3>
-            </div>
-          </c-slot>
-          <c-slot name="body">
+          </c-card>
+        </div>
+        <div class="col-lg-4">
+          <c-card variant="success" outline>
+            <c-slot name="header">
+              <div class="card-header">
+                <h3 class="card-title">Recent Activity</h3>
+              </div>
+            </c-slot>
             <div class="card-body">
               <c-adminlte.timeline>
                 <c-adminlte.timeline-item icon="check-circle"
@@ -202,39 +216,67 @@
                                           text="MVP config updated" />
               </c-adminlte.timeline>
             </div>
-          </c-slot>
-        </c-adminlte.card>
+          </c-card>
+        </div>
       </div>
-    </div>
-    <!--end::Row-->
-    <!--begin::Row - Info Boxes-->
-    <div class="row mt-4">
-      <div class="col-md-3">
-        <c-adminlte.info-box number="1,410"
-                             text="Total Orders"
-                             icon="cart-check" />
-      </div>
-      <div class="col-md-3">
-        <c-adminlte.info-box number="$53,000"
-                             text="Revenue"
-                             icon="currency-dollar"
-                             variant="success"
-                             progress="70"
-                             progress_text="70% Increase in 30 Days" />
-      </div>
-      <div class="col-md-3">
-        <c-adminlte.info-box number="93,139"
-                             text="Page Views"
-                             icon="eye"
-                             variant="warning" />
-      </div>
-      <div class="col-md-3">
-        <c-adminlte.info-box number="13,648"
-                             text="Unique Visitors"
-                             icon="people"
-                             variant="danger" />
-      </div>
-    </div>
-    <!--end::Row-->
+    </section>
   </div>
 {% endblock content %}
+{% comment %} Normal card {% endcomment %}
+<div class="card card-primary">
+  <div class="card-header">
+    <h3 class="card-title">Expandable</h3>
+    <div class="card-tools">
+      <button type="button"
+              class="btn btn-tool"
+              data-lte-toggle="card-collapse">
+        <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+      </button>
+    </div>
+    <!-- /.card-tools -->
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body"
+       style="display: block;
+              box-sizing: border-box">The body of the card</div>
+  <!-- /.card-body -->
+</div>
+{% comment %} outline {% endcomment %}
+<div class="card card-outline card-success">
+  <div class="card-header">
+    <h3 class="card-title">Collapsable</h3>
+    <div class="card-tools">
+      <button type="button"
+              class="btn btn-tool"
+              data-lte-toggle="card-collapse">
+        <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+      </button>
+    </div>
+    <!-- /.card-tools -->
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">The body of the card</div>
+  <!-- /.card-body -->
+</div>
+{% comment %} FILL {% endcomment %}
+<div class="card text-bg-success">
+  <div class="card-header">
+    <h3 class="card-title">Collapsable</h3>
+    <div class="card-tools">
+      <button type="button"
+              class="btn btn-tool"
+              data-lte-toggle="card-collapse">
+        <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+      </button>
+    </div>
+    <!-- /.card-tools -->
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body"
+       style="box-sizing: border-box;
+              display: block">The body of the card</div>
+  <!-- /.card-body -->
+</div>

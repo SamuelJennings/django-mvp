@@ -1,0 +1,32 @@
+<c-vars title
+        icon
+        icon_class=""
+        variant="default"
+        fill="outline"
+        collapsed
+        collapsible
+        compact
+        removable
+        maximizable
+        footer_class
+        class />
+<div class="card {% if fill == "card" %}text-bg-{{ variant }}{% else %}card-{{ variant }}{% endif %}{% if fill == "outline" %} card-outline{% endif %}{% if collapsible and collapsed %} collapsed-card{% endif %} {{ class }}"
+     {{ attrs }}>
+  <div class="card-header d-flex align-items-center">
+    <div class="d-inline-flex align-items-center">
+      {% if icon %}
+        <c-icon name="{{ icon }}"
+                class="me-2 text-muted {{ icon_class }}" />
+      {% endif %}
+      {% if title %}<h3 class="card-title">{{ title }}</h3>{% endif %}
+    </div>
+    <div class="card-tools ms-auto">
+      {{ tools }}
+      {% if collapsible %}<c-card.tools.collapse />{% endif %}
+      {% if removable %}<c-card.tools.remove />{% endif %}
+      {% if maximizable %}<c-card.tools.maximize />{% endif %}
+    </div>
+  </div>
+  <div class="card-body {% if compact %}p-0{% endif %}">{{ slot }}</div>
+  {% if footer %}<div class="footer {{ footer_class }}">{{ footer }}</div>{% endif %}
+</div>
