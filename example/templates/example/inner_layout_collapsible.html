@@ -1,5 +1,4 @@
 {% extends "layouts/standard.html" %}
-{% load cotton %}
 {% block content %}
   <c-page.toolbar>
     <c-slot name="start">
@@ -28,8 +27,7 @@
                      collapse_secondary="true">
       <c-slot name="primary_sidebar">
         <div class="p-3">
-          <h4 class="mb-3 collapsed-only"
-              style="display: none">
+          <h4 class="mb-3 collapsed-only" style="display: none">
             <i class="bi bi-funnel"></i>
           </h4>
           <h4 class="mb-3 expanded-only">
@@ -81,8 +79,7 @@
       </c-slot>
       <c-slot name="secondary_sidebar">
         <div class="p-3">
-          <h4 class="mb-3 collapsed-only"
-              style="display: none">
+          <h4 class="mb-3 collapsed-only" style="display: none">
             <i class="bi bi-bar-chart"></i>
           </h4>
           <h4 class="mb-3 expanded-only">

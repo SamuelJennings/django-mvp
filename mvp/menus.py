@@ -1,12 +1,6 @@
-from flex_menu import Menu, MenuItem
+from flex_menu import Menu
 
 SiteNavigation = Menu(
     "Site Navigation",
-    children=[
-        MenuItem(
-            name="Home",
-            view_name="index",
-            extra_context={"icon": "house"},
-        ),
-    ],
+    children=[],
 )

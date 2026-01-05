@@ -1,8 +1,0 @@
-{% if is_header %}
-  <c-structure.navbar.dropdown.header text="{{ label }}" />
-{% else %}
-  <c-structure.navbar.dropdown.item href="{{ url }}"
-                                    :active="{{ selected }}"
-                                    icon="{{ icon }}"
-                                    text="{{ label }}" />
-{% endif %}

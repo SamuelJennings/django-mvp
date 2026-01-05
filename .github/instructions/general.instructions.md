@@ -210,28 +210,6 @@ Components receive configuration using Cotton's `:attrs` syntax:
    - Components receive configuration via `:attrs`
    - Example: `<c-page.navigation.sidebar :attrs="page_config.navigation.sidebar" />`
 
-#### Testing Components
-
-When testing components that use configuration:
-- Mock `page_config` in test context
-- Test with various configuration dictionaries
-- Verify `:attrs` expansion works correctly
-- Test optional configuration keys (components should have sensible defaults)
-
-Example:
-```python
-context = {
-    "page_config": {
-        "navigation": {
-            "sidebar": {"collapsible": True, "show_at": "lg"}
-        }
-    }
-}
-html = render_to_string("layouts/standard.html", context)
-```
-
-
-
 ## Linting & Style
 - Follow **Ruff** linting rules (see `pyproject.toml`).
 - For HTML/JS/CSS inside templates, follow **djlint** rules. (see `pyproject.toml`)
@@ -242,24 +220,6 @@ html = render_to_string("layouts/standard.html", context)
 - These files are **not part of the test suite** and must be deleted after use.
 - Cleanup should happen automatically once the experiment is done.
 - Temporary files should never be committed to version control.
-
-## Testing
-- Use **pytest** as the test framework (never unittest).
-- Config is located in `pyproject.toml`, not `pytest.ini`.
-- Test files are named `test_*.py`.
-- Always run tests with:
-  ```bash
-  poetry run pytest
-  ```
-- All layout components should be tested individually with appropriate unit tests.
-- Analyse a template component for default and named slots and ensure tests cover:
-  - Rendering with default slot content.
-  - Rendering with named slot content.
-  - Rendering without optional slots.
-- Test various arguments declared in `<c-vars>` with different values ensuring correct rendering.
-- Test rendering using Django's render_to_string rather than full HTTP requests where possible for speed.
-- Ensure no erroneous attributes appear as HTML attributes in the output. E.g. if a component takes {{ text }}, ensure `text="..."` does not appear in the rendered HTML by adding it to `<c-vars>`.
-- When creating template strings for testing, there is no need to use `{% load cotton %}`.
 
 ## Layout Philosophy
 - **Slot-based composition**: Use Cotton's slot system for flexible content areas

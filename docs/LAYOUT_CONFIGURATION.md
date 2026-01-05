@@ -51,7 +51,7 @@ PAGE_CONFIG = {
     "navbar": {
         "fixed": False,
         "border": False,
-        "menu_visible_at": "sm",  # Show primary menu from sm breakpoint
+        "breakpoint": "sm",  # Show primary menu from sm breakpoint
     },
     "actions": [
         {"icon": "github", "text": "GitHub", "href": "https://github.com/..."},
@@ -91,7 +91,7 @@ PAGE_CONFIG = {
     "navbar": {
         "fixed": True,
         "border": True,
-        "menu_visible_at": False,  # Ignored when sidebar in-flow
+        "breakpoint": False,  # Ignored when sidebar in-flow
     },
     "actions": [
         {"icon": "add", "text": "New", "href": "/new/"},
@@ -108,7 +108,7 @@ PAGE_CONFIG = {
 
 **Use this when**: You want a traditional desktop application feel with persistent sidebar
 
-**Important**: When `sidebar.show_at` is a breakpoint, `navbar.menu_visible_at` is automatically ignored to prevent duplicate navigation rendering
+**Important**: When `sidebar.show_at` is a breakpoint, `navbar.breakpoint` is automatically ignored to prevent duplicate navigation rendering
 
 ---
 
@@ -152,7 +152,7 @@ PAGE_CONFIG = {
 **Key Behaviors**:
 - `show_at=False` → Navbar-only mode (sidebar offcanvas only)
 - `show_at="lg"` → Sidebar in-flow at ≥992px, offcanvas below
-- When sidebar is in-flow, `navbar.menu_visible_at` is ignored (prevents duplication)
+- When sidebar is in-flow, `navbar.breakpoint` is ignored (prevents duplication)
 
 ### Navbar Configuration
 
@@ -160,13 +160,13 @@ PAGE_CONFIG = {
 "navbar": {
     "fixed": False,            # Optional: Fixed positioning (default: False)
     "border": False,           # Optional: Bottom border (default: False)
-    "menu_visible_at": "sm",   # Optional: Breakpoint for primary menu (default: "sm")
+    "breakpoint": "sm",   # Optional: Breakpoint for primary menu (default: "sm")
                               # Ignored when sidebar.show_at is a breakpoint
 }
 ```
 
 **Key Behaviors**:
-- `menu_visible_at` only applies in navbar-only mode (`sidebar.show_at=False`)
+- `breakpoint` only applies in navbar-only mode (`sidebar.show_at=False`)
 - When sidebar is in-flow, navbar never shows primary navigation
 
 ### Actions Configuration
@@ -200,7 +200,7 @@ PAGE_CONFIG = {
 PAGE_CONFIG = {
     "brand": {"text": "My Site"},
     "sidebar": {"show_at": False},
-    "navbar": {"menu_visible_at": "sm"},
+    "navbar": {"breakpoint": "sm"},
     "actions": [],
 }
 ```
@@ -224,7 +224,7 @@ PAGE_CONFIG = {
     "navbar": {
         "fixed": True,
         "border": True,
-        "menu_visible_at": "sm",  # Primary menu visible from sm up
+        "breakpoint": "sm",  # Primary menu visible from sm up
     },
     "actions": [
         {"icon": "github", "text": "GitHub", "href": "https://github.com/...", "target": "_blank"},
@@ -250,7 +250,7 @@ PAGE_CONFIG = {
     "navbar": {
         "fixed": True,
         "border": True,
-        "menu_visible_at": False,  # Ignored - sidebar controls navigation
+        "breakpoint": False,  # Ignored - sidebar controls navigation
     },
     "actions": [
         {"icon": "add", "text": "New Project", "href": "/projects/new/"},
@@ -263,7 +263,7 @@ PAGE_CONFIG = {
 
 ## Breakpoint Reference
 
-The `sidebar.show_at` and `navbar.menu_visible_at` settings use Bootstrap 5 breakpoints:
+The `sidebar.show_at` and `navbar.breakpoint` settings use Bootstrap 5 breakpoints:
 
 | Breakpoint | Min Width | Typical Device |
 |------------|-----------|----------------|
@@ -276,7 +276,7 @@ The `sidebar.show_at` and `navbar.menu_visible_at` settings use Bootstrap 5 brea
 **Validation**: Invalid breakpoint values trigger a warning and fallback to safe defaults (logged via Django's logging system).
 
 **Recommendations**: 
-- Use `"sm"` for `navbar.menu_visible_at` in navbar-only mode (most mobile-friendly)
+- Use `"sm"` for `navbar.breakpoint` in navbar-only mode (most mobile-friendly)
 - Use `"lg"` for `sidebar.show_at` in sidebar mode (most common desktop breakpoint)
 - Use `"xl"` for `sidebar.show_at` when you need more horizontal space
 
@@ -286,7 +286,7 @@ The `sidebar.show_at` and `navbar.menu_visible_at` settings use Bootstrap 5 brea
 
 | Configuration | Desktop | Mobile | Navigation Location | Actions Location | Best For |
 |---------------|---------|--------|---------------------|------------------|----------|
-| `sidebar.show_at=False` | Navbar | Navbar + offcanvas | Navbar from `menu_visible_at` | Navbar | Marketing, blogs |
+| `sidebar.show_at=False` | Navbar | Navbar + offcanvas | Navbar from `breakpoint` | Navbar | Marketing, blogs |
 | `sidebar.show_at="lg"` | Sidebar | Navbar + offcanvas | Always sidebar | Sidebar (desktop), Navbar (mobile) | Admin panels, docs |
 
 **Key Rule**: Navigation and actions **never duplicate**. They render in the active region based on `sidebar.show_at` and viewport size.
@@ -311,7 +311,7 @@ Out of the box, Django Cotton Layouts uses these defaults (requires no configura
     "navbar": {
         "fixed": False,
         "border": False,
-        "menu_visible_at": "sm",  # Primary menu from sm up
+        "breakpoint": "sm",  # Primary menu from sm up
     },
     "actions": [],
 }
@@ -369,7 +369,7 @@ PAGE_CONFIG = {
 PAGE_CONFIG = {
     # No top-level layout key
     "sidebar": {"show_at": False},  # False = navbar-only
-    "navbar": {"menu_visible_at": "sm"},
+    "navbar": {"breakpoint": "sm"},
     # ... rest of config
 }
 ```
@@ -380,7 +380,7 @@ PAGE_CONFIG = {
    - `layout="navbar"` → `sidebar.show_at=False`
    - `layout="sidebar"` → `sidebar.show_at="lg"` (or your preferred breakpoint)
    - `layout="both"` → Not directly supported; sidebar mode provides similar behavior
-3. Add `navbar.menu_visible_at="sm"` for navbar-only mode
+3. Add `navbar.breakpoint="sm"` for navbar-only mode
 4. Ensure `actions` is a list (not nested under navigation)
 
 ---
@@ -402,12 +402,12 @@ Django Cotton Layouts enforces **zero duplicate navigation** rendering:
 - **When `sidebar.show_at` is a breakpoint** (e.g., `"lg"`):
   - Primary navigation: Sidebar only (at all viewports)
   - Actions: Sidebar when in-flow (≥breakpoint), navbar when offcanvas (<breakpoint)
-  - `navbar.menu_visible_at`: Ignored (logged warning if set)
+  - `navbar.breakpoint`: Ignored (logged warning if set)
 
 - **When `sidebar.show_at=False`** (navbar-only mode):
-  - Primary navigation: Navbar from `menu_visible_at` breakpoint up
+  - Primary navigation: Navbar from `breakpoint` breakpoint up
   - Actions: Always navbar
-  - Below `menu_visible_at`: Navigation available via sidebar offcanvas
+  - Below `breakpoint`: Navigation available via sidebar offcanvas
 
 ### CSS Classes Applied
 

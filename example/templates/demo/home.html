@@ -1,135 +1,185 @@
 {% extends "layouts/standard.html" %}
 {% load static %}
+{% comment %}
+OUTER LAYOUT CONFIGURATION
+
+This demo page, along with all other demo views, uses the outer layout configured via
+PAGE_CONFIG in your Django settings.
+
+To test different outer layout configurations:
+1. Open tests/settings.py (or your project's settings.py)
+2. Locate the PAGE_CONFIG dictionary
+3. Modify the configuration:
+   
+   # Example: Sidebar layout mode
+   PAGE_CONFIG = {
+       "brand": {"text": "Demo", "image_light": "logo.svg"},
+       "sidebar": {"show_at": "lg", "collapsible": True},  # Enable sidebar at 'lg' breakpoint
+       "navbar": {"fixed": False, "border": True},
+       "actions": [],
+   }
+   
+   # Example: Navbar-only layout mode
+   PAGE_CONFIG = {
+       "brand": {"text": "Demo", "image_light": "logo.svg"},
+       "sidebar": {"show_at": False},  # Disable sidebar
+       "navbar": {"fixed": True, "breakpoint": "md"},  # Primary menu in navbar
+       "actions": [],
+   }
+
+4. Restart the development server for changes to take effect
+5. Navigate between demo views to see how each inner layout adapts to the new outer layout
+
+The outer layout (sidebar vs navbar mode) is GLOBAL and affects all pages.
+The inner layouts (sidebars within content area) are PER-PAGE and independent.
+{% endcomment %}
 {% block content %}
   <c-layouts.inner>
-    <div class="container px-3 py-4">
-      <div class="row mb-4">
+    <div class="container-fluid px-4 py-4">
+      {# Hero Section #}
+      <div class="row mb-5">
         <div class="col">
-          <h1 class="mb-3">Layout System Demo</h1>
-          <p class="lead">Interactive demonstration of the flexible layout system with real-time mode switching.</p>
+          <h1 class="display-4 mb-3">Django Cotton Layouts</h1>
+          <p class="lead text-muted">
+            Flexible, responsive layout system for Django applications. This home view demonstrates a simple full-width content layout without any sidebars.
+          </p>
         </div>
       </div>
-      <!-- Feature Explanation -->
-      <div class="row mb-4">
-        <div class="col">
-          <div class="demo-card p-4">
-            <h3 class="h5 mb-3">How It Works</h3>
-            <div class="row">
-              <div class="col-md-4">
-                <h4 class="h6">Navbar Only Mode</h4>
-                <p class="small text-muted">
-                  Top navigation bar is always visible. Sidebar is always offcanvas (accessible via hamburger menu).
-                </p>
-              </div>
-              <div class="col-md-4">
-                <h4 class="h6">Sidebar Only Mode</h4>
-                <p class="small text-muted">
-                  Sidebar is in-flow above breakpoint (no navbar). Below breakpoint, navbar appears with hamburger to access offcanvas sidebar.
-                </p>
-              </div>
-              <div class="col-md-4">
-                <h4 class="h6">Both Mode</h4>
-                <p class="small text-muted">
-                  Both navbar and sidebar visible above breakpoint. Below breakpoint, sidebar becomes offcanvas, accessible via hamburger in navbar.
-                </p>
-              </div>
+      {# Feature Cards #}
+      <div class="row g-4 mb-5">
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="bi bi-layout-sidebar"></i>
+                Flexible Layouts
+              </h5>
+              <p class="card-text text-muted">
+                Configure layouts via PAGE_CONFIG settings. Support for navbar-only, sidebar-only, or combined modes.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="bi bi-phone"></i>
+                Responsive Design
+              </h5>
+              <p class="card-text text-muted">
+                Automatically adapts to different screen sizes. Sidebars become offcanvas on mobile devices.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="bi bi-puzzle"></i>
+                Cotton Components
+              </h5>
+              <p class="card-text text-muted">Built with Django Cotton for reusable, composable template components.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="bi bi-bootstrap"></i>
+                Bootstrap 5
+              </h5>
+              <p class="card-text text-muted">Leverages Bootstrap 5.3 for styling, with custom theme support via SCSS variables.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="bi bi-menu-button-wide"></i>
+                Navigation Menus
+              </h5>
+              <p class="card-text text-muted">
+                Integrated with django-flex-menus for flexible, hierarchical navigation structures.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="bi bi-easel"></i>
+                Demo Views
+              </h5>
+              <p class="card-text text-muted">
+                Explore different inner layout patterns through the demo menu items. See primary, secondary, and dual sidebar configurations.
+              </p>
             </div>
           </div>
         </div>
       </div>
-      <!-- Demo Content -->
-      <div class="row mb-4">
-        <div class="col">
-          <div class="demo-card p-4">
-            <h3 class="h5 mb-3">Sample Content Area</h3>
-            <p>
-              This is the main content area. Resize your browser window to see how the layout responds at different breakpoints.
-            </p>
-            <p>The sidebar collapse feature is only available when the sidebar is in document flow (not in offcanvas mode).</p>
-            <h4 class="h6 mt-4 mb-2">Features Demonstrated:</h4>
-            <ul>
-              <li>Responsive layout switching based on window width</li>
-              <li>Sidebar collapse/expand (when in-flow)</li>
-              <li>Offcanvas sidebar (when below breakpoint)</li>
-              <li>Dynamic visibility of navigation elements</li>
-              <li>LocalStorage persistence of sidebar state</li>
-              <li>Secondary content sidebar (like this one!)</li>
-            </ul>
+      {# Content Sections #}
+      <div class="row mb-5">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="h4 mb-3">About This Layout</h3>
+              <p>
+                This home view demonstrates the simplest layout configuration: full-width content with no sidebars.
+                The content spans the entire available width within the main application area.
+              </p>
+              <p>Use the navigation menu to explore other layout demonstrations:</p>
+              <ul>
+                <li>
+                  <strong>Primary Sidebar Demo</strong> - Shows a left sidebar with main content
+                </li>
+                <li>
+                  <strong>Secondary Sidebar Demo</strong> - Shows a right sidebar with main content
+                </li>
+                <li>
+                  <strong>Dual Sidebars Demo</strong> - Shows both left and right sidebars with center content
+                </li>
+              </ul>
+              <p class="mb-0">
+                The outer layout (navbar vs sidebar mode) is controlled by PAGE_CONFIG settings and affects the application shell.
+                Inner layouts (content area sidebars) are controlled per-template and demonstrate different content organization patterns.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card bg-light">
+            <div class="card-body">
+              <h5 class="card-title">Quick Tips</h5>
+              <ul class="small mb-0">
+                <li>Resize your browser to see responsive behavior</li>
+                <li>Check the navigation menu for more demos</li>
+                <li>Outer layout mode is set via PAGE_CONFIG</li>
+                <li>Inner layouts vary per view template</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-      <!-- Example Cards -->
-      <div class="row">
-        {% for i in "123456" %}
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="demo-card p-3">
-              <h4 class="h6 mb-2">Card {{ forloop.counter }}</h4>
-              <p class="small text-muted mb-0">Sample card content demonstrating grid layout within the flexible layout system.</p>
+      {# Sample Content Grid #}
+      <div class="row g-3">
+        {% for num in "123456789" %}
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card h-100">
+              <div class="card-body">
+                <h6 class="card-title">Sample Item {{ forloop.counter }}</h6>
+                <p class="card-text small text-muted mb-0">
+                  Example card content showing grid layout within the full-width container.
+                </p>
+              </div>
             </div>
           </div>
         {% endfor %}
       </div>
-      {% lorem 6 p random %}
     </div>
-    <c-slot name="secondary_sidebar">
-      <c-sidebar collapsible heading="About">
-        <!-- Layout Controls -->
-        <div class="card p-3 mb-3">
-          <h3 class="h6 mb-3">Layout Controls</h3>
-          <div class="mb-3">
-            <label for="layoutModeSelect" class="form-label small">Layout Mode</label>
-            <select class="form-select form-select-sm"
-                    id="layoutModeSelect">
-              <option value="navbar">Navbar Only</option>
-              <option value="sidebar">Sidebar Only</option>
-              <option value="both" selected>Both</option>
-            </select>
-          </div>
-          <div>
-            <label for="toggleBreakpointSelect"
-                   class="form-label small">Toggle Breakpoint</label>
-            <select class="form-select form-select-sm"
-                    id="toggleBreakpointSelect">
-              <option value="sm">SM (576px)</option>
-              <option value="md">MD (768px)</option>
-              <option value="lg" selected>LG (992px)</option>
-              <option value="xl">XL (1200px)</option>
-            </select>
-          </div>
-        </div>
-        <!-- Current State -->
-        <div class="card p-3">
-          <h3 class="h6 mb-3">Current State</h3>
-          <table class="table table-sm mb-0">
-            <tbody>
-              <tr>
-                <td class="small">Layout Mode:</td>
-                <td class="small">
-                  <strong><span id="stateLayout">both</span></strong>
-                </td>
-              </tr>
-              <tr>
-                <td class="small">Breakpoint:</td>
-                <td class="small">
-                  <strong><span id="stateBreakpoint">lg</span></strong>
-                </td>
-              </tr>
-              <tr>
-                <td class="small">Sidebar State:</td>
-                <td class="small">
-                  <strong><span id="stateSidebar">in-flow</span></strong>
-                </td>
-              </tr>
-              <tr>
-                <td class="small">Navbar Visible:</td>
-                <td class="small">
-                  <strong><span id="stateNavbar">yes</span></strong>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </c-sidebar>
-    </c-slot>
   </c-layouts.inner>
 {% endblock content %}

@@ -2,24 +2,39 @@
 
 from django.conf import settings
 from django.urls import include, path
+from django.views.generic import TemplateView
 
 from .views import (
     ArticleDetailView,
     ArticleListView,
     CategoryDetailView,
     CategoryListView,
-    HomeView,
     ProductDetailView,
     ProductListView,
     TaskDetailView,
     TaskListView,
-    ThemeTestView,
 )
 
 urlpatterns = [
     # Home page with layout demo
-    path("", HomeView.as_view(), name="index"),
-    path("demo/theme-test/", ThemeTestView.as_view(), name="theme_test"),
+    path("", TemplateView.as_view(template_name="demo/home.html"), name="index"),
+    path("demo/theme-test/", TemplateView.as_view(template_name="demo/theme_test.html"), name="theme_test"),
+    # Inner layout demos
+    path(
+        "demo/primary-sidebar/",
+        TemplateView.as_view(template_name="demo/demo_primary_sidebar.html"),
+        name="demo_primary_sidebar",
+    ),
+    path(
+        "demo/secondary-sidebar/",
+        TemplateView.as_view(template_name="demo/demo_secondary_sidebar.html"),
+        name="demo_secondary_sidebar",
+    ),
+    path(
+        "demo/dual-sidebars/",
+        TemplateView.as_view(template_name="demo/demo_dual_sidebars.html"),
+        name="demo_dual_sidebars",
+    ),
     # Products
     path("products/", ProductListView.as_view(), name="product_list"),
     path("products/<slug:slug>/", ProductDetailView.as_view(), name="product_detail"),

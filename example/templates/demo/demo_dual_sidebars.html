@@ -1,0 +1,67 @@
+{% extends "layouts/standard.html" %}
+{% block content %}
+  <c-layouts.inner>
+    <c-slot name="primary_sidebar">
+      <c-sidebar-demo.primary />
+    </c-slot>
+    <div class="container">
+      <h1 class="display-5 mb-4">Dual Sidebars Demo</h1>
+      <p class="lead">
+        This layout combines <strong>both primary (left) and secondary (right) sidebars</strong> with the main content area.
+      </p>
+      <div class="row g-3 mb-4">
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Navigation + Actions</h5>
+              <p class="card-text">
+                Primary sidebar for navigation, secondary sidebar for contextual actions - best of both worlds.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Rich Applications</h5>
+              <p class="card-text">
+                Perfect for complex applications like document editors, data analysis tools, or admin dashboards.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Responsive Design</h5>
+              <p class="card-text">Both sidebars collapse to offcanvas on smaller screens, ensuring mobile-friendly experience.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="mb-5">
+        <h2 class="h4 mb-3">Best Use Cases</h2>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <strong>Document Editors:</strong> Navigation in left sidebar, formatting tools in right
+          </li>
+          <li class="list-group-item">
+            <strong>Data Dashboards:</strong> Module selection in left, filters and settings in right
+          </li>
+          <li class="list-group-item">
+            <strong>Project Management:</strong> Projects list in left, task actions in right
+          </li>
+          <li class="list-group-item">
+            <strong>Admin Interfaces:</strong> Section navigation in left, quick actions in right
+          </li>
+          <li class="list-group-item">
+            <strong>File Managers:</strong> Folder tree in left, file properties in right
+          </li>
+        </ul>
+      </section>
+    </div>
+    <c-slot name="secondary_sidebar">
+      <c-sidebar-demo.secondary />
+    </c-slot>
+  </c-layouts.inner>
+{% endblock %}

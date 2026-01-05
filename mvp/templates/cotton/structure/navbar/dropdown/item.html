@@ -1,8 +1,0 @@
-<c-vars :active="False" href="#" icon="" />
-<li>
-  <a class="dropdown-item{% if active %} active{% endif %}"
-     href="{{ href }}">
-    {% if icon %}<c-icon name="{{ icon }}" class="me-2" />{% endif %}
-    {{ text }}{{ slot }}
-  </a>
-</li>

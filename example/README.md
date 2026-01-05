@@ -1,6 +1,79 @@
-# Example App - Dummy Data Demonstration
+# Example App - Layout Demonstrations & Dummy Data
 
-This example app provides comprehensive dummy content to demonstrate various list view and detail view setups using django-cotton-layouts.
+This example app demonstrates the django-cotton-layouts system through two main features:
+
+1. **Layout Demonstrations**: Interactive views showcasing different inner layout configurations
+2. **Dummy Data Examples**: Comprehensive list/detail views with realistic content
+
+## Layout Demonstrations
+
+The demo views showcase how the inner layout system works with different sidebar configurations while maintaining a consistent outer layout (controlled by `PAGE_CONFIG`).
+
+All demo views are accessible from the **Inner Layouts** menu in the site navigation.
+
+### Available Demo Views
+
+#### No Sidebars
+- **URL**: http://localhost:8000/
+- **Layout**: Full-width content area without sidebars
+- **Use Case**: Landing pages, dashboards, content-focused pages
+- **Demonstrates**: Clean, spacious layout maximizing content area
+
+#### Primary Sidebar
+- **URL**: http://localhost:8000/demo/primary-sidebar/
+- **Layout**: Left sidebar + main content area
+- **Use Case**: Applications with persistent navigation, admin panels
+- **Demonstrates**: Primary navigation and menu systems
+
+#### Secondary Sidebar
+- **URL**: http://localhost:8000/demo/secondary-sidebar/
+- **Layout**: Main content area + right sidebar
+- **Use Case**: Content with contextual actions, document editors
+- **Demonstrates**: Supplementary tools and information alongside main content
+
+#### Both
+- **URL**: http://localhost:8000/demo/dual-sidebars/
+- **Layout**: Left sidebar + main content + right sidebar
+- **Use Case**: Complex applications requiring both navigation and contextual tools
+- **Demonstrates**: Rich, multi-panel layouts for power users
+
+### Testing Outer Layout Configurations
+
+The outer layout (sidebar vs navbar mode) is configured via `PAGE_CONFIG` in Django settings.
+
+To test different configurations:
+
+1. Open `tests/settings.py` (or your project's settings file)
+2. Modify the `PAGE_CONFIG` dictionary:
+
+```python
+# Sidebar mode (navigation in collapsible sidebar)
+PAGE_CONFIG = {
+    "brand": {"text": "Demo"},
+    "sidebar": {"show_at": "lg", "collapsible": True},
+    "navbar": {"fixed": False},
+    "actions": [],
+}
+
+# Navbar mode (navigation in top navbar)
+PAGE_CONFIG = {
+    "brand": {"text": "Demo"},
+    "sidebar": {"show_at": False},
+    "navbar": {"fixed": True, "breakpoint": "md"},
+    "actions": [],
+}
+```
+
+3. Restart the development server
+4. Navigate between demo views to see how inner layouts adapt
+
+**Key Concept**: The outer layout is global (affects all pages), while inner layouts are per-page (each view configures its own sidebar content).
+
+---
+
+## Dummy Data Examples
+
+This app also provides comprehensive dummy content to demonstrate various list view and detail view setups.
 
 ## Quick Start
 

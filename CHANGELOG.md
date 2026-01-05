@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **Outer Layout Configuration System** (`PAGE_CONFIG`): Centralized configuration-driven layout system with per-region settings for sidebar, navbar, brand, and actions
   - **Per-region configuration**: `sidebar.*`, `navbar.*`, `brand`, `actions` keys (no top-level `navigation.*`)
-  - **Smart defaults**: Navbar-only mode by default (`sidebar.show_at=False`, `menu_visible_at="sm"`)
+  - **Smart defaults**: Navbar-only mode by default (`sidebar.show_at=False`, `breakpoint="sm"`)
   - **Single-source navigation**: Primary navigation renders in one region only (sidebar when in-flow, navbar otherwise) - prevents duplication
   - **Actions placement**: Actions automatically render in the active navigation region based on viewport and configuration
   - **Brand fallback**: Automatic fallback to text when theme-appropriate images are missing
@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Context processor now enforces navbar-only mode by default (breaking change from previous implicit sidebar mode)
-- Configuration validation now enforces single-source navigation rule: `navbar.menu_visible_at` is automatically ignored when `sidebar.show_at` is a breakpoint
+- Configuration validation now enforces single-source navigation rule: `navbar.breakpoint` is automatically ignored when `sidebar.show_at` is a breakpoint
 - Brand and actions rendering now conditional based on configuration state rather than always present
 
 ### Fixed
@@ -55,7 +55,7 @@ If upgrading from earlier versions:
 1. Remove any `layout` key from `PAGE_CONFIG` (no longer used)
 2. Set `sidebar.show_at=False` for navbar-only mode (new default)
 3. Set `sidebar.show_at="lg"` (or preferred breakpoint) for sidebar mode
-4. Add `navbar.menu_visible_at="sm"` for navbar-only mode
+4. Add `navbar.breakpoint="sm"` for navbar-only mode
 5. Ensure `actions` is a list at top level (not nested under navigation)
 6. Review configuration schema in documentation for all available keys
 

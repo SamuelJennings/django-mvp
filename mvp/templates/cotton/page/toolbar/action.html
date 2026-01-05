@@ -1,8 +1,0 @@
-<c-vars icon text show_text :condition="True" />
-{% if condition %}
-  <button class="btn btn-outline d-inline-flex gap-2 text-nowrap px-2"
-          {{ attrs }}>
-    <c-icon :name="icon" aria-hidden="true" />
-    <span {% if not show_text %}class="visually-hidden"{% endif %}>{{ text }}</span>{{ slot }}
-  </button>
-{% endif %}

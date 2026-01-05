@@ -1,7 +1,0 @@
-{% if item.visible %}
-  <c-sidebar.menu-section title="{{ label }}">
-    {% for child in visible_children %}
-      {% render_item child renderer=renderer %}
-    {% endfor %}
-  </c-sidebar.menu-section>
-{% endif %}

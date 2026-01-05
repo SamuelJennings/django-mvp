@@ -56,7 +56,7 @@ def render_cotton_component():
             # Create a temporary template file for testing
             from django.template import Template
 
-            template = Template("{% load cotton %}" + template_name_or_string)
+            template = Template("" + template_name_or_string)
             return template.render(Context(context))
 
     return _render

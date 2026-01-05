@@ -1,26 +1,10 @@
 """Example views for demonstrating list and detail views."""
 
-from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic import DetailView, ListView
 
 from mvp.views import ListItemTemplateMixin, SearchOrderMixin
 
 from .models import Article, Category, Product, Task
-
-
-class ThemeTestView(TemplateView):
-    """Demo view for testing custom theme with inner layout sidebars."""
-
-    template_name = "demo/theme_test.html"
-
-
-class HomeView(TemplateView):
-    """Interactive home page with layout system demonstration.
-
-    Provides an interactive demo of the layout system with real-time
-    mode switching between navbar, sidebar, and both layouts.
-    """
-
-    template_name = "demo/home.html"
 
 
 class ProductListView(ListItemTemplateMixin, SearchOrderMixin, ListView):

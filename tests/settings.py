@@ -189,6 +189,7 @@ FLEX_MENUS = {
 }
 
 PAGE_CONFIG = {
+    "layout_mode": "sidebar",  # "navbar", "sidebar", or "both"
     "brand": {
         "text": "Django MVP",
         "image_light": "dac_bg_white.svg",  # Path to light theme logo
@@ -198,7 +199,7 @@ PAGE_CONFIG = {
     },
     # Sidebar configuration (per-region keys only)
     "sidebar": {
-        "show_at": False,  # False = navbar-only mode (default per spec)
+        "breakpoint": "md",  # False = navbar-only mode (default per spec)
         # Or set to 'sm', 'md', 'lg', 'xl', 'xxl' to show in-flow at that breakpoint
         "collapsible": True,  # Whether sidebar can collapse to icon-only mode (default: True)
         # "width": "280px",  # Optional: custom sidebar width (default: 260px)
@@ -207,8 +208,8 @@ PAGE_CONFIG = {
     "navbar": {
         "fixed": False,  # Whether navbar is fixed to top (default: False)
         "border": False,  # Whether navbar has bottom border (default: False)
-        "menu_visible_at": "sm",  # Show navbar menu at this breakpoint (default: "sm" per spec)
-        # Only applies when sidebar.show_at is False (navbar-only mode)
+        "breakpoint": "md",  # Show navbar menu at this breakpoint (default: "sm" per spec)
+        # Only applies when sidebar.breakpoint is False (navbar-only mode)
         # Set to False to never show navbar menu (sidebar toggle only)
         # Options: 'sm', 'md', 'lg', 'xl', 'xxl', or False
     },

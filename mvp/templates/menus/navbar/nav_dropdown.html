@@ -1,6 +1,0 @@
-{% load flex_menu %}
-<c-structure.navbar.dropdown text="{{ label }}" active="{{ selected }}">
-  {% for child in children %}
-    {% render_item child renderer=renderer %}
-  {% endfor %}
-</c-structure.navbar.dropdown>

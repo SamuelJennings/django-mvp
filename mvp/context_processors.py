@@ -39,7 +39,7 @@ def page_config(request):
             'navbar': {
                 'fixed': True,         # Stick navbar to top
                 'border': True,        # Show bottom border
-                'menu_visible_at': 'lg',  # Show navbar menu at this breakpoint (navbar-only mode only)
+                'breakpoint': 'lg',  # Show navbar menu at this breakpoint (navbar-only mode only)
             },
             'actions': [
                 {'icon': 'sun-fill', 'text': 'Toggle theme', 'href': '#', 'id': 'themeToggle'},
@@ -56,7 +56,7 @@ def page_config(request):
     Navbar configuration:
     - fixed: Boolean, whether navbar sticks to top (default: False)
     - border: Boolean, whether to show bottom border (default: False)
-    - menu_visible_at: Breakpoint where navbar menu becomes visible ('sm', 'md', 'lg', 'xl', 'xxl')
+    - breakpoint: Breakpoint where navbar menu becomes visible ('sm', 'md', 'lg', 'xl', 'xxl')
                        Default: 'lg'
                        Note: Only applies when sidebar.show_at is False (navbar-only mode)
                              Navbar menu is never shown when sidebar is in-flow
@@ -64,19 +64,19 @@ def page_config(request):
     Examples:
     - Navbar-only layout with menu at lg breakpoint (default):
         'sidebar': {'show_at': False},
-        'navbar': {'menu_visible_at': 'lg'}  # Menu shows from 992px+
+        'navbar': {'breakpoint': 'lg'}  # Menu shows from 992px+
 
     - Navbar-only with menu at md breakpoint (earlier):
         'sidebar': {'show_at': False},
-        'navbar': {'menu_visible_at': 'md'}  # Menu shows from 768px+
+        'navbar': {'breakpoint': 'md'}  # Menu shows from 768px+
 
     - Navbar-only without navbar menu (sidebar toggle only):
         'sidebar': {'show_at': False},
-        'navbar': {'menu_visible_at': False}  # No navbar menu
+        'navbar': {'breakpoint': False}  # No navbar menu
 
     - Desktop sidebar, mobile navbar (traditional):
         'sidebar': {'show_at': 'lg', 'collapsible': True}
-        # navbar.menu_visible_at is ignored - menu never shows when sidebar in-flow
+        # navbar.breakpoint is ignored - menu never shows when sidebar in-flow
 
     - Always show sidebar (even on mobile):
         'sidebar': {'show_at': 'sm', 'collapsible': False}
@@ -103,8 +103,9 @@ def _process_page_config(config):
     """Process and validate page configuration.
 
     This function enforces business rules and validates configuration values:
+    - Validates layout_mode is one of: 'navbar', 'sidebar', or 'both' (default: 'sidebar')
     - Provides default values per spec: navbar-only with sidebar.show_at=False,
-      sidebar.collapsible=True, navbar.menu_visible_at="sm"
+      sidebar.collapsible=True, navbar.breakpoint="sm"
     - Validates breakpoint values are valid Bootstrap breakpoints
     - Enforces that navbar menu only shows in navbar-only mode
     - Ensures sidebar and navbar settings are consistent
@@ -117,9 +118,19 @@ def _process_page_config(config):
         dict: Processed configuration with validated and derived values
     """
     VALID_BREAKPOINTS = {"sm", "md", "lg", "xl", "xxl"}
+    VALID_LAYOUT_MODES = {"navbar", "sidebar", "both"}
 
     # Make a copy to avoid mutating settings
     processed = config.copy()
+
+    # Validate and set layout_mode (default: navbar per FR-010)
+    layout_mode = processed.get("layout_mode", "navbar")
+    if layout_mode not in VALID_LAYOUT_MODES:
+        logger.warning(
+            f"Invalid layout_mode: '{layout_mode}'. " f"Must be one of {VALID_LAYOUT_MODES}. Defaulting to 'navbar'."
+        )
+        layout_mode = "navbar"
+    processed["layout_mode"] = layout_mode
 
     # Provide default values for all top-level keys per spec
     processed.setdefault("brand", {"text": "Django MVP"})
@@ -130,47 +141,54 @@ def _process_page_config(config):
     navbar_config = processed.setdefault("navbar", {}).copy()
 
     # Apply sidebar defaults (navbar-only mode by default)
-    sidebar_config.setdefault("show_at", False)
+    sidebar_config.setdefault("breakpoint", False)
     sidebar_config.setdefault("collapsible", True)
     sidebar_config.setdefault("width", "260px")
 
     # Apply navbar defaults
     navbar_config.setdefault("fixed", False)
     navbar_config.setdefault("border", False)
-    navbar_config.setdefault("menu_visible_at", "sm")  # Default per spec
+    navbar_config.setdefault("breakpoint", "sm")  # Breakpoint for desktop vs mobile navbar style
 
-    # Determine if we're in navbar-only mode
-    sidebar_show_at = sidebar_config["show_at"]
-    is_navbar_only = sidebar_show_at in {False, None}
-
-    # Validate sidebar.show_at if it's a string
-    if isinstance(sidebar_show_at, str) and sidebar_show_at not in VALID_BREAKPOINTS:
+    # Validate sidebar.breakpoint if it's a string
+    sidebar_breakpoint = sidebar_config["breakpoint"]
+    if isinstance(sidebar_breakpoint, str) and sidebar_breakpoint not in VALID_BREAKPOINTS:
         logger.warning(
-            f"Invalid sidebar.show_at value: '{sidebar_show_at}'. "
+            f"Invalid sidebar.breakpoint value: '{sidebar_breakpoint}'. "
             f"Must be one of {VALID_BREAKPOINTS} or False/None. Falling back to False."
         )
-        sidebar_config["show_at"] = False
-        is_navbar_only = True
+        sidebar_config["breakpoint"] = False
 
-    # Get and validate navbar menu visibility breakpoint
-    menu_visible_at = navbar_config["menu_visible_at"]
+    # Get and validate navbar breakpoint
+    navbar_breakpoint = navbar_config["breakpoint"]
 
     # Validate breakpoint if it's a string
-    if isinstance(menu_visible_at, str) and menu_visible_at not in VALID_BREAKPOINTS:
+    if isinstance(navbar_breakpoint, str) and navbar_breakpoint not in VALID_BREAKPOINTS:
         logger.warning(
-            f"Invalid navbar.menu_visible_at value: '{menu_visible_at}'. "
-            f"Must be one of {VALID_BREAKPOINTS} or False/None. Defaulting to 'sm'."
+            f"Invalid navbar.breakpoint value: '{navbar_breakpoint}'. "
+            f"Must be one of {VALID_BREAKPOINTS}. Defaulting to 'sm'."
         )
-        menu_visible_at = "sm"
+        navbar_breakpoint = "sm"
+        navbar_config["breakpoint"] = navbar_breakpoint
 
-    # ENFORCEMENT: navbar menu can ONLY be visible in navbar-only mode
-    # If sidebar is ever in-flow, navbar menu should never show
-    if is_navbar_only and menu_visible_at not in {False, None}:
-        # In navbar-only mode, use the configured breakpoint
-        navbar_config["menu_visible_at"] = menu_visible_at
-    else:
-        # When sidebar is in-flow at any breakpoint, navbar menu is always hidden
-        navbar_config["menu_visible_at"] = False
+    # Enforce layout_mode rules for navbar.breakpoint
+    # In sidebar-only mode, navbar should never show desktop menu (only hamburger toggle)
+    if layout_mode == "sidebar" and sidebar_config["breakpoint"]:
+        if navbar_config["breakpoint"]:
+            logger.info(
+                f"Sidebar-only mode with sidebar.breakpoint={sidebar_config['breakpoint']} "
+                "enforces navbar.breakpoint=False (navbar shows hamburger only, no desktop menu)."
+            )
+        navbar_config["breakpoint"] = False
+
+    # In navbar-only mode, sidebar is always offcanvas (sidebar.breakpoint must be False)
+    if layout_mode == "navbar":
+        if sidebar_config["breakpoint"]:
+            logger.info(
+                f"Navbar-only mode enforces sidebar.breakpoint=False "
+                f"(was {sidebar_config['breakpoint']}). Sidebar is always offcanvas."
+            )
+        sidebar_config["breakpoint"] = False
 
     # Update processed config with validated values
     processed["sidebar"] = sidebar_config

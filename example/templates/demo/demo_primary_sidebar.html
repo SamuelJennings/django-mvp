@@ -1,0 +1,105 @@
+{% extends "layouts/standard.html" %}
+{% load static %}
+{% block content %}
+  <c-layouts.inner gap="3">
+    {# Primary Sidebar (Left) #}
+    <c-slot name="primary_sidebar">
+      <c-sidebar-demo.primary />
+    </c-slot>
+    <div class="container-fluid px-4 py-4">
+      <div class="row mb-4">
+        <div class="col">
+          <h1 class="display-5 mb-3">Primary Sidebar Layout</h1>
+          <p class="lead text-muted">
+            This view demonstrates a single primary (left) sidebar configuration. The sidebar contains navigation links and supplementary information.
+          </p>
+        </div>
+      </div>
+      <div id="intro" class="mb-5">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="h4 mb-3">Introduction</h3>
+            <p>The primary sidebar layout is one of the most common patterns in web applications. It provides:</p>
+            <ul>
+              <li>Persistent navigation that remains visible as users browse content</li>
+              <li>Quick access to key sections or filters</li>
+              <li>Hierarchical organization of related features</li>
+              <li>Responsive behavior - sidebar becomes offcanvas on mobile devices</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="features" class="mb-5">
+        <h3 class="h4 mb-3">Key Features</h3>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="bi bi-arrow-left-right"></i>
+                  Collapsible Sidebar
+                </h5>
+                <p class="card-text">Optional collapse functionality allows users to maximize content area when needed.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="bi bi-phone"></i>
+                  Mobile Responsive
+                </h5>
+                <p class="card-text">Automatically converts to offcanvas drawer on smaller screens for optimal mobile UX.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="bi bi-sliders"></i>
+                  Customizable Width
+                </h5>
+                <p class="card-text">Sidebar width can be configured via component attributes to match your design needs.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="bi bi-layers"></i>
+                  Flexible Content
+                </h5>
+                <p class="card-text">Place any content in the sidebar - navigation, filters, widgets, or custom components.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="config" class="mb-5">
+        <div class="card bg-light">
+          <div class="card-body">
+            <h3 class="h4 mb-3">Configuration</h3>
+            <p>The primary sidebar can be customized with the following attributes:</p>
+            <ul class="mb-0">
+              <li>
+                <code>primary_width</code> - Width of the primary sidebar (default: 280px)
+              </li>
+              <li>
+                <code>breakpoint</code> - Bootstrap breakpoint for responsive behavior (default: md)
+              </li>
+              <li>
+                <code>collapse_primary</code> - Enable collapse functionality (default: false)
+              </li>
+              <li>
+                <code>gap</code> - Spacing between sidebar and content (default: 0)
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </c-layouts.inner>
+{% endblock content %}
