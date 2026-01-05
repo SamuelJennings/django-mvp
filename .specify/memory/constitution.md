@@ -1,50 +1,101 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version change: unversioned template → 1.0.0
+- Modified principles:
+	- Principle 1 placeholder → I. Test-First (NON-NEGOTIABLE)
+	- Principle 2 placeholder → II. Documentation-First
+	- Principle 3 placeholder → III. Component Quality & Accessibility
+	- Principle 4 placeholder → IV. Compatibility & Config-Driven Design
+	- Principle 5 placeholder → V. Tooling & Consistency
+- Added sections: none (filled existing template)
+- Removed sections: none
+- Templates requiring updates:
+	- ✅ .specify/templates/plan-template.md (✅ updated)
+	- ✅ .specify/templates/tasks-template.md (✅ updated)
+- Follow-up TODOs: none
+-->
+
+# Django MVP Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Test-First (NON-NEGOTIABLE)
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+All behavior changes MUST be driven by tests written first.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+- Tests MUST be written and observed failing before implementation work begins (Red → Green → Refactor).
+- All new or changed Python behavior MUST have pytest coverage.
+- Django integration behavior MUST have pytest-django coverage.
+- User-visible/UI behavior MUST have pytest-playwright coverage when the change affects rendered output, interactions, or accessibility.
+- Pull requests MUST NOT be merged with failing tests, or without new/updated tests for behavior changes.
+- The only acceptable exception is a docs-only change (no runtime behavior impact).
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. Documentation-First
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+Documentation is part of the product surface area.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+- Every public setting, template block, and component MUST be documented with at least one minimal usage example.
+- Any change to public behavior MUST include a docs update in the same pull request.
+- Examples MUST be kept working and reflect the current recommended usage.
+- Docs MUST describe expected behavior in testable terms (inputs, outputs, and constraints).
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### III. Component Quality & Accessibility
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Components MUST be usable, accessible, and predictable.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- Components MUST render valid, semantic HTML.
+- Components MUST be accessible by default (keyboard navigable where relevant, with appropriate ARIA when necessary).
+- If a change affects markup structure, add/update tests that assert the rendered HTML contract.
+- UI behavior changes SHOULD be covered by browser tests when feasible.
+
+### IV. Compatibility & Config-Driven Design
+
+This is a reusable Django app; upgrades and consumers matter.
+
+- Prefer configuration and extension points over invasive template overrides.
+- Breaking changes MUST be avoided; if unavoidable, they MUST be explicit, documented, and versioned.
+- Default behavior MUST remain stable across minor releases.
+
+### V. Tooling & Consistency
+
+The project uses consistent tooling to keep quality high and contributions smooth.
+
+- Project commands MUST run through Poetry (e.g., `poetry run pytest`).
+- Code MUST satisfy linting/formatting and any configured static checks before merge.
+- Keep changes minimal and focused; avoid incidental refactors.
+
+## Quality Gates
+
+The following gates MUST pass for every pull request that changes runtime behavior:
+
+- Unit/integration tests pass (`pytest` via Poetry).
+- Linting passes (Ruff).
+- Formatting is applied (Ruff formatter).
+- Documentation is updated when public behavior changes.
+
+If a change affects UI output or interaction, add or update pytest-playwright coverage.
+
+## Development Workflow
+
+- Start with the smallest failing test that expresses the desired behavior.
+- Implement the minimal code to make the test pass.
+- Refactor only after the tests are green.
+- Update documentation alongside the change, not after.
+- Keep PRs small and reviewable; split unrelated changes.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution defines non-negotiable project rules and supersedes local conventions.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+- Amendments MUST be proposed via pull request and include a brief rationale.
+- Amendments MUST state whether they are MAJOR/MINOR/PATCH changes to this constitution.
+- Any PR that materially changes development norms MUST update this constitution and any dependent templates.
+- Reviews MUST explicitly check compliance with the Core Principles.
+
+### Versioning Policy (Constitution)
+
+- MAJOR: Removes or redefines a principle in a backward-incompatible way.
+- MINOR: Adds a principle/section or materially expands guidance.
+- PATCH: Clarifies wording or fixes typos without changing intent.
+
+**Version**: 1.0.0 | **Ratified**: 2026-01-05 | **Last Amended**: 2026-01-05
