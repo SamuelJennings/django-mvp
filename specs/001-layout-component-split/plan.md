@@ -1,71 +1,66 @@
 # Implementation Plan: AdminLTE Layout Component Separation
 
-**Branch**: `001-layout-component-split` | **Date**: January 5, 2026 | **Spec**: [spec.md](spec.md)
+**Branch**: `001-layout-component-split` | **Date**: 2026-01-06 | **Spec**: [spec.md](./spec.md)
 **Input**: Feature specification from `/specs/001-layout-component-split/spec.md`
-
-**Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
 
 ## Summary
 
-Split the monolithic AdminLTE layout template into 5 independent Cotton components (wrapper, header, sidebar, main, footer) to enable granular customization and flexible composition. Components use Cotton's c-vars for configuration and slots for content injection, maintaining AdminLTE 4's grid-based layout structure while providing 100% isolation between sections. Header, sidebar, and main components use subdirectory structure with sub-components for enhanced reusability.
+Split the AdminLTE layout into 5 separate Cotton components (app, header, sidebar, main, footer) to enable granular customization and composition flexibility. Technical approach: Create component subdirectories under templates/cotton/app/ with Cotton c-vars for configuration, update base.html to compose components with default layout in the `app` block, and provide slot-based content injection. This allows developers to override layouts by extending base.html and recomposing components in the `app` block.
 
 ## Technical Context
 
-**Language/Version**: Python 3.11+
-**Primary Dependencies**: Django 4.2+, django-cotton (Cotton component system with c-vars and slots)
-**Storage**: N/A (template-only feature)
-**Testing**: pytest with Django template rendering (render_to_string)
-**Target Platform**: Django web applications (server-side rendered templates)
-**Project Type**: Django package (django-mvp) providing AdminLTE 4 components
-**Performance Goals**: Template rendering overhead <5ms per component, no impact on page load time
-**Constraints**: Must maintain backward compatibility with existing mvp/base.html template blocks; Zero CSS/JavaScript changes to AdminLTE 4; All components must follow django-cotton snake_case naming convention
-**Scale/Scope**: 5 main components (wrapper, header, sidebar, main, footer) + 6 sub-components (header/toggle, sidebar/branding, sidebar/menu, main/content_header, main/content) = 11 total template files
+**Language/Version**: Python 3.10-3.12
+**Primary Dependencies**: Django 4.2-5.x, django-cotton >=2.3.1, AdminLTE 4 (CSS via CDN)
+**Storage**: N/A (no database changes - template/static files only)
+**Testing**: pytest, pytest-django (component rendering tests)
+**Target Platform**: Web browsers (Chrome, Firefox, Safari, Edge)
+**Project Type**: Django reusable app package
+**Performance Goals**: No performance impact - pure template refactoring
+**Constraints**:
+
+- Must maintain AdminLTE 4 CSS class naming conventions
+- Must not break existing layouts/templates
+- Must work with django-cotton's attribute/slot system
+- Components must render exact AdminLTE grid structure
+**Scale/Scope**: 5 layout components, 11 template files total
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-**Constitution Version**: 1.0.0 (Ratified: 2026-01-05)
+✅ **Test-first approach is feasible and planned**
 
-### Initial Check (Pre-Phase 0)
+- Tests can be written first for component rendering with various configurations
+- Tests for CSS class generation based on c-vars
+- Tests for slot content rendering
+- Tests for component composition in templates
 
-| Principle | Status | Notes |
-|-----------|--------|-------|
-| **I. Test-First** | ✅ PASS | Spec includes FR-013 requiring testable components; plan includes pytest coverage for all components |
-| **II. Documentation-First** | ✅ PASS | Phase 1 generates quickstart.md with usage examples; all c-vars and slots will be documented |
-| **III. Component Quality** | ✅ PASS | Components preserve AdminLTE's semantic HTML (FR-009); accessibility maintained from existing layout |
-| **IV. Compatibility** | ✅ PASS | FR-010 mandates backward compatibility with existing mvp/base.html template blocks; config-driven via c-vars |
-| **V. Tooling** | ✅ PASS | All tests run via `poetry run pytest`; standard project tooling (Ruff, djlint) |
+✅ **Test types are identified**
 
-**Quality Gates**:
+- pytest-django for Cotton component rendering tests using `render_component()`
+- Integration tests for base.html template composition
+- Unit tests for component structure validation
+- No pytest-playwright needed (layout is pure CSS, not JS interactions)
 
-- ✅ Unit/integration tests planned for all 10 components
-- ✅ Linting/formatting via Ruff and djlint
-- ✅ Documentation in Phase 1 (quickstart.md + component reference)
-- ⚠️ **Deferred**: pytest-playwright coverage (existing implementation has no browser tests; maintaining current scope)
+✅ **Documentation updates are included**
 
-**Overall**: ✅ **PASS** - Feature aligns with all core principles. Will re-check after Phase 1 design.
+- Document each component's c-vars and slots
+- Update quickstart with component composition examples
+- Document base.html override pattern for custom layouts
+- Add examples for common layout variations
+
+✅ **Quality gates are understood**
+
+- All tests pass via `poetry run pytest`
+- Ruff linting passes
+- Ruff formatting applied
+- djlint for template formatting
 
 ---
 
-### Post-Phase 1 Check (After Design)
+### Post-Design Re-Evaluation (Phase 1 Complete)
 
-| Principle | Status | Notes |
-|-----------|--------|-------|
-| **I. Test-First** | ✅ PASS | research.md documents testing strategy (render_to_string); 10 components × 3-5 tests = ~40 unit tests + integration tests |
-| **II. Documentation-First** | ✅ PASS | quickstart.md complete with component reference, c-vars, slots, and usage examples; data-model.md documents component structure |
-| **III. Component Quality** | ✅ PASS | data-model.md confirms semantic HTML preserved; snake_case naming follows django-cotton conventions |
-| **IV. Compatibility** | ✅ PASS | research.md confirms backward compatibility strategy: all existing template blocks preserved in mvp/base.html |
-| **V. Tooling** | ✅ PASS | Agent context updated with Python 3.11+, Django 4.2+, django-cotton; standard tooling (Poetry, Ruff, djlint) |
-
-**Quality Gates**:
-
-- ✅ Test strategy defined: pytest with render_to_string for all 11 components
-- ✅ Documentation complete: quickstart.md (component reference), data-model.md (structure), research.md (decisions)
-- ✅ Linting/formatting: djlint for templates, Ruff for Python (if needed)
-- ⚠️ **Deferred**: pytest-playwright (maintaining scope - no browser tests in existing implementation)
-
-**Overall**: ✅ **PASS** - Design phase complete. All principles satisfied. Ready for Phase 2 (tasks.md generation via /speckit.tasks).
+*To be completed after Phase 1 design is finalized*
 
 ## Project Structure
 
@@ -84,41 +79,38 @@ specs/[###-feature]/
 ### Source Code (repository root)
 
 ```text
-mvp/
+mvp/                           # Django app package
 ├── templates/
-│   ├── mvp/
-│   │   └── base.html                    # [MODIFIED] Updated to use new components
+│   ├── base.html           # Root template with app block containing default 5-component layout
 │   └── cotton/
-│       └── app/
-│           ├── wrapper.html              # [NEW] Top-level grid container
-│           ├── footer.html               # [NEW] Footer component
-│           ├── header/                   # [NEW] Header subdirectory
-│           │   ├── index.html           # Header orchestrator with navbar
-│           │   └── toggle.html          # Sidebar toggle button
-│           ├── sidebar/                  # [NEW] Sidebar subdirectory
-│           │   ├── index.html           # Sidebar orchestrator
-│           │   ├── branding.html        # Logo and brand text
-│           │   └── menu.html            # Navigation menu wrapper
-│           └── main/                     # [NEW] Main content subdirectory
-│               ├── index.html           # Main content orchestrator
-│               ├── content_header.html  # Page title/breadcrumbs
-│               └── content.html         # Main content wrapper
-│
-└── static/
-    └── (no changes - CSS/JS preserved)
+│       └── app/             # Layout component directory
+│           ├── index.html   # App component (top-level .app-wrapper orchestrator)
+│           ├── footer.html  # Footer component (flat file)
+│           ├── header/
+│           │   ├── index.html   # Header orchestrator with navbar
+│           │   └── toggle.html  # Sidebar toggle button
+│           ├── sidebar/
+│           │   ├── index.html     # Sidebar orchestrator
+│           │   ├── branding.html  # Logo/brand text
+│           │   └── menu.html      # Navigation menu wrapper
+│           └── main/
+│               ├── index.html         # Main content orchestrator
+│               ├── content_header.html # Page title/breadcrumbs
+│               └── content.html        # Main content wrapper
 
 tests/
-├── test_app_components.py               # [NEW] Unit tests for 11 component files
-└── test_base_template_integration.py    # [NEW] Integration tests for mvp/base.html
+├── test_app_components.py      # Component rendering tests
+└── test_base_template.py        # Template composition integration tests
 
-example/
-└── templates/
-    └── example/
-        └── dashboard.html               # [PRESERVED] Existing example, no changes
+example/                       # Demo app
+├── templates/
+│   └── example/
+│       └── dashboard.html      # Example using default layout
+└── views.py
 ```
 
-**Structure Decision**: Django package structure (Option 1 variant). This is a template-only feature with no Python models, services, or APIs. All changes are in `mvp/templates/cotton/app/` (11 new template files) and `mvp/templates/mvp/base.html` (1 modified file). Tests are co-located in `tests/` directory following existing project conventions.
+**Structure Decision**: Django reusable app structure with templates organized under cotton/app/ directory. Each layout component is either a subdirectory with sub-components (header/, sidebar/, main/, app/) or a flat file (footer.html). Base template (base.html) provides default layout composition in the `app` block. Developers extend base.html and override `app` block for custom layouts.
 
 ## Complexity Tracking
 
-**Status**: N/A - No constitution violations to justify.
+No complexity violations - this is a straightforward template refactoring with no additional architectural complexity beyond what Django Cotton already provides.
