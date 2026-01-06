@@ -203,6 +203,119 @@ Create a custom base layout in your project to override blocks:
 {% endblock %}
 ```
 
+## Layout Configuration
+
+Django MVP provides flexible layout control through the `<c-app>` component with boolean attributes for fixed positioning of sidebar, header, and footer elements.
+
+### Fixed Sidebar Layout
+
+Make the sidebar sticky during vertical scrolling:
+
+```django
+{% load cotton %}
+<c-app fixed_sidebar>
+    {% block content %}
+        <h1>Dashboard</h1>
+    {% endblock %}
+</c-app>
+```
+
+**Effect**: Sidebar remains visible on the left while scrolling through content.
+**Best for**: Admin dashboards and data-centric applications.
+
+### Fixed Header Layout
+
+Keep the navigation bar at the top:
+
+```django
+<c-app fixed_header>
+    {% block content %}
+        <h1>Long Article</h1>
+    {% endblock %}
+</c-app>
+```
+
+**Effect**: Top navigation bar stays fixed at the top.
+**Best for**: Applications with important navigation or branding.
+
+### Fixed Footer Layout
+
+Keep the footer visible at the bottom:
+
+```django
+<c-app fixed_footer>
+    {% block content %}
+        <h1>Terms of Service</h1>
+    {% endblock %}
+</c-app>
+```
+
+**Effect**: Footer remains at the bottom while scrolling.
+**Best for**: Copyright notices or action buttons that should remain accessible.
+
+### Combining Fixed Elements
+
+Multiple attributes can be used together:
+
+```django
+<!-- Admin dashboard with fixed sidebar and header -->
+<c-app fixed_sidebar fixed_header>
+    {% block content %}
+        <h1>Admin Panel</h1>
+    {% endblock %}
+</c-app>
+
+<!-- Complete fixed layout (sidebar, header, footer) -->
+<c-app fixed_sidebar fixed_header fixed_footer>
+    {% block content %}
+        <h1>Full Fixed Layout</h1>
+    {% endblock %}
+</c-app>
+```
+
+### Responsive Sidebar Control
+
+Control when the sidebar expands from mobile drawer to visible sidebar:
+
+```django
+<!-- Sidebar expands on tablets and above (768px) -->
+<c-app sidebar_expand="md">
+    {% block content %}
+        <h1>Mobile-Optimized App</h1>
+    {% endblock %}
+</c-app>
+
+<!-- Sidebar expands on wide screens (1200px) -->
+<c-app sidebar_expand="xl">
+    {% block content %}
+        <h1>Wide Layout App</h1>
+    {% endblock %}
+</c-app>
+```
+
+**Available breakpoints**: `sm` (576px), `md` (768px), `lg` (992px, default), `xl` (1200px), `xxl` (1400px)
+
+### Per-Page Layout Overrides
+
+Different pages can use different layout configurations:
+
+```django
+{# templates/dashboard.html - needs navigation visible #}
+{% load cotton %}
+<c-app fixed_sidebar fixed_header>
+    <h1>Dashboard</h1>
+</c-app>
+
+{# templates/article.html - immersive reading experience #}
+{% load cotton %}
+<c-app>
+    <h1>Article Title</h1>
+    <p>Content...</p>
+</c-app>
+```
+
+For complete layout documentation, see [App Component Reference](docs/components/app.md).
+
 ## Quick Start
 
 ### Basic Page Template

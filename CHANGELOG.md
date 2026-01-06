@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Layout Configuration System**: Complete support for AdminLTE 4 fixed positioning via `<c-app>` component attributes
+  - **Fixed Sidebar** (`fixed_sidebar`): Makes sidebar sticky during vertical scrolling - ideal for admin dashboards
+  - **Fixed Header** (`fixed_header`): Keeps top navigation bar fixed at the top - ideal for important navigation
+  - **Fixed Footer** (`fixed_footer`): Keeps footer visible at the bottom - ideal for copyright notices or action buttons
+  - **Combined Fixed Layouts**: All three attributes can be used simultaneously for complete fixed layout
+  - **Responsive Sidebar Control** (`sidebar_expand`): Control sidebar expansion breakpoint (sm, md, lg, xl, xxl)
+  - **Per-Page Layout Override**: Different pages can use different layout configurations
+  - CSS Classes: `.layout-fixed`, `.fixed-header`, `.fixed-footer`, `.sidebar-expand-{breakpoint}`
+  - Component Documentation: [docs/components/app.md](docs/components/app.md)
+  - Feature Specification: [specs/003-adminlte-layout-config/](specs/003-adminlte-layout-config/)
+  - Test Coverage: 9 tests covering all layout variations and combinations
+
 - **AdminLTE 4 Widget Components**: Complete implementation of three dashboard widget components
   - **Info Box Component** (`<c-info-box>`): Display metrics with icons and optional progress bars
     - Two fill modes: `fill="icon"` (default, colors icon only) and `fill="box"` (colors entire box)

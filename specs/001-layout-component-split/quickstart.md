@@ -17,7 +17,7 @@ This guide shows how to use the five AdminLTE layout Cotton components in your D
 
 The django-mvp package provides five separate Cotton components for AdminLTE layouts:
 
-- **wrapper** (`<c-app.wrapper>`) - Top-level grid container
+- **wrapper** (`<c-app>`) - Top-level grid container
 - **header** (`<c-app.header>`) - Navigation bar
 - **sidebar** (`<c-app.sidebar>`) - Side navigation menu
 - **main** (`<c-app.main>`) - Main content area
@@ -204,7 +204,7 @@ For advanced use cases, you can use components directly without extending `mvp/b
 ```django
 {% load cotton %}
 
-<c-app.wrapper fixed_sidebar="true" sidebar_expand="lg">
+<c-app fixed_sidebar="true" sidebar_expand="lg">
   <c-slot name="header">
     <c-app.header>
       <c-slot name="right">
@@ -245,7 +245,7 @@ For advanced use cases, you can use components directly without extending `mvp/b
   <c-slot name="footer">
     <c-app.footer text="© 2026 My Application" />
   </c-slot>
-</c-app.wrapper>
+</c-app>
 ```
 
 ## Next Steps

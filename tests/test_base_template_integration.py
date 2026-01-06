@@ -217,7 +217,7 @@ class TestBaseTemplateComponentComposition:
         request = RequestFactory().get("/")
         template = Template(
             """{% load cotton %}
-            <c-app.wrapper>
+            <c-app>
                 <c-slot name="header">
                     <c-app.header>
                         <c-slot name="left">Nav</c-slot>
@@ -226,7 +226,7 @@ class TestBaseTemplateComponentComposition:
                 <c-slot name="main">
                     <c-app.main>Content</c-app.main>
                 </c-slot>
-            </c-app.wrapper>"""
+            </c-app>"""
         )
         html = template.render(RequestContext(request, {}))
 
@@ -240,14 +240,14 @@ class TestBaseTemplateComponentComposition:
         request = RequestFactory().get("/")
         template = Template(
             """{% load cotton %}
-            <c-app.wrapper>
+            <c-app>
                 <c-slot name="header">
                     <c-app.header />
                 </c-slot>
                 <c-slot name="main">
                     <c-app.main>Content without sidebar</c-app.main>
                 </c-slot>
-            </c-app.wrapper>"""
+            </c-app>"""
         )
         html = template.render(RequestContext(request, {}))
 
@@ -262,11 +262,11 @@ class TestBaseTemplateComponentComposition:
         request = RequestFactory().get("/")
         template = Template(
             """{% load cotton %}
-            <c-app.wrapper>
+            <c-app>
                 <c-slot name="main">
                     <c-app.main>Content without footer</c-app.main>
                 </c-slot>
-            </c-app.wrapper>"""
+            </c-app>"""
         )
         html = template.render(RequestContext(request, {}))
 
@@ -280,7 +280,7 @@ class TestBaseTemplateComponentComposition:
         request = RequestFactory().get("/")
         template = Template(
             """{% load cotton %}
-            <c-app.wrapper>
+            <c-app>
                 <c-slot name="header">
                     <c-app.header>
                         <c-slot name="left">Brand</c-slot>
@@ -289,7 +289,7 @@ class TestBaseTemplateComponentComposition:
                 <c-slot name="main">
                     <c-app.main>Minimal content</c-app.main>
                 </c-slot>
-            </c-app.wrapper>"""
+            </c-app>"""
         )
         html = template.render(RequestContext(request, {}))
 

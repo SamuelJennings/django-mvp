@@ -44,15 +44,13 @@
       {% endblock extra_css %}
     {% endblock head %}
   </head>
-  <body class="{% block body_class %}{{ mvp.layout.body_class|default:'layout-fixed sidebar-expand-lg bg-body-tertiary' }}{% endblock body_class %}">
-    {% block body %}
-    {% endblock body %}
+  <body class="{% block body_class %}bg-body-tertiary{% endblock body_class %}">
+    {% block app %}
+    {% endblock app %}
     {# Bootstrap Bundle #}
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-rc3/dist/js/adminlte.min.js"
             crossorigin="anonymous"></script>
     {% block extra_js %}
     {% endblock extra_js %}
   </body>
-</html>
-</body>
 </html>

@@ -56,14 +56,14 @@ validation:
 
 example:
   basic: |
-    <c-app.wrapper>
+    <c-app>
       <c-slot name="main">
         <p>Content</p>
       </c-slot>
-    </c-app.wrapper>
+    </c-app>
 
   full: |
-    <c-app.wrapper fixed_sidebar="True" sidebar_expand="md">
+    <c-app fixed_sidebar="True" sidebar_expand="md">
       <c-slot name="header">
         <c-app.header />
       </c-slot>
@@ -76,4 +76,4 @@ example:
       <c-slot name="footer">
         <c-app.footer />
       </c-slot>
-    </c-app.wrapper>
+    </c-app>
