@@ -84,7 +84,7 @@ AdminLTE 4 uses CSS Grid for layout with the `.app-wrapper` as the root containe
 **Naming Convention**:
 
 - Components: snake-case filenames (e.g., `wrapper.html`, `app_header.html`)
-- Usage: `<c-app.wrapper />` or `<c-app.header />`
+- Usage: `<c-app />` or `<c-app.header />`
 - Attributes: snake_case (e.g., `fixed_sidebar="True"`)
 
 **Decision**: All components will use c-vars for configuration, default slot for main content, and named slots for specific sections.

@@ -2,11 +2,16 @@
 
 from django.conf import settings
 from django.urls import include, path
+from django.views.generic import TemplateView
 
-from .views import DashboardView
+from . import views
 
 urlpatterns = [
-    path("", DashboardView.as_view(), name="dashboard"),
+    path("", TemplateView.as_view(template_name="example/dashboard.html"), name="dashboard"),
+    path("layout-fixed/", views.layout_fixed_demo, name="layout_fixed_demo"),
+    path(
+        "layout-responsive/", views.layout_responsive_demo, name="layout_responsive_demo"
+    ),
 ]
 
 if settings.DEBUG:

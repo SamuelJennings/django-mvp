@@ -1,4 +1,3 @@
-{% load cotton %}
 <c-vars brand_text="Django MVP"
         brand_logo=""
         brand_url="/"
@@ -7,7 +6,35 @@
   <c-app.sidebar.branding brand_text="{{ brand_text }}"
                           brand_logo="{{ brand_logo }}"
                           brand_url="{{ brand_url }}" />
-  <c-app.sidebar.menu class>
-    {{ slot }}
+  <c-app.sidebar.menu>
+    <li class="nav-item">
+      <c-nav.link href="/" active only>
+        <i class="nav-icon bi bi-speedometer2"></i>
+        <p>Dashboard</p>
+      </c-nav.link>
+    </li>
+    <li class="nav-item">
+      <c-nav.link href="#" only>
+        <i class="nav-icon bi bi-box-seam"></i>
+        <p>
+          Products
+          <span class="badge text-bg-success">24</span>
+        </p>
+      </c-nav.link>
+    </li>
+    <li class="nav-item">
+      <c-nav.link href="#" only>
+        <i class="nav-icon bi bi-people"></i>
+        <p>Users</p>
+      </c-nav.link>
+    </li>
+    <li class="nav-header">SETTINGS</li>
+    <li class="nav-item">
+      <c-nav.link href="#" only>
+        <i class="nav-icon bi bi-gear"></i>
+        <p>Settings</p>
+      </c-nav.link>
+    </li>
+    {% comment %} <c-app.menu /> {% endcomment %}
   </c-app.sidebar.menu>
 </aside>

@@ -10,7 +10,7 @@ SiteNavigation.append(
         children=[
             MenuItem(
                 name="No Sidebars",
-                view_name="index",
+                view_name="dashboard",
                 extra_context={"icon": "house"},
             ),
             MenuItem(
@@ -20,12 +20,12 @@ SiteNavigation.append(
             ),
             MenuItem(
                 name="Secondary Sidebar",
-                view_name="demo_secondary_sidebar",
+                url="#",
                 extra_context={"icon": "sidebar"},
             ),
             MenuItem(
                 name="Both",
-                view_name="demo_dual_sidebars",
+                view_name="#",
                 extra_context={"icon": "navbar"},
             ),
         ],
