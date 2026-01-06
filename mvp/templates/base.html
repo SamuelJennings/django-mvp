@@ -44,8 +44,17 @@
       {% endblock extra_css %}
     {% endblock head %}
   </head>
-  <body class="{% block body_class %}bg-body-tertiary{% endblock body_class %}">
+  <body>
     {% block app %}
+      <c-app>
+        <c-app.header />
+        <c-app.sidebar />
+        <c-app.main>
+          {% block content %}
+          {% endblock content %}
+        </c-app.main>
+        <c-app.footer />
+      </c-app>
     {% endblock app %}
     {# Bootstrap Bundle #}
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-rc3/dist/js/adminlte.min.js"
