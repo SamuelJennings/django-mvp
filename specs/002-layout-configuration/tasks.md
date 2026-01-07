@@ -1,6 +1,6 @@
 # Tasks: AdminLTE Layout Configuration System
 
-**Input**: Design documents from `/specs/003-adminlte-layout-config/`
+**Input**: Design documents from `/specs/002-layout-configuration/`
 **Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/
 **Updated**: 2026-01-07
 

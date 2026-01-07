@@ -1,6 +1,6 @@
 # Feature Specification: AdminLTE 4 Widget Components
 
-**Feature Branch**: `002-adminlte-widgets`
+**Feature Branch**: `003-default-widgets`
 **Created**: January 5, 2026
 **Status**: Draft
 **Input**: User description: "Support the default AdminLTE 4 widgets with all available variations in style and ability. Currently there is an info box widget, a small box widget, and a card widget. Despite the name widgets, these components should be stored at the top-level cotton dir so they can be called easily using c-card, c-info-box and c-small-box respectively."

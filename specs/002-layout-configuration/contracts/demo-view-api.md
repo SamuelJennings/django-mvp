@@ -1,6 +1,6 @@
 # View Contract: Layout Demo Page
 
-**Feature**: 003-adminlte-layout-config
+**Feature**: 002-layout-configuration
 **Date**: 2026-01-07
 **View**: `example.views.layout_demo`
 **URL**: `/layout/`

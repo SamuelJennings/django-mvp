@@ -1,6 +1,6 @@
 # Quickstart: AdminLTE Layout Configuration
 
-**Feature**: 003-adminlte-layout-config
+**Feature**: 002-layout-configuration
 **Date**: January 5, 2026
 
 ## Overview

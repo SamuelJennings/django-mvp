@@ -1,6 +1,6 @@
 # Tasks: AdminLTE 4 Widget Components
 
-**Input**: Design documents from `/specs/002-adminlte-widgets/`
+**Input**: Design documents from `/specs/003-default-widgets/`
 **Prerequisites**: plan.md ✅, spec.md ✅, research.md ✅, data-model.md ✅, contracts/ ✅, quickstart.md ✅
 
 **Status**: All 85 tasks complete (100%). Card component enhanced with v2.1 features (2026-01-05).
@@ -29,9 +29,9 @@ All paths relative to repository root `c:\Users\jennings\Documents\repos\django-
 
 **Purpose**: Project initialization and basic structure
 
-- [X] T001 Create feature branch `002-adminlte-widgets` and verify Poetry environment active
-- [X] T002 [P] Review contracts in specs/002-adminlte-widgets/contracts/ to understand component requirements
-- [X] T003 [P] Review quickstart.md in specs/002-adminlte-widgets/ for usage patterns
+- [X] T001 Create feature branch `003-default-widgets` and verify Poetry environment active
+- [X] T002 [P] Review contracts in specs/003-default-widgets/contracts/ to understand component requirements
+- [X] T003 [P] Review quickstart.md in specs/003-default-widgets/ for usage patterns
 
 ---
 

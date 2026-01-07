@@ -1,6 +1,6 @@
 # Quickstart: AdminLTE Layout Components
 
-**Feature**: 001-layout-component-split
+**Feature**: 001-layout-components
 **Date**: January 5, 2026
 
 ## Overview

@@ -1,6 +1,6 @@
 # Component API Contract: `<c-app>`
 
-**Feature**: 003-adminlte-layout-config
+**Feature**: 002-layout-configuration
 **Date**: 2026-01-06
 **Component**: `mvp/templates/cotton/app/index.html`
 

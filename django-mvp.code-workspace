@@ -6,9 +6,9 @@
         {
             "path": "../../playground/AdminLTE"
         },
-        {
-            "path": "../django-cotton-bs5"
-        },
+        // {
+        //     "path": "../django-cotton-bs5"
+        // },
     ],
     // ========================================
     // WORKSPACE SETTINGS

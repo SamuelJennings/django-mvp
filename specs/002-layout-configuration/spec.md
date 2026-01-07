@@ -1,6 +1,6 @@
 # Feature Specification: AdminLTE Layout Configuration System
 
-**Feature Branch**: `003-adminlte-layout-config`
+**Feature Branch**: `002-layout-configuration`
 **Created**: January 5, 2026
 **Status**: Draft
 **Input**: User description: "We need to support the various layout options provided by AdminLTE. This includes default, fixed sidebar, fixed header, fixed footer, fixed complete. This spec will not handle sidebar mini (handled in a later spec)."

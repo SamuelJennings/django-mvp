@@ -142,6 +142,7 @@ Multiple fixed attributes can be enabled simultaneously:
 **Default**: `lg` (992px - sidebar expands on desktops)
 
 **Available Values**:
+
 - `sm` (576px) - Sidebar expands on mobile landscape
 - `md` (768px) - Sidebar expands on tablets
 - `lg` (992px) - Sidebar expands on desktops *(default)*
@@ -286,5 +287,5 @@ The component's layout attributes are fully tested in `tests/test_app_component.
 ## See Also
 
 - [AdminLTE 4 Layout Behavior Analysis](../adminlte-4-layout-behavior-analysis.md) - Deep dive into CSS classes and positioning
-- [Feature Specification](../../specs/003-adminlte-layout-config/spec.md) - User stories and requirements
-- [Quick Start Guide](../../specs/003-adminlte-layout-config/quickstart.md) - Usage scenarios and examples
+- [Feature Specification](../../specs/002-layout-configuration/spec.md) - User stories and requirements
+- [Quick Start Guide](../../specs/002-layout-configuration/quickstart.md) - Usage scenarios and examples

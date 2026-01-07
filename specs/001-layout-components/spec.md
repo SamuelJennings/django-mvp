@@ -1,6 +1,6 @@
 # Feature Specification: AdminLTE Layout Component Separation
 
-**Feature Branch**: `001-layout-component-split`
+**Feature Branch**: `001-layout-components`
 **Created**: January 5, 2026
 **Status**: Draft
 **Input**: User description: "MVP maintains the 5 major layout components of AdminLTE in separate cotton components in the cotton/app/ dir. There will be a component for app (top-level wrapper), header, sidebar, main and footer. These component must reflect the individual configuration provided by adminlte for each component."

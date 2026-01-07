@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Extensible design allowing other features to add configuration options
   - CSS Classes: `.layout-fixed`, `.fixed-header`, `.fixed-footer`, `.sidebar-expand-{breakpoint}`
   - Component Documentation: [docs/components/app.md](docs/components/app.md)
-  - Feature Specification: [specs/003-adminlte-layout-config/](specs/003-adminlte-layout-config/)
+  - Feature Specification: [specs/002-layout-configuration/](specs/002-layout-configuration/)
   - Test Coverage: 9 tests for unified demo page, plus component attribute tests
 
 - **AdminLTE 4 Widget Components**: Complete implementation of three dashboard widget components
@@ -77,7 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `docs/components/small-box.md`
   - `docs/components/card.md`
   - `docs/index.md`
-- **Specification**: `specs/002-adminlte-widgets/`
+- **Specification**: `specs/003-default-widgets/`
 
 ---
 

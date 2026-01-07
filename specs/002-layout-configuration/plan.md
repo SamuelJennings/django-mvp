@@ -1,7 +1,7 @@
 # Implementation Plan: AdminLTE Layout Configuration System
 
-**Branch**: `003-adminlte-layout-config` | **Date**: 2026-01-06 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/003-adminlte-layout-config/spec.md`
+**Branch**: `002-layout-configuration` | **Date**: 2026-01-06 | **Spec**: [spec.md](./spec.md)
+**Input**: Feature specification from `/specs/002-layout-configuration/spec.md`
 
 ## Summary
 

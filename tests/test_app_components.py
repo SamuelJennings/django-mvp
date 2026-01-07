@@ -34,7 +34,7 @@ class TestWrapperComponent:
         """Wrapper applies custom body_class (via class attribute)."""
         html = render_component(mock_request, "app", **{"class": "custom-layout"})
         assert 'class="app-wrapper' in html
-        assert 'custom-layout' in html
+        assert "custom-layout" in html
 
     def test_applies_sidebar_expand(self, mock_request):
         """Wrapper applies sidebar_expand class."""

@@ -1,7 +1,7 @@
 # Implementation Plan: AdminLTE Layout Component Separation
 
-**Branch**: `001-layout-component-split` | **Date**: 2026-01-06 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/001-layout-component-split/spec.md`
+**Branch**: `001-layout-components` | **Date**: 2026-01-06 | **Spec**: [spec.md](./spec.md)
+**Input**: Feature specification from `/specs/001-layout-components/spec.md`
 
 ## Summary
 
