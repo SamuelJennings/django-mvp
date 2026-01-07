@@ -293,40 +293,55 @@ Best for traditional scrolling websites with simple navigation:
 <c-app class="custom-theme dark-mode" fixed_sidebar>
 ```
 
-## Testing Your Layout (Added 2026-01-06)
+## Testing Your Layout (Updated 2026-01-07)
 
-### Interactive Demo Views
+### Interactive Layout Demo Page
 
-Django-mvp provides interactive demo views for testing layout configurations:
+Django-mvp provides a single unified interactive demo page for testing all layout configurations:
 
-**Fixed Properties Demo**:
+**URL**:
 
-```
-http://localhost:8000/example/layout-fixed/
-```
-
-Features:
-
-- Checkboxes to toggle `fixed_sidebar`, `fixed_header`, `fixed_footer`
-- Form submits via GET to same page with query parameters
-- Long-form content (2-3 viewport heights) to demonstrate scrolling
-- 12-15 dummy sidebar menu items to test independent sidebar scrolling
-- Visual indicators showing current configuration and applied CSS classes
-- Helper text explaining what to test
-
-**Responsive Breakpoint Demo**:
-
-```
-http://localhost:8000/example/layout-responsive/
+```http
+http://localhost:8000/layout/
 ```
 
-Features:
+**Features**:
 
-- Dropdown selector for all breakpoints (sm, md, lg, xl, xxl)
-- Updates layout via GET request with `breakpoint` query parameter
-- Same scrollable content structure as fixed properties demo
-- Instructions to resize browser window to test breakpoint transitions
-- Visual indicator showing currently selected breakpoint
+- **Split Layout Design**: Main content area on left, configuration sidebar on right
+- **Fixed Properties**: Checkboxes to toggle `fixed_sidebar`, `fixed_header`, `fixed_footer`
+- **Responsive Breakpoint**: Dropdown selector for all breakpoints (sm, md, lg, xl, xxl)
+- **Form-Based Testing**: Form submits via GET with query parameters for bookmarkable configurations
+- **Long-Form Content**: 2-3 viewport heights of scrollable content to demonstrate fixed element behavior
+- **Dummy Sidebar Items**: 12-15 menu items to test independent sidebar scrolling
+- **Visual Indicators**: Current configuration display showing applied CSS classes and active options
+- **Helper Text**: Instructions explaining what to test and how to interact with the demo
+- **Menu Integration**: Accessible via "Layout Demo" link in sidebar (below Dashboard)
+
+**Example Configurations**:
+
+```http
+# Default layout (no query parameters)
+http://localhost:8000/layout/
+
+# Fixed sidebar only
+http://localhost:8000/layout/?fixed_sidebar=on
+
+# Fixed sidebar + header
+http://localhost:8000/layout/?fixed_sidebar=on&fixed_header=on
+
+# Fixed complete layout
+http://localhost:8000/layout/?fixed_sidebar=on&fixed_header=on&fixed_footer=on
+
+# Test responsive breakpoint
+http://localhost:8000/layout/?breakpoint=md
+
+# Combined configuration
+http://localhost:8000/layout/?fixed_sidebar=on&fixed_header=on&breakpoint=xl
+```
+
+### Extensibility
+
+The `/layout/` demo page is designed to be extended by future feature specs. When additional layout options are added (e.g., sidebar mini mode), they will be integrated into this same page rather than creating separate demo pages.
 
 ### Manual Testing Checklist
 

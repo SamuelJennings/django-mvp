@@ -59,9 +59,9 @@ def mvp_config(request):
             "icon": None,
         },
         "layout": {
-            "fixed_sidebar": True,
+            "fixed_sidebar": False,  # Default to scrolling sidebar (users opt-in to fixed)
             "sidebar_expand": "lg",
-            "body_class": "layout-fixed sidebar-expand-lg bg-body-tertiary",
+            "body_class": "sidebar-expand-lg bg-body-tertiary",  # Removed layout-fixed from default
         },
         "sidebar": {
             "visible": True,

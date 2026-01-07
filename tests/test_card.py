@@ -46,7 +46,7 @@ def test_card_with_icon_in_header(mock_request):
     header = soup.find("div", class_="card-header")
     assert header is not None, "Card header should exist"
     assert "Settings" in header.text, "Title should be in header"
-    
+
     # Check flexbox wrapper exists
     icon_wrapper = header.find("div", class_="d-inline-flex")
     assert icon_wrapper is not None, "Icon wrapper with flexbox should exist"
@@ -67,7 +67,7 @@ def test_card_with_variant_outline_fill(mock_request):
 
     card = soup.find("div", class_="card")
     assert card is not None, "Card container should exist"
-    
+
     classes = card.get("class")
     assert "card-primary" in classes, "Card should have card-primary class"
     assert "card-outline" in classes, "Card should have card-outline class"
@@ -87,7 +87,7 @@ def test_card_with_compact_body(mock_request):
 
     body = soup.find("div", class_="card-body")
     assert body is not None, "Card body should exist"
-    
+
     classes = body.get("class")
     assert "p-0" in classes, "Body should have p-0 class for compact mode"
 
@@ -107,7 +107,7 @@ def test_card_with_variant_card_fill(mock_request):
 
     card = soup.find("div", class_="card")
     assert card is not None, "Card container should exist"
-    
+
     classes = card.get("class")
     assert "text-bg-warning" in classes, "Card should have text-bg-warning class"
 
@@ -124,7 +124,7 @@ def test_card_without_title_always_has_header(mock_request):
 
     card = soup.find("div", class_="card")
     assert card is not None, "Card container should exist"
-    
+
     # Header ALWAYS exists in v2.1
     header = card.find("div", class_="card-header")
     assert header is not None, "Card header should always exist in v2.1"
@@ -144,7 +144,7 @@ def test_card_with_custom_classes(mock_request):
 
     card = soup.find("div", class_="card")
     assert card is not None, "Card container should exist"
-    
+
     classes = card.get("class")
     assert "mb-3" in classes, "Card should have mb-3 class"
     assert "shadow-lg" in classes, "Card should have shadow-lg class"
@@ -155,7 +155,7 @@ def test_card_all_variant_fill_combinations(mock_request):
     """Test card with all variant-fill combinations (v2.1: outline and card only)."""
     variants = ["primary", "success", "warning", "danger", "info", "secondary"]
     fills = ["outline", "card"]  # v2.0 removed "header" option
-    
+
     for variant in variants:
         for fill in fills:
             html = render_component(
@@ -169,7 +169,7 @@ def test_card_all_variant_fill_combinations(mock_request):
             soup = BeautifulSoup(html, "html.parser")
             card = soup.find("div", class_="card")
             assert card is not None, f"Card should exist for {variant}-{fill}"
-            
+
             classes = card.get("class")
             if fill == "outline":
                 assert f"card-{variant}" in classes, f"Should have card-{variant} for outline"

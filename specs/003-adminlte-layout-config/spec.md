@@ -74,6 +74,24 @@ A developer wants flexibility to either set layout options globally for the enti
 
 ---
 
+### User Story 4 - Interactive Layout Configuration Demo Page (Priority: P2)
+
+A developer or QA tester wants to explore and validate different layout configurations interactively without modifying code. They need a single, reusable demo page that allows toggling layout options via a form and seeing the results immediately.
+
+**Why this priority**: Provides essential testing and demonstration capability. Accelerates development workflow and serves as live documentation. Can be extended by future feature specs for other layout options.
+
+**Independent Test**: Can be tested by navigating to /layout/, toggling layout options via the form, and verifying that the page updates with the selected configuration via query parameters. Delivers immediate value for testing and showcasing layout capabilities.
+
+**Acceptance Scenarios**:
+
+1. **Given** a user navigates to `/layout/` in the example app, **When** the page loads, **Then** they see a layout demo page with main content on the left and a configuration form sidebar on the right
+2. **Given** the layout demo page is displayed, **When** user toggles layout options (fixed_header, fixed_sidebar, fixed_footer) via checkboxes and submits the form, **Then** the page reloads with query parameters reflecting the selected options and the layout updates accordingly
+3. **Given** the sidebar navigation menu, **When** viewing any page in the example app, **Then** a "Layout Demo" menu link appears just below the Dashboard link
+4. **Given** other feature specs need to demonstrate additional layout options, **When** they extend the layout demo page, **Then** the single `/layout/` page accommodates their additional configuration controls without creating duplicate demo pages
+5. **Given** the layout demo form, **When** no options are selected, **Then** the page displays with default (non-fixed) layout and the form reflects this state
+
+---
+
 ### Edge Cases
 
 - What if sidebar_expand breakpoint conflicts with fixed sidebar positioning?
@@ -98,6 +116,11 @@ A developer wants flexibility to either set layout options globally for the enti
 - **FR-012**: Responsive behavior demo view MUST include a dropdown selector at the top of the page listing all available breakpoints (sm, md, lg, xl, xxl), which submits GET request with `breakpoint` query parameter to dynamically change sidebar expansion behavior
 - **FR-013**: Fixed properties demo view MUST include a form with three checkboxes (fixed_header, fixed_sidebar, fixed_footer) that submits via GET request with query parameters, allowing any combination to be tested dynamically without requiring a separate "complete" checkbox
 - **FR-014**: Demo views MUST include minimal helper text at the top explaining what to test and visual indicators showing current configuration state (active checkboxes, selected breakpoint, applied CSS classes)
+- **FR-015**: System MUST provide a SINGLE layout demo page at `/layout/` in the example app that consolidates all layout testing functionality
+- **FR-016**: Layout demo page MUST use a two-column layout with main content on the left and configuration form sidebar on the right
+- **FR-017**: Layout demo page configuration form MUST submit via GET request with query parameters to allow bookmarkable/shareable layout configurations
+- **FR-018**: System MUST provide a "Layout Demo" navigation menu item in the sidebar positioned immediately below the Dashboard link
+- **FR-019**: Layout demo page MUST be designed to accommodate additional layout configuration options from future feature specs without requiring separate demo pages
 
 ### Key Entities
 

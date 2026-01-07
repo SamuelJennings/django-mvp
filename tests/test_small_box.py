@@ -244,7 +244,7 @@ def test_small_box_bootstrap_shadow_utilities(mock_request):
 def test_small_box_all_variant_colors(mock_request):
     """Test small box with all Bootstrap variant colors (T068)."""
     variants = ["primary", "success", "warning", "danger", "info", "secondary"]
-    
+
     for variant in variants:
         html = render_component(
             mock_request,
@@ -256,7 +256,7 @@ def test_small_box_all_variant_colors(mock_request):
         )
         soup = BeautifulSoup(html, "html.parser")
         small_box = soup.find("div", class_="small-box")
-        
+
         # Verify variant class is applied
         classes = small_box.get("class")
         expected_class = f"text-bg-{variant}"

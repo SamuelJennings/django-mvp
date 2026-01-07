@@ -136,61 +136,61 @@ Layout configuration is passed to `<c-app>` component via Cotton attributes:
 
 This feature requires no database tables, migrations, or persistent storage. All layout configuration is ephemeral and exists only during template rendering.
 
-## Demo View State (Added 2026-01-06)
+## Demo View State (Added 2026-01-06, Updated 2026-01-07)
 
-**Description**: Query parameter-based state for interactive demo views in `example/` app.
+**Description**: Query parameter-based state for the unified interactive layout demo page at `/layout/` in `example/` app.
 
-### Fixed Properties Demo State
+### Unified Layout Demo State
 
-**URL Pattern**: `/example/layout-fixed/?fixed_sidebar=on&fixed_header=on`
+**URL Pattern**: `/layout/?fixed_sidebar=on&fixed_header=on&breakpoint=md`
 
 **Query Parameters**:
 
 - `fixed_sidebar` (string, optional) - Checkbox state ("on" if checked, absent if unchecked)
 - `fixed_header` (string, optional) - Checkbox state ("on" if checked, absent if unchecked)
 - `fixed_footer` (string, optional) - Checkbox state ("on" if checked, absent if unchecked)
+- `breakpoint` (string, optional, default="lg") - Sidebar expansion breakpoint
+
+**Page Layout Structure**:
+
+- **Main Content Area** (left side): Long-form scrollable content demonstrating fixed element behavior
+- **Configuration Sidebar** (right side): Form with checkboxes for fixed properties and dropdown for breakpoint
 
 **Processing Logic**:
 
 ```python
-def layout_fixed_demo(request):
+def layout_demo(request):
+    # Parse fixed properties from checkboxes
     fixed_sidebar = request.GET.get('fixed_sidebar') == 'on'
     fixed_header = request.GET.get('fixed_header') == 'on'
     fixed_footer = request.GET.get('fixed_footer') == 'on'
-    return render(request, 'example/layout_fixed.html', {
+
+    # Parse breakpoint with validation
+    breakpoint = request.GET.get('breakpoint', 'lg')
+    if breakpoint not in ['sm', 'md', 'lg', 'xl', 'xxl']:
+        breakpoint = 'lg'
+
+    return render(request, 'example/layout_demo.html', {
         'fixed_sidebar': fixed_sidebar,
         'fixed_header': fixed_header,
         'fixed_footer': fixed_footer,
-    })
-```
-
-### Responsive Breakpoint Demo State
-
-**URL Pattern**: `/example/layout-responsive/?breakpoint=md`
-
-**Query Parameters**:
-
-- `breakpoint` (string, optional, default="lg") - Sidebar expansion breakpoint
-
-**Processing Logic**:
-
-```python
-def layout_responsive_demo(request):
-    breakpoint = request.GET.get('breakpoint', 'lg')
-    if breakpoint not in ['sm', 'md', 'lg', 'xl', 'xxl']:
-        breakpoint = 'lg'  # Fallback for invalid values
-    return render(request, 'example/layout_responsive.html', {
         'breakpoint': breakpoint,
         'breakpoints': ['sm', 'md', 'lg', 'xl', 'xxl'],
     })
 ```
 
-**Rationale for Query Parameters**:
+**Navigation Integration**:
 
-- Stateless - no session storage needed
-- Shareable URLs - users can bookmark specific configurations
-- Simple form handling - GET forms without CSRF complexity
-- Natural for testing - easy to programmatically test all combinations
+- Menu item "Layout Demo" appears in sidebar below Dashboard link
+- Links to `/layout/` with no query parameters (default state)
+
+**Rationale for Single Unified Page**:
+
+- **Discoverability**: One location for all layout testing reduces confusion
+- **Query Parameters**: Stateless, bookmarkable, shareable URLs for specific configurations
+- **Simple Form Handling**: GET forms without CSRF complexity
+- **Extensibility**: Future feature specs can add controls to this same page (per FR-019)
+- **Natural for Testing**: Easy to programmatically test all combinations with query string permutations
 
 ## Key Insights
 
