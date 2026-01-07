@@ -22,27 +22,28 @@ def mock_request(rf):
 
 @pytest.mark.django_db
 class TestWrapperComponent:
-    """Tests for app/wrapper.html component."""
+    """Tests for app/index.html component (the app wrapper)."""
 
     def test_renders_basic_structure(self, mock_request):
         """Wrapper renders with default .app-wrapper div."""
-        html = render_component(mock_request, "app/wrapper")
+        html = render_component(mock_request, "app")
         assert 'class="app-wrapper' in html
         assert "</div>" in html
 
     def test_applies_body_class(self, mock_request):
-        """Wrapper applies custom body_class."""
-        html = render_component(mock_request, "app/wrapper", body_class="custom-layout")
-        assert 'class="app-wrapper custom-layout' in html
+        """Wrapper applies custom body_class (via class attribute)."""
+        html = render_component(mock_request, "app", **{"class": "custom-layout"})
+        assert 'class="app-wrapper' in html
+        assert 'custom-layout' in html
 
     def test_applies_sidebar_expand(self, mock_request):
         """Wrapper applies sidebar_expand class."""
-        html = render_component(mock_request, "app/wrapper", sidebar_expand="lg")
+        html = render_component(mock_request, "app", sidebar_expand="lg")
         assert "sidebar-expand-lg" in html
 
     def test_applies_fixed_sidebar(self, mock_request):
         """Wrapper applies layout-fixed class when fixed_sidebar is True."""
-        html = render_component(mock_request, "app/wrapper", fixed_sidebar="True")
+        html = render_component(mock_request, "app", fixed_sidebar=True)
         assert "layout-fixed" in html
 
 

@@ -14,6 +14,11 @@ SiteNavigation.append(
                 extra_context={"icon": "house"},
             ),
             MenuItem(
+                name="Layout Demo",
+                view_name="layout_demo",
+                extra_context={"icon": "sliders"},
+            ),
+            MenuItem(
                 name="Primary Sidebar",
                 view_name="demo_primary_sidebar",
                 extra_context={"icon": "sidebar"},

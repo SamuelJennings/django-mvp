@@ -1,266 +1,333 @@
-# Implementation Tasks: AdminLTE Layout Configuration System
+# Tasks: AdminLTE Layout Configuration System
 
-**Feature**: 003-adminlte-layout-config
-**Branch**: `003-adminlte-layout-config`
-**Plan**: [plan.md](./plan.md) | **Spec**: [spec.md](./spec.md)
-**Updated**: 2026-01-06
+**Input**: Design documents from `/specs/003-adminlte-layout-config/`
+**Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/
+**Updated**: 2026-01-07
+
+**Tests**: Tests are REQUIRED for behavior changes. Use pytest + pytest-django for backend/integration.
+
+**Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
+
+## Format: `[ID] [P?] [Story] Description`
+
+- **[P]**: Can run in parallel (different files, no dependencies)
+- **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3, US4)
+- Include exact file paths in descriptions
 
 ## Task Summary
 
-- **Total Tasks**: 41
-- **Setup**: 1 task (completed)
-- **Foundational**: 0 tasks (component already exists)
-- **User Story 1** (Apply Basic Layout Variations - P1): 5 tasks (completed)
-- **User Story 2** (Combine Multiple Fixed Elements - P2): 3 tasks (completed)
-- **User Story 3** (Configure Layout Per-Page - P3): 2 tasks (completed)
-- **Demo Views** (Testing Infrastructure - FR-010 to FR-014): 15 tasks (completed)
-- **Documentation**: 8 tasks (completed)
-- **Polish & Cross-Cutting**: 5 tasks (completed)
-- **Final Validation**: 2 tasks (1 pending)
+**Status**: Core component implementation ALREADY COMPLETE (per research.md).
+**Remaining Work**: Documentation, testing verification, and unified demo page implementation.
 
-## Implementation Strategy
-
-**Status**: Core component implementation complete. Demo views implemented. Remaining work: Manual browser validation (T022).
-
-**Test-First Approach**: Following Django MVP constitution, all tests written and observed failing before implementation.
-
-**Demo Views Purpose**: Interactive testing pages for validating layout behavior without requiring browser automation tests.
+- **Foundational**: ✅ Complete (component exists at `mvp/templates/cotton/app/index.html`)
+- **User Story 1** (Apply Basic Layout Variations - P1): 10 tasks
+- **User Story 2** (Combine Multiple Fixed Elements - P2): 6 tasks
+- **User Story 3** (Configure Layout Per-Page - P3): 6 tasks
+- **User Story 4** (Interactive Layout Demo Page - P2): 16 tasks
+- **Polish & Cross-Cutting**: 8 tasks
+- **Total**: 46 tasks
 
 ---
 
-## Phase 1: Setup
+## Phase 1: Foundational (ALREADY COMPLETE per research.md)
 
-### Environment Setup
+**Status**: ✅ The `<c-app>` component already implements all layout attributes
 
-- [X] T001 Verify pytest-django test environment configured in tests/settings.py
+**Evidence** (from research.md):
 
----
+- Location: `mvp/templates/cotton/app/index.html`
+- Implements: `fixed_sidebar`, `fixed_header`, `fixed_footer`, `sidebar_expand`
+- CSS classes: `.layout-fixed`, `.fixed-header`, `.fixed-footer`, `.sidebar-expand-{breakpoint}`
 
-## Phase 2: User Story 1 - Apply Basic Layout Variations (P1)
-
-**Goal**: Test that individual fixed attributes render correct AdminLTE CSS classes
-
-**Independent Test Criteria**: Each fixed attribute (fixed_sidebar, fixed_header, fixed_footer) can be tested independently by verifying the correct CSS class appears on the body element.
-
-### Tests
-
-- [X] T002 [P] [US1] Write test for fixed_sidebar attribute renders .layout-fixed class in tests/test_app_component.py
-- [X] T003 [P] [US1] Write test for fixed_header attribute renders .fixed-header class in tests/test_app_component.py
-- [X] T004 [P] [US1] Write test for fixed_footer attribute renders .fixed-footer class in tests/test_app_component.py
-- [X] T005 [P] [US1] Write test for default (no attributes) renders no fixed classes in tests/test_app_component.py
-
-### Validation
-
-- [X] T006 [US1] Run all User Story 1 tests and verify existing <c-app> implementation passes (validates FR-001, FR-002, FR-003, FR-006)
+**Action**: No implementation work needed for core component - proceed directly to documentation and demo page
 
 ---
 
-## Phase 3: User Story 2 - Combine Multiple Fixed Elements (P2)
+## Phase 2: User Story 1 - Apply Basic Layout Variations (Priority: P1) 🎯 MVP
 
-**Goal**: Test that multiple fixed attributes work together correctly
+**Goal**: Document and test existing layout attribute functionality so developers can use fixed sidebar, header, or footer
 
-**Independent Test Criteria**: Multiple fixed attributes can be enabled simultaneously and all corresponding CSS classes appear on the body element.
+**Independent Test**: Verify component renders correct CSS classes for each fixed attribute
 
-### Tests
+### Tests for User Story 1 (REQUIRED)
 
-- [X] T007 [P] [US2] Write test for fixed_sidebar + fixed_header combination renders both classes in tests/test_app_component.py
-- [X] T008 [P] [US2] Write test for fixed_header + fixed_footer combination renders both classes in tests/test_app_component.py
-- [X] T009 [P] [US2] Write test for fixed_sidebar + fixed_header + fixed_footer (complete) renders all three classes in tests/test_app_component.py
+> **NOTE: Write these tests FIRST, observe existing implementation PASSES**
+
+- [ ] T001 [P] [US1] Test fixed_sidebar renders `.layout-fixed` class in `tests/test_app_layout.py`
+- [ ] T002 [P] [US1] Test fixed_header renders `.fixed-header` class in `tests/test_app_layout.py`
+- [ ] T003 [P] [US1] Test fixed_footer renders `.fixed-footer` class in `tests/test_app_layout.py`
+- [ ] T004 [P] [US1] Test default (no attributes) renders no fixed classes in `tests/test_app_layout.py`
+- [ ] T005 [P] [US1] Test sidebar_expand renders `.sidebar-expand-{value}` class in `tests/test_app_layout.py`
+
+### Documentation for User Story 1
+
+- [ ] T006 [P] [US1] Document `fixed_sidebar` attribute in `docs/components/app.md`
+- [ ] T007 [P] [US1] Document `fixed_header` attribute in `docs/components/app.md`
+- [ ] T008 [P] [US1] Document `fixed_footer` attribute in `docs/components/app.md`
+- [ ] T009 [P] [US1] Document `sidebar_expand` attribute and breakpoints in `docs/components/app.md`
+- [ ] T010 [P] [US1] Add basic usage examples to `docs/components/app.md`
+
+**Checkpoint**: User Story 1 complete - developers can configure basic fixed layouts
 
 ---
 
-## Phase 4: User Story 3 - Configure Layout Per-Page or Globally (P3)
+## Phase 3: User Story 2 - Combine Multiple Fixed Elements (Priority: P2)
 
-**Goal**: Test that layout attributes work with Django template inheritance
+**Goal**: Document and test combinations of fixed attributes (e.g., fixed sidebar + header)
 
-**Independent Test Criteria**: Child templates can override layout attributes from parent templates, and the override takes precedence.
+**Independent Test**: Verify multiple fixed attributes work together correctly
 
-### Tests
+### Tests for User Story 2 (REQUIRED)
 
-- [X] T010 [US3] Write test for template inheritance with base template having fixed_sidebar in tests/test_app_component.py
-- [X] T011 [US3] Write test for attribute override in child template renders overridden layout in tests/test_app_component.py
+- [ ] T011 [P] [US2] Test fixed_sidebar + fixed_header combination in `tests/test_app_layout.py`
+- [ ] T012 [P] [US2] Test fixed_header + fixed_footer combination in `tests/test_app_layout.py`
+- [ ] T013 [P] [US2] Test fixed complete (all three) combination in `tests/test_app_layout.py`
+- [ ] T014 [P] [US2] Test fixed attributes with custom sidebar_expand in `tests/test_app_layout.py`
+
+### Documentation for User Story 2
+
+- [ ] T015 [US2] Document attribute combinations in `docs/components/app.md`
+- [ ] T016 [US2] Add "Fixed Complete" layout example in `docs/components/app.md`
+
+**Checkpoint**: User Story 2 complete - developers can use complex fixed layouts
 
 ---
 
-## Phase 5: Documentation
+## Phase 4: User Story 3 - Configure Layout Per-Page or Globally (Priority: P3)
 
-### Component Documentation
+**Goal**: Document template inheritance patterns for global vs per-page layouts
 
-- [X] T012 [P] Create docs/components/app.md with <c-app> component reference
-- [X] T013 [P] Document fixed_sidebar attribute with examples in docs/components/app.md
-- [X] T014 [P] Document fixed_header attribute with examples in docs/components/app.md
-- [X] T015 [P] Document fixed_footer attribute with examples in docs/components/app.md
-- [X] T016 [P] Document sidebar_expand attribute interaction in docs/components/app.md
+**Independent Test**: Verify layout can be set in base template and overridden in child templates
 
-### Project Documentation
+### Tests for User Story 3 (REQUIRED)
 
-- [X] T017 Add layout configuration section to README.md with quickstart example
-- [X] T018 Update CHANGELOG.md with layout feature documentation
+- [ ] T017 [P] [US3] Test base template with fixed layout renders correctly in `tests/test_app_layout.py`
+- [ ] T018 [P] [US3] Test child template inheriting layout from base in `tests/test_app_layout.py`
+- [ ] T019 [P] [US3] Test child template overriding base layout in `tests/test_app_layout.py`
+
+### Documentation for User Story 3
+
+- [ ] T020 [US3] Document global layout pattern (base template) in `docs/components/app.md`
+- [ ] T021 [US3] Document per-page override pattern in `docs/components/app.md`
+- [ ] T022 [US3] Add template inheritance examples in `docs/components/app.md`
+
+**Checkpoint**: User Story 3 complete - developers can configure layouts globally or per-page
+
+---
+
+## Phase 5: User Story 4 - Interactive Layout Demo Page (Priority: P2)
+
+**Goal**: Create single unified demo page at `/layout/` for testing all layout configurations interactively
+
+**Independent Test**: Navigate to /layout/, toggle options via form, verify layout updates with query parameters
+
+### Tests for User Story 4 (REQUIRED)
+
+> **NOTE: Write these tests FIRST**
+
+- [X] T023 [P] [US4] Test `/layout/` view renders with default state (no query params) in `tests/test_unified_layout_demo.py`
+- [X] T024 [P] [US4] Test `/layout/?fixed_sidebar=on` applies fixed sidebar in `tests/test_unified_layout_demo.py`
+- [X] T025 [P] [US4] Test `/layout/?fixed_header=on&fixed_footer=on` applies both in `tests/test_unified_layout_demo.py`
+- [X] T026 [P] [US4] Test `/layout/?fixed_sidebar=on&fixed_header=on&fixed_footer=on` applies all three in `tests/test_unified_layout_demo.py`
+- [X] T027 [P] [US4] Test `/layout/?breakpoint=md` applies correct breakpoint in `tests/test_unified_layout_demo.py`
+- [X] T028 [P] [US4] Test invalid breakpoint falls back to default "lg" in `tests/test_unified_layout_demo.py`
+- [X] T029 [P] [US4] Test form checkboxes reflect current query param state in `tests/test_unified_layout_demo.py`
+- [X] T030 [P] [US4] Test dropdown reflects current breakpoint in `tests/test_unified_layout_demo.py`
+
+### Implementation for User Story 4
+
+- [X] T031 [US4] Create `layout_demo` view function in `example/views.py`
+  - Parse query parameters: `fixed_sidebar`, `fixed_header`, `fixed_footer`, `breakpoint`
+  - Validate breakpoint against ['sm', 'md', 'lg', 'xl', 'xxl']
+  - Render `example/layout_demo.html` with context
+- [X] T032 [US4] Add URL route for `/layout/` in `example/urls.py`
+  - Pattern: `path('layout/', views.layout_demo, name='layout_demo')`
+- [X] T033 [US4] Create `example/templates/example/layout_demo.html` template with split layout:
+  - Extend base with `<c-app>` using context variables for attributes
+  - Use Bootstrap grid: `.row` with `.col-lg-8` (main) and `.col-lg-4` (sidebar)
+- [X] T034 [US4] Implement main content area (left side, col-lg-8) in layout_demo.html:
+  - Card with header "Layout Configuration Demo"
+  - Helper text: "Scroll to test fixed element behavior"
+  - Long-form content: multiple sections with headings, paragraphs, lists, tables
+  - Total 2-3 viewport heights of scrollable content
+- [X] T035 [US4] Implement configuration sidebar (right side, col-lg-4) in layout_demo.html:
+  - Card with sticky positioning (`position-sticky, top: 1rem`)
+  - Header: "Configuration"
+  - Form with GET method, action=`{% url 'layout_demo' %}`
+  - Three checkboxes: fixed_sidebar, fixed_header, fixed_footer (checked based on context)
+  - Dropdown: breakpoint selector with options sm/md/lg/xl/xxl (selected based on context)
+  - Submit button: "Apply Configuration"
+  - Visual indicators section showing:
+    - Current body classes (e.g., `layout-fixed fixed-header`)
+    - Active configuration state (which options are enabled)
+- [X] T036 [US4] Add "Layout Demo" menu item in `example/menus.py`
+  - Position: Immediately below Dashboard link (after id="dashboard")
+  - Label: "Layout Demo"
+  - URL: `/layout/` or `{% url 'layout_demo' %}`
+  - Icon: "settings" or "tune" (use django-easy-icons if available)
+- [X] T037 [US4] Verify sidebar has 12-15 dummy menu items for scrolling test
+  - Check existing `example/menus.py` menu definition
+  - Add additional dummy items if needed to demonstrate sidebar scrolling
+- [X] T038 [US4] Add helper text to demo page explaining:
+  - "Use checkboxes to toggle fixed properties"
+  - "Use dropdown to test responsive breakpoints"
+  - "Scroll page to see fixed elements stay in place"
+  - "Resize browser window to test breakpoint transitions"
+
+**Checkpoint**: User Story 4 complete - interactive demo page functional at `/layout/`
 
 ---
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-### Edge Case Testing
-
-- [X] T019 [P] Write test for custom class attribute doesn't conflict with fixed classes in tests/test_app_component.py
-
----
-
-## Phase 7: Interactive Demo Views (FR-010 to FR-014)
-
-**Goal**: Create interactive demo views for testing fixed properties and responsive breakpoints per spec clarifications
-
-**Independent Test Criteria**: Demo views can be accessed via URLs and allow dynamic testing of layout configurations via query parameters
-
-### Fixed Properties Demo View
-
-- [X] T027 [P] [DEMO] Write test for layout_fixed_demo view with no query params in tests/test_layout_demo_views.py
-- [X] T028 [P] [DEMO] Write test for layout_fixed_demo view with fixed_sidebar=on query param in tests/test_layout_demo_views.py
-- [X] T029 [P] [DEMO] Write test for layout_fixed_demo view with all checkboxes (fixed_sidebar+fixed_header+fixed_footer) in tests/test_layout_demo_views.py
-- [X] T030 [DEMO] Implement layout_fixed_demo view in example/views.py that parses query params
-- [X] T031 [DEMO] Create example/templates/example/layout_fixed.html with checkbox form
-- [X] T032 [P] [DEMO] Add long-form content (2-3 viewport heights) to layout_fixed.html template
-- [X] T033 [P] [DEMO] Add 12-15 dummy sidebar menu items to layout_fixed.html template
-- [X] T034 [P] [DEMO] Add helper text and visual status indicators to layout_fixed.html template
-
-### Responsive Breakpoint Demo View
-
-- [X] T035 [P] [DEMO] Write test for layout_responsive_demo view with default breakpoint in tests/test_layout_demo_views.py
-- [X] T036 [P] [DEMO] Write test for layout_responsive_demo view with breakpoint=md query param in tests/test_layout_demo_views.py
-- [X] T037 [DEMO] Implement layout_responsive_demo view in example/views.py with breakpoint validation
-- [X] T038 [DEMO] Create example/templates/example/layout_responsive.html with breakpoint dropdown
-- [X] T039 [P] [DEMO] Add content sections and dummy sidebar items to layout_responsive.html template
-
-### Demo View URLs
-
-- [X] T040 [DEMO] Add /example/layout-fixed/ URL route in example/urls.py
-- [X] T041 [DEMO] Add /example/layout-responsive/ URL route in example/urls.py
-
----
-
-## Phase 8: Polish & Cross-Cutting Concerns
+**Purpose**: Final improvements and documentation
 
 ### Edge Case Testing
 
-- [X] T019 [P] Write test for custom class attribute doesn't conflict with fixed classes in tests/test_app_component.py
-- [X] T020 [P] Write test for sidebar_expand values (sm, md, lg, xl, xxl) render correct classes in tests/test_app_component.py
-- [X] T020b [P] Write test for contradictory boolean attributes in tests/test_app_component.py
+- [ ] T039 [P] Test custom class attribute doesn't conflict with fixed classes in `tests/test_app_layout.py`
+- [ ] T040 [P] Test all breakpoint values (sm, md, lg, xl, xxl) render correctly in `tests/test_app_layout.py`
 
-### Final Validation
+### Documentation & Validation
 
-- [X] T021 Run full test suite with coverage report and verify 100% coverage for app layout attributes
-- [ ] T022 Manually verify cross-browser rendering (Chrome, Firefox, Safari, Edge) using demo views per SC-002
+- [ ] T041 Verify all examples in `docs/components/app.md` are accurate and working
+- [ ] T042 Add troubleshooting section to `docs/components/app.md`
+- [X] T043 Update CHANGELOG.md with feature additions
+- [ ] T044 Update README.md with layout configuration quickstart
+
+### Quality Gates
+
+- [X] T045 Run `poetry run pytest` - all tests must pass
+- [X] T046 Run `poetry run ruff check .` - all linting must pass (for new code)
+- [X] T047 Run `poetry run ruff format .` - apply formatting (for new code)
+- [ ] T048 Run djlint on template files in mvp/templates/ and example/templates/
+
+### Manual Validation
+
+- [ ] T049 Manual test: Verify `/layout/` demo page in browser
+- [ ] T050 Manual test: Toggle all checkbox combinations and verify layout updates
+- [ ] T051 Manual test: Test all breakpoint values via dropdown
+- [ ] T052 Manual test: Verify responsive breakpoints at different viewport sizes
+- [ ] T053 Manual test: Test in Chrome, Firefox, Safari, Edge (per SC-002)
+- [ ] T054 Manual test: Verify scrolling behavior with long content (per SC-003)
 
 ---
 
-## Dependency Graph
+## Dependencies & Execution Order
 
-```mermaid
-graph TD
-    T001[T001: Setup] --> T002[T002: US1 Tests]
-    T001 --> T003[T003: US1 Tests]
-    T001 --> T004[T004: US1 Tests]
-    T001 --> T005[T005: US1 Tests]
+### Phase Dependencies
 
-    T002 --> T006[T006: US1 Validation]
-    T003 --> T006
-    T004 --> T006
-    T005 --> T006
+- **Foundational (Phase 1)**: ✅ ALREADY COMPLETE - no work needed
+- **User Story 1 (Phase 2)**: Can start immediately (no dependencies)
+- **User Story 2 (Phase 3)**: Can start immediately (independent of US1)
+- **User Story 3 (Phase 4)**: Can start immediately (independent)
+- **User Story 4 (Phase 5)**: Can start immediately (independent demo page)
+- **Polish (Phase 6)**: Depends on all desired user stories being complete
 
-    T006 --> T007[T007: US2 Tests]
-    T006 --> T008[T008: US2 Tests]
-    T006 --> T009[T009: US2 Tests]
+### User Story Dependencies
 
-    T006 --> T010[T010: US3 Tests]
-    T006 --> T011[T011: US3 Tests]
+- **User Story 1 (P1)**: No dependencies - documents existing core functionality
+- **User Story 2 (P2)**: No blocking dependencies
+- **User Story 3 (P3)**: No blocking dependencies
+- **User Story 4 (P2)**: No blocking dependencies
 
-    T006 --> T012[T012: Component Docs]
-    T012 --> T013[T013: Doc fixed_sidebar]
-    T012 --> T014[T014: Doc fixed_header]
-    T012 --> T015[T015: Doc fixed_footer]
-    T012 --> T016[T016: Doc sidebar_expand]
+### Within Each User Story
 
-    T013 --> T017[T017: README]
-    T014 --> T017
-    T015 --> T017
-    T016 --> T017
+**User Stories 1-3** (Tests + Documentation):
 
-    T017 --> T018[T018: CHANGELOG]
+- Tests can all run in parallel (T001-T005, T011-T014, T017-T019)
+- Documentation tasks can run in parallel after tests
+- Tests should be run first to verify existing implementation
 
-    T006 --> T019[T019: Edge Cases]
-    T006 --> T020[T020: Breakpoint Tests]
-    T006 --> T020b[T020b: Contradictory Attrs]
+**User Story 4** (Demo Page):
 
-    %% Demo Views
-    T006 --> T027[T027: Fixed Demo Test 1]
-    T006 --> T028[T028: Fixed Demo Test 2]
-    T006 --> T029[T029: Fixed Demo Test 3]
-    T027 --> T030[T030: Fixed Demo View]
-    T028 --> T030
-    T029 --> T030
-    T030 --> T031[T031: Fixed Demo Template]
-    T031 --> T032[T032: Add Content]
-    T031 --> T033[T033: Add Sidebar Items]
-    T031 --> T034[T034: Add Helper Text]
-    
-    T006 --> T035[T035: Responsive Demo Test 1]
-    T006 --> T036[T036: Responsive Demo Test 2]
-    T035 --> T037[T037: Responsive Demo View]
-    T036 --> T037
-    T037 --> T038[T038: Responsive Demo Template]
-    T038 --> T039[T039: Add Content to Template]
-    
-    T030 --> T040[T040: Add Fixed URL]
-    T037 --> T041[T041: Add Responsive URL]
-    
-    T007 --> T021[T021: Final Validation]
-    T008 --> T021
-    T009 --> T021
-    T010 --> T021
-    T011 --> T021
-    T019 --> T021
-    T020 --> T021
-    T020b --> T021
-    T018 --> T021
-    
-    T034 --> T022[T022: Browser Validation]
-    T039 --> T022
-    T040 --> T022
-    T041 --> T022
-    T021 --> T022
-        context=RequestContext(rf.get("/"), {"fixed_sidebar": True})
-    )
-    assert 'class="bg-body-tertiary layout-fixed' in html
-    assert '<div class="app-wrapper">' in html
-    assert 'sidebar-expand-lg' in html  # Default value
+- All tests (T023-T030) can run in parallel
+- View (T031) must be done before URL (T032)
+- Template structure (T033) before content implementation (T034-T035)
+- Menu item (T036) can be done in parallel with template work
+- Sidebar items check (T037) can be done in parallel
+- Helper text (T038) can be added while working on template
+
+### Parallel Opportunities
+
+- All test creation tasks marked [P] within a story can run in parallel
+- All documentation tasks marked [P] can run in parallel
+- User Stories 1, 2, 3, and 4 can ALL be worked on in parallel by different team members
+- All Polish tasks can run in parallel
+
+---
+
+## Parallel Team Strategy
+
+With 4 developers working in parallel:
+
+```bash
+# All phases can start immediately since Phase 1 is complete
+
+Developer A: User Story 1 (P1 - Highest Priority)
+- T001-T005: Write and run tests (parallel batch)
+- T006-T010: Write documentation (parallel batch)
+
+Developer B: User Story 2 (P2)
+- T011-T014: Write and run tests (parallel batch)
+- T015-T016: Write documentation
+
+Developer C: User Story 3 (P3)
+- T017-T019: Write and run tests (parallel batch)
+- T020-T022: Write documentation
+
+Developer D: User Story 4 (P2)
+- T023-T030: Write all tests (parallel batch)
+- T031-T038: Implement demo page (with some parallelism)
 ```
 
-### Coverage Goals
+---
 
-- 100% coverage for layout attribute logic in `<c-app>` component
-- All attribute combinations tested
-- Edge cases covered (custom classes, breakpoint values)
+## Implementation Strategy
 
-## Success Criteria
+### MVP First (User Story 1 Only)
 
-- ✅ Core component tests complete (T001-T021)
-- ✅ Documentation complete (T012-T018)
-- [ ] Demo views implemented and tested (T027-T041)
-- [ ] Manual cross-browser validation complete (T022)
-- ✅ Test suite passes with 100% coverage for layout attributes
-- ✅ No ruff linting errors
-- ✅ CHANGELOG updated
+1. ✅ Phase 1 already complete (core implementation exists)
+2. Complete Phase 2: User Story 1 (tests + docs for basic fixed layouts)
+3. **STOP and VALIDATE**: Run tests, verify docs are clear
+4. Deploy/demo - developers can now use fixed layouts!
+
+### Incremental Delivery
+
+1. Add User Story 2 (combinations) → Test → Deploy
+2. Add User Story 3 (template patterns) → Test → Deploy
+3. Add User Story 4 (interactive demo) → Test → Deploy
+4. Polish phase → Final validation → Release
+5. Each story adds value without breaking previous stories
+
+### Time Estimates
+
+- **User Story 1**: 2-3 hours (5 tests + 5 doc sections)
+- **User Story 2**: 1-2 hours (4 tests + 2 doc sections)
+- **User Story 3**: 1-2 hours (3 tests + 3 doc sections)
+- **User Story 4**: 4-6 hours (8 tests + view + template + menu + content)
+- **Polish**: 2-3 hours (edge cases + validation + quality gates)
+- **Total**: 10-16 hours
+
+---
 
 ## Notes
 
-**Implementation Status**: The `<c-app>` component in `mvp/templates/cotton/app/index.html` already implements all layout attributes (T001-T021 complete). 
+- [P] tasks = different files, no dependencies
+- [Story] label maps task to specific user story for traceability
+- Core `<c-app>` component implementation is ALREADY COMPLETE (per research.md)
+- Focus is on documentation, testing verification, and unified demo page
+- Demo page replaces two separate demo views from old plan with single `/layout/` endpoint
+- Each user story is independently completable and testable
+- Verify existing component works before adding docs/tests
+- Commit after each task or logical group
+- Stop at any checkpoint to validate story independently
 
-**Remaining Work**: Demo views (T027-T041) to provide interactive testing interface per spec requirements (FR-010 to FR-014).
+---
 
-**Demo Views Purpose**:
-- **Fixed Properties Demo** (`/example/layout-fixed/`): Interactive form with checkboxes to test all fixed attribute combinations
-- **Responsive Breakpoint Demo** (`/example/layout-responsive/`): Dropdown selector to test sidebar expansion at different breakpoints  
-- **Benefits**: Manual validation without browser automation tests, shareable URLs for configurations, educational reference for developers
+## Success Criteria (from spec.md)
 
-**MVP Focus**: Core functionality complete. Demo views enhance testing and documentation but are not required for library functionality.
+- ✅ **SC-001**: Developers can configure layout in under 2 minutes (component ready)
+- **SC-002**: Layout renders correctly in all modern browsers (validate in T053)
+- **SC-003**: Fixed elements work with 10,000+ lines (validate in T054)
+- **SC-004**: Documentation with examples (complete in T006-T022)
+- **SC-005**: <50ms page load impact (inherent - no JS overhead)

@@ -77,7 +77,7 @@ def test_info_box_with_variant_attribute(mock_request):
     # With fill="icon" (default), variant class should be on icon span
     icon_span = info_box.find("span", class_="info-box-icon")
     assert icon_span is not None, "Icon span should exist"
-    
+
     icon_classes = icon_span.get("class")
     if icon_classes:
         assert "text-bg-success" in icon_classes, "text-bg-success class should be applied to icon span in default fill mode"
@@ -247,7 +247,7 @@ def test_info_box_bootstrap_shadow_utilities(mock_request):
 def test_info_box_all_variant_colors(mock_request):
     """Test info box with all Bootstrap variant colors (T067) - default fill='icon' mode."""
     variants = ["primary", "success", "warning", "danger", "info", "secondary"]
-    
+
     for variant in variants:
         html = render_component(
             mock_request,
@@ -259,11 +259,11 @@ def test_info_box_all_variant_colors(mock_request):
         )
         soup = BeautifulSoup(html, "html.parser")
         info_box = soup.find("div", class_="info-box")
-        
+
         # With fill="icon" (default), variant class should be on icon span
         icon_span = info_box.find("span", class_="info-box-icon")
         assert icon_span is not None, f"Icon span should exist for variant={variant}"
-        
+
         icon_classes = icon_span.get("class")
         expected_class = f"text-bg-{variant}"
         assert expected_class in icon_classes, f"{expected_class} class should be applied to icon span for variant={variant}"

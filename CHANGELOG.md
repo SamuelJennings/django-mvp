@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - **Layout Configuration System**: Complete support for AdminLTE 4 fixed positioning via `<c-app>` component attributes
   - **Fixed Sidebar** (`fixed_sidebar`): Makes sidebar sticky during vertical scrolling - ideal for admin dashboards
   - **Fixed Header** (`fixed_header`): Keeps top navigation bar fixed at the top - ideal for important navigation
@@ -15,10 +16,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Combined Fixed Layouts**: All three attributes can be used simultaneously for complete fixed layout
   - **Responsive Sidebar Control** (`sidebar_expand`): Control sidebar expansion breakpoint (sm, md, lg, xl, xxl)
   - **Per-Page Layout Override**: Different pages can use different layout configurations
+  - **Interactive Layout Demo Page**: Single unified demo page at `/layout/` for testing all layout configurations
+    - Query parameter-based state management (bookmarkable URLs)
+    - Split layout: main content area (col-lg-8) + configuration sidebar (col-lg-4)
+    - Form controls for toggling fixed properties and responsive breakpoints
+    - Real-time layout updates via GET requests
+    - Visual indicators showing active CSS classes and configuration state
+    - Extensible design allowing other features to add configuration options
   - CSS Classes: `.layout-fixed`, `.fixed-header`, `.fixed-footer`, `.sidebar-expand-{breakpoint}`
   - Component Documentation: [docs/components/app.md](docs/components/app.md)
   - Feature Specification: [specs/003-adminlte-layout-config/](specs/003-adminlte-layout-config/)
-  - Test Coverage: 9 tests covering all layout variations and combinations
+  - Test Coverage: 9 tests for unified demo page, plus component attribute tests
 
 - **AdminLTE 4 Widget Components**: Complete implementation of three dashboard widget components
   - **Info Box Component** (`<c-info-box>`): Display metrics with icons and optional progress bars
@@ -47,10 +55,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation index at [docs/index.md](docs/index.md) with architecture overview and usage patterns
 
 ### Changed
+
 - Updated README.md with accurate component examples matching actual implementations
 - Component examples now use correct attribute names and values (`variant`, `fill`, etc.)
 
 ### Technical Details
+
 - **Components Location**: `mvp/templates/cotton/`
 - **Test Coverage**: 29/30 tests passing (info-box: 8/8, small-box: 9/9, card: 12/13)
 - **Known Limitation**: One card test fails due to Cotton `_children` behavior (documented)
@@ -85,16 +95,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Example templates demonstrating configuration flow with explanatory comments
 
 ### Changed
+
 - Context processor now enforces navbar-only mode by default (breaking change from previous implicit sidebar mode)
 - Configuration validation now enforces single-source navigation rule: `navbar.breakpoint` is automatically ignored when `sidebar.show_at` is a breakpoint
 - Brand and actions rendering now conditional based on configuration state rather than always present
 
 ### Fixed
+
 - Eliminated duplicate navigation rendering when both sidebar and navbar were visible
 - Proper responsive behavior for actions widgets (follow active navigation region)
 - Brand image fallback now properly preserves accessibility
 
 ### Technical Details
+
 - **Constitution Gates Validated**:
   - ✅ Gate A: No duplicate navigation (single-source rendering enforced)
   - ✅ Gate B: Framework-independent layout (works without Bootstrap)
@@ -114,7 +127,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `example/templates/layouts/base.html`: Added configuration flow comments
 
 ### Migration Notes
+
 If upgrading from earlier versions:
+
 1. Remove any `layout` key from `PAGE_CONFIG` (no longer used)
 2. Set `sidebar.show_at=False` for navbar-only mode (new default)
 3. Set `sidebar.show_at="lg"` (or preferred breakpoint) for sidebar mode
@@ -123,6 +138,7 @@ If upgrading from earlier versions:
 6. Review configuration schema in documentation for all available keys
 
 ### Added
+
 - Initial project structure
 - Basic app configuration
 - Test suite setup
@@ -131,6 +147,7 @@ If upgrading from earlier versions:
 ## [0.1.0] - 2025-12-09
 
 ### Added
+
 - Initial alpha release
 - Project scaffolding
 - Poetry configuration

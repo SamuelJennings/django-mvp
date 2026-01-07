@@ -10,9 +10,10 @@ Implement AdminLTE 4's layout configuration system in django-mvp, allowing devel
 - Boolean attributes on `<c-app>` component (fixed_sidebar, fixed_header, fixed_footer)
 - Responsive sidebar expansion breakpoints (sm, md, lg, xl, xxl)
 - CSS class generation matching AdminLTE 4 conventions
-- Demo views in example/ app for testing layout combinations and responsive behavior
+- Single unified interactive layout demo page at `/layout/` with left/right split layout
+- Demo page integrates fixed properties and responsive breakpoint testing in one location
 
-Technical approach: Extend existing `<c-app>` Cotton component to accept layout attributes, generate appropriate body classes, and provide interactive demo views with forms/dropdowns for testing all combinations.
+Technical approach: Extend existing `<c-app>` Cotton component to accept layout attributes, generate appropriate body classes, and provide a single interactive demo page with form-based configuration sidebar allowing real-time testing of all layout combinations via query parameters.
 
 ## Technical Context
 
@@ -122,12 +123,12 @@ mvp/
         └── app.html           # MODIFY: Add layout attribute handling
 
 example/
-├── views.py                    # ADD: Demo views for layout testing
-├── urls.py                     # MODIFY: Add demo view URLs
+├── views.py                    # ADD: Single layout demo view
+├── urls.py                     # MODIFY: Add /layout/ URL
+├── menus.py                    # MODIFY: Add Layout Demo menu link below Dashboard
 └── templates/
     └── example/
-        ├── layout_fixed.html   # ADD: Fixed properties demo page
-        └── layout_responsive.html  # ADD: Responsive breakpoint demo page
+        └── layout_demo.html    # ADD: Unified interactive demo page (main content + config sidebar)
 
 tests/
 ├── test_app_layout.py          # ADD: Component layout attribute tests
@@ -142,9 +143,10 @@ docs/
 **Structure Decision**: This is a Django reusable app package. Changes are localized to:
 
 1. Core component (`mvp/templates/cotton/app.html`) - add attribute handling
-2. Example app (`example/`) - add demo views and templates
-3. Tests (`tests/`) - add comprehensive test coverage
-4. Documentation (`docs/`) - update component reference
+2. Example app (`example/`) - add single unified layout demo page at `/layout/`
+3. Example app menus (`example/menus.py`) - add Layout Demo menu link below Dashboard
+4. Tests (`tests/`) - add comprehensive test coverage
+5. Documentation (`docs/`) - update component reference
 
 ## Complexity Tracking
 
