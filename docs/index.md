@@ -6,6 +6,24 @@
 
 Django MVP provides AdminLTE 4-specific components as reusable Cotton templates. For standard Bootstrap 5 components (buttons, modals, forms, etc.), use the separate [django-cotton-bs5](https://github.com/SamuelJennings/django-cotton-bs5) package.
 
+### Navigation Components
+
+Build sophisticated sidebar navigation menus with AdminLTE 4 styling:
+
+- **[Navigation Menu System](navigation.md)** - Complete navigation solution
+  - **AppMenu**: Centralized Python-based menu definition with django-flex-menus
+  - **Cotton Components**: Template-level menu building with full control
+  - Automatic URL resolution and active state detection
+  - Expandable dropdowns with AdminLTE treeview behavior
+  - Section headers for grouping related items
+  - Multi-level nesting support
+
+- **[Menu Components Reference](components/menu.md)** - Cotton component API
+  - `<c-app.sidebar.menu>` - Menu container
+  - `<c-app.sidebar.menu-item>` - Single items and parent items
+  - `<c-app.sidebar.menu-collapse>` - Expandable dropdowns
+  - `<c-app.sidebar.menu-group>` - Section headers
+
 ### Widget Components
 
 Dashboard widgets for displaying metrics, statistics, and key performance indicators:
@@ -66,7 +84,7 @@ All components are available as Cotton components with the `<c-{name}>` syntax:
         number="150"
         variant="primary" />
     </div>
-    
+
     <div class="col-md-3">
       <c-small-box
         heading="53%"
@@ -75,7 +93,7 @@ All components are available as Cotton components with the `<c-{name}>` syntax:
         variant="warning"
         link="/stats/" />
     </div>
-    
+
     <div class="col-md-6">
       <c-card title="Revenue" variant="success" fill="header">
         Revenue chart and details...

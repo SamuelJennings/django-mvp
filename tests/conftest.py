@@ -169,3 +169,69 @@ def mock_viewport_sizes():
         "xxl": 1400,
         "desktop": 1920,
     }
+
+
+# ============================================================================
+# Menu Testing Fixtures
+# ============================================================================
+
+
+@pytest.fixture
+def menu_factory():
+    """Factory for creating Menu instances with children."""
+    from flex_menu import Menu
+
+    def _create_menu(name="TestMenu", children=None):
+        return Menu(name, children=children or [])
+
+    return _create_menu
+
+
+@pytest.fixture
+def menu_item_factory():
+    """Factory for creating MenuItem instances."""
+    from flex_menu import MenuItem
+
+    def _create_item(
+        name,
+        view_name=None,
+        extra_context=None,
+        children=None,
+    ):
+        return MenuItem(
+            name=name,
+            view_name=view_name,
+            extra_context=extra_context or {},
+            children=children or [],
+        )
+
+    return _create_item
+
+
+@pytest.fixture
+def adminlte_renderer():
+    """Provides an instance of AdminLTERenderer for testing."""
+    from mvp.renderers import AdminLTERenderer
+
+    return AdminLTERenderer()
+
+
+@pytest.fixture
+def app_menu():
+    """Provides a fresh AppMenu instance for testing."""
+    from mvp.menus import AppMenu
+
+    # Store original children before tests
+    original_children = tuple(AppMenu.children)
+
+    # Clear children for test
+    for child in list(AppMenu.children):
+        child.parent = None
+
+    yield AppMenu
+
+    # Restore original children after test
+    for child in list(AppMenu.children):
+        child.parent = None
+    for child in original_children:
+        child.parent = AppMenu

@@ -1,6 +1,4 @@
-"""Views for django-cotton-layouts."""
-
-"""View mixins for the FairDM theme module."""
+"""Views and view mixins for django-mvp."""
 
 from django.db.models import Q
 

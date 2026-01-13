@@ -131,6 +131,7 @@ EASY_ICONS = {
             "house": "bi bi-house",
             "sidebar": "bi bi-layout-sidebar",
             "navbar": "bi bi-window",
+            "circle": "bi bi-circle",
             # Menu icons
             "grid": "bi bi-grid-3x3-gap",
             "box-seam": "bi bi-box-seam",
@@ -138,6 +139,7 @@ EASY_ICONS = {
             "newspaper": "bi bi-newspaper",
             "check2-square": "bi bi-check2-square",
             "layout-wtf": "bi bi-layout-wtf",
+            "chevron_right": "bi bi-chevron-right",
             # Category icons
             "cpu": "bi bi-cpu",
             "shirt": "bi bi-shirt",
@@ -189,6 +191,7 @@ EASY_ICONS = {
 # Flex Menu configuration
 FLEX_MENUS = {
     "renderers": {
+        "adminlte": "mvp.renderers.AdminLTERenderer",
         "sidebar": "mvp.renderers.SidebarRenderer",
         "navbar": "mvp.renderers.NavbarRenderer",
         "dropdown": "mvp.renderers.DropdownRenderer",
