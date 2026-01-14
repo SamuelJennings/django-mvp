@@ -3,6 +3,9 @@
 <c-app.sidebar.menu.item label="{{ label }}"
                          href="{{ url }}"
                          icon="{{ icon|default:'circle' }}"
-                         active="{{ is_active|yesno:'true,false' }}"
+                         {% comment %}
+                         {% if selected %}active{% endif %}
+                         {% endcomment %}
+                         :active="selected"
                          badge="{{ badge|default:'' }}"
                          badge_classes="{{ badge_classes|default:'text-bg-secondary' }}" />

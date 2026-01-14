@@ -316,6 +316,168 @@ Different pages can use different layout configurations:
 
 For complete layout documentation, see [App Component Reference](docs/components/app.md).
 
+## Navigation Menus
+
+Django MVP provides a configurable navigation menu system using [django-flex-menus](https://github.com/SamuelJennings/django-flex-menus) with AdminLTE 4 sidebar styling. Menus are defined in Python and automatically rendered in the sidebar.
+
+### Basic Menu Setup
+
+1. **Import and extend the default AppMenu** in your app's `menus.py` file:
+
+```python
+# myapp/menus.py
+from flex_menu import MenuItem
+from mvp.menus import AppMenu
+
+# Add menu items to the global AppMenu
+AppMenu.children.extend([
+    MenuItem(
+        name="dashboard",
+        extra_context={
+            "label": "Dashboard",
+            "view_name": "dashboard",
+            "icon": "speedometer2"
+        }
+    ),
+    MenuItem(
+        name="users",
+        extra_context={
+            "label": "User Management",
+            "view_name": "user-list",
+            "icon": "people",
+            "badge": "12",
+            "badge_classes": "text-bg-primary"
+        }
+    ),
+])
+```
+
+1. **Import the menus in your app's `apps.py`**:
+
+```python
+# myapp/apps.py
+from django.apps import AppConfig
+
+class MyappConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'myapp'
+
+    def ready(self):
+        # Import menus to register them
+        from . import menus
+```
+
+### Hierarchical Menu Groups
+
+Create organized menu sections with nested items:
+
+```python
+# myapp/menus.py
+from flex_menu import MenuItem
+from mvp.menus import AppMenu
+
+# Single menu items (appear at top)
+AppMenu.children.extend([
+    MenuItem(
+        name="dashboard",
+        extra_context={
+            "label": "Dashboard",
+            "view_name": "dashboard",
+            "icon": "house"
+        }
+    ),
+])
+
+# Menu groups (appear after singles)
+user_management = MenuItem(
+    name="user_management",
+    extra_context={
+        "group_header": "User Management",  # Creates section header
+        "icon": "people"
+    },
+    children=[
+        MenuItem(
+            name="user_list",
+            extra_context={
+                "label": "All Users",
+                "view_name": "user-list",
+                "icon": "person"
+            }
+        ),
+        MenuItem(
+            name="user_roles",
+            extra_context={
+                "label": "Roles & Permissions",
+                "view_name": "user-roles",
+                "icon": "shield"
+            }
+        ),
+    ]
+)
+
+AppMenu.children.append(user_management)
+```
+
+### Menu Features
+
+**Single Menu Items**: Direct links that appear at the top of the sidebar
+
+- `label`: Display text
+- `view_name`: Django URL name for reverse() lookup
+- `icon`: Bootstrap icon name (via django-easy-icons)
+- `badge`: Optional badge text
+- `badge_classes`: CSS classes for badge styling
+
+**Menu Groups**: Collapsible sections with headers and nested items
+
+- `group_header`: Section header text
+- `children`: List of child MenuItem objects
+- Automatically uses `nav-treeview` and `menu-open` classes
+
+**Active State Detection**: Automatically highlights current page menu items based on URL matching.
+
+### Icon Configuration
+
+Menu icons use [django-easy-icons](https://github.com/SamuelJennings/django-easy-icons) with Bootstrap Icons. Configure available icons in `settings.py`:
+
+```python
+EASY_ICONS = {
+    "default": {
+        "renderer": "easy_icons.renderers.ProviderRenderer",
+        "config": {"tag": "i"},
+        "icons": {
+            "house": "bi bi-house",
+            "people": "bi bi-people",
+            "person": "bi bi-person",
+            "shield": "bi bi-shield",
+            "gear": "bi bi-gear",
+            "speedometer2": "bi bi-speedometer2",
+        },
+    },
+}
+```
+
+### Cotton Components (Optional)
+
+For custom menu implementations, use the included Cotton components:
+
+```django
+{% load cotton %}
+
+{# Complete menu structure #}
+<c-app.sidebar.menu>
+    <c-app.sidebar.menu.group label="MAIN NAVIGATION">
+        <c-app.sidebar.menu.item label="Dashboard" href="/" icon="house" active=True />
+        <c-app.sidebar.menu.item label="Users" icon="people" badge="5">
+            <c-app.sidebar.menu.item label="All Users" href="/users/" />
+            <c-app.sidebar.menu.item label="Add User" href="/users/add/" />
+        </c-app.sidebar.menu.item>
+    </c-app.sidebar.menu.group>
+</c-app.sidebar.menu>
+```
+
+For detailed menu system documentation, see [Navigation Guide](docs/navigation.md).
+
 ## Quick Start
 
 ### Basic Page Template

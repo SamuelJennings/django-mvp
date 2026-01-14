@@ -48,6 +48,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Three fill modes: `fill="outline"` (default, border only), `fill="header"` (header colored), `fill="card"` (entire card colored)
     - Optional icon in header
     - Named slots for `tools` and `footer`
+
+- **Site Navigation System**: Complete implementation of AdminLTE 4 sidebar navigation
+  - **Django Flex-Menus Integration**: Full support for hierarchical menu definitions
+    - Menu groups with icons, badges, and expandable sub-items
+    - Support for dividers and section headers
+    - Active state detection with URL pattern matching
+    - Accessibility-compliant ARIA attributes and keyboard navigation
+  - **AdminLTE 4 Renderer**: Custom `AdminLteRenderer` for sidebar menu styling
+    - Proper CSS classes: `.sidebar-menu`, `.nav-item`, `.nav-treeview`, `.menu-open`
+    - Bootstrap Icons integration with proper spacing and alignment
+    - Badge rendering with color variants (primary, success, warning, danger, info)
+    - Hierarchical tree-view structure with proper indentation
+  - **Cotton Components**: Optional manual menu construction
+    - `<c-menu>`: Root menu container
+    - `<c-menu-item>`: Individual menu items with optional icons and badges
+    - `<c-menu-group>`: Expandable menu groups with sub-items
+    - Full component customization with c-vars and slot system
+  - **Active Class Management**: Smart active state detection
+    - URL-based matching for current page highlighting
+    - Parent menu expansion when child items are active
+    - Visual indicators with AdminLTE `.active` and `.menu-open` classes
+  - Documentation: [docs/navigation.md](docs/navigation.md)
+  - Feature Specification: [specs/004-site-navigation/](specs/004-site-navigation/)
+  - Test Coverage: Menu rendering tests + active state tests + Cotton component tests
     - AdminLTE card tools integration (collapse, maximize, remove buttons)
     - Collapsible state support via `collapsed` attribute
     - Documentation: [docs/components/card.md](docs/components/card.md)

@@ -10,7 +10,7 @@
 {% elif component_type == "menu.collapse" %}
   <c-app.sidebar.menu.collapse label="{{ label }}"
                                icon="{{ icon|default:'circle' }}"
-                               active="{{ is_open|yesno:'true,false' }}"
+                               :active="selected"
                                badge="{{ badge|default:'' }}"
                                badge_classes="{{ badge_classes|default:'text-bg-secondary' }}">
     {% for child in children %}
