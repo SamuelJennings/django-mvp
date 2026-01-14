@@ -442,9 +442,9 @@ Build flexible content containers with headers, bodies, and footers:
       <c-icon name="dash" />
     </button>
   </c-slot>
-  
+
   Revenue details and charts...
-  
+
   <c-slot name="footer">
     Last updated: January 2026
   </c-slot>
@@ -457,7 +457,7 @@ Build flexible content containers with headers, bodies, and footers:
       <c-icon name="plus" />
     </button>
   </c-slot>
-  
+
   Expandable content...
 </c-card>
 ```
