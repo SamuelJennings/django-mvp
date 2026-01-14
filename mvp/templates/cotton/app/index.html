@@ -4,7 +4,9 @@
         fixed_footer
         sidebar_collapsible
         collapsed
-        sidebar_expand="lg" />
-<div class="app-wrapper{% if fixed_sidebar %} layout-fixed{% endif %}{% if fixed_header %} fixed-header{% endif %}{% if fixed_footer %} fixed-footer{% endif %}{% if sidebar_collapsible %} sidebar-mini{% if collapsed %} sidebar-collapse{% endif %}{% endif %} sidebar-expand-{{ sidebar_expand }} {{ class }}">
-  {{ slot }}
-</div>
+        sidebar_expand="lg"
+        javascript />
+<body class="bg-body-tertiary{% if fixed_sidebar %} layout-fixed{% endif %}{% if fixed_header %} fixed-header{% endif %}{% if fixed_footer %} fixed-footer{% endif %}{% if sidebar_collapsible %} sidebar-mini{% if collapsed %} sidebar-collapse{% endif %}{% endif %} sidebar-expand-{{ sidebar_expand }}{% if class %} {{ class }}{% endif %}">
+  <div class="app-wrapper">{{ slot }}</div>
+  {{ javascript }}
+</body>
