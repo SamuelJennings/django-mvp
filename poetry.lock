@@ -617,13 +617,13 @@ rjsmin = ">=1.2.4"
 
 [[package]]
 name = "django-cotton"
-version = "2.5.1"
+version = "2.6.1"
 description = "Enabling Modern UI Composition in Django."
 optional = false
 python-versions = "<4,>=3.8"
 files = [
-    {file = "django_cotton-2.5.1-py3-none-any.whl", hash = "sha256:b03fb57dde097e771aa47ee15f377d9b757b6a058ee8fcd9cef9914d1093c169"},
-    {file = "django_cotton-2.5.1.tar.gz", hash = "sha256:b2dbd346d0aced774de0c212d2f6c4e5f30cb8e14521379e60e16b448934af0e"},
+    {file = "django_cotton-2.6.1-py3-none-any.whl", hash = "sha256:775dda0336c08d33a6daf10557eb261746b1b8e5f260b669cc6b37115571cb08"},
+    {file = "django_cotton-2.6.1.tar.gz", hash = "sha256:bedfa4561e2505fca5b88396acb9bdfaea85167eeef11813676fedab45906088"},
 ]
 
 [package.dependencies]

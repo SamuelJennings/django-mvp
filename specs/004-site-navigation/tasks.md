@@ -9,6 +9,13 @@ description: "Task list for implementing configurable site navigation menu syste
 
 **Tests**: Tests are REQUIRED for all behavior changes. Use pytest + pytest-django for backend/menu rendering.
 
+**Constitutional Requirements (v1.1.0)**:
+
+- **Test-First (I)**: All tests MUST be written and FAIL before implementation
+- **Documentation-First (II)**: Context7 MUST be used for up-to-date library documentation
+- **UI Verification (VI)**: chrome-devtools-mcp MUST verify UI changes in browser
+- **E2E Testing (VIII)**: playwright MUST test complete user workflows
+
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
 ## Format: `[ID] [P?] [Story] Description`
@@ -21,9 +28,17 @@ description: "Task list for implementing configurable site navigation menu syste
 
 **Purpose**: Project initialization and basic structure
 
-- [X] T001 Create empty AppMenu instance in mvp/menus.py with django-flex-menus
-- [X] T002 [P] Create AdminLTERenderer class scaffold in mvp/renderers.py
-- [X] T003 [P] Create template directory structure: mvp/templates/menus/ and mvp/templates/cotton/app/sidebar/
+### Context7 Documentation Retrieval (Constitutional Requirement VII)
+
+- [X] T001 [P] Retrieve django-flex-menus documentation via Context7 for current API patterns
+- [X] T002 [P] Retrieve django-cotton documentation via Context7 for component best practices
+- [X] T003 [P] Retrieve AdminLTE 4 documentation via Context7 for navigation CSS classes
+
+### Project Setup
+
+- [X] T004 Create empty AppMenu instance in mvp/menus.py with django-flex-menus
+- [X] T005 [P] Create AdminLTERenderer class scaffold in mvp/renderers.py
+- [X] T006 [P] Create template directory structure: mvp/templates/menus/ and mvp/templates/cotton/app/sidebar/
 
 ---
 
@@ -33,10 +48,10 @@ description: "Task list for implementing configurable site navigation menu syste
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [X] T004 Verify django-flex-menus is installed and properly configured in INSTALLED_APPS
-- [X] T005 [P] Create base renderer template structure: menus/container.html for depth 0
-- [X] T006 [P] Implement AdminLTERenderer.templates dict with depth-based template mapping
-- [X] T007 [P] Create test fixtures and utilities in tests/conftest.py for menu testing
+- [X] T007 Verify django-flex-menus is installed and properly configured in INSTALLED_APPS
+- [X] T008 [P] Create base renderer template structure: menus/container.html for depth 0
+- [X] T009 [P] Implement AdminLTERenderer.templates dict with depth-based template mapping
+- [X] T010 [P] Create test fixtures and utilities in tests/conftest.py for menu testing
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -52,18 +67,18 @@ description: "Task list for implementing configurable site navigation menu syste
 
 ### Tests for US3 & US4 (Write FIRST, ensure they FAIL)
 
-- [X] T008 [P] [US3] Test empty AppMenu renders without items in tests/test_menu_definition.py
-- [X] T009 [P] [US3] Test sidebar renders empty menu structure in tests/test_menu_rendering.py
-- [X] T010 [P] [US4] Test MenuItem creation with name and view_name in tests/test_menu_definition.py
-- [X] T011 [P] [US4] Test MenuItem with extra_context (label, icon) in tests/test_menu_definition.py
-- [X] T012 [P] [US4] Test adding MenuItem to AppMenu.children in tests/test_menu_definition.py
+- [X] T011 [P] [US3] Test empty AppMenu renders without items in tests/test_menu_definition.py
+- [X] T012 [P] [US3] Test sidebar renders empty menu structure in tests/test_menu_rendering.py
+- [X] T013 [P] [US4] Test MenuItem creation with name and view_name in tests/test_menu_definition.py
+- [X] T014 [P] [US4] Test MenuItem with extra_context (label, icon) in tests/test_menu_definition.py
+- [X] T015 [P] [US4] Test adding MenuItem to AppMenu.children in tests/test_menu_definition.py
 
 ### Implementation for US3 & US4
 
-- [X] T013 [US3] [US4] Implement AppMenu = Menu("AppMenu", children=[]) in mvp/menus.py
-- [X] T014 [US3] Update mvp app ready() method to ensure menus module loads
-- [X] T015 [P] [US4] Document AppMenu usage in mvp/menus.py docstring
-- [X] T016 [US4] Create example/menus.py showing how to import and extend AppMenu
+- [X] T016 [US3] [US4] Implement AppMenu = Menu("AppMenu", children=[]) in mvp/menus.py
+- [X] T017 [US3] Update mvp app ready() method to ensure menus module loads
+- [X] T018 [P] [US4] Document AppMenu usage in mvp/menus.py docstring
+- [X] T019 [US4] Create example/menus.py showing how to import and extend AppMenu
 
 **Checkpoint**: Developers can now define menus in Python. AppMenu is empty by default.
 
@@ -77,19 +92,19 @@ description: "Task list for implementing configurable site navigation menu syste
 
 ### Tests for US1 (Write FIRST, ensure they FAIL)
 
-- [X] T017 [P] [US1] Test single item renders with label and URL in tests/test_menu_rendering.py
-- [X] T018 [P] [US1] Test single item renders with icon in tests/test_menu_rendering.py
-- [X] T019 [P] [US1] Test multiple single items render in declaration order in tests/test_menu_rendering.py
-- [X] T020 [P] [US1] Test single items appear before groups in tests/test_menu_rendering.py
+- [X] T020 [P] [US1] Test single item renders with label and URL in tests/test_menu_rendering.py
+- [X] T021 [P] [US1] Test single item renders with icon in tests/test_menu_rendering.py
+- [X] T022 [P] [US1] Test multiple single items render in declaration order in tests/test_menu_rendering.py
+- [X] T023 [P] [US1] Test single items appear before groups in tests/test_menu_rendering.py
 
 ### Implementation for US1
 
-- [X] T021 [P] [US1] Create menus/single-item.html template for leaf items
-- [X] T022 [US1] Implement AdminLTERenderer.get_context_data() to extract label, url, icon from extra_context in mvp/renderers.py
-- [X] T023 [US1] Implement AdminLTERenderer.sort_items() to separate singles from groups in mvp/renderers.py
-- [X] T024 [US1] Update AdminLTERenderer to use sort_items() at depth 1 in mvp/renderers.py
-- [X] T025 [P] [US1] Integrate django-easy-icons in single-item.html template for icon rendering
-- [X] T026 [P] [US1] Add URL resolution via Django reverse() in get_context_data() in mvp/renderers.py
+- [X] T024 [P] [US1] Create menus/single-item.html template for leaf items
+- [X] T025 [US1] Implement AdminLTERenderer.get_context_data() to extract label, url, icon from extra_context in mvp/renderers.py
+- [X] T026 [US1] Implement AdminLTERenderer.sort_items() to separate singles from groups in mvp/renderers.py
+- [X] T027 [US1] Update AdminLTERenderer to use sort_items() at depth 1 in mvp/renderers.py
+- [X] T028 [P] [US1] Integrate django-easy-icons in single-item.html template for icon rendering
+- [X] T029 [P] [US1] Add URL resolution via Django reverse() in get_context_data() in mvp/renderers.py
 
 **Checkpoint**: Single menu items render correctly at the top of the sidebar with labels, URLs, and icons
 
@@ -103,22 +118,22 @@ description: "Task list for implementing configurable site navigation menu syste
 
 ### Tests for US2 (Write FIRST, ensure they FAIL)
 
-- [X] T027 [P] [US2] Test parent item with children renders below singles in tests/test_menu_rendering.py
-- [X] T028 [P] [US2] Test group header renders when group_header in extra_context in tests/test_menu_rendering.py
-- [X] T029 [P] [US2] Test nested children render indented under parent in tests/test_menu_rendering.py
-- [X] T030 [P] [US2] Test multiple groups render in declaration order in tests/test_menu_rendering.py
-- [X] T031 [P] [US2] Test nested items use nav-treeview class in tests/test_menu_rendering.py
+- [X] T030 [P] [US2] Test parent item with children renders below singles in tests/test_menu_rendering.py
+- [X] T031 [P] [US2] Test group header renders when group_header in extra_context in tests/test_menu_rendering.py
+- [X] T032 [P] [US2] Test nested children render indented under parent in tests/test_menu_rendering.py
+- [X] T033 [P] [US2] Test multiple groups render in declaration order in tests/test_menu_rendering.py
+- [X] T034 [P] [US2] Test nested items use nav-treeview class in tests/test_menu_rendering.py
 
 ### Implementation for US2
 
-- [X] T032 [P] [US2] Create menus/parent-item.html template for items with children
-- [X] T033 [P] [US2] Create menus/nested-item.html template for depth 2+ leaf items
-- [X] T034 [P] [US2] Create menus/nested-parent.html template for depth 2+ parent items
-- [X] T035 [US2] Add has_children detection in get_context_data() in mvp/renderers.py
-- [X] T036 [US2] Add group_header rendering logic in parent-item.html template
-- [X] T037 [US2] Implement nav-arrow icon for expandable parents in parent-item.html
-- [X] T038 [US2] Add nav-treeview nested list structure in parent-item.html
-- [X] T039 [P] [US2] Update AdminLTERenderer templates dict to map depth 2+ to nested templates in mvp/renderers.py
+- [X] T035 [P] [US2] Create menus/parent-item.html template for items with children
+- [X] T036 [P] [US2] Create menus/nested-item.html template for depth 2+ leaf items
+- [X] T037 [P] [US2] Create menus/nested-parent.html template for depth 2+ parent items
+- [X] T038 [US2] Add has_children detection in get_context_data() in mvp/renderers.py
+- [X] T039 [US2] Add group_header rendering logic in parent-item.html template
+- [X] T040 [US2] Implement nav-arrow icon for expandable parents in parent-item.html
+- [X] T041 [US2] Add nav-treeview nested list structure in parent-item.html
+- [X] T042 [P] [US2] Update AdminLTERenderer templates dict to map depth 2+ to nested templates in mvp/renderers.py
 
 **Checkpoint**: Hierarchical menus render correctly with groups appearing after singles, proper nesting, and headers
 
@@ -130,16 +145,16 @@ description: "Task list for implementing configurable site navigation menu syste
 
 ### Tests for Active State
 
-- [X] T040 [P] Test active state detection compares request URL with view_name in tests/test_custom_renderer.py
-- [X] T041 [P] Test active class applied to current menu item in tests/test_menu_rendering.py
-- [X] T042 [P] Test menu-open class applied to parent with active child in tests/test_custom_renderer.py
+- [X] T043 [P] Test active state detection compares request URL with view_name in tests/test_custom_renderer.py
+- [X] T044 [P] Test active class applied to current menu item in tests/test_menu_rendering.py
+- [X] T045 [P] Test menu-open class applied to parent with active child in tests/test_custom_renderer.py
 
 ### Implementation for Active State
 
-- [X] T043 [P] Implement is_active detection in get_context_data() using request.resolver_match in mvp/renderers.py
-- [X] T044 [P] Implement _has_active_descendant() helper method in mvp/renderers.py
-- [X] T045 [P] Add is_open flag for parents with active children in get_context_data() in mvp/renderers.py
-- [X] T046 [P] Update single-item.html and parent-item.html to apply active/menu-open classes
+- [X] T046 [P] Implement is_active detection in get_context_data() using request.resolver_match in mvp/renderers.py
+- [X] T047 [P] Implement _has_active_descendant() helper method in mvp/renderers.py
+- [X] T048 [P] Add is_open flag for parents with active children in get_context_data() in mvp/renderers.py
+- [X] T049 [P] Update single-item.html and parent-item.html to apply active/menu-open classes
 
 ### Tests for Badges
 
@@ -151,6 +166,20 @@ description: "Task list for implementing configurable site navigation menu syste
 - [X] T049 [P] Add has_badge flag to get_context_data() in mvp/renderers.py
 - [X] T050 [P] Add badge rendering in parent-item.html template with nav-badge class
 
+### UI Verification (Constitutional Requirement VI)
+
+- [ ] T051 [P] Use chrome-devtools-mcp to verify menu items render without all having active class
+- [ ] T052 [P] Use chrome-devtools-mcp to verify active menu item highlights correctly on current page
+- [ ] T053 [P] Use chrome-devtools-mcp to verify menu groups expand when parent has active child
+- [ ] T054 [P] Use chrome-devtools-mcp to verify badge rendering appears correctly on menu items
+
+### End-to-End Testing (Constitutional Requirement VIII)
+
+- [ ] T055 [P] Create playwright test for complete menu navigation workflow from page load to menu click
+- [ ] T056 [P] Create playwright test for active state highlighting during page navigation
+- [ ] T057 [P] Create playwright test for hierarchical menu expansion and collapse functionality
+- [ ] T058 [P] Create playwright test for menu accessibility (keyboard navigation, screen reader support)
+
 ---
 
 ## Phase 7: Integration & Multi-App Support
@@ -159,15 +188,15 @@ description: "Task list for implementing configurable site navigation menu syste
 
 ### Tests for Integration
 
-- [X] T051 [P] Test menu items from multiple apps render in INSTALLED_APPS order in tests/test_menu_integration.py
-- [X] T052 [P] Test menu survives app reload without errors in tests/test_menu_integration.py
-- [X] T053 [P] Test parameterized URLs resolve correctly in tests/test_menu_integration.py
+- [X] T059 [P] Test menu items from multiple apps render in INSTALLED_APPS order in tests/test_menu_integration.py
+- [X] T060 [P] Test menu survives app reload without errors in tests/test_menu_integration.py
+- [X] T061 [P] Test parameterized URLs resolve correctly in tests/test_menu_integration.py
 
 ### Implementation for Integration
 
-- [X] T054 [P] Update example/menus.py with comprehensive examples showing all features
-- [X] T055 [P] Create example/apps.py with ready() method importing menus module
-- [X] T056 [P] Add example URL patterns in example/urls.py for menu testing
+- [X] T062 [P] Update example/menus.py with comprehensive examples showing all features
+- [X] T063 [P] Create example/apps.py with ready() method importing menus module
+- [X] T064 [P] Add example URL patterns in example/urls.py for menu testing
 
 ---
 
@@ -177,15 +206,15 @@ description: "Task list for implementing configurable site navigation menu syste
 
 ### Tests for Cotton Components
 
-- [ ] T057 [P] Test menu.item.html component renders with c-vars in tests/test_menu_rendering.py
-- [ ] T058 [P] Test menu-header.html component renders with c_label in tests/test_menu_rendering.py
-- [ ] T059 [P] Test menu.item with children slot renders correctly in tests/test_menu_rendering.py
+- [X] T065 [P] Test menu.item.html component renders with c-vars in tests/test_menu_rendering.py
+- [X] T066 [P] Test menu-header.html component renders with c_label in tests/test_menu_rendering.py
+- [X] T067 [P] Test menu.item with children slot renders correctly in tests/test_menu_rendering.py
 
 ### Implementation for Cotton Components
 
-- [ ] T060 [P] Create cotton/app/sidebar/menu.item.html component with c-vars
-- [ ] T061 [P] Create cotton/app/sidebar/menu-header.html component with c_label
-- [ ] T062 [P] Create cotton/app/sidebar/menu.html container component (optional)
+- [X] T068 [P] Create cotton/app/sidebar/menu.item.html component with c-vars
+- [X] T069 [P] Create cotton/app/sidebar/menu-header.html component with c_label
+- [X] T070 [P] Create cotton/app/sidebar/menu.html container component (optional)
 
 ---
 
@@ -193,16 +222,16 @@ description: "Task list for implementing configurable site navigation menu syste
 
 **Purpose**: Finalize documentation and ensure everything is production-ready
 
-- [ ] T063 [P] Update README.md with navigation menu example and quickstart link
-- [ ] T064 [P] Add menu system section to docs/index.md
-- [ ] T065 [P] Create docs/navigation.md with detailed menu documentation
-- [X] T066 [P] Add inline docstrings to AdminLTERenderer methods in mvp/renderers.py
-- [X] T067 [P] Add type hints to AppMenu and renderer methods in mvp/menus.py and mvp/renderers.py
-- [ ] T068 [P] Update CHANGELOG.md with menu system feature
-- [X] T069 Run pytest to verify all tests pass
-- [X] T070 Run ruff check and format on mvp/ directory
-- [ ] T071 Run djlint on templates in mvp/templates/
-- [ ] T072 Validate quickstart.md works end-to-end with fresh Django project
+- [X] T071 [P] Update README.md with navigation menu example and quickstart link
+- [X] T072 [P] Add menu system section to docs/index.md
+- [X] T073 [P] Create docs/navigation.md with detailed menu documentation
+- [X] T074 [P] Add inline docstrings to AdminLTERenderer methods in mvp/renderers.py
+- [X] T075 [P] Add type hints to AppMenu and renderer methods in mvp/menus.py and mvp/renderers.py
+- [X] T076 [P] Update CHANGELOG.md with menu system feature
+- [X] T077 Run pytest to verify all tests pass
+- [X] T078 Run ruff check and format on mvp/ directory
+- [X] T079 Run djlint on templates in mvp/templates/
+- [X] T080 Validate quickstart.md works end-to-end with fresh Django project
 
 ---
 
@@ -324,10 +353,10 @@ After each phase, validate:
 
 ### Test Organization
 
-```
+```text
 tests/
-├── test_menu_definition.py      # T008-T012: MenuItem & AppMenu API
-├── test_menu_rendering.py       # T017-T020, T027-T031, T047-T048: Template rendering
+├── test_menu_definition.py      # T011-T015: MenuItem & AppMenu API
+├── test_menu_rendering.py       # T020-T023, T027-T031, T047-T048: Template rendering
 ├── test_custom_renderer.py      # T040-T042: Renderer logic
 └── test_menu_integration.py     # T051-T053: Multi-app integration
 ```
@@ -342,10 +371,16 @@ tests/
 
 ## Summary
 
-**Total tasks**: 72
+**Total tasks**: 80 (+8 constitutional requirements)
 **User story phases**: 3 (US3+US4, US1, US2)
-**Test tasks**: 21 (29%)
-**Implementation tasks**: 51 (71%)
+**Test tasks**: 29 (36%) - includes constitutional E2E testing
+**Implementation tasks**: 51 (64%)
+
+**Constitutional Compliance Tasks**:
+
+- **Context7 Documentation**: T001-T003 (3 tasks)
+- **UI Verification**: T051-T054 (4 tasks)
+- **E2E Testing**: T055-T058 (4 tasks)
 
 **Parallel opportunities**:
 

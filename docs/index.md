@@ -18,6 +18,22 @@ Build sophisticated sidebar navigation menus with AdminLTE 4 styling:
   - Section headers for grouping related items
   - Multi-level nesting support
 
+### Menu System
+
+Complete sidebar navigation system with hierarchical menus, icons, badges, and active state management:
+
+- **[Navigation System Guide](navigation.md)** - Complete menu implementation guide
+  - Django Flex-Menus integration for menu definitions
+  - AdminLTE 4 renderer for proper styling and behavior
+  - Cotton components for manual menu construction
+  - Active state detection and URL matching
+  - Menu organization: singles first, then groups
+  - Icon and badge support with Bootstrap Icons
+
+### Menu Components
+
+Cotton components for building custom navigation menus:
+
 - **[Menu Components Reference](components/menu.md)** - Cotton component API
   - `<c-app.sidebar.menu>` - Menu container
   - `<c-app.sidebar.menu-item>` - Single items and parent items
