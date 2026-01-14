@@ -1,12 +1,12 @@
 # Component API Contract: `<c-app>`
 
 **Feature**: 002-layout-configuration
-**Date**: 2026-01-06
+**Date**: 2026-01-13
 **Component**: `mvp/templates/cotton/app/index.html`
 
 ## Overview
 
-The `<c-app>` Cotton component is the root layout wrapper that controls AdminLTE 4's fixed positioning behavior via boolean attributes.
+The `<c-app>` Cotton component is the root layout component that renders the HTML body tag with AdminLTE layout classes applied directly. It includes a JavaScript slot for user-provided scripts.
 
 ## Component Signature
 
@@ -19,7 +19,24 @@ The `<c-app>` Cotton component is the root layout wrapper that controls AdminLTE
     class=""
 >
     {{ slot }}
+
+    <c-slot name="javascript">
+        <!-- User scripts go here -->
+    </c-slot>
 </c-app>
+```
+
+## Template Structure
+
+**Component renders**:
+
+```html
+<body class="bg-body-tertiary [layout classes] [class]">
+  <div class="app-wrapper">
+    {{ slot }}
+  </div>
+  {{ javascript }}
+</body>
 ```
 
 ## Attributes

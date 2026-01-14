@@ -1,7 +1,103 @@
-# Quickstart: AdminLTE Layout Configuration
+# Quickstart Guide: AdminLTE Layout Configuration
 
 **Feature**: 002-layout-configuration
-**Date**: January 5, 2026
+**Date**: January 13, 2026
+**Audience**: Django developers using django-mvp
+
+## Overview
+
+Configure AdminLTE layout options (fixed sidebar, header, footer) using simple Cotton component attributes. The component now includes the body tag with layout classes applied directly.
+
+## Prerequisites
+
+- Django project with django-mvp installed
+- Basic familiarity with Cotton components
+
+## Usage
+
+### Basic Layout Configuration
+
+Use boolean attributes on `<c-app>` to control fixed positioning:
+
+```html
+<!-- Fixed sidebar only -->
+<c-app fixed_sidebar>
+  <c-app.header />
+  <c-app.sidebar />
+  <c-app.main>
+    {% block content %}{% endblock %}
+  </c-app.main>
+</c-app>
+
+<!-- Fixed header and sidebar -->
+<c-app fixed_sidebar fixed_header>
+  <!-- content -->
+</c-app>
+
+<!-- All fixed elements -->
+<c-app fixed_sidebar fixed_header fixed_footer>
+  <!-- content -->
+</c-app>
+```
+
+### JavaScript Integration
+
+Add custom JavaScript using the `javascript` slot:
+
+```html
+<c-app fixed_sidebar>
+  <c-app.header />
+  <c-app.sidebar />
+  <c-app.main>
+    {% block content %}{% endblock %}
+  </c-app.main>
+
+  <c-slot name="javascript">
+    <script>
+      console.log('Custom JavaScript loaded');
+      // Your AdminLTE customizations
+    </script>
+  </c-slot>
+</c-app>
+```
+
+## Layout Attributes
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `fixed_sidebar` | boolean | `false` | Sidebar stays visible during scroll |
+| `fixed_header` | boolean | `false` | Header stays at top during scroll |
+| `fixed_footer` | boolean | `false` | Footer stays at bottom during scroll |
+| `sidebar_expand` | string | `"lg"` | Breakpoint: `sm`, `md`, `lg`, `xl`, `xxl` |
+| `class` | string | `""` | Additional CSS classes for body |
+
+## Common Examples
+
+**Data Dashboard** (fixed navigation):
+
+```html
+<c-app fixed_sidebar fixed_header>
+  <!-- Navigation stays visible for easy access -->
+</c-app>
+```
+
+**Full-screen Report** (maximum content space):
+
+```html
+<c-app>
+  <!-- All elements scroll naturally -->
+</c-app>
+```
+
+**Mobile-responsive Sidebar**:
+
+```html
+<c-app sidebar_expand="md">
+  <!-- Sidebar hidden on mobile, visible on medium+ screens -->
+</c-app>
+```
+
+That's it! The layout classes are automatically applied to the body tag based on your component attributes.
 
 ## Overview
 
