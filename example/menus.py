@@ -29,7 +29,7 @@ AppMenu.extend(
             view_name="dashboard",
             extra_context={
                 "label": "Dashboard",
-                "icon": "house-door",
+                "icon": "house",
             },
         ),
         # Layout Demo with badge showing "New" feature
@@ -38,7 +38,7 @@ AppMenu.extend(
             view_name="layout_demo",
             extra_context={
                 "label": "Layout Demo",
-                "icon": "sliders",
+                "icon": "box-seam",
                 "badge": "New",
                 "badge_classes": "text-bg-success",
             },
@@ -49,7 +49,7 @@ AppMenu.extend(
             url="/profile/",
             extra_context={
                 "label": "My Profile",
-                "icon": "person-circle",
+                "icon": "add",
                 "badge": "2",
                 "badge_classes": "text-bg-info",
             },
@@ -65,7 +65,7 @@ AppMenu.extend(
 # Administration section with nested items
 admin_group = MenuCollapse(
     name="administration",
-    extra_context={"label": "Administration", "icon": "gear-wide-connected", "component_type": "menu.collapse"},
+    extra_context={"label": "Administration", "icon": "briefcase", "component_type": "menu.collapse"},
     parent=AppMenu,
 )
 
@@ -85,7 +85,7 @@ admin_group.extend(
             url="/admin/permissions/",
             extra_context={
                 "label": "Permissions",
-                "icon": "shield-lock",
+                "icon": "briefcase",
             },
         ),
         MenuItem(
@@ -93,7 +93,7 @@ admin_group.extend(
             url="/admin/settings/",
             extra_context={
                 "label": "System Settings",
-                "icon": "sliders",
+                "icon": "box-seam",
             },
         ),
     ]
@@ -102,7 +102,7 @@ admin_group.extend(
 # Content management with notification badges
 content_group = MenuCollapse(
     name="content",
-    extra_context={"label": "Content Management", "icon": "file-earmark-text", "component_type": "menu.collapse"},
+    extra_context={"label": "Content Management", "icon": "book", "component_type": "menu.collapse"},
     parent=AppMenu,
 )
 
@@ -111,14 +111,14 @@ content_group.extend(
         MenuItem(
             name="articles",
             url="/content/articles/",
-            extra_context={"label": "Articles", "icon": "newspaper", "badge": "12", "badge_classes": "text-bg-primary"},
+            extra_context={"label": "Articles", "icon": "book", "badge": "12", "badge_classes": "text-bg-primary"},
         ),
         MenuItem(
             name="pages",
             url="/content/pages/",
             extra_context={
                 "label": "Pages",
-                "icon": "file-text",
+                "icon": "book",
             },
         ),
         MenuItem(
@@ -126,7 +126,7 @@ content_group.extend(
             url="/content/media/",
             extra_context={
                 "label": "Media Library",
-                "icon": "images",
+                "icon": "book",
                 "badge": "5",
                 "badge_classes": "text-bg-warning",
             },
@@ -150,7 +150,7 @@ MenuGroup(
             url="/tools/import-export/",
             extra_context={
                 "label": "Import/Export",
-                "icon": "arrow-left-right",
+                "icon": "add",
             },
         ),
         MenuItem(
@@ -158,7 +158,7 @@ MenuGroup(
             url="/tools/backup/",
             extra_context={
                 "label": "Backup & Restore",
-                "icon": "cloud-download",
+                "icon": "add",
             },
         ),
         MenuItem(
@@ -166,7 +166,7 @@ MenuGroup(
             url="/tools/logs/",
             extra_context={
                 "label": "System Logs",
-                "icon": "file-text",
+                "icon": "book",
             },
         ),
     ],
@@ -175,7 +175,7 @@ MenuGroup(
 # Reports section with nested structure
 reports_group = MenuCollapse(
     name="reports",
-    extra_context={"label": "Reports & Analytics", "icon": "bar-chart-line", "component_type": "menu.collapse"},
+    extra_context={"label": "Reports & Analytics", "icon": "briefcase", "component_type": "menu.collapse"},
     parent=AppMenu,
 )
 
@@ -193,7 +193,7 @@ reports_group.extend(
                     url="/reports/users/active/",
                     extra_context={
                         "label": "Active Users",
-                        "icon": "person-check",
+                        "icon": "add",
                     },
                 ),
                 MenuItem(
@@ -201,7 +201,7 @@ reports_group.extend(
                     url="/reports/users/activity/",
                     extra_context={
                         "label": "User Activity",
-                        "icon": "activity",
+                        "icon": "add",
                         "badge": "Live",
                         "badge_classes": "text-bg-success",
                     },
@@ -214,7 +214,7 @@ reports_group.extend(
             url="/reports/content/",
             extra_context={
                 "label": "Content Statistics",
-                "icon": "graph-up",
+                "icon": "add",
             },
         ),
         # System Reports
@@ -223,7 +223,7 @@ reports_group.extend(
             url="/reports/system/",
             extra_context={
                 "label": "System Health",
-                "icon": "heart-pulse",
+                "icon": "add",
                 "badge": "OK",
                 "badge_classes": "text-bg-success",
             },
@@ -246,7 +246,7 @@ MenuGroup(
             url="https://github.com/example/django-mvp",
             extra_context={
                 "label": "GitHub Repository",
-                "icon": "github",
+                "icon": "add",
             },
         ),
         MenuItem(

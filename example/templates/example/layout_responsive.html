@@ -201,13 +201,29 @@
                         <select class="form-select"
                                 id="breakpoint"
                                 name="breakpoint">
-                          {% for bp in breakpoints %}<option value="{{ bp }}"
-                                  {% if bp == breakpoint %}selected{% endif %}>{{ bp|upper }} - {% if bp == 'sm' %}576px (Small){% elif bp == 'md' %}768px (Medium){% elif bp == 'lg' %}992px (Large - Default){% elif bp == 'xl' %}1200px (Extra Large){% else %}1400px (Extra Extra Large){% endif %}</option>{% endfor %}
+                          {% for bp in breakpoints %}
+                            <option value="{{ bp }}"
+                                    {% if bp == breakpoint %}selected{% endif %}>
+                              {{ bp|upper }} -
+                              {% if bp == 'sm' %}
+                                576px (Small)
+                              {% elif bp == 'md' %}
+                                768px (Medium)
+                              {% elif bp == 'lg' %}
+                                992px (Large - Default)
+                              {% elif bp == 'xl' %}
+                                1200px (Extra Large)
+                              {% else %}
+                                1400px (Extra Extra Large)
+                              {% endif %}
+                            </option>
+                          {% endfor %}
                         </select>
                       </div>
                       <div class="col-md-6">
                         <button type="submit" class="btn btn-primary">Apply Breakpoint</button>
-                        <a href="/example/layout-responsive/" class="btn btn-secondary">Reset to Default</a>
+                        <a href="/example/layout-responsive/"
+                           class="btn btn-secondary">Reset to Default</a>
                       </div>
                     </div>
                   </form>
@@ -313,9 +329,7 @@
                     </li>
                   </ul>
                   <h4>Section 4: Testing Breakpoints</h4>
-                  <p>
-                    To test breakpoint behavior, select a breakpoint from the dropdown above and resize your browser window:
-                  </p>
+                  <p>To test breakpoint behavior, select a breakpoint from the dropdown above and resize your browser window:</p>
                   <ol>
                     <li>Select a breakpoint (e.g., 'md' = 768px)</li>
                     <li>Click "Apply Breakpoint"</li>
@@ -324,9 +338,7 @@
                     <li>Try opening the off-canvas menu with the hamburger button when below the breakpoint</li>
                   </ol>
                   <h4>Section 5: Implementation in Templates</h4>
-                  <p>
-                    In your Django templates, set the breakpoint using the sidebar_expand attribute:
-                  </p>
+                  <p>In your Django templates, set the breakpoint using the sidebar_expand attribute:</p>
                   <pre><code>&lt;c-app sidebar_expand="lg"&gt;
   &lt;c-app.header /&gt;
   &lt;c-app.sidebar /&gt;
@@ -335,9 +347,7 @@
   &lt;/c-app.main&gt;
 &lt;/c-app&gt;</code></pre>
                   <h4>Section 6: Combining with Fixed Properties</h4>
-                  <p>
-                    You can combine sidebar_expand with fixed properties for complete layout control. For example:
-                  </p>
+                  <p>You can combine sidebar_expand with fixed properties for complete layout control. For example:</p>
                   <pre><code>&lt;c-app sidebar_expand="md" fixed_sidebar fixed_header&gt;
   ...
 &lt;/c-app&gt;</code></pre>
@@ -360,9 +370,7 @@
                     a standard mobile UX pattern that users expect.
                   </p>
                   <h4>Section 8: Accessibility and Keyboard Navigation</h4>
-                  <p>
-                    The sidebar works with keyboard navigation at all breakpoints. Users can:
-                  </p>
+                  <p>The sidebar works with keyboard navigation at all breakpoints. Users can:</p>
                   <ul>
                     <li>Tab to the hamburger menu button and press Enter to open/close</li>
                     <li>Tab through menu items when sidebar is open</li>

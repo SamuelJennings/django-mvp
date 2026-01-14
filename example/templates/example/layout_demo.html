@@ -4,6 +4,8 @@
   <c-app :fixed_sidebar="fixed_sidebar"
          :fixed_header="fixed_header"
          :fixed_footer="fixed_footer"
+         :sidebar_collapsible="sidebar_collapsible"
+         :collapsed="collapsed"
          sidebar_expand="{{ breakpoint }}">
     <c-app.header />
     <c-app.sidebar />
@@ -207,6 +209,35 @@
                     </div>
                   </div>
                   <div class="mb-3">
+                    <h5>Sidebar Controls</h5>
+                    <p class="text-muted small">Configure sidebar behavior and collapsibility.</p>
+                    <div class="form-check mb-2">
+                      <input class="form-check-input"
+                             type="checkbox"
+                             name="sidebar_collapsible"
+                             id="sidebar_collapsible"
+                             {% if sidebar_collapsible %}checked{% endif %} />
+                      <label class="form-check-label"
+                             for="sidebar_collapsible">
+                        <strong>Collapsible Sidebar</strong>
+                        <br />
+                        <small class="text-muted">Enable sidebar mini-mode functionality</small>
+                      </label>
+                    </div>
+                    <div class="form-check mb-3">
+                      <input class="form-check-input"
+                             type="checkbox"
+                             name="collapsed"
+                             id="collapsed"
+                             {% if collapsed %}checked{% endif %} />
+                      <label class="form-check-label" for="collapsed">
+                        <strong>Start Collapsed</strong>
+                        <br />
+                        <small class="text-muted">Begin with sidebar in mini-mode</small>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="mb-3">
                     <h5>Responsive Breakpoint</h5>
                     <p class="text-muted small">Select the breakpoint at which the sidebar auto-expands.</p>
                     <label for="breakpoint" class="form-label">Sidebar Expansion Breakpoint</label>
@@ -275,6 +306,15 @@
 
         inputs.forEach(function(input) {
           input.addEventListener('change', function() {
+            // Add sidebar_expand parameter when breakpoint changes
+            if (input.name === 'breakpoint') {
+              const sidebarExpandInput = document.createElement('input');
+              sidebarExpandInput.type = 'hidden';
+              sidebarExpandInput.name = 'sidebar_expand';
+              sidebarExpandInput.value = input.value;
+              form.appendChild(sidebarExpandInput);
+            }
+
             // Submit the form automatically when any input changes
             form.submit();
           });
