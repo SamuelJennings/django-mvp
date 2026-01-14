@@ -8,7 +8,7 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: Tests are REQUIRED for behavior changes. Use pytest + pytest-django for backend/integration and pytest-playwright for UI behavior.
+**Tests**: Tests are REQUIRED for behavior changes. Use pytest + pytest-django for backend/integration and pytest-playwright for UI behavior. End-to-end tests with playwright are REQUIRED for all features. UI changes MUST be verified using chrome-devtools-mcp. Use context7 for up-to-date library documentation.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 

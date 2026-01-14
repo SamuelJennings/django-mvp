@@ -1,17 +1,16 @@
 <!--
 Sync Impact Report
-- Version change: unversioned template → 1.0.0
-- Modified principles:
-	- Principle 1 placeholder → I. Test-First (NON-NEGOTIABLE)
-	- Principle 2 placeholder → II. Documentation-First
-	- Principle 3 placeholder → III. Component Quality & Accessibility
-	- Principle 4 placeholder → IV. Compatibility & Config-Driven Design
-	- Principle 5 placeholder → V. Tooling & Consistency
-- Added sections: none (filled existing template)
+- Version change: 1.0.0 → 1.1.0
+- Modified principles: none
+- Added sections:
+	- VI. UI Verification (chrome-devtools-mcp usage)
+	- VII. Documentation Retrieval (context7 usage)
+	- VIII. End-to-End Testing (playwright requirement)
 - Removed sections: none
 - Templates requiring updates:
-	- ✅ .specify/templates/plan-template.md (✅ updated)
-	- ✅ .specify/templates/tasks-template.md (✅ updated)
+	- ✅ .specify/templates/plan-template.md (updated constitution check)
+	- ✅ .specify/templates/tasks-template.md (updated testing requirements)
+	- ✅ .specify/templates/spec-template.md (already emphasizes testing - no changes needed)
 - Follow-up TODOs: none
 -->
 
@@ -65,6 +64,31 @@ The project uses consistent tooling to keep quality high and contributions smoot
 - Code MUST satisfy linting/formatting and any configured static checks before merge.
 - Keep changes minimal and focused; avoid incidental refactors.
 
+### VI. UI Verification (chrome-devtools-mcp)
+
+Agents MUST verify UI changes are properly reflected during implementation.
+
+- When building or modifying UI elements, agents MUST use chrome-devtools-mcp to inspect the rendered output and confirm that implementation changes are visually represented in the browser.
+- Visual verification MUST occur after each significant UI modification to catch rendering issues early.
+- This ensures that template changes, CSS updates, and component modifications produce the expected visual results.
+
+### VII. Documentation Retrieval (context7)
+
+Agents MUST use current documentation when working with dependencies.
+
+- Agents MUST use context7 to retrieve up-to-date documentation for all packages and libraries they are working with.
+- This ensures that code follows current API patterns and best practices rather than outdated examples.
+- Context7 MUST be consulted before implementing features that rely on external libraries (Django, Cotton, Bootstrap, etc.).
+
+### VIII. End-to-End Testing (playwright)
+
+Features MUST include comprehensive end-to-end testing.
+
+- All new features MUST include end-to-end tests using playwright to verify complete user workflows.
+- E2E tests MUST cover the entire user journey from initial page load through final action completion.
+- UI interactions, form submissions, navigation flows, and visual elements MUST be tested at the browser level.
+- E2E tests serve as acceptance tests that validate feature requirements are fully met.
+
 ## Quality Gates
 
 The following gates MUST pass for every pull request that changes runtime behavior:
@@ -99,4 +123,4 @@ This constitution defines non-negotiable project rules and supersedes local conv
 - MINOR: Adds a principle/section or materially expands guidance.
 - PATCH: Clarifies wording or fixes typos without changing intent.
 
-**Version**: 1.0.0 | **Ratified**: 2026-01-05 | **Last Amended**: 2026-01-05
+**Version**: 1.1.0 | **Ratified**: 2026-01-05 | **Last Amended**: 2026-01-14

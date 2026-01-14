@@ -261,7 +261,3 @@ def test_small_box_all_variant_colors(mock_request):
         classes = small_box.get("class")
         expected_class = f"text-bg-{variant}"
         assert expected_class in classes, f"{expected_class} class should be applied for variant={variant}"
-
-
-
-

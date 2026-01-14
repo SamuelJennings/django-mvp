@@ -281,3 +281,45 @@ class ListItemTemplateMixin:
         context = super().get_context_data(**kwargs)
         context["list_item_template"] = self.get_list_item_template()
         return context
+
+
+def layout_demo(request):
+    """Interactive layout demo page for testing AdminLTE layout configurations.
+
+    Accepts query parameters to control layout options:
+    - fixed_sidebar=on: Enable fixed sidebar (layout-fixed class)
+    - fixed_header=on: Enable fixed header (fixed-header class)
+    - fixed_footer=on: Enable fixed footer (fixed-footer class)
+    - sidebar_expand=sm|md|lg|xl|xxl: Set sidebar expand breakpoint
+    - sidebar_collapsible=on: Enable collapsible sidebar (sidebar-mini class)
+    - collapsed=on: Start with sidebar collapsed (sidebar-collapse class)
+
+    Returns:
+        HttpResponse: Rendered layout demo page with form controls and layout preview
+    """
+    from django.shortcuts import render
+
+    # Parse query parameters for layout configuration
+    layout_config = {
+        "fixed_sidebar": request.GET.get("fixed_sidebar") == "on",
+        "fixed_header": request.GET.get("fixed_header") == "on",
+        "fixed_footer": request.GET.get("fixed_footer") == "on",
+        "sidebar_collapsible": request.GET.get("sidebar_collapsible") == "on",
+        "collapsed": request.GET.get("collapsed") == "on",
+    }
+
+    # Handle sidebar expand with validation and fallback
+    sidebar_expand = request.GET.get("sidebar_expand", "lg")
+    valid_breakpoints = ["sm", "md", "lg", "xl", "xxl"]
+    if sidebar_expand not in valid_breakpoints:
+        sidebar_expand = "lg"  # Fallback to default
+    layout_config["sidebar_expand"] = sidebar_expand
+
+    context = {
+        "layout_config": layout_config,
+        "valid_breakpoints": valid_breakpoints,
+        "page_title": "Interactive Layout Demo",
+        "breadcrumb": "Layout Configuration Demo",
+    }
+
+    return render(request, "mvp/layout_demo.html", context)

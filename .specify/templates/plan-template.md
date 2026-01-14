@@ -35,6 +35,9 @@
 - Test types are identified (pytest, pytest-django, pytest-playwright as needed).
 - Documentation updates are included for any public behavior change.
 - Quality gates are understood (tests + lint + format).
+- UI verification approach is planned (chrome-devtools-mcp for visual validation).
+- Documentation retrieval is planned (context7 for up-to-date library docs).
+- End-to-end testing is planned (playwright for complete user workflows).
 
 ## Project Structure
 

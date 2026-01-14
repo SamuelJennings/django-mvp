@@ -1,200 +1,249 @@
-# Data Model: AdminLTE Layout Configuration System
+# Data Model: AdminLTE Layout Configuration
 
 **Feature**: 002-layout-configuration
-**Date**: January 5, 2026
+**Date**: January 13, 2026
+**Dependencies**: research.md
 
-## Overview
+## Simple Cotton Approach
 
-This feature does not involve persistent data storage. This document describes the conceptual entities that represent layout configuration at template render time.
+**Model**: Layout attributes are passed directly to Cotton component and applied to body class using Cotton's built-in template logic. No Python data structures needed.
 
-## Conceptual Entities
+## Cotton Component Attributes
 
-### Layout Configuration
+### Layout Attributes
 
-**Description**: Represents the set of boolean flags that control fixed vs scrolling behavior for major layout sections.
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `fixed_sidebar` | boolean | `false` | Sidebar stays visible during scroll |
+| `fixed_header` | boolean | `false` | Header stays at top during scroll |
+| `fixed_footer` | boolean | `false` | Footer stays at bottom during scroll |
+| `sidebar_expand` | string | `"lg"` | Responsive breakpoint: `sm`, `md`, `lg`, `xl`, `xxl` |
+| `class` | string | `""` | Additional CSS classes |
 
-**Attributes**:
+### Generated Body Classes
 
-- `fixed_sidebar` (boolean, optional, default=false) - When true, sidebar remains fixed during scroll
-- `fixed_header` (boolean, optional, default=false) - When true, header remains fixed at top
-- `fixed_footer` (boolean, optional, default=false) - When true, footer remains fixed at bottom
-- `sidebar_expand` (string, optional, default="lg") - Bootstrap breakpoint for sidebar visibility
+**Template Logic**:
 
-**Relationships**: None (flat structure)
-
-**Validation Rules**:
-
-- All boolean attributes accept truthy/falsy values
-- `sidebar_expand` must be one of: `sm`, `md`, `lg`, `xl`, `xxl`
-- No conflicts possible - all combinations are valid
-
-**State Transitions**: None (stateless, evaluated at render time only)
+```django
+<body class="bg-body-tertiary{% if fixed_sidebar %} layout-fixed{% endif %}{% if fixed_header %} fixed-header{% endif %}{% if fixed_footer %} fixed-footer{% endif %} sidebar-expand-{{ sidebar_expand }} {{ class }}">
+```
 
 **Examples**:
 
+- Default: `bg-body-tertiary sidebar-expand-lg`
+- Fixed sidebar: `bg-body-tertiary layout-fixed sidebar-expand-lg`
+- All fixed: `bg-body-tertiary layout-fixed fixed-header fixed-footer sidebar-expand-lg`
+
+## JavaScript Slot
+
+**Slot Declaration**: `{{ javascript }}` in component template
+**Usage**: `<c-slot name="javascript">...</c-slot>` in template using component
+
+## No Persistent Data
+
+This feature requires no database tables or persistent storage. All configuration is ephemeral and exists only during template rendering.
+
+## Core Entities
+
+### LayoutConfig (Immutable Configuration)
+
+**Purpose**: Immutable, validated layout configuration with body class generation capability.
+
 ```python
-# Fixed sidebar only
-{"fixed_sidebar": True}
+from dataclasses import dataclass
+from enum import Enum
+from typing import Optional, Dict, Any
 
-# Fixed complete (all elements fixed)
-{"fixed_sidebar": True, "fixed_header": True, "fixed_footer": True}
+class BreakpointType(str, Enum):
+    """Supported AdminLTE breakpoint values for sidebar expansion."""
+    SM = "sm"
+    MD = "md"
+    LG = "lg"
+    XL = "xl"
+    XXL = "xxl"
 
-# Fixed header with medium breakpoint
-{"fixed_header": True, "sidebar_expand": "md"}
+@dataclass(frozen=True)
+class LayoutConfig:
+    """Immutable layout configuration with validation and body class generation."""
 
-# Default (no fixed elements)
-{}
+    fixed_sidebar: bool = False
+    fixed_header: bool = False
+    fixed_footer: bool = False
+    sidebar_expand: BreakpointType = BreakpointType.LG
+    sidebar_mini: bool = False
+    sidebar_collapsed: bool = False
+
+    def to_body_classes(self) -> str:
+        """Generate AdminLTE body class string."""
+        classes = []
+
+        if self.fixed_sidebar:
+            classes.append('layout-fixed')
+        if self.fixed_header:
+            classes.append('fixed-header')
+        if self.fixed_footer:
+            classes.append('fixed-footer')
+
+        classes.append(f'sidebar-expand-{self.sidebar_expand.value}')
+
+        if self.sidebar_mini:
+            classes.append('sidebar-mini')
+            if self.sidebar_collapsed:
+                classes.append('sidebar-collapse')
+
+        classes.append('bg-body-tertiary')
+
+        return ' '.join(classes)
 ```
 
-### Layout Section
+### LayoutState (Request-Scoped State)
 
-**Description**: Represents major areas of the AdminLTE layout structure that can have fixed positioning.
+**Purpose**: Mutable state stored in request object for template tag → context processor communication.
 
-**Sections**:
+```python
+@dataclass
+class LayoutState:
+    """Mutable layout state stored in request for template rendering."""
 
-- `sidebar` - Left navigation panel (`.app-sidebar`)
-- `header` - Top navigation bar (`.app-header`)
-- `footer` - Bottom information bar (`.app-footer`)
-- `wrapper` - Container for entire app (`.app-wrapper`)
-
-**Attributes** (per section):
-
-- `name` (string) - Section identifier
-- `css_class` (string) - AdminLTE CSS class for the section
-- `is_fixed` (boolean, computed) - Whether section has fixed positioning enabled
-- `body_class` (string, computed) - CSS class added to body element when fixed
-
-**Relationships**:
-
-- Each Layout Section is controlled by one Layout Configuration attribute
-- Multiple Layout Sections can be fixed simultaneously
-
-**CSS Class Mapping**:
-
-| Section | Attribute | Body Class When Fixed |
-|---------|-----------|----------------------|
-| sidebar | `fixed_sidebar` | `.layout-fixed` |
-| header | `fixed_header` | `.fixed-header` |
-| footer | `fixed_footer` | `.fixed-footer` |
-
-## Template Context Structure
-
-Layout configuration is passed to `<c-app>` component via Cotton attributes:
-
-```django-html
-<c-app fixed_sidebar fixed_header sidebar_expand="lg">
-  <c-app.header />
-  <c-app.sidebar />
-  <c-app.main>
-    {% block content %}{% endblock %}
-  </c-app.main>
-  <c-app.footer />
-</c-app>
+    component_config: Optional[LayoutConfig] = None
+    view_config: Optional[LayoutConfig] = None
+    query_config: Optional[LayoutConfig] = None
+    final_config: Optional[LayoutConfig] = None
+    body_classes: Optional[str] = None
 ```
 
-**Context Variables** (inside `<c-app>` component):
+## Validation Rules
 
-```django
-{
-    "fixed_sidebar": True,      # Boolean from component attribute
-    "fixed_header": True,       # Boolean from component attribute
-    "fixed_footer": False,      # Default when not specified
-    "sidebar_expand": "lg",     # String from component attribute
-    "class": "",                # Additional CSS classes
-}
+### Layout Attribute Constraints
+
+1. **Boolean Attributes**: `fixed_sidebar`, `fixed_header`, `fixed_footer`, `sidebar_mini`, `sidebar_collapsed`
+   - Must be boolean values
+   - Default to `False` if not specified
+   - No mutual exclusions (all can be enabled simultaneously)
+
+2. **Breakpoint Validation**: `sidebar_expand`
+   - Must be one of: `sm`, `md`, `lg`, `xl`, `xxl`
+   - Default to `lg` if invalid or not specified
+   - Case-insensitive input, normalized to lowercase
+
+3. **Logical Dependencies**:
+   - `sidebar_collapsed` only meaningful when `sidebar_mini=True`
+   - No error if `sidebar_collapsed=True` without `sidebar_mini`, but no effect
+
+## State Transitions
+
+### Configuration Resolution Flow
+
+```text
+1. Base Configuration (Django settings)
+   ↓
+2. View-Level Override (via LayoutConfigMixin)
+   ↓
+3. Component-Level Override (via Cotton attributes)
+   ↓
+4. Query Parameter Override (via GET params)
+   ↓
+5. Final Configuration → Body Classes
 ```
 
-## Rendering Logic
+**Precedence Order** (highest to lowest):
 
-**Body Class Generation**:
+1. Query parameters (for demo/testing)
+2. Cotton component attributes (page-level)
+3. View configuration (view-level)
+4. Django settings (global default)
 
-```django-html
-<body class="bg-body-tertiary
-    {%- if fixed_sidebar %} layout-fixed{% endif %}
-    {%- if fixed_header %} fixed-header{% endif %}
-    {%- if fixed_footer %} fixed-footer{% endif %}
-    sidebar-expand-{{ sidebar_expand }}
-    {{ class }}">
-  <div class="app-wrapper">{{ slot }}</div>
-</body>
+## Entity Relationships
+
+### Configuration Hierarchy
+
+```text
+Django Settings (MVP.layout)
+    ↓ inherits
+View Configuration (LayoutConfigMixin)
+    ↓ inherits
+Component Configuration (Cotton attributes)
+    ↓ overrides
+Query Configuration (GET parameters)
+    ↓ produces
+Final Configuration → Body Classes
 ```
 
-**Example Outputs**:
+### Request Lifecycle Objects
 
-```html
-<!-- No fixed elements -->
-<body class="bg-body-tertiary sidebar-expand-lg">
+```text
+HttpRequest
+├── .GET (QueryDict) → LayoutConfig.from_query_params()
+├── ._layout_state (LayoutState) → stores all configurations
+└── context → mvp_body_classes (final output)
 
-<!-- Fixed sidebar only -->
-<body class="bg-body-tertiary layout-fixed sidebar-expand-lg">
+Cotton Component
+├── fixed_sidebar, fixed_header, etc. → LayoutConfig.from_cotton_attrs()
+└── template tag → stores in request._layout_state.component_config
 
-<!-- Fixed complete -->
-<body class="bg-body-tertiary layout-fixed fixed-header fixed-footer sidebar-expand-lg">
+Context Processor
+├── reads request._layout_state
+├── merges with Django settings
+└── returns {'mvp_body_classes': str}
 ```
 
-## No Database Schema
+## Default Values
 
-This feature requires no database tables, migrations, or persistent storage. All layout configuration is ephemeral and exists only during template rendering.
+### System Defaults
 
-## Demo View State (Added 2026-01-06, Updated 2026-01-07)
+```python
+DEFAULT_LAYOUT_CONFIG = LayoutConfig(
+    fixed_sidebar=False,     # Sidebar scrolls with content
+    fixed_header=False,      # Header scrolls with content
+    fixed_footer=False,      # Footer scrolls with content
+    sidebar_expand='lg',     # Sidebar expands on large screens and up
+    sidebar_mini=False,      # Full sidebar, not collapsible
+    sidebar_collapsed=False  # Sidebar expanded by default
+)
+```
 
-**Description**: Query parameter-based state for the unified interactive layout demo page at `/layout/` in `example/` app.
+### AdminLTE CSS Classes Generated
 
-### Unified Layout Demo State
+- **Default**: `sidebar-expand-lg bg-body-tertiary`
+- **Fixed Sidebar**: `layout-fixed sidebar-expand-lg bg-body-tertiary`
+- **Fixed Header**: `fixed-header sidebar-expand-lg bg-body-tertiary`
+- **Fixed Footer**: `fixed-footer sidebar-expand-lg bg-body-tertiary`
+- **All Fixed**: `layout-fixed fixed-header fixed-footer sidebar-expand-lg bg-body-tertiary`
 
-**URL Pattern**: `/layout/?fixed_sidebar=on&fixed_header=on&breakpoint=md`
+### Performance Characteristics
+
+- **Configuration Resolution**: O(1) - simple attribute merging
+- **Body Class Generation**: O(1) - string concatenation
+- **Memory Usage**: Minimal - immutable configs, request-scoped state only
+- **Thread Safety**: Full - immutable configurations, no shared mutable state
+
+## Demo Page State Management
+
+### Layout Demo State
+
+**URL Pattern**: `/layout/?fixed_sidebar=true&fixed_header=true&sidebar_expand=lg`
 
 **Query Parameters**:
 
-- `fixed_sidebar` (string, optional) - Checkbox state ("on" if checked, absent if unchecked)
-- `fixed_header` (string, optional) - Checkbox state ("on" if checked, absent if unchecked)
-- `fixed_footer` (string, optional) - Checkbox state ("on" if checked, absent if unchecked)
-- `breakpoint` (string, optional, default="lg") - Sidebar expansion breakpoint
-
-**Page Layout Structure**:
-
-- **Main Content Area** (left side): Long-form scrollable content demonstrating fixed element behavior
-- **Configuration Sidebar** (right side): Form with checkboxes for fixed properties and dropdown for breakpoint
+- `fixed_sidebar` (boolean) - "true"/"false" checkbox state
+- `fixed_header` (boolean) - "true"/"false" checkbox state
+- `fixed_footer` (boolean) - "true"/"false" checkbox state
+- `sidebar_expand` (string) - Breakpoint dropdown value
 
 **Processing Logic**:
 
 ```python
-def layout_demo(request):
-    # Parse fixed properties from checkboxes
-    fixed_sidebar = request.GET.get('fixed_sidebar') == 'on'
-    fixed_header = request.GET.get('fixed_header') == 'on'
-    fixed_footer = request.GET.get('fixed_footer') == 'on'
+def layout_demo_view(request):
+    # Parse query parameters to LayoutConfig
+    query_config = LayoutConfig.from_query_params(request.GET)
 
-    # Parse breakpoint with validation
-    breakpoint = request.GET.get('breakpoint', 'lg')
-    if breakpoint not in ['sm', 'md', 'lg', 'xl', 'xxl']:
-        breakpoint = 'lg'
+    # Store in request for context processor
+    if not hasattr(request, '_layout_state'):
+        request._layout_state = LayoutState()
+    request._layout_state.query_config = query_config
 
     return render(request, 'example/layout_demo.html', {
-        'fixed_sidebar': fixed_sidebar,
-        'fixed_header': fixed_header,
-        'fixed_footer': fixed_footer,
-        'breakpoint': breakpoint,
-        'breakpoints': ['sm', 'md', 'lg', 'xl', 'xxl'],
+        'current_config': query_config,
+        'breakpoints': list(BreakpointType)
     })
 ```
-
-**Navigation Integration**:
-
-- Menu item "Layout Demo" appears in sidebar below Dashboard link
-- Links to `/layout/` with no query parameters (default state)
-
-**Rationale for Single Unified Page**:
-
-- **Discoverability**: One location for all layout testing reduces confusion
-- **Query Parameters**: Stateless, bookmarkable, shareable URLs for specific configurations
-- **Simple Form Handling**: GET forms without CSRF complexity
-- **Extensibility**: Future feature specs can add controls to this same page (per FR-019)
-- **Natural for Testing**: Easy to programmatically test all combinations with query string permutations
-
-## Key Insights
-
-1. **Stateless Design**: Layout configuration is determined at template render time from component attributes
-2. **Additive Classes**: Multiple `fixed_*` attributes result in multiple CSS classes on body element
-3. **No Conflicts**: All attribute combinations are valid - AdminLTE CSS handles overlapping fixed elements gracefully
-4. **Template Inheritance**: Child templates inherit layout from parent unless explicitly overridden

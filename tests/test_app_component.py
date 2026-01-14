@@ -321,8 +321,7 @@ class TestAppLayoutEdgeCases:
         # String "false" is still truthy, so class should be present
         # This is documented Cotton behavior - use absence of attribute to disable
         assert "layout-fixed" in html_string_true, (
-            'String "false" is truthy in Cotton - '
-            "use absent attribute to disable features"
+            'String "false" is truthy in Cotton - ' "use absent attribute to disable features"
         )
 
         # Correct way: omit the attribute entirely

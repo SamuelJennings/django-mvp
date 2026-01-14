@@ -80,7 +80,9 @@ def test_info_box_with_variant_attribute(mock_request):
 
     icon_classes = icon_span.get("class")
     if icon_classes:
-        assert "text-bg-success" in icon_classes, "text-bg-success class should be applied to icon span in default fill mode"
+        assert (
+            "text-bg-success" in icon_classes
+        ), "text-bg-success class should be applied to icon span in default fill mode"
 
 
 @pytest.mark.django_db
@@ -149,7 +151,9 @@ def test_info_box_with_box_fill_mode(mock_request):
     # Verify icon span does NOT have text-bg-* class (only box is colored)
     icon_span = info_box.find("span", class_="info-box-icon")
     icon_classes = icon_span.get("class") if icon_span else None
-    assert icon_classes and "text-bg-warning" not in icon_classes, "Icon span should not have text-bg class in box fill mode"
+    assert (
+        icon_classes and "text-bg-warning" not in icon_classes
+    ), "Icon span should not have text-bg class in box fill mode"
 
 
 @pytest.mark.django_db
@@ -266,7 +270,6 @@ def test_info_box_all_variant_colors(mock_request):
 
         icon_classes = icon_span.get("class")
         expected_class = f"text-bg-{variant}"
-        assert expected_class in icon_classes, f"{expected_class} class should be applied to icon span for variant={variant}"
-
-
-
+        assert (
+            expected_class in icon_classes
+        ), f"{expected_class} class should be applied to icon span for variant={variant}"

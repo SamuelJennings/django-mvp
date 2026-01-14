@@ -1,12 +1,128 @@
-# Research: AdminLTE Layout Configuration System
+# Phase 0 Research: AdminLTE Layout Configuration System
 
 **Feature**: 002-layout-configuration
-**Date**: January 5, 2026
-**Status**: Complete
+**Date**: January 13, 2026
+**Status**: UPDATED - Simple Cotton Solution
 
-## Overview
+## Critical Discovery: Body Class Requirement
 
-This document consolidates research findings for implementing AdminLTE 4 layout configuration via Cotton component attributes. Research revealed that core implementation already exists in the `<c-app>` component.
+**BREAKING CHANGE**: Original assumption that layout classes could be placed on `.app-wrapper` div is **INCORRECT**. AdminLTE CSS requires layout classes on `<body>` tag.
+
+**AdminLTE CSS Analysis**: AdminLTE 4 uses direct descendant selectors that expect classes on the `<body>` element:
+
+```scss
+// AdminLTE source selectors - require body classes
+.layout-fixed .app-main-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.fixed-header .app-header {
+  position: sticky;
+  top: 0;
+  z-index: $lte-zindex-fixed-header;
+}
+
+.fixed-footer .app-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: $lte-zindex-fixed-footer;
+}
+```
+
+**Required Body Classes**:
+
+- `layout-fixed` - Fixed sidebar positioning
+- `fixed-header` - Sticky header behavior
+- `fixed-footer` - Sticky footer behavior
+- `sidebar-expand-{breakpoint}` - Responsive sidebar (sm, md, lg, xl, xxl)
+- `bg-body-tertiary` - Theme background
+
+## Simple Cotton Solution
+
+**Decision**: Move `<body>` tag into `<c-app>` component with layout classes applied directly
+
+**Rationale**:
+
+1. **Simplicity**: Uses Cotton's existing attribute system, no new infrastructure needed
+2. **Performance**: Zero runtime overhead - pure CSS solution
+3. **Maintainability**: All layout logic in one component template
+4. **Cotton Patterns**: Leverages natural Cotton component composition
+
+## Implementation Pattern
+
+**Cotton Component Structure**:
+
+```html
+<!-- cotton/app/index.html -->
+<c-vars class fixed_sidebar fixed_header fixed_footer sidebar_expand="lg" />
+<body class="bg-body-tertiary{% if fixed_sidebar %} layout-fixed{% endif %}{% if fixed_header %} fixed-header{% endif %}{% if fixed_footer %} fixed-footer{% endif %} sidebar-expand-{{ sidebar_expand }} {{ class }}">
+  <div class="app-wrapper">
+    {{ slot }}
+  </div>
+  {{ javascript }}
+</body>
+```
+
+**Template Usage**:
+
+```html
+<!-- base.html -->
+<!DOCTYPE html>
+<html>
+<head><!-- head content --></head>
+<c-app fixed_sidebar fixed_header>
+  <c-app.header />
+  <c-app.sidebar />
+  <c-app.main>{% block content %}{% endblock %}</c-app.main>
+  <c-slot name="javascript">
+    <script src="adminlte.js"></script>
+  </c-slot>
+</c-app>
+</html>
+```
+
+**Benefits**:
+
+- No Python code changes needed
+- Uses Cotton's built-in attribute handling
+- JavaScript can be injected via slots
+- Body classes applied directly where needed
+
+## Testing Strategy
+
+**Simple Testing Approach**:
+
+- **Component Tests**: Render Cotton component with different attributes using `django_cotton.render_component()`
+- **Visual Tests**: pytest-playwright to verify layout behavior in browser
+- **No infrastructure tests needed**: No context processors or template tags to test
+- **Global Variables**: Thread safety concerns (TECHNICAL ISSUES)
+
+## Component Integration Pattern
+
+**Decision**: Custom template tag for component-to-context data flow
+
+**Pattern**:
+
+```html
+<!-- Cotton component: cotton/adminlte/app.html -->
+<c-vars fixed_sidebar fixed_header fixed_footer sidebar_expand="lg" />
+{% load layout_tags %}
+{% set_layout_config fixed_sidebar=fixed_sidebar fixed_header=fixed_header %}
+<div class="app-wrapper">{{ slot }}</div>
+```
+
+**Rationale**:
+
+- Cotton components can use template tags to store data in request context
+- Clean separation between component rendering and layout logic
+- Maintains component expressiveness while respecting template inheritance
+
+**Alternatives Considered**:
+
+- **Direct Context Manipulation**: Cotton components can't modify parent context (TECHNICAL LIMITATION)
+- **Hidden Form Fields**: Unnecessary complexity for layout data (OVERENGINEERING)
 
 ## Key Findings
 

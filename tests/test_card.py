@@ -14,11 +14,7 @@ def mock_request(rf):
 @pytest.mark.django_db
 def test_basic_card_rendering(mock_request):
     """Test basic card rendering with title (body content rendering via _children has known Cotton limitation)."""
-    html = render_component(
-        mock_request,
-        "card",
-        title="Sample Card"
-    )
+    html = render_component(mock_request, "card", title="Sample Card")
     soup = BeautifulSoup(html, "html.parser")
 
     card = soup.find("div", class_="card")
@@ -39,7 +35,7 @@ def test_card_with_icon_in_header(mock_request):
         mock_request,
         "card",
         title="Settings",
-        icon="briefcase"  # Use available Bootstrap icon
+        icon="briefcase",  # Use available Bootstrap icon
     )
     soup = BeautifulSoup(html, "html.parser")
 
@@ -61,7 +57,7 @@ def test_card_with_variant_outline_fill(mock_request):
         title="Outline Card",
         variant="primary",
         fill="outline",
-        _children="<p>Outline card content</p>"
+        _children="<p>Outline card content</p>",
     )
     soup = BeautifulSoup(html, "html.parser")
 
@@ -81,7 +77,7 @@ def test_card_with_compact_body(mock_request):
         "card",
         title="Data Table",
         compact=True,
-        _children='<table class="table mb-0"><tr><td>Data</td></tr></table>'
+        _children='<table class="table mb-0"><tr><td>Data</td></tr></table>',
     )
     soup = BeautifulSoup(html, "html.parser")
 
@@ -101,7 +97,7 @@ def test_card_with_variant_card_fill(mock_request):
         title="Full Card Fill",
         variant="warning",
         fill="card",
-        _children="<p>Full card fill content</p>"
+        _children="<p>Full card fill content</p>",
     )
     soup = BeautifulSoup(html, "html.parser")
 
@@ -115,11 +111,7 @@ def test_card_with_variant_card_fill(mock_request):
 @pytest.mark.django_db
 def test_card_without_title_always_has_header(mock_request):
     """Test that card header always renders in v2.1 even without title."""
-    html = render_component(
-        mock_request,
-        "card",
-        _children="<p>Just body content</p>"
-    )
+    html = render_component(mock_request, "card", _children="<p>Just body content</p>")
     soup = BeautifulSoup(html, "html.parser")
 
     card = soup.find("div", class_="card")
@@ -134,11 +126,7 @@ def test_card_without_title_always_has_header(mock_request):
 def test_card_with_custom_classes(mock_request):
     """Test card with custom class passthrough (v2.1 uses 'class' attribute)."""
     html = render_component(
-        mock_request,
-        "card",
-        title="Custom Card",
-        **{"class": "mb-3 shadow-lg"},
-        _children="<p>Custom card content</p>"
+        mock_request, "card", title="Custom Card", **{"class": "mb-3 shadow-lg"}, _children="<p>Custom card content</p>"
     )
     soup = BeautifulSoup(html, "html.parser")
 
@@ -164,7 +152,7 @@ def test_card_all_variant_fill_combinations(mock_request):
                 title=f"Test {variant}-{fill}",
                 variant=variant,
                 fill=fill,
-                _children="<p>Content</p>"
+                _children="<p>Content</p>",
             )
             soup = BeautifulSoup(html, "html.parser")
             card = soup.find("div", class_="card")
