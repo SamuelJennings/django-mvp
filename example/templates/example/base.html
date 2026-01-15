@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block app %}
+  <c-app fixed_sidebar>
+    {# Header with navbar widgets #}
+    <c-app.header>
+      <c-slot name="right">
+        <c-navbar.widgets.fullscreen />
+        <c-navbar.widgets.theme-switcher />
+        {% comment %}
+        <c-navbar.widget.user-widget user="request" avatar_url="user_avatar" member_since="user_member_since" />
+        {% endcomment %}
+      </c-slot>
+    </c-app.header>
+    <c-app.sidebar />
+    <c-app.main>
+      {% block content %}
+      {% endblock content %}
+    </c-app.main>
+    <c-app.footer />
+  </c-app>
+{% endblock app %}

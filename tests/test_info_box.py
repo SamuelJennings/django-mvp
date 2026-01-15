@@ -5,27 +5,17 @@ These tests verify the rendering and behavior of the AdminLTE 4 info-box widget.
 """
 
 import pytest
-from bs4 import BeautifulSoup
-from django_cotton import render_component
-
-
-@pytest.fixture
-def mock_request(rf):
-    """Fixture providing a mock HTTP request using pytest-django's rf fixture."""
-    return rf.get("/")
 
 
 @pytest.mark.django_db
-def test_basic_info_box_rendering(mock_request):
+def test_basic_info_box_rendering(render_component_soup):
     """Test basic info box rendering with required attributes."""
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "info-box",
         icon="settings",
         text="CPU Traffic",
         number="10%",
     )
-    soup = BeautifulSoup(html, "html.parser")
 
     # Verify main structure
     info_box = soup.find("div", class_="info-box")
@@ -59,17 +49,15 @@ def test_basic_info_box_rendering(mock_request):
 
 
 @pytest.mark.django_db
-def test_info_box_with_variant_attribute(mock_request):
+def test_info_box_with_variant_attribute(render_component_soup):
     """Test info box with variant color attribute (default fill='icon' mode)."""
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "info-box",
         icon="box-seam",
         text="Sales",
         number="13,648",
         variant="success",
     )
-    soup = BeautifulSoup(html, "html.parser")
 
     info_box = soup.find("div", class_="info-box")
     assert info_box is not None, "Info box should exist"
@@ -86,10 +74,9 @@ def test_info_box_with_variant_attribute(mock_request):
 
 
 @pytest.mark.django_db
-def test_info_box_with_progress_bar(mock_request):
+def test_info_box_with_progress_bar(render_component_soup):
     """Test info box with progress bar (now using c-progress component)."""
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "info-box",
         icon="add",
         text="Downloads",
@@ -98,7 +85,6 @@ def test_info_box_with_progress_bar(mock_request):
         progress="70",
         description="70% Increase in 30 Days",
     )
-    soup = BeautifulSoup(html, "html.parser")
 
     info_box = soup.find("div", class_="info-box")
     assert info_box is not None, "Info box should exist"
@@ -128,10 +114,9 @@ def test_info_box_with_progress_bar(mock_request):
 
 
 @pytest.mark.django_db
-def test_info_box_with_box_fill_mode(mock_request):
+def test_info_box_with_box_fill_mode(render_component_soup):
     """Test info box with fill='box' mode (entire box colored)."""
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "info-box",
         icon="book",
         text="Bookmarks",
@@ -139,7 +124,6 @@ def test_info_box_with_box_fill_mode(mock_request):
         variant="warning",
         fill="box",
     )
-    soup = BeautifulSoup(html, "html.parser")
 
     info_box = soup.find("div", class_="info-box")
     assert info_box is not None, "Info box should exist"
@@ -157,17 +141,15 @@ def test_info_box_with_box_fill_mode(mock_request):
 
 
 @pytest.mark.django_db
-def test_info_box_with_custom_classes(mock_request):
+def test_info_box_with_custom_classes(render_component_soup):
     """Test info box with custom CSS classes."""
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "info-box",
         icon="settings",
         text="CPU Traffic",
         number="10%",
         **{"class": "mb-3 shadow-lg"},
     )
-    soup = BeautifulSoup(html, "html.parser")
 
     info_box = soup.find("div", class_="info-box")
     assert info_box is not None, "Info box should exist"
@@ -179,17 +161,15 @@ def test_info_box_with_custom_classes(mock_request):
 
 
 @pytest.mark.django_db
-def test_info_box_progress_bar_aria_attributes(mock_request):
+def test_info_box_progress_bar_aria_attributes(render_component_soup):
     """Test ARIA attributes on progress bar for accessibility."""
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "info-box",
         icon="add",
         text="Downloads",
         number="114,381",
         progress="45",
     )
-    soup = BeautifulSoup(html, "html.parser")
 
     info_box = soup.find("div", class_="info-box")
     assert info_box is not None, "Info box should exist"
@@ -205,63 +185,55 @@ def test_info_box_progress_bar_aria_attributes(mock_request):
 
 
 @pytest.mark.django_db
-def test_info_box_bootstrap_shadow_utilities(mock_request):
+def test_info_box_bootstrap_shadow_utilities(render_component_soup):
     """Test info box with Bootstrap 5 shadow utility classes (T064)."""
     # Test shadow-sm
-    html_sm = render_component(
-        mock_request,
+    soup_sm = render_component_soup(
         "info-box",
         icon="box-seam",
         text="Shadow Small",
         number="100",
         **{"class": "shadow-sm"},
     )
-    soup_sm = BeautifulSoup(html_sm, "html.parser")
     info_box_sm = soup_sm.find("div", class_="info-box")
     assert "shadow-sm" in info_box_sm.get("class"), "shadow-sm utility should be applied"
 
     # Test shadow
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "info-box",
         icon="box-seam",
         text="Shadow",
         number="200",
         **{"class": "shadow"},
     )
-    soup = BeautifulSoup(html, "html.parser")
     info_box = soup.find("div", class_="info-box")
     assert "shadow" in info_box.get("class"), "shadow utility should be applied"
 
     # Test shadow-lg
-    html_lg = render_component(
-        mock_request,
+    soup_lg = render_component_soup(
         "info-box",
         icon="box-seam",
         text="Shadow Large",
         number="300",
         **{"class": "shadow-lg"},
     )
-    soup_lg = BeautifulSoup(html_lg, "html.parser")
     info_box_lg = soup_lg.find("div", class_="info-box")
     assert "shadow-lg" in info_box_lg.get("class"), "shadow-lg utility should be applied"
 
 
 @pytest.mark.django_db
-def test_info_box_all_variant_colors(mock_request):
+def test_info_box_all_variant_colors(render_component_soup):
     """Test info box with all Bootstrap variant colors (T067) - default fill='icon' mode."""
     variants = ["primary", "success", "warning", "danger", "info", "secondary"]
 
     for variant in variants:
-        html = render_component(
-            mock_request,
+        soup = render_component_soup(
             "info-box",
             icon="box-seam",
             text=f"Test {variant}",
             number="100",
             variant=variant,
         )
-        soup = BeautifulSoup(html, "html.parser")
         info_box = soup.find("div", class_="info-box")
 
         # With fill="icon" (default), variant class should be on icon span

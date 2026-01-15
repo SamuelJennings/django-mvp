@@ -5,110 +5,85 @@ This module provides reusable fixtures for testing layout components.
 """
 
 import pytest
-from django.template import Context
-from django.template.loader import get_template
+from bs4 import BeautifulSoup
 from django.test import RequestFactory
-
-
-def render_component(request, component_name, context=None, **kwargs):
-    """
-    Render a Cotton component from a view with context values passed as attributes.
-
-    This helper allows you to render Cotton components programmatically from views,
-    which is especially useful for HTMX partial responses. The signature matches
-    Django's render() convention: render_component(request, component_name, context).
-
-    Args:
-        request: HttpRequest object (required, like Django's render())
-        component_name: Component name in dotted notation (e.g., "ui.button" or "button")
-        context: Dictionary of data to pass to the component as attributes
-        **kwargs: Alternative way to pass component attributes
-
-    Returns:
-        Rendered HTML string
-
-    Example:
-        # Using context dict (matches Django's render pattern)
-        render_component(request, "button", {"pk": 123, "label": "Click me"})
-
-        # Using kwargs (most common HTMX pattern)
-        render_component(request, "button", pk=123, label="Click me")
-
-        # Mix dict and kwargs
-        render_component(request, "user_card", {"user": user}, extra_class="highlight")
-    """
-    from django.template import RequestContext, Template
-
-    # Merge context dict and kwargs
-    if context is None:
-        context = kwargs
-    elif kwargs:
-        context = {**context, **kwargs}
-    else:
-        context = dict(context)  # Make a copy to avoid mutating original
-
-    # Build minimal template using :attrs to pass all attributes at once
-    tag_name = component_name.replace(".", "-")
-    template_str = f'{{% cotton {tag_name} :attrs="cotton_component_attrs" / %}}'
-    template = Template(template_str)
-
-    # Prepare render context (keep original context plus our attrs dict)
-    render_context = {**context, "cotton_component_attrs": context}
-
-    # Create RequestContext (request is now always provided)
-    ctx = RequestContext(request, render_context)
-
-    return template.render(ctx)
+from django_cotton import render_component as cotton_render_component
 
 
 @pytest.fixture
-def render_cotton_component():
+def render_component():
     """
-    Fixture that provides a helper function to render Django-Cotton components.
+    Fixture that renders Django-Cotton components and returns raw HTML.
+
+    Automatically provides a request object to be DRY. Component variables
+    are passed as kwargs.
 
     Usage:
-        def test_something(render_cotton_component):
-            html = render_cotton_component(
-                'test_template.html',
-                context={'page_config': {...}}
+        def test_something(render_component):
+            html = render_component(
+                'adminlte.small-box',
+                title="Users",
+                value=150,
+                icon="users"
             )
+            assert 'Users' in html
     """
+    factory = RequestFactory()
 
-    def _render(template_name_or_string, context=None):
-        """Render a template by name or string with optional context."""
-        if context is None:
-            context = {}
+    def _render(component_name, context=None, **kwargs):
+        """
+        Render a Cotton component with automatic request injection.
 
-        # Ensure page_config exists in context for components that need it
-        if "page_config" not in context:
-            context["page_config"] = {
-                "brand": {
-                    "text": "Test Site",
-                    "icon_light": None,
-                    "icon_dark": None,
-                },
-                "navigation": {
-                    "sidebar": {},
-                    "navbar": {},
-                },
-            }
+        Args:
+            component_name: Component name in dotted notation (e.g., "adminlte.small-box")
+            context: Optional context dict to pass as component attributes
+            **kwargs: Component attributes (alternative to context dict)
 
-        # Ensure request exists for Cotton components
-        if "request" not in context:
-            factory = RequestFactory()
-            context["request"] = factory.get("/")
+        Returns:
+            Rendered HTML string
+        """
+        request = factory.get("/")
+        return cotton_render_component(request, component_name, context, **kwargs)
 
-        # Try to load as a template file first
-        try:
-            template = get_template(template_name_or_string)
-            return template.render(context)
-        except Exception:
-            # If that fails, it might be inline template string
-            # Create a temporary template file for testing
-            from django.template import Template
+    return _render
 
-            template = Template("" + template_name_or_string)
-            return template.render(Context(context))
+
+@pytest.fixture
+def render_component_soup():
+    """
+    Fixture that renders Django-Cotton components and returns BeautifulSoup parsed HTML.
+
+    Automatically provides a request object and parses the result for easy testing.
+    Component variables are passed as kwargs.
+
+    Usage:
+        def test_something(render_component_soup):
+            soup = render_component_soup(
+                'adminlte.small-box',
+                title="Users",
+                value=150,
+                icon="users"
+            )
+            assert soup.find('h3').text == '150'
+            assert soup.find('p').text == 'Users'
+    """
+    factory = RequestFactory()
+
+    def _render(component_name, context=None, **kwargs):
+        """
+        Render a Cotton component with automatic request injection and parse with BeautifulSoup.
+
+        Args:
+            component_name: Component name in dotted notation (e.g., "adminlte.small-box")
+            context: Optional context dict to pass as component attributes
+            **kwargs: Component attributes (alternative to context dict)
+
+        Returns:
+            BeautifulSoup parsed HTML object
+        """
+        request = factory.get("/")
+        html = cotton_render_component(request, component_name, context, **kwargs)
+        return BeautifulSoup(html, "html.parser")
 
     return _render
 

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script src="{% static 'js/navbar/theme-switcher.js' %}"></script>
     {% block head %}
       <meta charset="UTF-8" />
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -55,9 +56,14 @@
       <c-app.footer />
     </c-app>
   {% endblock app %}
-  {# Bootstrap Bundle #}
+  {# Bootstrap 5 JS (required for dropdowns, modals, etc.) #}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+          crossorigin="anonymous"></script>
+  {# AdminLTE JS #}
   <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-rc3/dist/js/adminlte.min.js"
           crossorigin="anonymous"></script>
+  {# Theme Switcher JS #}
   {% block extra_js %}
   {% endblock extra_js %}
 </html>

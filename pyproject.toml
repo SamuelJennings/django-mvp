@@ -49,6 +49,7 @@ djlint = "^1.36.4"
 fairdm-dev-tools = {git = "https://github.com/FAIR-DM/dev-tools"}
 django-browser-reload = "^1.21.0"
 beautifulsoup4 = "^4.14.3"
+pytest-playwright = "^0.7.2"
 
 [build-system]
 requires = ["poetry-core"]
@@ -177,6 +178,10 @@ addopts = [
     "--strict-markers",
     "--tb=short",
 ]
+markers = [
+    "e2e: End-to-end tests using Playwright",
+]
+asyncio_mode = "auto"
 
 [tool.coverage.run]
 source = ["mvp"]

@@ -46,4 +46,3 @@ class TestMenuOpenForParents:
 
         # django-flex-menus handles this via 'selected' attribute
         assert "selected" in context
-
