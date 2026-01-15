@@ -11,6 +11,8 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name="example/dashboard.html"), name="dashboard"),
     # Layout demonstration
     path("layout/", views.layout_demo, name="layout_demo"),
+    # Navbar widgets demonstration
+    path("widgets/", views.navbar_widgets_demo, name="navbar_widgets_demo"),
     # =============================================================================
     # MENU TESTING URLS
     # =============================================================================

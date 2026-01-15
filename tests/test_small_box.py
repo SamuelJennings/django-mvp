@@ -5,28 +5,18 @@ These tests verify the rendering and behavior of the AdminLTE 4 small-box widget
 """
 
 import pytest
-from bs4 import BeautifulSoup
-from django_cotton import render_component
-
-
-@pytest.fixture
-def mock_request(rf):
-    """Fixture providing a mock HTTP request using pytest-django's rf fixture."""
-    return rf.get("/")
 
 
 @pytest.mark.django_db
-def test_basic_small_box_rendering(mock_request):
+def test_basic_small_box_rendering(render_component_soup):
     """Test basic small box rendering with required attributes."""
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "small-box",
         heading="150",
         text="New Orders",
         icon="box-seam",
         variant="primary",
     )
-    soup = BeautifulSoup(html, "html.parser")
 
     # Verify main structure
     small_box = soup.find("div", class_="small-box")
@@ -57,17 +47,15 @@ def test_basic_small_box_rendering(mock_request):
 
 
 @pytest.mark.django_db
-def test_small_box_with_bg_attribute(mock_request):
+def test_small_box_with_bg_attribute(render_component_soup):
     """Test small box with background color attribute."""
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "small-box",
         heading="53%",
         text="Bounce Rate",
         icon="settings",
         variant="warning",
     )
-    soup = BeautifulSoup(html, "html.parser")
 
     small_box = soup.find("div", class_="small-box")
     assert small_box is not None, "Small box should exist"
@@ -78,10 +66,9 @@ def test_small_box_with_bg_attribute(mock_request):
 
 
 @pytest.mark.django_db
-def test_small_box_with_footer_link_default_text(mock_request):
+def test_small_box_with_footer_link_default_text(render_component_soup):
     """Test small box with footer link using default text."""
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "small-box",
         heading="150",
         text="New Orders",
@@ -89,7 +76,6 @@ def test_small_box_with_footer_link_default_text(mock_request):
         variant="primary",
         link="/orders/",
     )
-    soup = BeautifulSoup(html, "html.parser")
 
     small_box = soup.find("div", class_="small-box")
     assert small_box is not None, "Small box should exist"
@@ -105,10 +91,9 @@ def test_small_box_with_footer_link_default_text(mock_request):
 
 
 @pytest.mark.django_db
-def test_small_box_with_custom_link_text(mock_request):
+def test_small_box_with_custom_link_text(render_component_soup):
     """Test small box with custom footer link text."""
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "small-box",
         heading="44",
         text="User Registrations",
@@ -117,7 +102,6 @@ def test_small_box_with_custom_link_text(mock_request):
         link="/users/",
         link_text="View all users",
     )
-    soup = BeautifulSoup(html, "html.parser")
 
     small_box = soup.find("div", class_="small-box")
     assert small_box is not None, "Small box should exist"
@@ -132,17 +116,15 @@ def test_small_box_with_custom_link_text(mock_request):
 
 
 @pytest.mark.django_db
-def test_small_box_without_footer_link(mock_request):
+def test_small_box_without_footer_link(render_component_soup):
     """Test small box without footer link."""
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "small-box",
         heading="65",
         text="Unique Visitors",
         icon="eye",
         bg="info",
     )
-    soup = BeautifulSoup(html, "html.parser")
 
     small_box = soup.find("div", class_="small-box")
     assert small_box is not None, "Small box should exist"
@@ -153,10 +135,9 @@ def test_small_box_without_footer_link(mock_request):
 
 
 @pytest.mark.django_db
-def test_small_box_with_custom_classes(mock_request):
+def test_small_box_with_custom_classes(render_component_soup):
     """Test small box with custom CSS classes."""
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "small-box",
         heading="150",
         text="New Orders",
@@ -164,7 +145,6 @@ def test_small_box_with_custom_classes(mock_request):
         variant="primary",
         **{"class": "mb-3 shadow-lg"},
     )
-    soup = BeautifulSoup(html, "html.parser")
 
     small_box = soup.find("div", class_="small-box")
     assert small_box is not None, "Small box should exist"
@@ -176,17 +156,15 @@ def test_small_box_with_custom_classes(mock_request):
 
 
 @pytest.mark.django_db
-def test_small_box_icon_aria_hidden(mock_request):
+def test_small_box_icon_aria_hidden(render_component_soup):
     """Test that icon has aria-hidden attribute for accessibility."""
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "small-box",
         heading="150",
         text="New Orders",
         icon="box-seam",
         variant="primary",
     )
-    soup = BeautifulSoup(html, "html.parser")
 
     small_box = soup.find("div", class_="small-box")
     assert small_box is not None, "Small box should exist"
@@ -198,63 +176,55 @@ def test_small_box_icon_aria_hidden(mock_request):
 
 
 @pytest.mark.django_db
-def test_small_box_bootstrap_shadow_utilities(mock_request):
+def test_small_box_bootstrap_shadow_utilities(render_component_soup):
     """Test small box with Bootstrap 5 shadow utility classes (T065)."""
     # Test shadow-sm
-    html_sm = render_component(
-        mock_request,
+    soup_sm = render_component_soup(
         "small-box",
         heading="100",
         text="Shadow Small",
         icon="box-seam",
         **{"class": "shadow-sm"},
     )
-    soup_sm = BeautifulSoup(html_sm, "html.parser")
     small_box_sm = soup_sm.find("div", class_="small-box")
     assert "shadow-sm" in small_box_sm.get("class"), "shadow-sm utility should be applied"
 
     # Test shadow
-    html = render_component(
-        mock_request,
+    soup = render_component_soup(
         "small-box",
         heading="200",
         text="Shadow",
         icon="box-seam",
         **{"class": "shadow"},
     )
-    soup = BeautifulSoup(html, "html.parser")
     small_box = soup.find("div", class_="small-box")
     assert "shadow" in small_box.get("class"), "shadow utility should be applied"
 
     # Test shadow-lg
-    html_lg = render_component(
-        mock_request,
+    soup_lg = render_component_soup(
         "small-box",
         heading="300",
         text="Shadow Large",
         icon="box-seam",
         **{"class": "shadow-lg"},
     )
-    soup_lg = BeautifulSoup(html_lg, "html.parser")
     small_box_lg = soup_lg.find("div", class_="small-box")
     assert "shadow-lg" in small_box_lg.get("class"), "shadow-lg utility should be applied"
 
 
 @pytest.mark.django_db
-def test_small_box_all_variant_colors(mock_request):
+def test_small_box_all_variant_colors(render_component_soup):
     """Test small box with all Bootstrap variant colors (T068)."""
     variants = ["primary", "success", "warning", "danger", "info", "secondary"]
 
     for variant in variants:
-        html = render_component(
-            mock_request,
+        soup = render_component_soup(
             "small-box",
             heading="100",
             text=f"Test {variant}",
             icon="box-seam",
             variant=variant,
         )
-        soup = BeautifulSoup(html, "html.parser")
         small_box = soup.find("div", class_="small-box")
 
         # Verify variant class is applied

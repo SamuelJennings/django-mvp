@@ -1,0 +1,30 @@
+
+{# 
+    Reusable navbar widget template that developers can use to create
+    custom application-specific widgets (tasks, alerts, etc.).
+    
+    Props:
+    - icon (required): Bootstrap Icon class (e.g., "bi-tasks", "bi-exclamation-triangle")
+    - badge_count (optional): Number to display in badge (0 or omit to hide badge)
+    - badge_color (optional): Bootstrap badge color (default: "danger")
+    - dropdown_id (required): Unique ID for dropdown menu (for ARIA)
+    - children (optional): Dropdown content HTML (menu items, list, custom HTML)
+    
+    Example Usage:
+        <c-navbar.custom_widget icon="bi-tasks" badge_count=tasks_count dropdown_id="tasks-dropdown" children=custom_html />
+#}
+
+
+<li class="nav-item dropdown">
+    <a class="nav-link" data-bs-toggle="dropdown" href="#" aria-expanded="false" aria-controls="tasks-dropdown">
+        <i class="bi bi-tasks"></i>
+        
+            <span class="navbar-badge badge text-bg-danger">
+                5
+            </span>
+        
+    </a>
+    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end" id="tasks-dropdown">
+        
+    </div>
+</li>

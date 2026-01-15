@@ -1,0 +1,5 @@
+<c-vars icon dropdown_id badge_count:default=0 />
+<li class="nav-item">
+  <i class="bi {{ icon }}"></i>
+  {% if badge_count > 0 %}<span>{{ badge_count }}</span>{% endif %}
+</li>

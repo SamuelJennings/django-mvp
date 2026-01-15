@@ -66,3 +66,29 @@ def layout_demo(request):
     }
 
     return render(request, "example/layout_demo.html", context)
+
+
+def navbar_widgets_demo(request):
+    """
+    Navbar widgets demonstration page.
+
+    Shows all navbar widget components with usage examples and documentation.
+    Widgets are displayed in the navbar header (top right).
+    """
+    # Sample notifications data
+    notifications = [
+        {"text": "You have 3 new friend requests", "time": "2 mins ago"},
+        {"text": "Server maintenance scheduled", "time": "10 mins ago"},
+        {"text": "Your password expires soon", "time": "1 hour ago"},
+        {"text": "New comment on your post", "time": "3 hours ago"},
+        {"text": "Weekly report is ready", "time": "Yesterday"},
+        {"text": "Backup completed successfully", "time": "2 days ago"},
+        {"text": "System update available", "time": "3 days ago"},
+    ]
+
+    context = {
+        "notifications_count": len(notifications),
+        "notifications": notifications,
+    }
+
+    return render(request, "example/navbar_widgets.html", context)

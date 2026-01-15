@@ -43,6 +43,17 @@ AppMenu.extend(
                 "badge_classes": "text-bg-success",
             },
         ),
+        # Navbar Widgets Demo
+        MenuItem(
+            name="navbar_widgets_demo",
+            view_name="navbar_widgets_demo",
+            extra_context={
+                "label": "Navbar Widgets",
+                "icon": "grid-3x3-gap",
+                "badge": "MVP",
+                "badge_classes": "text-bg-primary",
+            },
+        ),
         # Profile with notification count
         MenuItem(
             name="profile",

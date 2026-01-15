@@ -632,6 +632,76 @@ Build flexible content containers with headers, bodies, and footers:
 
 See the [component documentation](docs/components/) for complete API references, examples, and accessibility guidelines.
 
+### Navbar Widgets
+
+Django MVP provides interactive navbar widgets for common application features:
+
+- [User Profile](docs/navbar-widgets.md#user-profile-widget) - Display user info with dropdown menu
+- [Notifications](docs/navbar-widgets.md#notifications-widget) - Real-time notification center with badge
+- [Messages](docs/navbar-widgets.md#messages-widget) - Message inbox preview with unread count
+- [Theme Switcher](docs/navbar-widgets.md#theme-switcher-widget) - Toggle between light/dark/auto themes
+- [Custom Widgets](docs/custom-navbar-widgets.md) - Create application-specific widgets (tasks, alerts, shopping cart)
+- [Fullscreen Toggle](docs/navbar-widgets.md#fullscreen-widget) - Browser fullscreen mode toggle
+
+Add widgets to the navbar via the `navbar_right` block:
+
+```html
+{% extends "mvp/base.html" %}
+
+{% block navbar_right %}
+  {# Fullscreen toggle #}
+  <c-navbar.fullscreen-widget />
+
+  {# Theme switcher #}
+  <c-navbar.theme-switcher-widget />
+
+  {# Messages #}
+  <c-navbar.messages-widget
+    unread_count="3"
+    messages=messages />
+
+  {# Notifications #}
+  <c-navbar.notifications-widget
+    unread_count="5"
+    notifications=notifications />
+
+  {# User profile #}
+  <c-navbar.user-profile-widget
+    user=request.user
+    avatar_url=user.profile.avatar_url
+    member_since="Jan 2024" />
+{% endblock %}
+```
+
+**Custom Widget Example:**
+
+```html
+{# templates/navbar_widgets/tasks_widget.html #}
+<c-navbar.custom-widget
+  icon="check2-square"
+  dropdown_id="tasks-dropdown"
+  badge_count="{{ tasks_count }}"
+  badge_color="danger">
+
+  <c-slot name="children">
+    {% for task in tasks %}
+      <a href="{{ task.get_absolute_url }}" class="dropdown-item">
+        <i class="bi bi-circle{{ task.is_complete|yesno:'-fill,,' }}"></i>
+        {{ task.title }}
+        <span class="float-end text-muted text-sm">{{ task.due_date|timesince }}</span>
+      </a>
+    {% endfor %}
+
+    <div class="dropdown-divider"></div>
+    <a href="{% url 'tasks:list' %}" class="dropdown-item dropdown-footer">
+      See All Tasks
+    </a>
+  </c-slot>
+</c-navbar.custom-widget>
+```
+
+See the [navbar widgets documentation](docs/navbar-widgets.md) and [custom widget tutorial](docs/custom-navbar-widgets.md) for complete API references, usage patterns, and accessibility guidelines.
+
 ## View Mixins
 
 Python mixins for common patterns:
