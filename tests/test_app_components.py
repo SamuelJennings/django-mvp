@@ -121,7 +121,7 @@ class TestSidebarComponent:
         """Sidebar index renders with app-sidebar aside element."""
         html = render_component(mock_request, "app/sidebar")
         assert 'class="app-sidebar' in html
-        assert "data-bs-theme=" in html
+        # Theme is optional - only added when specified
 
     def test_sidebar_applies_brand_text(self, mock_request):
         """Sidebar displays custom brand text."""
@@ -176,7 +176,7 @@ class TestEdgeCases:
 
     def test_wrapper_with_missing_optional_cvars(self, mock_request):
         """Wrapper renders correctly with missing optional c-vars."""
-        html = render_component(mock_request, "app/wrapper")
+        html = render_component(mock_request, "app")
         # Should render with defaults
         assert 'class="app-wrapper' in html
         # Should not have optional modifiers when not specified

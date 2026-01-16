@@ -1,12 +1,41 @@
 {% extends "base.html" %}
+{% block title %}
+  {% block page_title %}
+    {{ mvp.brand.text|default:"Django MVP" }}
+  {% endblock page_title %}
+{% endblock title %}
 {% block app %}
   <c-app>
-    <c-app.header />
-    <c-app.sidebar />
-    <c-app.main>
-      {% block content %}
-      {% endblock content %}
-    </c-app.main>
-    <c-app.footer />
+    {% block app_header %}
+      <c-app.header>
+        <c-slot name="left">
+          {% block navbar_left %}
+          {% endblock navbar_left %}
+        </c-slot>
+        <c-slot name="right">
+          {% block navbar_right %}
+          {% endblock navbar_right %}
+        </c-slot>
+      </c-app.header>
+    {% endblock app_header %}
+    {% block app_sidebar %}
+      <c-app.sidebar>
+        {% block sidebar_menu %}
+        {% endblock sidebar_menu %}
+      </c-app.sidebar>
+    {% endblock app_sidebar %}
+    {% block app_main %}
+      <c-app.main>
+        <c-slot name="header">
+          {% block breadcrumbs %}
+          {% endblock breadcrumbs %}
+        </c-slot>
+        {% block content %}
+        {% endblock content %}
+      </c-app.main>
+    {% endblock app_main %}
+    {% block app_footer %}
+      <c-app.footer />
+    {% endblock app_footer %}
   </c-app>
 {% endblock app %}

@@ -44,23 +44,22 @@ class TestActiveStateRendering:
         """Verify inactive items don't have active class."""
         rf = RequestFactory()
 
-        # Create menu item
+        # Create menu item with URL (not view_name to avoid reverse resolution)
         MenuItem(
             name="other_page",
-            view_name="other",
+            url="/other/",
             extra_context={"label": "Other Page", "icon": "circle"},
             parent=app_menu,
         )
 
-        # Create request for different page
-        request = rf.get("/current/")
+        # Create request for different page (dashboard)
+        request = rf.get("/")
         request.resolver_match = type("obj", (object,), {"view_name": "dashboard", "url_name": "dashboard"})()
 
         # Render menu
         output = render_menu({"request": request}, "AppMenu", renderer="adminlte")
 
-        # Count active classes - should be 0 for this item
-        # (But there might be other active items, so we check the specific item HTML)
+        # The menu item should render since we're using URL not view_name
         assert "Other Page" in output, "Menu label should be in output"
 
         # Extract the HTML around "Other Page" and verify no active class nearby

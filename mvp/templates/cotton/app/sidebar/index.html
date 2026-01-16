@@ -2,48 +2,20 @@
 <c-vars brand_text="Django MVP"
         brand_logo=""
         brand_url="/"
+        theme=""
         class="bg-body-secondary" />
-<aside class="app-sidebar {{ class }} shadow">
+<aside class="app-sidebar {{ class }} shadow"
+       {% if theme %}data-bs-theme="{{ theme }}"{% endif %}>
   <c-app.sidebar.branding brand_text="{{ brand_text }}"
                           brand_logo="{{ brand_logo }}"
                           brand_url="{{ brand_url }}" />
   <div class="sidebar-wrapper">
     <nav class="mt-2">
-      {% comment %} <c-app.sidebar.menu>
-        {# Single menu items (leaf nodes) #}
-        <c-app.sidebar.menu.item label="Dashboard" href="/" icon="house" />
-        <c-app.sidebar.menu.item label="Profile" href="/profile" icon="person" />
-        {# MenuCollapse - Expandable dropdown with chevron #}
-        <c-app.sidebar.menu.collapse label="Products" active icon="box-seam">
-          <c-app.sidebar.menu.item label="All Products" href="/products" icon="list" />
-          <c-app.sidebar.menu.item label="Add Product" active href="/products/add" icon="plus-circle" />
-          <c-app.sidebar.menu.item label="Categories" icon="folder">
-            <c-app.sidebar.menu.item label="Electronics" href="/categories/electronics" />
-            <c-app.sidebar.menu.item label="Clothing" href="/categories/clothing" />
-          </c-app.sidebar.menu.item>
-        </c-app.sidebar.menu.collapse>
-        <c-app.sidebar.menu.collapse label="Reports" icon="graph-up">
-          <c-app.sidebar.menu.item label="Sales" href="/reports/sales" icon="currency-dollar" />
-          <c-app.sidebar.menu.item label="Inventory" href="/reports/inventory" icon="boxes" />
-          <c-app.sidebar.menu.item label="Customers" href="/reports/customers" icon="people" />
-        </c-app.sidebar.menu.collapse>
-        {# MenuGroup - Section header with items (non-clickable header) #}
-        <c-app.sidebar.menu.group label="ADMINISTRATION">
-          <c-app.sidebar.menu.item label="Users" href="/admin/users" icon="person-badge" />
-          <c-app.sidebar.menu.item label="Roles" href="/admin/roles" icon="shield-check" />
-          <c-app.sidebar.menu.item label="Settings" href="/admin/settings" icon="gear" />
-        </c-app.sidebar.menu.group>
-        <c-app.sidebar.menu.group label="CONTENT">
-          <c-app.sidebar.menu.item label="Pages" href="/content/pages" icon="file-text" />
-          <c-app.sidebar.menu.item label="Media" href="/content/media" icon="images" />
-          <c-app.sidebar.menu.collapse label="Blog" icon="newspaper">
-            <c-app.sidebar.menu.item label="All Posts" href="/blog/posts" />
-            <c-app.sidebar.menu.item label="Categories" href="/blog/categories" />
-            <c-app.sidebar.menu.item label="Tags" href="/blog/tags" />
-          </c-app.sidebar.menu.collapse>
-        </c-app.sidebar.menu.group>
-      </c-app.sidebar.menu> {% endcomment %}
-      {% render_menu "AppMenu" renderer="adminlte" %}
+      {% if slot %}
+        {{ slot }}
+      {% else %}
+        {% render_menu "AppMenu" renderer="adminlte" %}
+      {% endif %}
     </nav>
   </div>
 </aside>

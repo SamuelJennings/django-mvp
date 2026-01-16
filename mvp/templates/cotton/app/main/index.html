@@ -1,12 +1,13 @@
 <c-vars show_header="True"
         container_class="container-fluid" />
 <main class="app-main">
-  <c-app.main.content-header show_header="{{ show_header }}"
-                             container_class="{{ container_class }}">
-    <c-slot name="header">
-      {{ header }}
-    </c-slot>
-  </c-app.main.content-header>
+  {% if show_header == "True" or show_header == True %}
+    <c-app.main.content_header container_class="{{ container_class }}">
+      <c-slot name="header">
+        {{ header }}
+      </c-slot>
+    </c-app.main.content_header>
+  {% endif %}
   <c-app.main.content>
     {{ slot }}
   </c-app.main.content>

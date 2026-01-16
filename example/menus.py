@@ -49,7 +49,7 @@ AppMenu.extend(
             view_name="navbar_widgets_demo",
             extra_context={
                 "label": "Navbar Widgets",
-                "icon": "grid-3x3-gap",
+                "icon": "grid",
                 "badge": "MVP",
                 "badge_classes": "text-bg-primary",
             },

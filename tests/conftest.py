@@ -210,3 +210,26 @@ def app_menu():
         child.parent = None
     for child in original_children:
         child.parent = AppMenu
+
+
+@pytest.fixture
+def request_context():
+    """Provides a RequestContext with proper request object for template rendering."""
+    factory = RequestFactory()
+
+    def _get_context(context_dict=None):
+        """
+        Create a RequestContext with a fake request.
+
+        Args:
+            context_dict: Optional dict with additional context variables
+
+        Returns:
+            RequestContext instance
+        """
+        from django.template import RequestContext
+
+        request = factory.get("/")
+        return RequestContext(request, context_dict or {})
+
+    return _get_context
