@@ -319,7 +319,36 @@ $breakpoint-xxl: 1400px;
   }
 }
 
-// EXPERIMENTAL: Fill app-wrapper variant for full viewport height layouts
+/**
+ * Fill Layout Mode - Viewport-Constrained Layout
+ *
+ * The fill layout creates a viewport-constrained interface perfect for data-intensive applications.
+ * When .fill class is applied to .app-wrapper:
+ * 1. Height is restricted to 100vh (full viewport height)
+ * 2. Scroll container changes from body to app-wrapper
+ * 3. App-header/footer remain visible while app-main scrolls between them
+ * 4. Scrollbars are hidden for a clean appearance
+ *
+ * Primary Use Cases:
+ * - Data tables: Keep column headers visible while scrolling large datasets
+ * - Maps: Full viewport mapping interfaces (MapLibre, Leaflet) with fixed controls
+ * - Dashboards: Constrain charts and widgets to viewport bounds
+ * - Fixed toolbars: Enables page-layout's internal toolbar-fixed/footer-fixed modes
+ *
+ * Browser Support:
+ * - Chrome/Edge: Uses ::-webkit-scrollbar { display: none }
+ * - Firefox: Uses scrollbar-width: none
+ * - Safari: Uses ::-webkit-scrollbar { display: none }
+ *
+ * Implementation Details:
+ * - Grid layout structure keeps header/footer visible while main area scrolls
+ * - overflow: auto enables scrolling while scrollbar-* rules hide the scrollbar UI
+ * - min-height: 0 on .app-main prevents grid item from expanding beyond its row
+ * - sidebar-wrapper uses overflow-y: visible to allow dropdowns/tooltips
+ *
+ * @see docs/components/app.md for usage examples
+ * @see example/templates/example/layout_demo.html for interactive demo
+ */
 .app-wrapper.fill {
   height: 100vh;
   overflow: auto; /* or overflow-y: auto */

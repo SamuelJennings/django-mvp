@@ -48,6 +48,7 @@ def layout_demo(request):
     fixed_footer = request.GET.get("fixed_footer") == "on"
     sidebar_collapsible = request.GET.get("sidebar_collapsible") == "on"
     collapsed = request.GET.get("collapsed") == "on"
+    fill = request.GET.get("fill") == "on"
 
     # Parse breakpoint with fallback to default 'lg' (support both parameter names)
     sidebar_breakpoint = request.GET.get("sidebar_expand", request.GET.get("breakpoint", "lg"))
@@ -60,6 +61,7 @@ def layout_demo(request):
         "fixed_footer": fixed_footer,
         "sidebar_collapsible": sidebar_collapsible,
         "collapsed": collapsed,
+        "fill": fill,
         "breakpoint": sidebar_breakpoint,
         "sidebar_expand": sidebar_breakpoint,  # For compatibility with tests
         "breakpoints": VALID_BREAKPOINTS,

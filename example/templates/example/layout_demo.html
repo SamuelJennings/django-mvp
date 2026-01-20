@@ -6,6 +6,7 @@
          :fixed_footer="fixed_footer"
          :sidebar_collapsible="sidebar_collapsible"
          :collapsed="collapsed"
+         :fill="fill"
          sidebar_expand="{{ breakpoint }}">
     <c-app.header />
     <c-app.sidebar />
@@ -94,6 +95,19 @@
                     </tr>
                     <tr>
                       <td>
+                        <code>fill</code>
+                      </td>
+                      <td>
+                        {% if fill %}
+                          <span class="badge bg-success">Enabled</span>
+                        {% else %}
+                          <span class="badge bg-secondary">Disabled</span>
+                        {% endif %}
+                      </td>
+                      <td>Viewport-constrained scrolling (100vh height, scroll in app-wrapper)</td>
+                    </tr>
+                    <tr>
+                      <td>
                         <code>breakpoint</code>
                       </td>
                       <td>
@@ -137,6 +151,11 @@
                       <code>.fixed-footer</code> - Fixed footer positioning
                     </li>
                   {% endif %}
+                  {% if fill %}
+                    <li>
+                      <code>.fill</code> - Viewport-constrained layout (100vh height, scroll container = app-wrapper)
+                    </li>
+                  {% endif %}
                   <li>
                     <code>.sidebar-expand-{{ breakpoint }}</code> - Sidebar expansion breakpoint
                   </li>
@@ -159,6 +178,29 @@
                   <p class="mb-0">
                     See <code>docs/components/app.md</code> for full component documentation.
                   </p>
+                </div>
+                <div class="alert alert-info">
+                  <h5 class="alert-heading">
+                    <i class="fas fa-fill-drip me-2"></i>
+                    Fill Layout Mode
+                  </h5>
+                  <p>
+                    Fill layout creates a <strong>viewport-constrained layout</strong> perfect for data-intensive applications:
+                  </p>
+                  <ul class="mb-0">
+                    <li>
+                      <strong>Data tables:</strong> Keep column headers visible while scrolling large datasets
+                    </li>
+                    <li>
+                      <strong>Maps:</strong> Full viewport mapping interfaces with fixed controls
+                    </li>
+                    <li>
+                      <strong>Dashboards:</strong> Constrain charts and widgets to viewport bounds
+                    </li>
+                    <li>
+                      <strong>Fixed toolbars:</strong> Enables page-layout's internal toolbar-fixed/footer-fixed modes
+                    </li>
+                  </ul>
                 </div>
               </c-card>
             </div>
@@ -205,6 +247,18 @@
                         <strong>Fixed Footer</strong>
                         <br />
                         <small class="text-muted">Footer stays fixed at bottom of viewport</small>
+                      </label>
+                    </div>
+                    <div class="form-check mb-3">
+                      <input class="form-check-input"
+                             type="checkbox"
+                             name="fill"
+                             id="fill"
+                             {% if fill %}checked{% endif %} />
+                      <label class="form-check-label" for="fill">
+                        <strong>Fill Layout</strong>
+                        <br />
+                        <small class="text-muted">Viewport-constrained scrolling for data tables/maps</small>
                       </label>
                     </div>
                   </div>
