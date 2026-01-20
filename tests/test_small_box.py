@@ -23,16 +23,16 @@ def test_basic_small_box_rendering(render_component_soup):
     assert small_box is not None, "Small box container should exist"
 
     # Verify inner content
-    inner_div = small_box.find("div", class_="inner")
-    assert inner_div is not None, "Inner div should exist"
+    page_div = small_box.find("div", class_="inner")
+    assert page_div is not None, "Inner div should exist"
 
     # Verify heading
-    heading = inner_div.find("h3")
+    heading = page_div.find("h3")
     assert heading is not None, "Heading should exist"
     assert heading.get_text(strip=True) == "150", "Heading should be '150'"
 
     # Verify text
-    text_p = inner_div.find("p")
+    text_p = page_div.find("p")
     assert text_p is not None, "Text paragraph should exist"
     assert text_p.get_text(strip=True) == "New Orders", "Text should be 'New Orders'"
 

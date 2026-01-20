@@ -8,7 +8,7 @@ This project follows the principles defined in [.specify/memory/constitution.md]
 
 **Key requirements:**
 
-- **Test-First**: Tests MUST be written before implementation (Red → Green → Refactor)
+- **Design-First**: Implementation and design verification MUST occur before writing tests
 - **Documentation-First**: Public behavior changes MUST include documentation updates
 - **Component Quality**: All components MUST be accessible and use semantic HTML
 
@@ -108,11 +108,12 @@ Before submitting a pull request:
 ## Pull Request Process
 
 1. Create a feature branch from `main`
-2. Write failing tests for your feature
-3. Implement the feature to make tests pass
-4. Update documentation
-5. Run all quality checks
-6. Submit PR with:
+2. Implement the feature/design
+3. Verify the design meets expectations (use chrome-devtools-mcp for UI changes)
+4. Write comprehensive tests for the verified implementation
+5. Update documentation
+6. Run all quality checks
+7. Submit PR with:
    - Clear description of changes
    - Link to any related issues
    - Confirmation that tests pass

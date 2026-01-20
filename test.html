@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Grid Layout Playground - AdminLTE Style</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* DONT CHANGE */
+    .page-layout {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: min-content 1fr min-content;
+      grid-template-areas:
+        "toolbar sidebar"
+        "main sidebar"
+        "footer sidebar";
+      height: 100%;
+      gap: 0;
+    }
+
+    .toolbar {
+      grid-area: toolbar;
+    }
+
+    .sidebar {
+      grid-area: sidebar;
+      transition: min-width 0.3s ease, max-width 0.3s ease, width 0.3s ease, padding 0.3s ease, border-width 0.3s ease, opacity 0.3s ease;
+    }
+
+    .main {
+      grid-area: main;
+      padding: 1.5rem;
+    }
+
+    .footer {
+      grid-area: footer;
+    }
+
+    /* Main Content Styling */
+    .content-wrapper {
+      max-width: 1400px;
+    }
+
+    .content-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .content-section h2 {
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .lead {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .info-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-card h3 {
+      font-size: 0.9rem;
+      margin: 0 0 0.5rem 0;
+      opacity: 0.9;
+    }
+
+    .info-card .stat {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0.5rem 0;
+    }
+
+    .info-card small {
+      opacity: 0.8;
+    }
+
+    /* Activity List */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: start;
+      gap: 1rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 6px;
+      border-left: 3px solid #667eea;
+    }
+
+    .activity-icon {
+      font-size: 1.5rem;
+    }
+
+    .activity-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .activity-content small {
+      color: #666;
+      font-size: 0.85rem;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #e0e0e0;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+      padding-left: 2rem;
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: -2rem;
+      top: 0;
+      width: 40px;
+      height: 40px;
+      background: #667eea;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      z-index: 1;
+    }
+
+    .timeline-content h4 {
+      margin: 0 0 0.5rem 0;
+      color: #333;
+    }
+
+    .timeline-content p {
+      margin: 0 0 0.5rem 0;
+      color: #666;
+    }
+
+    .timeline-date {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: #e3f2fd;
+      color: #1976d2;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* Data Table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .data-table thead {
+      background: #f5f5f5;
+    }
+
+    .data-table th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #333;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .data-table td {
+      padding: 0.875rem 1rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .data-table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .badge-success {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .badge-warning {
+      background: #fff3e0;
+      color: #f57c00;
+    }
+
+    .badge-danger {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    /* Tips Grid */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .tip-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-top: 4px solid #667eea;
+    }
+
+    .tip-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .tip-card h4 {
+      margin: 0 0 0.75rem 0;
+      color: #333;
+    }
+
+    .tip-card p {
+      margin: 0;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Sidebar Collapse - Simple hide */
+    .sidebar.sidebar-collapse {
+      min-width: 0;
+      max-width: 0;
+      width: 0;
+      padding: 0;
+      border: 0;
+      opacity: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    /* Responsive Sidebar Breakpoints - AdminLTE pattern */
+
+    /* sidebar-breakpoint-sm: Above 576px sidebar visible, below 576px hidden by default */
+    @media (max-width: 575px) {
+      .page-layout.sidebar-breakpoint-sm .sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1050;
+        transform: translateX(100%);
+        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .page-layout.sidebar-breakpoint-sm .sidebar.sidebar-open {
+        transform: translateX(0);
+      }
+
+      .page-layout.sidebar-breakpoint-sm .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 1040;
+        background-color: rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+      }
+
+      .page-layout.sidebar-breakpoint-sm .sidebar-overlay.active {
+        display: block;
+      }
+    }
+
+    /* sidebar-breakpoint-md: Above 768px sidebar visible, below 768px hidden by default */
+    @media (max-width: 767px) {
+      .page-layout.sidebar-breakpoint-md .sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1050;
+        transform: translateX(100%);
+        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .page-layout.sidebar-breakpoint-md .sidebar.sidebar-open {
+        transform: translateX(0);
+      }
+
+      .page-layout.sidebar-breakpoint-md .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 1040;
+        background-color: rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+      }
+
+      .page-layout.sidebar-breakpoint-md .sidebar-overlay.active {
+        display: block;
+      }
+    }
+
+    /* sidebar-breakpoint-lg: Above 992px sidebar visible, below 992px hidden by default */
+    @media (max-width: 991px) {
+      .page-layout.sidebar-breakpoint-lg .sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1050;
+        transform: translateX(100%);
+        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .page-layout.sidebar-breakpoint-lg .sidebar.sidebar-open {
+        transform: translateX(0);
+      }
+
+      .page-layout.sidebar-breakpoint-lg .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 1040;
+        background-color: rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+      }
+
+      .page-layout.sidebar-breakpoint-lg .sidebar-overlay.active {
+        display: block;
+      }
+    }
+
+    /* sidebar-breakpoint-xl: Above 1200px sidebar visible, below 1200px hidden by default */
+    @media (max-width: 1199px) {
+      .page-layout.sidebar-breakpoint-xl .sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1050;
+        transform: translateX(100%);
+        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .page-layout.sidebar-breakpoint-xl .sidebar.sidebar-open {
+        transform: translateX(0);
+      }
+
+      .page-layout.sidebar-breakpoint-xl .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 1040;
+        background-color: rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+      }
+
+      .page-layout.sidebar-breakpoint-xl .sidebar-overlay.active {
+        display: block;
+      }
+    }
+
+    /* Visual Styles */
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: #95a5a6;
+      padding: 2rem;
+    }
+
+    .page-wrapper {
+      width: 100%;
+      max-width: 1400px;
+      min-height: calc(100vh - 4rem);
+      background-color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      margin: 0 auto;
+    }
+
+    .toolbar {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .toggle-btn {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .toggle-btn:hover {
+      background-color: #2980b9;
+    }
+
+    .sidebar {
+      background-color: #ecf0f1;
+      color: #2c3e50;
+      padding: 2rem 1rem;
+      border-left: 2px solid #bdc3c7;
+      min-width: 250px;
+      max-width: 250px;
+    }
+
+    .sidebar h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      white-space: nowrap;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #bdc3c7;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .sidebar .nav-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.5rem;
+      max-width: 1.5rem;
+      margin-right: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .sidebar .nav-text {
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .main {
+      background-color: #ffffff;
+      color: #2c3e50;
+      padding: 0;
+    }
+
+    .footer {
+      background-color: #34495e;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Content styling */
+    h1 {
+      margin-bottom: 1rem;
+    }
+
+    .info-box {
+      background-color: #f8f9fa;
+      border-left: 4px solid #3498db;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 4px;
+    }
+
+    .info-box strong {
+      color: #3498db;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <div class="page-layout sidebar-breakpoint-md">
+      <header class="toolbar">
+        <span>Toolbar</span>
+        <button class="toggle-btn" onclick="toggleSidebar(event)">Toggle Sidebar</button>
+      </header>
+
+      <main class="main">
+        <div class="content-wrapper">
+          <h1>Dashboard Overview</h1>
+          <p class="lead">Welcome to your AdminLTE-style layout playground. This content is designed to demonstrate
+            scrolling behavior.</p>
+
+          <section class="content-section">
+            <h2>📊 Statistics Cards</h2>
+            <div class="cards-grid">
+              <div class="info-card">
+                <h3>Total Users</h3>
+                <p class="stat">1,234</p>
+                <small>↑ 12% from last month</small>
+              </div>
+              <div class="info-card">
+                <h3>Revenue</h3>
+                <p class="stat">$45,678</p>
+                <small>↑ 8% from last month</small>
+              </div>
+              <div class="info-card">
+                <h3>Active Projects</h3>
+                <p class="stat">87</p>
+                <small>↓ 3% from last month</small>
+              </div>
+              <div class="info-card">
+                <h3>Pending Tasks</h3>
+                <p class="stat">23</p>
+                <small>→ No change</small>
+              </div>
+            </div>
+          </section>
+
+          <section class="content-section">
+            <h2>📈 Recent Activity</h2>
+            <div class="activity-list">
+              <div class="activity-item">
+                <span class="activity-icon">👤</span>
+                <div class="activity-content">
+                  <strong>John Doe</strong> created a new project
+                  <small>2 hours ago</small>
+                </div>
+              </div>
+              <div class="activity-item">
+                <span class="activity-icon">✅</span>
+                <div class="activity-content">
+                  <strong>Jane Smith</strong> completed task "Update documentation"
+                  <small>3 hours ago</small>
+                </div>
+              </div>
+              <div class="activity-item">
+                <span class="activity-icon">💬</span>
+                <div class="activity-content">
+                  <strong>Mike Johnson</strong> commented on issue #42
+                  <small>5 hours ago</small>
+                </div>
+              </div>
+              <div class="activity-item">
+                <span class="activity-icon">📄</span>
+                <div class="activity-content">
+                  <strong>Sarah Wilson</strong> uploaded 3 new files
+                  <small>Yesterday at 4:30 PM</small>
+                </div>
+              </div>
+              <div class="activity-item">
+                <span class="activity-icon">🔔</span>
+                <div class="activity-content">
+                  <strong>System</strong> sent notification to all users
+                  <small>Yesterday at 2:15 PM</small>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="content-section">
+            <h2>📋 Project Timeline</h2>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-marker">1</div>
+                <div class="timeline-content">
+                  <h4>Project Initialization</h4>
+                  <p>Set up repository, configure development environment, and establish coding standards.</p>
+                  <span class="timeline-date">Week 1-2</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker">2</div>
+                <div class="timeline-content">
+                  <h4>Core Features Development</h4>
+                  <p>Implement authentication, user management, and basic CRUD operations.</p>
+                  <span class="timeline-date">Week 3-6</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker">3</div>
+                <div class="timeline-content">
+                  <h4>UI/UX Enhancement</h4>
+                  <p>Design and implement responsive layouts, dark mode, and accessibility features.</p>
+                  <span class="timeline-date">Week 7-9</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker">4</div>
+                <div class="timeline-content">
+                  <h4>Testing & Quality Assurance</h4>
+                  <p>Comprehensive testing including unit tests, integration tests, and end-to-end testing.</p>
+                  <span class="timeline-date">Week 10-11</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker">5</div>
+                <div class="timeline-content">
+                  <h4>Deployment & Monitoring</h4>
+                  <p>Deploy to production, set up monitoring, analytics, and performance optimization.</p>
+                  <span class="timeline-date">Week 12</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="content-section">
+            <h2>📊 Data Table Example</h2>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Last Active</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>001</td>
+                  <td>Alice Johnson</td>
+                  <td>alice@example.com</td>
+                  <td>Admin</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td>2 mins ago</td>
+                </tr>
+                <tr>
+                  <td>002</td>
+                  <td>Bob Smith</td>
+                  <td>bob@example.com</td>
+                  <td>Developer</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td>15 mins ago</td>
+                </tr>
+                <tr>
+                  <td>003</td>
+                  <td>Carol White</td>
+                  <td>carol@example.com</td>
+                  <td>Designer</td>
+                  <td><span class="badge badge-warning">Away</span></td>
+                  <td>1 hour ago</td>
+                </tr>
+                <tr>
+                  <td>004</td>
+                  <td>David Brown</td>
+                  <td>david@example.com</td>
+                  <td>Manager</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td>5 mins ago</td>
+                </tr>
+                <tr>
+                  <td>005</td>
+                  <td>Emma Davis</td>
+                  <td>emma@example.com</td>
+                  <td>Developer</td>
+                  <td><span class="badge badge-danger">Offline</span></td>
+                  <td>2 days ago</td>
+                </tr>
+                <tr>
+                  <td>006</td>
+                  <td>Frank Miller</td>
+                  <td>frank@example.com</td>
+                  <td>QA Tester</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td>30 mins ago</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="content-section">
+            <h2>💡 Tips & Best Practices</h2>
+            <div class="tips-grid">
+              <div class="tip-card">
+                <div class="tip-icon">🎯</div>
+                <h4>Focus on User Experience</h4>
+                <p>Always prioritize usability and accessibility. Test your interface with real users and iterate based
+                  on feedback.</p>
+              </div>
+              <div class="tip-card">
+                <div class="tip-icon">🚀</div>
+                <h4>Performance Matters</h4>
+                <p>Optimize images, minimize JavaScript bundles, and use lazy loading for better performance.</p>
+              </div>
+              <div class="tip-card">
+                <div class="tip-icon">📱</div>
+                <h4>Mobile First</h4>
+                <p>Design for mobile devices first, then progressively enhance for larger screens.</p>
+              </div>
+              <div class="tip-card">
+                <div class="tip-icon">🔒</div>
+                <h4>Security First</h4>
+                <p>Implement proper authentication, authorization, and data validation to protect user data.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="content-section">
+            <h2>📝 Lorem Ipsum Content</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat.</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+              laborum.</p>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
+              rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
+              explicabo.</p>
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
+              dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor
+              sit amet, consectetur, adipisci velit.</p>
+            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
+              atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique
+              sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+          </section>
+
+        </div>
+      </main>
+
+      <aside class="sidebar">
+        <h2>Sidebar</h2>
+        <ul>
+          <li>
+            <span class="nav-icon">📊</span>
+            <span class="nav-text">Dashboard</span>
+          </li>
+          <li>
+            <span class="nav-icon">📄</span>
+            <span class="nav-text">Pages</span>
+          </li>
+          <li>
+            <span class="nav-icon">📁</span>
+            <span class="nav-text">Files</span>
+          </li>
+          <li>
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-text">Settings</span>
+          </li>
+        </ul>
+      </aside>
+
+      <footer class="footer">
+        Footer
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar(event) {
+      // Find the toolbar that contains the clicked button
+      const toolbar = event.target.closest('.toolbar')
+
+      // Get the parent page-layout
+      const gridContainer = toolbar.parentElement
+
+      // Find the sidebar that's a direct child of this page-layout
+      const sidebar = gridContainer.querySelector(':scope > .sidebar')
+
+      if (sidebar) {
+        // Check if we're in mobile mode (sidebar has position: fixed)
+        const isMobileMode = window.getComputedStyle(sidebar).position === 'fixed'
+
+        if (isMobileMode) {
+          // Toggle sidebar-open class for mobile slide-in
+          sidebar.classList.toggle('sidebar-open')
+
+          // Toggle overlay
+          let overlay = gridContainer.querySelector('.sidebar-overlay')
+          if (!overlay) {
+            overlay = document.createElement('div')
+            overlay.className = 'sidebar-overlay'
+            overlay.onclick = () => {
+              sidebar.classList.remove('sidebar-open')
+              overlay.classList.remove('active')
+            }
+            gridContainer.appendChild(overlay)
+          }
+          overlay.classList.toggle('active')
+        } else {
+          // Desktop mode - use normal collapse
+          sidebar.classList.toggle('sidebar-collapse')
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -89,7 +89,7 @@ def render_component_soup():
 
 
 @pytest.fixture
-def inner_layout_context():
+def page_layout_context():
     """
     Fixture providing default context for inner layout component tests.
 

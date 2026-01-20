@@ -1,0 +1,13 @@
+{% comment %} Inner Layout Component - Main Container Attributes: -
+fixed_header (bool): Enable sticky positioning for toolbar - fixed_footer
+(bool): Enable sticky positioning for footer - fixed_sidebar (bool): Enable
+sticky positioning for sidebar - sidebar_expand (str): Bootstrap breakpoint
+for responsive sidebar (sm, md, lg, xl, xxl) - class (str): Additional CSS
+classes for custom styling {% endcomment %}
+<c-vars fixed_header
+        fixed_footer
+        fixed_sidebar
+        sidebar_expand="lg"
+        class />
+<div class="page-layout sidebar-breakpoint-{{ sidebar_expand }}{% if fixed_header %} toolbar-fixed{% endif %}{% if fixed_footer %} footer-fixed{% endif %}{% if fixed_sidebar %} sidebar-fixed{% endif %}{% if class %} {{ class }}{% endif %}"
+     data-sidebar-breakpoint="{{ sidebar_expand }}">{{ slot }}</div>

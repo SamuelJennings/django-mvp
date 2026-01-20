@@ -1,0 +1,11 @@
+{% comment %} Toolbar Component - Top area of inner layout Attributes: - - size
+(str): Toolbar size variation ('compact', 'relaxed', or default) - class (str):
+Additional CSS classes Slots: - default: Main toolbar content (left side) - end:
+Right-aligned toolbar content {% endcomment %}
+<c-vars compact relaxed class />
+<header class="page-toolbar container-fluid bg-body{% if compact %} compact{% elif relaxed %} relaxed{% endif %}{% if class %} {{ class }}{% endif %}"
+        role="banner"
+        aria-label="Page toolbar">
+  <div class="page-toolbar-start">{{ slot }}</div>
+  {% if end %}<div class="page-toolbar-end">{{ end }}</div>{% endif %}
+</header>

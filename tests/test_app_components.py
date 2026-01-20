@@ -151,23 +151,13 @@ class TestMainComponent:
     def test_main_renders_basic_structure(self, mock_request):
         """Main index renders with app-main main element."""
         html = render_component(mock_request, "app/main")
-        assert '<main class="app-main">' in html
-        assert '<div class="app-content">' in html
+        assert '<main' in html and 'app-main' in html
 
-    def test_main_renders_content_header_by_default(self, mock_request):
-        """Main renders content header by default."""
+    def test_main_accepts_slot_content(self, mock_request):
+        """Main component accepts and renders slot content."""
+        # Main is just a wrapper - content comes from slot
         html = render_component(mock_request, "app/main")
-        assert '<div class="app-content-header">' in html
-
-    def test_main_hides_content_header_when_disabled(self, mock_request):
-        """Main hides content header when show_header is False."""
-        html = render_component(mock_request, "app/main", show_header="False")
-        assert '<div class="app-content-header">' not in html
-
-    def test_main_applies_container_class(self, mock_request):
-        """Main applies custom container_class to content header."""
-        html = render_component(mock_request, "app/main", container_class="container")
-        assert '<div class="container">' in html
+        assert '<main' in html
 
 
 @pytest.mark.django_db

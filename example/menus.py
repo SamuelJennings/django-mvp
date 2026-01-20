@@ -54,6 +54,17 @@ AppMenu.extend(
                 "badge_classes": "text-bg-primary",
             },
         ),
+        # Inner Layout Demo - NEW!
+        MenuItem(
+            name="page_layout_demo",
+            view_name="page_layout_demo",
+            extra_context={
+                "label": "Inner Layout",
+                "icon": "grid",
+                "badge": "New",
+                "badge_classes": "text-bg-warning",
+            },
+        ),
         # Profile with notification count
         MenuItem(
             name="profile",

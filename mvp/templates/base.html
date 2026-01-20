@@ -1,3 +1,4 @@
+{% load compress %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -41,6 +42,12 @@
       <link rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-rc3/dist/css/adminlte.min.css"
             crossorigin="anonymous" />
+      {# Inner Layout System Styles #}
+      {% compress css %}
+        <link type="text/x-scss"
+              href="{% static 'scss/page-layout.scss' %}"
+              rel="stylesheet" />
+      {% endcompress %}
       {% block extra_css %}
       {% endblock extra_css %}
     {% endblock head %}
@@ -64,6 +71,8 @@
   <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-rc3/dist/js/adminlte.min.js"
           crossorigin="anonymous"></script>
   {# Theme Switcher JS #}
+  {# Inner Layout Toggle JS #}
+  <script src="{% static 'js/page-layout.js' %}"></script>
   {% block extra_js %}
   {% endblock extra_js %}
 </html>

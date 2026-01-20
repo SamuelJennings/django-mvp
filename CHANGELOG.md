@@ -9,6 +9,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Inner Layout System** (Feature 006): Complete grid-based layout system for inner page content
+  - **CSS Grid Architecture**: Modern grid-based layout with toolbar, main content, footer, and sidebar areas
+  - **Sticky Positioning**: Optional sticky toolbar, footer, and sidebar with `toolbar_fixed`, `footer_fixed`, `sidebar_fixed` attributes
+  - **Sidebar Toggle Functionality**: Built-in collapse/expand with sessionStorage persistence
+    - Smooth animations with hardware acceleration
+    - No-transition on page load fix for FOUC prevention
+    - ARIA-compliant with full keyboard accessibility
+    - Icon updates to match collapsed/expanded state
+  - **Responsive Sidebar**: Configurable breakpoints (`sm`, `md`, `lg`, `xl`, `xxl`) for mobile-friendly overlay behavior
+  - **Template-Driven Configuration**: All settings controlled via component attributes
+  - **Slot-Based Composition**: Toolbar, footer, and sidebar render only when their slots are provided
+  - **Components**:
+    - `<c-page>` - Main container with grid layout
+    - `<c-page.toolbar>` - Top action bar with start/end slots
+    - `<c-page.footer>` - Bottom bar with start/end slots
+    - `<c-page.sidebar>` - Right-side panel with toggle support
+  - **Demo Page**: Interactive demo at `/page-layout/` with configuration presets
+  - **Documentation**: Complete component guide at [docs/page-layout.md](docs/page-layout.md)
+  - **Feature Specification**: [specs/006-page-layout/](specs/006-page-layout/)
+  - **Test Coverage**: Unit tests + E2E tests + browser verification
+
 - **Layout Configuration System**: Complete support for AdminLTE 4 fixed positioning via `<c-app>` component attributes
   - **CRITICAL Architecture Fix**: Layout classes now correctly applied to `<body>` tag for AdminLTE CSS compatibility
   - **Fixed Sidebar** (`fixed_sidebar`): Makes sidebar sticky during vertical scrolling - ideal for admin dashboards

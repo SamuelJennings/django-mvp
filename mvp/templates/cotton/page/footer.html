@@ -1,0 +1,10 @@
+{% comment %} Footer Component - Bottom area of inner layout Attributes: - class
+(str): Additional CSS classes Slots: - default: Main footer content (left side)
+- end: Right-aligned footer content {% endcomment %}
+<c-vars class />
+<footer class="page-footer bg-body container-fluid py-3 {{ class }}"
+        role="contentinfo"
+        aria-label="Page footer">
+  <div class="page-footer-start">{{ slot }}</div>
+  {% if end %}<div class="page-footer-end">{{ end }}</div>{% endif %}
+</footer>

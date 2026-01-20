@@ -31,13 +31,13 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-- Test-first approach is feasible and planned (tests can be written before implementation).
-- Test types are identified (pytest, pytest-django, pytest-playwright as needed).
-- Documentation updates are included for any public behavior change.
-- Quality gates are understood (tests + lint + format).
-- UI verification approach is planned (chrome-devtools-mcp for visual validation).
-- Documentation retrieval is planned (context7 for up-to-date library docs).
-- End-to-end testing is planned (playwright for complete user workflows).
+- Design-first approach is feasible and planned (implementation before test writing)
+- Visual verification approach is planned (chrome-devtools-mcp for UI validation)
+- Test types are identified (pytest, pytest-django, pytest-playwright as needed) for post-implementation
+- Documentation updates are included for any public behavior change
+- Quality gates are understood (tests + lint + format)
+- Documentation retrieval is planned (context7 for up-to-date library docs)
+- End-to-end testing is planned (playwright for complete user workflows after implementation)
 
 ## Project Structure
 
