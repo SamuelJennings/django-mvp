@@ -11,6 +11,8 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name="example/dashboard.html"), name="dashboard"),
     # Layout demonstration
     path("layout/", views.layout_demo, name="layout_demo"),
+    # Inner layout demonstration
+    path("page-layout/", views.page_layout_demo, name="page_layout_demo"),
     # Navbar widgets demonstration
     path("widgets/", views.navbar_widgets_demo, name="navbar_widgets_demo"),
     # =============================================================================
@@ -86,6 +88,14 @@ urlpatterns = [
         "users/<int:user_id>/profile/",
         TemplateView.as_view(template_name="example/user_profile.html"),
         name="user_profile",
+    ),
+    # =============================================================================
+    # INNER LAYOUT DEMO URLS
+    # =============================================================================
+    path(
+        "page-layout/",
+        TemplateView.as_view(template_name="example/page_layout.html"),
+        name="page_layout_demo",
     ),
 ]
 

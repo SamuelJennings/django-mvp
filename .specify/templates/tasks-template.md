@@ -8,9 +8,9 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: Tests are REQUIRED for behavior changes. Use pytest + pytest-django for backend/integration and pytest-playwright for UI behavior. End-to-end tests with playwright are REQUIRED for all features. UI changes MUST be verified using chrome-devtools-mcp. Use context7 for up-to-date library documentation.
+**Workflow**: Following Design-First approach - implement and verify design BEFORE writing tests. Tests are REQUIRED for behavior changes but come AFTER design verification. Use pytest + pytest-django for backend/integration and pytest-playwright for UI behavior. End-to-end tests with playwright are REQUIRED for all features. UI changes MUST be verified using chrome-devtools-mcp DURING implementation. Use context7 for up-to-date library documentation.
 
-**Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
+**Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story. Each story follows: Design → Implement → Verify → Test.
 
 ## Format: `[ID] [P?] [Story] Description`
 
@@ -79,23 +79,29 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 1 (REQUIRED for behavior changes)
+### Design & Implementation for User Story 1
 
-> **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
+> **NOTE: Implement FIRST, verify design meets expectations, THEN write tests**
 
-- [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T010 [P] [US1] Create [Entity1] model in src/models/[entity1].py
+- [ ] T011 [P] [US1] Create [Entity2] model in src/models/[entity2].py
+- [ ] T012 [US1] Implement [Service] in src/services/[service].py (depends on T010, T011)
+- [ ] T013 [US1] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T014 [US1] Add validation and error handling
+- [ ] T015 [US1] Add logging for user story 1 operations
 
-### Implementation for User Story 1
+### Verification for User Story 1
 
-- [ ] T012 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T013 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T014 [US1] Implement [Service] in src/services/[service].py (depends on T012, T013)
-- [ ] T015 [US1] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T016 [US1] Add validation and error handling
-- [ ] T017 [US1] Add logging for user story 1 operations
+- [ ] T016 [US1] Verify UI implementation using chrome-devtools-mcp (if applicable)
+- [ ] T017 [US1] Manual testing of user journey to confirm design meets expectations
 
-**Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
+### Tests for User Story 1 (AFTER design verification)
+
+- [ ] T018 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
+- [ ] T019 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T020 [US1] End-to-end test with playwright in tests/e2e/test_[name].py
+
+**Checkpoint**: At this point, User Story 1 should be fully functional, verified, and tested independently
 
 ---
 

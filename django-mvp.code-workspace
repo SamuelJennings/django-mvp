@@ -6,9 +6,12 @@
         {
             "path": "../../playground/AdminLTE"
         },
-        {
-            "path": "../django-cotton-bs5"
-        },
+        // {
+        //     "path": "../django-cotton-bs5"
+        // },
+        // {
+        //     "path": "../../awesome-copilot"
+        // }
     ],
     // ========================================
     // WORKSPACE SETTINGS
@@ -191,7 +194,8 @@
         // =====================================
         // SPELL CHECKING
         // =====================================
-        "cSpell.enabled": false
+        "cSpell.enabled": false,
+        "liveServer.settings.multiRootWorkspaceName": "django-mvp"
     },
     // ========================================
     // WORKSPACE TASKS

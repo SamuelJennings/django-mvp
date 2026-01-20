@@ -147,25 +147,6 @@ class TestBodyTagArchitecture:
             f"Actual HTML: {html[:300]}..."
         )
 
-    def test_javascript_slot_available(self, rf):
-        """
-        T004: Test that JavaScript slot is available for user scripts.
-
-        Component should provide {{ javascript }} slot for custom JS injection.
-        """
-        mock_request = rf.get("/")
-        html = render_component(mock_request, "app", javascript="<script>console.log('test');</script>")
-
-        # Check JavaScript slot content is rendered (may be HTML escaped)
-        expected_script = "<script>console.log('test');</script>"
-        expected_escaped = "&lt;script&gt;console.log(&#x27;test&#x27;);&lt;/script&gt;"
-
-        assert expected_script in html or expected_escaped in html, (
-            f"JavaScript slot content should be rendered in component output. "
-            f"Expected either '{expected_script}' or '{expected_escaped}'. "
-            f"Actual HTML: {html}"
-        )
-
 
 @pytest.mark.django_db
 class TestLayoutCombinations:

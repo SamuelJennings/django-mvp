@@ -92,3 +92,57 @@ def navbar_widgets_demo(request):
     }
 
     return render(request, "example/navbar_widgets.html", context)
+
+
+def page_layout_demo(request):
+    """
+    Inner layout demonstration page.
+
+    Interactive form for testing all inner layout options:
+    - Fixed properties (fixed_header, fixed_footer, fixed_sidebar)
+    - Responsive breakpoints (sidebar_expand)
+    - Initial sidebar state (collapsed)
+
+    Query Parameters:
+        fixed_header (str): 'on' if checkbox is checked
+        fixed_footer (str): 'on' if checkbox is checked
+        fixed_sidebar (str): 'on' if checkbox is checked
+        collapsed (str): 'on' if sidebar should start collapsed
+        sidebar_expand (str): Bootstrap breakpoint (sm, md, lg, xl, xxl)
+                             Defaults to 'lg' if not provided or invalid
+
+    Returns:
+        Rendered template with configuration form and inner layout demonstration
+
+    Context Variables:
+        - fixed_header (bool): Whether toolbar should be sticky
+        - fixed_footer (bool): Whether footer should be sticky
+        - fixed_sidebar (bool): Whether sidebar should be sticky
+        - collapsed (bool): Whether sidebar starts collapsed
+        - sidebar_expand (str): Current sidebar expand breakpoint
+        - breakpoints (list): Available breakpoint options
+    """
+    # Valid Bootstrap breakpoint values
+    VALID_BREAKPOINTS = ["sm", "md", "lg", "xl", "xxl"]
+
+    # Parse query parameters (checkboxes send 'on' when checked, absent when unchecked)
+    fixed_header = request.GET.get("fixed_header") == "on"
+    fixed_footer = request.GET.get("fixed_footer") == "on"
+    fixed_sidebar = request.GET.get("fixed_sidebar") == "on"
+    collapsed = request.GET.get("collapsed") == "on"
+
+    # Parse breakpoint with fallback to default 'lg'
+    sidebar_expand = request.GET.get("sidebar_expand", "lg")
+    if sidebar_expand not in VALID_BREAKPOINTS:
+        sidebar_expand = "lg"  # Fallback to default
+
+    context = {
+        "fixed_header": fixed_header,
+        "fixed_footer": fixed_footer,
+        "fixed_sidebar": fixed_sidebar,
+        "collapsed": collapsed,
+        "sidebar_expand": sidebar_expand,
+        "breakpoints": VALID_BREAKPOINTS,
+    }
+
+    return render(request, "example/page_layout.html", context)

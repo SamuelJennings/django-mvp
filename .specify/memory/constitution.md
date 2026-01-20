@@ -1,16 +1,16 @@
 <!--
 Sync Impact Report
-- Version change: 1.0.0 → 1.1.0
-- Modified principles: none
-- Added sections:
-	- VI. UI Verification (chrome-devtools-mcp usage)
-	- VII. Documentation Retrieval (context7 usage)
-	- VIII. End-to-End Testing (playwright requirement)
+- Version change: 1.1.0 → 2.0.0
+- Modified principles:
+	- I. Test-First → I. Design-First, Verify Implementation (BREAKING CHANGE)
+- Added sections: none
 - Removed sections: none
 - Templates requiring updates:
-	- ✅ .specify/templates/plan-template.md (updated constitution check)
-	- ✅ .specify/templates/tasks-template.md (updated testing requirements)
-	- ✅ .specify/templates/spec-template.md (already emphasizes testing - no changes needed)
+	- ✅ .specify/templates/plan-template.md (updated constitution check to reflect design-first workflow)
+	- ✅ .specify/templates/tasks-template.md (updated task ordering: design → implement → verify → test)
+	- ✅ .specify/templates/spec-template.md (no changes needed - already emphasizes design)
+- Runtime guidance docs requiring updates:
+	- ✅ CONTRIBUTING.md (updated core principles and PR process to reflect design-first approach)
 - Follow-up TODOs: none
 -->
 
@@ -18,17 +18,27 @@ Sync Impact Report
 
 ## Core Principles
 
-### I. Test-First (NON-NEGOTIABLE)
+### I. Design-First, Verify Implementation (NON-NEGOTIABLE)
 
-All behavior changes MUST be driven by tests written first.
+All behavior changes MUST follow a design-verify-test workflow to ensure alignment between expectations and implementation.
 
-- Tests MUST be written and observed failing before implementation work begins (Red → Green → Refactor).
-- All new or changed Python behavior MUST have pytest coverage.
-- Django integration behavior MUST have pytest-django coverage.
-- Cotton component tests MUST use `django_cotton.render_component()` with pytest-django's `rf` fixture (NOT Template() or render_to_string).
-- User-visible/UI behavior MUST have pytest-playwright coverage when the change affects rendered output, interactions, or accessibility.
-- Pull requests MUST NOT be merged with failing tests, or without new/updated tests for behavior changes.
-- The only acceptable exception is a docs-only change (no runtime behavior impact).
+**Rationale**: Front-end specifications are difficult to communicate precisely through written descriptions alone. Implementing design first allows for visual verification and user feedback before investing time in test design. This reduces wasted effort on tests for designs that don't match user expectations.
+
+**Workflow**:
+
+1. **Design Phase**: Create the design (mockups, wireframes, or initial implementation) based on specifications
+2. **Verification Phase**: Verify the design meets expectations using visual inspection (chrome-devtools-mcp for UI), user feedback, and manual testing
+3. **Implementation Phase**: Refine implementation based on verification feedback
+4. **Testing Phase**: Write comprehensive tests for the verified, approved implementation
+
+**Testing Requirements** (after design verification):
+
+- All new or changed Python behavior MUST have pytest coverage
+- Django integration behavior MUST have pytest-django coverage
+- Cotton component tests MUST use `django_cotton.render_component()` with pytest-django's `rf` fixture (NOT Template() or render_to_string)
+- User-visible/UI behavior MUST have pytest-playwright coverage when the change affects rendered output, interactions, or accessibility
+- Pull requests MUST NOT be merged with failing tests, or without new/updated tests for behavior changes
+- The only acceptable exception is a docs-only change (no runtime behavior impact)
 
 ### II. Documentation-First
 
@@ -102,11 +112,12 @@ If a change affects UI output or interaction, add or update pytest-playwright co
 
 ## Development Workflow
 
-- Start with the smallest failing test that expresses the desired behavior.
-- Implement the minimal code to make the test pass.
-- Refactor only after the tests are green.
-- Update documentation alongside the change, not after.
-- Keep PRs small and reviewable; split unrelated changes.
+- Start with the design that expresses the desired behavior and visual appearance
+- Verify the design meets expectations through visual inspection and user feedback (use chrome-devtools-mcp for UI verification)
+- Refine the implementation based on verification feedback
+- Write comprehensive tests for the verified implementation (unit, integration, and end-to-end)
+- Update documentation alongside the change, not after
+- Keep PRs small and reviewable; split unrelated changes
 
 ## Governance
 
@@ -123,4 +134,4 @@ This constitution defines non-negotiable project rules and supersedes local conv
 - MINOR: Adds a principle/section or materially expands guidance.
 - PATCH: Clarifies wording or fixes typos without changing intent.
 
-**Version**: 1.1.0 | **Ratified**: 2026-01-05 | **Last Amended**: 2026-01-14
+**Version**: 2.0.0 | **Ratified**: 2026-01-05 | **Last Amended**: 2026-01-19

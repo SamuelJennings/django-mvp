@@ -3,8 +3,8 @@
 Auto-generated from all feature plans. Last updated: 2025-12-23
 
 ## Active Technologies
-- Python 3.10-3.12 + Django 4.2-5.x, django-cotton ≥2.3.1, django-cotton-bs5 ^0.5.1, Bootstrap 5.3, django-compressor ^4.5.1, django-libsass ^0.9 (002-inner-layout)
-- N/A (component library) (002-inner-layout)
+- Python 3.10-3.12 + Django 4.2-5.x, django-cotton ≥2.3.1, django-cotton-bs5 ^0.5.1, Bootstrap 5.3, django-compressor ^4.5.1, django-libsass ^0.9 (002-page-layout)
+- N/A (component library) (002-page-layout)
 - Python 3.11+ / Django 4.2+ + django-cotton (Cotton component system with c-vars and slots), AdminLTE 4 (CSS framework) (001-layout-components)
 - N/A (template-only refactor) (001-layout-components)
 - Python 3.11+ + Django 4.2+, django-cotton (Cotton component system with c-vars and slots) (001-layout-components)
@@ -17,6 +17,10 @@ Auto-generated from all feature plans. Last updated: 2025-12-23
 - N/A (menu configuration is code-based, not database-backed) (004-site-navigation)
 - Python 3.11, Django 5.1+ + django-cotton (template components), AdminLTE 4 (CSS framework) (002-layout-configuration)
 - N/A (configuration-driven layout, no data persistence) (002-layout-configuration)
+- [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION] + [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION] (006-page-layout)
+- [if applicable, e.g., PostgreSQL, CoreData, files or N/A] (006-page-layout)
+- Python 3.10+, Django 4.2-5.x + Django (>=4.2,<6.0), django-cotton (>=2.3.1), django-cotton-bs5 (^0.5.1), Bootstrap 5.3 (006-page-layout)
+- N/A (UI components only, no data persistence) (006-page-layout)
 
 - Python 3.11 (tests target) + Django, django-cotton, django-cotton-bs5, django-flex-menus, django-easy-icons, django-compressor, django-libsass, crispy-forms/bootstrap5 (001-outer-layout-config)
 
@@ -36,9 +40,9 @@ cd src; pytest; ruff check .
 Python 3.11 (tests target): Follow standard conventions
 
 ## Recent Changes
+- 006-page-layout: Added Python 3.10+, Django 4.2-5.x + Django (>=4.2,<6.0), django-cotton (>=2.3.1), django-cotton-bs5 (^0.5.1), Bootstrap 5.3
+- 006-page-layout: Added [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION] + [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
 - 002-layout-configuration: Added Python 3.11, Django 5.1+ + django-cotton (template components), AdminLTE 4 (CSS framework)
-- 004-site-navigation: Added Python 3.10-3.12 (Django MVP supports 3.10, 3.11, 3.12) + Django 4.2-5.x, django-flex-menus ^0.4.1, django-cotton ^2.3.1, django-easy-icons ^0.4.0, django-cotton-bs5 ^0.5.1
-- 002-layout-configuration: Added Python 3.10-3.12 + Django 4.2-5.x, django-cotton >=2.3.1, AdminLTE 4 (CSS via CDN)
 
 
 <!-- MANUAL ADDITIONS START -->
