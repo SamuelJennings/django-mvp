@@ -246,3 +246,106 @@ class TestLayoutDemoAdvanced:
         ]
         for css_class in expected_classes:
             assert css_class in html, f"Class {css_class} should be applied in complete config. HTML: {html[:300]}..."
+
+
+@pytest.mark.django_db
+class TestFillLayoutIntegration:
+    """
+    User Story 3.5: Test fill layout feature integration (T086-T087).
+
+    Verifies that:
+    - Fill checkbox renders in the layout demo form
+    - View handles fill query parameter correctly
+    - Fill class is applied when fill=on
+    """
+
+    def test_fill_checkbox_renders_in_form(self):
+        """
+        T086: Test that fill checkbox renders in the layout demo form.
+
+        Should show fill checkbox with proper label and help text.
+        """
+        client = Client()
+        response = client.get("/layout/")
+
+        # Verify successful response
+        assert response.status_code == 200
+
+        # Verify fill checkbox exists in form
+        html = response.content.decode("utf-8")
+        assert 'name="fill"' in html, f"Fill checkbox should exist in form. HTML: {html[:500]}..."
+
+        # Verify label text
+        assert "Fill Layout" in html, f"Fill checkbox label should exist. HTML: {html[:500]}..."
+
+        # Verify help text mentions viewport-constrained or data tables
+        assert (
+            "Viewport-constrained" in html or "data tables" in html or "maps" in html
+        ), f"Fill help text should mention use cases. HTML: {html[:500]}..."
+
+    def test_view_handles_fill_query_param(self):
+        """
+        T087: Test that view handles fill query parameter correctly.
+
+        Should parse fill=on from query string and pass to template context.
+        """
+        client = Client()
+
+        # Test without fill parameter
+        response = client.get("/layout/")
+        assert response.status_code == 200
+        assert response.context["fill"] is False, "Fill should be False without query param"
+
+        # Test with fill=on
+        response = client.get("/layout/?fill=on")
+        assert response.status_code == 200
+        assert response.context["fill"] is True, "Fill should be True with fill=on"
+
+        # Verify .fill class is present in HTML when enabled
+        html = response.content.decode("utf-8")
+        assert (
+            'class="app-wrapper fill"' in html or "app-wrapper fill" in html
+        ), f"Fill class should be applied when fill=on. HTML: {html[:500]}..."
+
+        # Verify fill badge shows "Enabled" status
+        assert (
+            "<code>fill</code>" in html and "Enabled" in html
+        ), f"Fill status should show as Enabled. HTML: {html[:1000]}..."
+
+    def test_fill_checkbox_reflects_query_param(self):
+        """
+        Test that fill checkbox is checked when fill=on in URL.
+
+        Should maintain checkbox state based on URL parameter.
+        """
+        client = Client()
+        response = client.get("/layout/?fill=on")
+
+        assert response.status_code == 200
+
+        # Verify checkbox is checked in the HTML
+        html = response.content.decode("utf-8")
+        assert (
+            'name="fill"' in html and "checked" in html
+        ), f"Fill checkbox should be checked when fill=on. HTML: {html[:1000]}..."
+
+    def test_fill_combined_with_other_options(self):
+        """
+        Test fill works alongside other layout options.
+
+        Should allow fill + fixed_sidebar, fixed_header, etc.
+        """
+        client = Client()
+        response = client.get("/layout/?fill=on&fixed_sidebar=on&fixed_header=on&fixed_footer=on")
+
+        assert response.status_code == 200
+
+        # Verify all options are in context
+        assert response.context["fill"] is True
+        assert response.context["fixed_sidebar"] is True
+        assert response.context["fixed_header"] is True
+        assert response.context["fixed_footer"] is True
+
+        # Verify fill class is applied
+        html = response.content.decode("utf-8")
+        assert "app-wrapper fill" in html, f"Fill class should be present with other options. HTML: {html[:500]}..."

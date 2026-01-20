@@ -35,17 +35,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Fixed Sidebar** (`fixed_sidebar`): Makes sidebar sticky during vertical scrolling - ideal for admin dashboards
   - **Fixed Header** (`fixed_header`): Keeps top navigation bar fixed at the top - ideal for important navigation
   - **Fixed Footer** (`fixed_footer`): Keeps footer visible at the bottom - ideal for copyright notices or action buttons
-  - **Combined Fixed Layouts**: All three attributes can be used simultaneously for complete fixed layout
+  - **Fill Layout** (`fill`): NEW - Viewport-constrained layout mode for data-intensive UIs
+    - Restricts app-wrapper to 100vh height with hidden scrollbars
+    - Changes scroll container from body to app-wrapper
+    - Keeps app-header/footer visible while app-main scrolls
+    - Perfect for data tables, maps, dashboards, and fixed toolbar layouts
+    - Combines with fixed attributes for sophisticated layouts
+    - Interactive demo available at `/layout/?fill=on`
+  - **Combined Fixed Layouts**: All attributes can be used simultaneously for complete fixed layout
   - **Responsive Sidebar Control** (`sidebar_expand`): Control sidebar expansion breakpoint (sm, md, lg, xl, xxl)
   - **Per-Page Layout Override**: Different pages can use different layout configurations
   - **Interactive Layout Demo Page**: Single unified demo page at `/layout/` for testing all layout configurations
     - Query parameter-based state management (bookmarkable URLs)
     - Split layout: main content area (col-lg-8) + configuration sidebar (col-lg-4)
-    - Form controls for toggling fixed properties and responsive breakpoints
+    - Form controls for toggling fixed properties, responsive breakpoints, and fill mode
     - Real-time layout updates via GET requests
     - Visual indicators showing active CSS classes and configuration state
     - Extensible design allowing other features to add configuration options
-  - CSS Classes: `.layout-fixed`, `.fixed-header`, `.fixed-footer`, `.sidebar-expand-{breakpoint}`
+  - CSS Classes: `.layout-fixed`, `.fixed-header`, `.fixed-footer`, `.fill`, `.sidebar-expand-{breakpoint}`
   - Component Documentation: [docs/components/app.md](docs/components/app.md)
   - Feature Specification: [specs/002-layout-configuration/](specs/002-layout-configuration/)
   - Test Coverage: Architecture tests + component attribute tests + layout demo integration tests

@@ -21,6 +21,8 @@ Auto-generated from all feature plans. Last updated: 2025-12-23
 - [if applicable, e.g., PostgreSQL, CoreData, files or N/A] (006-page-layout)
 - Python 3.10+, Django 4.2-5.x + Django (>=4.2,<6.0), django-cotton (>=2.3.1), django-cotton-bs5 (^0.5.1), Bootstrap 5.3 (006-page-layout)
 - N/A (UI components only, no data persistence) (006-page-layout)
+- Python 3.11 (django-mvp requirement) + Django 5.1+, django-cotton (Cotton components), AdminLTE 4 (CSS/layout framework) (002-layout-configuration)
+- N/A (configuration-only feature, no data persistence) (002-layout-configuration)
 
 - Python 3.11 (tests target) + Django, django-cotton, django-cotton-bs5, django-flex-menus, django-easy-icons, django-compressor, django-libsass, crispy-forms/bootstrap5 (001-outer-layout-config)
 
@@ -40,9 +42,9 @@ cd src; pytest; ruff check .
 Python 3.11 (tests target): Follow standard conventions
 
 ## Recent Changes
+- 002-layout-configuration: Added Python 3.11 (django-mvp requirement) + Django 5.1+, django-cotton (Cotton components), AdminLTE 4 (CSS/layout framework)
 - 006-page-layout: Added Python 3.10+, Django 4.2-5.x + Django (>=4.2,<6.0), django-cotton (>=2.3.1), django-cotton-bs5 (^0.5.1), Bootstrap 5.3
 - 006-page-layout: Added [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION] + [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
-- 002-layout-configuration: Added Python 3.11, Django 5.1+ + django-cotton (template components), AdminLTE 4 (CSS framework)
 
 
 <!-- MANUAL ADDITIONS START -->

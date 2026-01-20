@@ -153,14 +153,104 @@ Multiple fixed attributes can be enabled simultaneously:
 
 **Interaction with fixed_sidebar**: The `fixed_sidebar` attribute makes the sidebar sticky when it's in expanded state. On smaller screens (below the `sidebar_expand` breakpoint), the sidebar becomes a collapsible drawer regardless of `fixed_sidebar` setting.
 
+### Fill Layout (Viewport-Constrained)
+
+```django
+<c-app fill>
+    {% block content %}
+        <h1>Data Dashboard</h1>
+        <!-- Tables, charts, or maps that need viewport-constrained scrolling -->
+    {% endblock %}
+</c-app>
+```
+
+**Effect**: Creates a viewport-constrained layout where:
+
+- App-wrapper height is restricted to 100vh (full viewport height)
+- Scroll container changes from body to app-wrapper
+- App-header and app-footer remain visible while app-main scrolls between them
+- Scrollbars are hidden for a clean appearance
+
+**CSS Class**: Adds `.fill` to `.app-wrapper` element.
+
+**Use Cases**:
+
+- **Data Tables**: Keep column headers visible while scrolling large datasets
+- **Maps**: Full viewport mapping interfaces (e.g., MapLibre, Leaflet) with fixed controls
+- **Dashboards**: Constrain charts and widgets to viewport bounds
+- **Fixed Toolbars**: Enables page-layout's internal toolbar-fixed/footer-fixed modes (requires inner page-layout component)
+
+**Example - Data Table Dashboard**:
+
+```django
+<c-app fill fixed_sidebar>
+    {% block content %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <!-- Large dataset with 1000+ rows -->
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in dataset %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.status }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endblock %}
+</c-app>
+```
+
+**Example - Map Interface**:
+
+```django
+<c-app fill>
+    {% block content %}
+        <div id="map" style="width: 100%; height: 100%;"></div>
+        <script>
+            // MapLibre or Leaflet map initialization
+            // Map will fill viewport height exactly
+        </script>
+    {% endblock %}
+</c-app>
+```
+
+**Behavior Details**:
+
+- **Scroll Container**: With fill enabled, scrolling happens within `.app-wrapper` instead of the `body` element
+- **Performance**: Scrollbars are hidden using CSS (`scrollbar-width: none` for Firefox, `::-webkit-scrollbar { display: none }` for Chrome/Safari)
+- **Combinations**: Fill can be combined with `fixed_sidebar`, `fixed_header`, `fixed_footer`, but fill's viewport-constrained behavior takes precedence
+- **Grid Layout**: The CSS grid structure keeps app-header/footer in view while allowing app-main to scroll
+
+**When to Use Fill**:
+
+- ✅ Data-intensive UIs with large tables or datasets
+- ✅ Mapping applications requiring full viewport utilization
+- ✅ Dashboards with many widgets that need viewport containment
+- ✅ Applications using inner page-layout component with fixed toolbars
+- ❌ Simple content pages (blog posts, articles, documentation)
+- ❌ Pages with naturally short content that doesn't scroll
+
+**Interactive Demo**: Visit `/layout/?fill=on` to test fill layout behavior with other configuration options.
+
 ## Attributes Reference
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `fixed_sidebar` | boolean | `False` | Makes sidebar fixed (adds `.layout-fixed`) |
-| `fixed_header` | boolean | `False` | Makes header fixed (adds `.fixed-header`) |
-| `fixed_footer` | boolean | `False` | Makes footer fixed (adds `.fixed-footer`) |
-| `sidebar_expand` | string | `"lg"` | Breakpoint where sidebar expands: sm, md, lg, xl, xxl |
+| Attribute        | Type    | Default | Description                                                   |
+| ---------------- | ------- | ------- | ------------------------------------------------------------- |
+| `fixed_sidebar`  | boolean | `False` | Makes sidebar fixed (adds `.layout-fixed`)                    |
+| `fixed_header`   | boolean | `False` | Makes header fixed (adds `.fixed-header`)                     |
+| `fixed_footer`   | boolean | `False` | Makes footer fixed (adds `.fixed-footer`)                     |
+| `fill`           | boolean | `False` | Viewport-constrained layout (adds `.fill` to app-wrapper)     |
+| `sidebar_expand` | string  | `"lg"`  | Breakpoint where sidebar expands: sm, md, lg, xl, xxl         |
 
 ## Template Inheritance Patterns
 

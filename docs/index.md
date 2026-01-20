@@ -63,6 +63,26 @@ Dashboard widgets for displaying metrics, statistics, and key performance indica
   - Footer support with named slots
   - AdminLTE card tools integration
 
+### Layout System
+
+Configure your application's layout with flexible positioning and viewport options:
+
+- **[Layout Configuration System](layout-configuration.md)** - Complete layout control guide
+  - **Fixed Sidebar** - Sticky sidebar navigation for admin dashboards
+  - **Fixed Header** - Keep navbar visible during scrolling
+  - **Fixed Footer** - Fixed footer for status bars and actions
+  - **Fill Layout (NEW)** - Viewport-constrained mode for data tables, maps, dashboards
+  - **Responsive Breakpoints** - Control sidebar expansion behavior
+  - Quick reference table with all attributes
+  - Use case examples and integration patterns
+  - Troubleshooting common layout issues
+
+- **[App Component](components/app.md)** - Core layout component API reference
+  - Detailed attribute documentation
+  - CSS classes generated
+  - Template inheritance patterns
+  - Browser compatibility notes
+
 ## Getting Started
 
 ### Installation

@@ -23,6 +23,14 @@
 - Q: How should fixed properties demo view allow testing different combinations? → A: Use form with checkboxes for fixed_header, fixed_sidebar, and fixed_footer submitting via GET request with query params. No separate checkbox for "complete" - that's just the combination of all three.
 - Q: Should demo views include visual indicators or helper text? → A: Include minimal helper text at top explaining what to test (e.g., "Scroll to test fixed elements" / "Resize window to test breakpoint") plus visual indicators showing current configuration state.
 
+### Session 2026-01-20
+
+- Q: How does `fill` attribute relate to other fixed attributes? → A: Fill can technically combine with fixed attributes but overrides their behavior as an all-in-one layout configuration for content requiring full visible screen without overlap.
+- Q: What scrolling behavior change does `fill` introduce? → A: Fill makes app-header/footer always visible (fixed) while app-main scrolls between them, changing scroll container from body/html to app-wrapper (with hidden scrollbars).
+- Q: What is the primary use case for `fill` layout? → A: Full-screen data-intensive UIs - especially data tables and maps (e.g., maplibre) that look better when tightly fit into available space.
+- Q: Should layout demo page include `fill` option? → A: Yes, add fill as a checkbox option in the layout demo form alongside fixed attributes.
+- Q: How does `fill` affect the inner page-layout grid system? → A: Enables app-header/footer to be fixed while app-main scrolls, allowing page-layout's internal toolbar-fixed/footer-fixed to work correctly (which doesn't function properly without fill on app-wrapper).
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Apply Basic Layout Variations (Priority: P1)
@@ -74,6 +82,24 @@ A developer wants flexibility to either set layout options globally for the enti
 
 ---
 
+### User Story 3.5 - Full-Screen Fill Layout for Data-Intensive UIs (Priority: P2)
+
+A developer building a data dashboard with tables, charts, or interactive maps (e.g., maplibre) needs the interface to fill the entire viewport height (100vh) without body scrolling, with app-header and app-footer always visible while the main content area scrolls independently.
+
+**Why this priority**: Addresses a distinct layout pattern critical for data-intensive applications where content needs tight viewport constraints. Builds on fixed layout understanding but introduces viewport-filling scroll container change.
+
+**Independent Test**: Can be tested by adding `fill` attribute to `<c-app>` component and verifying: (1) app height is constrained to 100vh, (2) app-header/footer remain visible, (3) scrolling happens within app-main instead of body, (4) page-layout's internal fixed toolbar/footer work correctly. Delivers essential layout mode for full-screen data views.
+
+**Acceptance Scenarios**:
+
+1. **Given** a Django project using django-mvp, **When** developer adds `fill` attribute to `<c-app>` component (e.g., `<c-app fill>`), **Then** the app-wrapper is constrained to 100vh height with hidden scrollbars and scrolling moves from body to app-main
+2. **Given** fill layout is enabled, **When** user scrolls page content, **Then** app-header remains fixed at top and app-footer (if present) remains fixed at bottom while only app-main content scrolls between them
+3. **Given** fill layout with page-layout grid inside app-main, **When** developer adds toolbar-fixed or footer-fixed classes to page-layout elements, **Then** those internal sticky elements work correctly within the scrolling app-main container
+4. **Given** fill layout is used for a data table or map interface, **When** content is rendered, **Then** the interface tightly fits available viewport space without body-level scrolling or layout overflow
+5. **Given** fill attribute is combined with fixed attributes (e.g., `<c-app fill fixed_sidebar>`), **When** page renders, **Then** fill behavior takes precedence as an all-in-one layout configuration, making app-header/footer implicitly fixed regardless of individual fixed attributes
+
+---
+
 ### User Story 4 - Interactive Layout Configuration Demo Page (Priority: P2)
 
 A developer or QA tester wants to explore and validate different layout configurations interactively without modifying code. They need a single, reusable demo page that allows toggling layout options via a form and seeing the results immediately.
@@ -97,6 +123,10 @@ A developer or QA tester wants to explore and validate different layout configur
 - What if sidebar_expand breakpoint conflicts with fixed sidebar positioning?
 - How does the system handle custom layout classes that developers may add alongside MVP layout classes?
 - What happens when a developer sets contradictory boolean values (e.g., `fixed_sidebar fixed_sidebar="false"`)?
+- How does fill layout interact with browsers that don't support CSS `scrollbar-width: none` or `::-webkit-scrollbar`?
+- What happens when fill is used on a page with very little content (less than viewport height)?
+- How should nested scrollable containers (e.g., page-layout within fill layout) handle touch scrolling on mobile devices?
+- What happens if a developer applies both fill and tries to use body-level scroll-based JavaScript libraries?
 
 ## Requirements *(mandatory)*
 
@@ -114,25 +144,33 @@ A developer or QA tester wants to explore and validate different layout configur
 - **FR-010**: System MUST provide demo views in the `example/` app for testing fixed properties and responsive sidebar behavior
 - **FR-011**: Demo views MUST include long-form content (2-3 viewport heights) with multiple sections and several dummy sidebar menu items to demonstrate independent scrolling behavior
 - **FR-012**: Responsive behavior demo view MUST include a dropdown selector at the top of the page listing all available breakpoints (sm, md, lg, xl, xxl), which submits GET request with `breakpoint` query parameter to dynamically change sidebar expansion behavior
-- **FR-013**: Fixed properties demo view MUST include a form with three checkboxes (fixed_header, fixed_sidebar, fixed_footer) that submits via GET request with query parameters, allowing any combination to be tested dynamically without requiring a separate "complete" checkbox
+- **FR-013**: Fixed properties demo view MUST include a form with checkboxes (fixed_header, fixed_sidebar, fixed_footer, fill) that submits via GET request with query parameters, allowing any combination to be tested dynamically without requiring a separate "complete" checkbox
 - **FR-014**: Demo views MUST include minimal helper text at the top explaining what to test and visual indicators showing current configuration state (active checkboxes, selected breakpoint, applied CSS classes)
 - **FR-015**: System MUST provide a SINGLE layout demo page at `/layout/` in the example app that consolidates all layout testing functionality
 - **FR-016**: Layout demo page MUST use a two-column layout with main content on the left and configuration form sidebar on the right
 - **FR-017**: Layout demo page configuration form MUST submit via GET request with query parameters to allow bookmarkable/shareable layout configurations
 - **FR-018**: System MUST provide a "Layout Demo" navigation menu item in the sidebar positioned immediately below the Dashboard link
 - **FR-019**: Layout demo page MUST be designed to accommodate additional layout configuration options from future feature specs without requiring separate demo pages
+- **FR-020**: System MUST support `fill` attribute on `<c-app>` component to enable full-screen viewport-constrained layout (e.g., `<c-app fill>`)
+- **FR-021**: When `fill` is applied, system MUST constrain app-wrapper to 100vh height, hide wrapper scrollbars, and change scroll container from body to app-wrapper
+- **FR-022**: Fill layout MUST make app-header always visible at top and app-footer (if present) always visible at bottom while app-main scrolls independently between them
+- **FR-023**: Fill layout MUST enable page-layout's internal toolbar-fixed and footer-fixed positioning to work correctly within the scrolling app-main container
+- **FR-024**: System MUST document that `fill` overrides individual fixed attributes as an all-in-one layout configuration designed for data-intensive interfaces (tables, maps, charts) requiring tight viewport fitting
+- **FR-025**: Fill layout documentation MUST specify use cases: full-screen data tables, interactive maps (maplibre), dashboards, and any interface requiring viewport-constrained scrolling without body-level scroll
 
 ### Key Entities
 
-- **Layout Configuration**: Represents the set of layout options that control fixed vs scrolling behavior for major layout sections (sidebar, header, footer, complete)
+- **Layout Configuration**: Represents the set of layout options that control fixed vs scrolling behavior for major layout sections (sidebar, header, footer, complete, fill)
 - **Layout Section**: Represents major areas of the AdminLTE layout structure (app-sidebar, app-header, app-footer, app-wrapper) that can have fixed positioning
+- **Fill Layout**: A specialized viewport-constrained layout mode where app-wrapper is restricted to 100vh, scroll container changes from body to app-wrapper, and app-header/footer remain always visible while app-main scrolls independently
 
 ## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
 
-- **SC-001**: Developers can configure any AdminLTE layout option (fixed sidebar/header/footer) in under 2 minutes by changing a single configuration point
+- **SC-001**: Developers can configure any AdminLTE layout option (fixed sidebar/header/footer/fill) in under 2 minutes by changing a single configuration point
 - **SC-002**: Layout changes render correctly across all modern browsers (Chrome, Firefox, Safari, Edge) without visual glitches
 - **SC-003**: Fixed layout elements maintain their position during scrolling on pages with 10,000+ lines of content
-- **SC-004**: Configuration method is documented with working examples for all supported layout variations
-- **SC-005**: Page load time increases by less than 50ms when using fixed layout compared to default layout
+- **SC-004**: Configuration method is documented with working examples for all supported layout variations including fill layout
+- **SC-005**: Page load time increases by less than 50ms when using fixed or fill layout compared to default layout
+- **SC-006**: Fill layout successfully constrains data-intensive interfaces (tables, maps) to viewport height with smooth scrolling performance on 60fps displays
