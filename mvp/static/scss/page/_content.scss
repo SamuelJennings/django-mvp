@@ -1,0 +1,10 @@
+/**
+ * Page Layout System - Main Content Area
+ */
+
+.page-content {
+  grid-area: main;
+  padding: 1rem;
+  min-width: 0; // Allow grid item to shrink below content size for horizontal scrolling
+  transition: margin-right $page-layout-transition-speed ease;
+}

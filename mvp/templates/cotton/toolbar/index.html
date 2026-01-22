@@ -1,0 +1,8 @@
+<c-vars class border="As" />
+<div class="toolbar w-100 {% if border %}border-bottom{% endif %} {{ class }}"
+     {{ attrs }}>
+  <div class="toolbar-inner container-fluid d-flex align-items-center">
+    <div class="toolbar-start">{{ slot }}</div>
+    {% if end %}<div class="toolbar-end ms-auto">{{ end }}</div>{% endif %}
+  </div>
+</div>

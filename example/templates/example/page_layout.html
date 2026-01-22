@@ -1,131 +1,61 @@
 {% extends "example/base.html" %}
 {% block content %}
-  <c-page :fixed_header="fixed_header"
-          :fixed_footer="fixed_footer"
-          :fixed_sidebar="fixed_sidebar"
-          sidebar_expand="md">
-    <c-page.toolbar compact>
-      <h2 class="fs-6 mb-0">Inner Layout Demo</h2>
-      <c-slot name="end">
-        <span class="text-muted small me-3">
-          Toolbar:
-          {% if fixed_header %}
-            sticky
-          {% else %}
-            scroll
-          {% endif %}
-        </span>
-        <c-page.toolbar.widget icon="expand" />
-      </c-slot>
-    </c-page.toolbar>
-    <div class="page-content">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="mb-0">
-            <i class="bi bi-gear-fill"></i>
-            Current Configuration
-          </h5>
+  <c-page.content>
+    <c-card title="Current Configuration" icon="gear-fill">
+      <div class="row">
+        <div class="col-md-6">
+          <h6>Sticky Positioning</h6>
+          <ul class="list-unstyled">
+            <li>
+              <i class="bi {% if page_fixed_header %}bi-check-circle-fill text-success{% else %}bi-x-circle text-muted{% endif %}"></i>
+              Toolbar Fixed:
+              <strong>{{ page_fixed_header }}</strong>
+            </li>
+            <li>
+              <i class="bi {% if page_fixed_footer %}bi-check-circle-fill text-success{% else %}bi-x-circle text-muted{% endif %}"></i>
+              Footer Fixed:
+              <strong>{{ page_fixed_footer }}</strong>
+            </li>
+            <li>
+              <i class="bi {% if page_fixed_sidebar %}bi-check-circle-fill text-success{% else %}bi-x-circle text-muted{% endif %}"></i>
+              Sidebar Fixed:
+              <strong>{{ page_fixed_sidebar }}</strong>
+            </li>
+          </ul>
         </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-6">
-              <h6>Sticky Positioning</h6>
-              <ul class="list-unstyled">
-                <li>
-                  <i class="bi {% if fixed_header %}bi-check-circle-fill text-success{% else %}bi-x-circle text-muted{% endif %}"></i>
-                  Toolbar Fixed:
-                  <strong>{{ fixed_header }}</strong>
-                </li>
-                <li>
-                  <i class="bi {% if fixed_footer %}bi-check-circle-fill text-success{% else %}bi-x-circle text-muted{% endif %}"></i>
-                  Footer Fixed:
-                  <strong>{{ fixed_footer }}</strong>
-                </li>
-                <li>
-                  <i class="bi {% if fixed_sidebar %}bi-check-circle-fill text-success{% else %}bi-x-circle text-muted{% endif %}"></i>
-                  Sidebar Fixed:
-                  <strong>{{ fixed_sidebar }}</strong>
-                </li>
-              </ul>
-            </div>
-            <div class="col-md-6">
-              <h6>Sidebar Behavior</h6>
-              <ul class="list-unstyled">
-                <li>
-                  <i class="bi bi-arrows-angle-contract"></i>
-                  Breakpoint:
-                  <strong>{{ sidebar_expand }}</strong>
-                </li>
-                <li>
-                  <i class="bi {% if collapsed %}bi-eye-slash{% else %}bi-eye{% endif %}"></i>
-                  Initial State:
-                  {% if collapsed %}
-                    Collapsed
-                  {% else %}
-                    Expanded
-                  {% endif %}
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="row mt-4">
-          {% for i in "123456789012" %}
-            <div class="col-md-6 mb-3">
-              <div class="card">
-                <div class="card-body">
-                  <h6 class="card-title">Content Card {{ forloop.counter }}</h6>
-                  <p class="card-text">
-                    This is sample content to demonstrate scrolling behavior.
-                    {% if
-                      fixed_header %}
-                      The toolbar remains sticky at the top.
-                    {% endif
-                    %}
-                    {% if fixed_footer %}
-                      The footer remains sticky at the
-                      bottom.
-                    {% endif %}
-                  </p>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
+        <div class="col-md-6">
+          <h6>Sidebar Behavior</h6>
+          <ul class="list-unstyled">
+            <li>
+              <i class="bi bi-arrows-angle-contract"></i>
+              Breakpoint:
+              <strong>{{ page_sidebar_expand }}</strong>
+            </li>
+            <li>
+              <i class="bi {% if page_collapsed %}bi-eye-slash{% else %}bi-eye{% endif %}"></i>
+              Initial State:
+              {% if page_collapsed %}
+                Collapsed
+              {% else %}
+                Expanded
+              {% endif %}
+            </li>
+          </ul>
         </div>
       </div>
-    </div>
-    <c-page.sidebar border :collapsed="collapsed">
-      <div class="p-3">
-        <h6>Configuration Form</h6>
-        <p class="small text-muted">Change options and click Apply to update the layout.</p>
-        <hr />
-        <div class="mt-3">
-          <h6>Quick Presets</h6>
-          <div class="d-grid gap-2">
-            <a href="{% url 'page_layout_demo' %}?toolbar_fixed=on&footer_fixed=on&sidebar_breakpoint=lg"
-               class="btn btn-sm btn-outline-primary">Default (All Sticky)</a>
-            <a href="{% url 'page_layout_demo' %}?sidebar_breakpoint=lg"
-               class="btn btn-sm btn-outline-secondary">Minimal (Scrolling)</a>
-            <a href="{% url 'page_layout_demo' %}?toolbar_fixed=on&sidebar_breakpoint=md&collapsed=on"
-               class="btn btn-sm btn-outline-info">Mobile (Collapsed)</a>
+      <div class="row mt-4">
+        {% for i in "123456789012" %}
+          <div class="col-md-6 mb-3">
+            <c-card title="Content Card {{ forloop.counter }}">
+              <p class="card-text">
+                This is sample content to demonstrate scrolling behavior.
+                {% if page_fixed_header %}The toolbar remains sticky at the top.{% endif %}
+                {% if page_fixed_footer %}The footer remains sticky at the bottom.{% endif %}
+              </p>
+            </c-card>
           </div>
-        </div>
+        {% endfor %}
       </div>
-    </c-page.sidebar>
-    <c-page.footer>
-      <small>
-        Footer:
-        {% if fixed_footer %}
-          Sticky
-        {% else %}
-          Scrolling
-        {% endif %}
-        |
-        Sidebar: {{ sidebar_expand }} breakpoint
-      </small>
-      <c-slot name="end">
-        <small class="text-muted">Feature 006 - Inner Layout System</small>
-      </c-slot>
-    </c-page.footer>
-  </c-page>
+    </c-card>
+  </c-page.content>
 {% endblock content %}

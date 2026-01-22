@@ -35,10 +35,14 @@ django-easy-icons = "^0.4.0"
 django-compressor = "^4.5.1"
 django-libsass = "^0.9"
 
+[tool.poetry.extras]
+datatables2 = ["django-tables2"]
+
 [tool.poetry.group.dev.dependencies]
 Django = ">=4.2,<6.0"
 django-crispy-forms = "^2.4"
 crispy-bootstrap5 = "^2025.6"
+django-tables2 = ">=2.0.0,<3.0.0"
 pytest = "^8.0.0"
 pytest-django = "^4.9.0"
 pytest-cov = "^6.0.0"

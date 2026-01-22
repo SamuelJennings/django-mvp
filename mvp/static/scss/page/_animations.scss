@@ -1,0 +1,21 @@
+/**
+ * Page Layout System - Animations & Accessibility
+ */
+
+// Fade in animation for overlay backdrop
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .page-sidebar,
+  .page-content {
+    transition: none;
+  }
+}

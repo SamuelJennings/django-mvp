@@ -161,6 +161,32 @@ content_group.extend(
 # =============================================================================
 # MenuGroup creates visual section separators
 
+# Integrations section - Third-party library integrations
+integrations_section = MenuGroup(
+    name="integrations_section",
+    extra_context={"label": "INTEGRATIONS", "component_type": "menu.group"},
+    parent=AppMenu,
+)
+
+# Django Tables2 integration (conditional - only shows if django-tables2 is installed)
+try:
+    from django_tables2 import Table  # noqa: F401
+
+    integrations_section.append(
+        MenuItem(
+            name="datatables_demo",
+            view_name="datatables_demo",
+            extra_context={
+                "label": "DataTables Demo",
+                "icon": "table",
+                "badge": "New",
+                "badge_classes": "text-bg-primary",
+            },
+        )
+    )
+except ImportError:
+    pass
+
 # Tools section
 MenuGroup(
     name="tools_section",

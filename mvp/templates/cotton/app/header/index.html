@@ -1,5 +1,7 @@
-<c-vars class="bg-body" container_class="container-fluid" />
-<nav class="app-header navbar navbar-expand bg-body {{ class }}">
+<c-vars class="bg-body"
+        :border="True"
+        container_class="container-fluid" />
+<nav class="app-header navbar navbar-expand bg-body{% if not border %} border-0{% endif %} {{ class }}">
   <div class="{{ container_class }}">
     <ul class="navbar-nav">
       <c-app.header.toggle />

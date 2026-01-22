@@ -1,0 +1,11 @@
+<c-vars page_obj page_info />
+<c-page.footer :attrs="attrs">
+  {% if page_obj and page_info %}
+    <div class="text-muted small">
+      Showing {{ table.page.start_index }}-{{ table.page.end_index }} of {{ table.paginator.count }} entries
+    </div>
+  {% endif %}
+  <c-slot name="end">
+    <c-pagination :page_obj="page_obj" ul_class="mb-0" />
+  </c-slot>
+</c-page.footer>

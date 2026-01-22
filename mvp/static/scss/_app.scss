@@ -1,0 +1,34 @@
+// Overrides for AdminLTE 4 app layout system
+
+.app-wrapper.fill {
+  height: 100vh;
+  overflow: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE / old Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, new Edge */
+  }
+
+  .app-main {
+    min-height: 0;
+    overflow: auto;
+  }
+
+  // .page-layout {
+  //   overflow: auto;
+  // }
+  .page-content {
+    min-height: 0;
+    overflow: auto;
+  }
+
+  .sidebar-wrapper {
+    overflow-y: visible;
+    height: auto;
+  }
+}
+
+.app-header {
+  flex-wrap: wrap;
+}

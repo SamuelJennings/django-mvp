@@ -1,41 +1,126 @@
-{% extends "base.html" %}
-{% block title %}
-  {% block page_title %}
-    {{ mvp.brand.text|default:"Django MVP" }}
-  {% endblock page_title %}
-{% endblock title %}
-{% block app %}
-  <c-app>
-    {% block app_header %}
-      <c-app.header>
-        <c-slot name="left">
-          {% block navbar_left %}
-          {% endblock navbar_left %}
-        </c-slot>
-        <c-slot name="right">
-          {% block navbar_right %}
-          {% endblock navbar_right %}
-        </c-slot>
-      </c-app.header>
-    {% endblock app_header %}
-    {% block app_sidebar %}
-      <c-app.sidebar>
-        {% block sidebar_menu %}
-        {% endblock sidebar_menu %}
-      </c-app.sidebar>
-    {% endblock app_sidebar %}
-    {% block app_main %}
+{% load compress %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {# Critical inline script to prevent flash - runs before CSS loads #}
+    <script>
+      (function() {
+        // Apply theme immediately (AdminLTE)
+        const theme = localStorage.getItem('theme');
+        if (theme) {
+          let actualTheme = theme;
+          // Handle 'auto' theme by checking system preference
+          if (theme === 'auto') {
+            actualTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          document.documentElement.setAttribute('data-bs-theme', actualTheme);
+          // Mark that theme was pre-applied
+          document.documentElement.setAttribute('data-theme-preapplied', 'true');
+        }
+
+        // Apply main sidebar state immediately (AdminLTE)
+        // Note: Can't access document.body yet, so set data attribute on html
+        // AdminLTE JS will later move this to body classes
+        const sidebarState = localStorage.getItem('lte.sidebar.state');
+        if (sidebarState) {
+          // Only restore state on desktop (let responsive behavior handle mobile)
+          // 992px matches AdminLTE's default lg breakpoint
+          if (window.innerWidth >= 992) {
+            if (sidebarState === 'sidebar-collapse') {
+              document.documentElement.setAttribute('data-sidebar-state', 'collapse');
+            } else if (sidebarState === 'sidebar-open') {
+              document.documentElement.setAttribute('data-sidebar-state', 'open');
+            }
+          }
+        }
+
+
+        // Apply inner sidebar state immediately (Django MVP)
+        try {
+          const innerSidebarCollapsed = sessionStorage.getItem('innerLayoutSidebarCollapsed');
+          if (innerSidebarCollapsed === '1') {
+            document.documentElement.setAttribute('data-page-sidebar-collapsed', 'true');
+          }
+        } catch (e) {
+          // sessionStorage may not be available
+        }
+      })();
+    </script>
+    <script src="{% static 'js/navbar/theme-switcher.js' %}"></script>
+    {% block head %}
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <title>
+        {% block title %}
+          {{ mvp.brand.text|default:"Django MVP" }}
+        {% endblock title %}
+      </title>
+      <meta name="viewport"
+            content="width=device-width, initial-scale=1.0" />
+      {# AdminLTE Accessibility Meta Tags #}
+      <meta name="color-scheme" content="light dark" />
+      <meta name="theme-color"
+            content="#007bff"
+            media="(prefers-color-scheme: light)" />
+      <meta name="theme-color"
+            content="#1a1a1a"
+            media="(prefers-color-scheme: dark)" />
+      {# Favicon support #}
+      {% if mvp.brand.icon %}
+        <link rel="icon" href="{% static mvp.brand.icon %}" />
+      {% endif %}
+      {# Fonts #}
+      <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+            integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
+            crossorigin="anonymous" />
+      {# OverlayScrollbars #}
+      <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
+            crossorigin="anonymous" />
+      {# Bootstrap Icons #}
+      <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+            crossorigin="anonymous" />
+      <link rel="stylesheet"
+            href="{% static "css/adminlte.min.css" %}" />
+      {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-rc3/dist/css/adminlte.min.css" crossorigin="anonymous" /> {% endcomment %}
+      {# Inner Layout System Styles #}
+      {% compress css %}
+        <link type="text/x-scss"
+              href="{% static 'scss/mvp.scss' %}"
+              rel="stylesheet" />
+      {% endcompress %}
+      {% block extra_css %}
+      {% endblock extra_css %}
+    {% endblock head %}
+  </head>
+  {% block app %}
+    <c-app>
+      <c-app.header />
+      <c-app.sidebar />
       <c-app.main>
-        <c-slot name="header">
-          {% block breadcrumbs %}
-          {% endblock breadcrumbs %}
-        </c-slot>
         {% block content %}
         {% endblock content %}
       </c-app.main>
-    {% endblock app_main %}
-    {% block app_footer %}
       <c-app.footer />
-    {% endblock app_footer %}
-  </c-app>
-{% endblock app %}
+    </c-app>
+  {% endblock app %}
+  {# Bootstrap 5 JS (required for dropdowns, modals, etc.) #}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+          crossorigin="anonymous"></script>
+  <script src="{% static "js/adminlte.min.js" %}"></script>
+  {# AdminLTE JS #}
+  {% comment %}
+  <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-rc3/dist/js/adminlte.min.js"
+          {% endcomment %}
+          {% comment %}
+          crossorigin="anonymous"></script> {% endcomment %}
+  {# Theme Switcher JS #}
+  {# Inner Layout Toggle JS #}
+  <script src="{% static 'js/page-layout.js' %}"></script>
+  {% block extra_js %}
+  {% endblock extra_js %}
+</html>

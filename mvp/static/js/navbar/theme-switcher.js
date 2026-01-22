@@ -13,14 +13,14 @@
  */
 
 (function () {
-  'use strict'
+  "use strict"
 
   // Constants
-  const STORAGE_KEY = 'theme'
+  const STORAGE_KEY = "theme"
   const THEMES = {
-    LIGHT: 'light',
-    DARK: 'dark',
-    AUTO: 'auto'
+    LIGHT: "light",
+    DARK: "dark",
+    AUTO: "auto",
   }
 
   /**
@@ -28,7 +28,10 @@
    * @returns {string} 'dark' or 'light'
    */
   function getSystemPreference() {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
       return THEMES.DARK
     }
     return THEMES.LIGHT
@@ -46,7 +49,7 @@
       }
     } catch (e) {
       // localStorage not available - continue with system preference
-      console.warn('localStorage not available, using system preference')
+      console.warn("localStorage not available, using system preference")
     }
 
     // Default to 'light' if no stored preference
@@ -62,7 +65,7 @@
       localStorage.setItem(STORAGE_KEY, theme)
     } catch (e) {
       // localStorage not available (session-only mode)
-      console.warn('Could not persist theme to localStorage:', e.message)
+      console.warn("Could not persist theme to localStorage:", e.message)
     }
   }
 
@@ -78,8 +81,22 @@
       actualTheme = getSystemPreference()
     }
 
-    // Apply to <html> element
-    document.documentElement.setAttribute('data-bs-theme', actualTheme)
+    // Check if theme was already applied by inline script
+    const preApplied = document.documentElement.hasAttribute(
+      "data-theme-preapplied",
+    )
+    const currentTheme = document.documentElement.getAttribute("data-bs-theme")
+
+    // Only apply if not already set or if changing
+    if (!preApplied || currentTheme !== actualTheme) {
+      // Apply to <html> element
+      document.documentElement.setAttribute("data-bs-theme", actualTheme)
+    }
+
+    // Remove pre-applied marker after first check
+    if (preApplied) {
+      document.documentElement.removeAttribute("data-theme-preapplied")
+    }
 
     // Update active indicators in dropdown
     updateActiveIndicators(theme)
@@ -89,7 +106,9 @@
 
     const duration = performance.now() - startTime
     if (duration > 100) {
-      console.warn(`Theme application took ${duration.toFixed(2)}ms (> 100ms target)`)
+      console.warn(
+        `Theme application took ${duration.toFixed(2)}ms (> 100ms target)`,
+      )
     }
   }
 
@@ -102,19 +121,23 @@
     const dropdown = document.querySelector('[data-theme-switcher="true"]')
     if (!dropdown) return
 
-    const navbarIcon = dropdown.querySelector('.nav-link i, .nav-link svg')
+    const navbarIcon = dropdown.querySelector(".nav-link i, .nav-link svg")
     if (!navbarIcon) return
 
     // Remove all theme icon classes
-    navbarIcon.classList.remove('bi-sun', 'bi-moon-stars-fill', 'bi-circle-half')
+    navbarIcon.classList.remove(
+      "bi-sun",
+      "bi-moon-stars-fill",
+      "bi-circle-half",
+    )
 
     // Add appropriate icon based on theme preference
     if (theme === THEMES.AUTO) {
-      navbarIcon.classList.add('bi-circle-half')
+      navbarIcon.classList.add("bi-circle-half")
     } else if (actualTheme === THEMES.DARK) {
-      navbarIcon.classList.add('bi-moon-stars-fill')
+      navbarIcon.classList.add("bi-moon-stars-fill")
     } else {
-      navbarIcon.classList.add('bi-sun')
+      navbarIcon.classList.add("bi-sun")
     }
   }
 
@@ -126,21 +149,21 @@
     const dropdown = document.querySelector('[data-theme-switcher="true"]')
     if (!dropdown) return
 
-    const options = dropdown.querySelectorAll('[data-theme]')
-    options.forEach(option => {
-      const optionTheme = option.getAttribute('data-theme')
+    const options = dropdown.querySelectorAll("[data-theme]")
+    options.forEach((option) => {
+      const optionTheme = option.getAttribute("data-theme")
       const isActive = optionTheme === theme
 
       // Update active class
-      option.classList.toggle('active', isActive)
+      option.classList.toggle("active", isActive)
 
       // Find the checkmark icon specifically (second icon in each item)
       // The first icon is the theme icon (sun/moon/circle-half) which should always be visible
-      const icons = option.querySelectorAll('i, svg')
+      const icons = option.querySelectorAll("i, svg")
       if (icons.length >= 2) {
         // The last icon is the checkmark
         const checkmark = icons[icons.length - 1]
-        checkmark.style.display = isActive ? 'inline' : 'none'
+        checkmark.style.display = isActive ? "inline" : "none"
       }
     })
   }
@@ -152,9 +175,9 @@
   function handleThemeClick(event) {
     event.preventDefault()
 
-    const theme = event.currentTarget.getAttribute('data-theme')
+    const theme = event.currentTarget.getAttribute("data-theme")
     if (!theme || !Object.values(THEMES).includes(theme)) {
-      console.error('Invalid theme:', theme)
+      console.error("Invalid theme:", theme)
       return
     }
 
@@ -174,22 +197,22 @@
     // Set up click handlers for theme options
     const dropdown = document.querySelector('[data-theme-switcher="true"]')
     if (!dropdown) {
-      console.warn('Theme switcher not found on page')
+      console.warn("Theme switcher not found on page")
       return
     }
 
-    const options = dropdown.querySelectorAll('[data-theme]')
-    options.forEach(option => {
-      option.addEventListener('click', handleThemeClick)
+    const options = dropdown.querySelectorAll("[data-theme]")
+    options.forEach((option) => {
+      option.addEventListener("click", handleThemeClick)
     })
 
     // Listen for system preference changes (when in auto mode)
     if (window.matchMedia) {
-      const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)')
+      const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)")
 
       // Modern API
       if (darkModeQuery.addEventListener) {
-        darkModeQuery.addEventListener('change', (e) => {
+        darkModeQuery.addEventListener("change", (e) => {
           const currentTheme = getInitialTheme()
           if (currentTheme === THEMES.AUTO) {
             applyTheme(THEMES.AUTO)
@@ -209,20 +232,20 @@
   }
 
   // Initialize when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init)
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init)
   } else {
     init()
   }
 
   // Export functions for testing (if needed)
-  if (typeof module !== 'undefined' && module.exports) {
+  if (typeof module !== "undefined" && module.exports) {
     module.exports = {
       getSystemPreference,
       getInitialTheme,
       persistTheme,
       applyTheme,
-      updateActiveIndicators
+      updateActiveIndicators,
     }
   }
 })()

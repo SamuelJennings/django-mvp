@@ -99,6 +99,16 @@ urlpatterns = [
     ),
 ]
 
+# Django Tables2 demo (optional dependency)
+try:
+    from example.views import DataTablesView
+
+    urlpatterns.append(
+        path("datatables-demo/", DataTablesView.as_view(), name="datatables_demo"),
+    )
+except ImportError:
+    pass
+
 
 if settings.DEBUG:
     urlpatterns.append(path("__reload__/", include("django_browser_reload.urls")))

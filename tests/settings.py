@@ -38,6 +38,14 @@ INSTALLED_APPS = [
     "cotton_bs5",
 ]
 
+# Add django-tables2 if installed (optional dependency)
+try:
+    import django_tables2  # noqa: F401
+
+    INSTALLED_APPS.append("django_tables2")
+except ImportError:
+    pass
+
 SITE_ID = 1
 
 MIDDLEWARE = [

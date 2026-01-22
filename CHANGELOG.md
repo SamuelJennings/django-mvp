@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Django Tables2 Integration** (Feature 007): Optional django-tables2 support with Bootstrap 5 responsive tables
+  - **Optional Dependency**: Install with `pip install django-mvp[datatables2]`
+  - **Demo Page**: Interactive table examples at `/datatables/` demonstrating sorting, pagination, and responsive display
+  - **Fill Mode Support**: Tables that fill viewport height using Bootstrap 5 flexbox utilities
+  - **Template Overrides**: Custom `django_tables2/bootstrap5-responsive.html` with responsive container
+  - **ProductTable**: Example table for demo purposes using existing Product model
+  - **Documentation**: Complete usage guide at [specs/007-datatables-integration/quickstart.md](specs/007-datatables-integration/quickstart.md)
+  - **Feature Specification**: [specs/007-datatables-integration/](specs/007-datatables-integration/)
+
 - **Inner Layout System** (Feature 006): Complete grid-based layout system for inner page content
   - **CSS Grid Architecture**: Modern grid-based layout with toolbar, main content, footer, and sidebar areas
   - **Sticky Positioning**: Optional sticky toolbar, footer, and sidebar with `toolbar_fixed`, `footer_fixed`, `sidebar_fixed` attributes

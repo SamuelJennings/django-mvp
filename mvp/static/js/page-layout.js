@@ -142,6 +142,16 @@
   function saveSidebarState(isCollapsed) {
     try {
       sessionStorage.setItem(STORAGE_KEY, isCollapsed ? "1" : "0")
+
+      // Sync with html data attribute for inline script on next page load
+      if (isCollapsed) {
+        document.documentElement.setAttribute(
+          "data-page-sidebar-collapsed",
+          "true",
+        )
+      } else {
+        document.documentElement.removeAttribute("data-page-sidebar-collapsed")
+      }
     } catch (e) {
       console.warn("Failed to save sidebar state:", e)
     }
@@ -154,27 +164,29 @@
   function restoreSidebarState(layout) {
     try {
       const savedState = sessionStorage.getItem(STORAGE_KEY)
+      const sidebar = layout.querySelector(".page-sidebar")
+      const toggleButton = layout.querySelector(
+        '[data-action="toggle-sidebar"]',
+      )
+
+      if (!sidebar) return
+
+      // Check if state was already applied by inline script
+      const preApplied = document.documentElement.hasAttribute(
+        "data-page-sidebar-collapsed",
+      )
+
       if (savedState === "1") {
-        const sidebar = layout.querySelector(".page-sidebar")
-        const toggleButton = layout.querySelector(
-          '[data-action="toggle-sidebar"]',
-        )
-        if (sidebar && !sidebar.classList.contains("collapsed")) {
-          // Disable transitions temporarily to prevent animation on page load
-          sidebar.classList.add("no-transition")
+        if (preApplied) {
+          // State already applied via inline script - just add class for JS state tracking
           sidebar.classList.add("collapsed")
+        } else if (!sidebar.classList.contains("collapsed")) {
+          // Apply collapsed state now
+          sidebar.classList.add("collapsed")
+        }
 
-          if (toggleButton) {
-            updateAriaStates(toggleButton, sidebar)
-          }
-
-          // Re-enable transitions after the collapsed state is applied
-          // Use requestAnimationFrame to ensure the no-transition class takes effect
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              sidebar.classList.remove("no-transition")
-            })
-          })
+        if (toggleButton) {
+          updateAriaStates(toggleButton, sidebar)
         }
       }
     } catch (e) {
