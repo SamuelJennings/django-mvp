@@ -8,17 +8,14 @@ This view provides an interactive form for testing all layout options:
 View uses query parameters for stateless, shareable URL-based configuration.
 """
 
-from django.views.generic import TemplateView
+from django.views.generic import ListView, TemplateView
+from django.views.generic.edit import CreateView
+from django_filters.views import FilterView
+from django_tables2 import SingleTableView
 
-try:
-    from django_tables2 import SingleTableView
-
-    from example.models import Product
-    from example.tables import ProductTable
-
-    DJANGO_TABLES2_INSTALLED = True
-except ImportError:
-    DJANGO_TABLES2_INSTALLED = False
+from example.models import Product
+from example.tables import ProductTable
+from mvp.views import MVPListViewMixin, PageModifierMixin
 
 
 class LayoutConfigMixin:
@@ -85,8 +82,13 @@ class LayoutConfigMixin:
 
         # Parse page layout code (e.g., 'tt-ms-ff')
         context["page_layout"] = self.request.GET.get("page_layout", "")
-
         return context
+
+
+class MVPDemoView(LayoutConfigMixin, TemplateView):
+    """Base TemplateView with LayoutConfigMixin for layout configuration support."""
+
+    pass
 
 
 class LayoutDemoView(LayoutConfigMixin, TemplateView):
@@ -159,32 +161,144 @@ class PageLayoutDemoView(LayoutConfigMixin, TemplateView):
     template_name = "example/page_layout.html"
 
 
-# Compatibility functions for URL patterns
-layout_demo = LayoutDemoView.as_view()
-navbar_widgets_demo = NavbarWidgetsView.as_view()
-page_layout_demo = PageLayoutDemoView.as_view()
+class MinimalListViewDemo(LayoutConfigMixin, PageModifierMixin, MVPListViewMixin, ListView):
+    """
+    Minimal list view demo showing the simplest configuration (T011 - User Story 1).
+
+    Features:
+        - Only model and list_item_template specified
+        - Page title auto-generated from model verbose_name_plural
+        - Default single-column grid layout
+        - Pagination with entry counts
+        - No search, ordering, or filtering
+
+    This demonstrates SC-001: Fully functional list view with under 10 lines of code.
+
+    Also used for grid configuration demos (T015-T018 - User Story 2) by overriding
+    the grid attribute via .as_view(grid={...}) in URL patterns.
+
+    Template: mvp/list_view.html
+    URL Patterns:
+        - /list-view/minimal/ (default single column)
+        - /list-view/grid/1col/ (explicit single column)
+        - /list-view/grid/2col/ (responsive 2-column)
+        - /list-view/grid/3col/ (responsive 3-column)
+        - /list-view/grid/responsive/ (fully responsive multi-column)
+    """
+
+    model = Product
+    template_name = "mvp/list_view.html"
+    list_item_template = "cards/product_card.html"
+    paginate_by = 12
 
 
-if DJANGO_TABLES2_INSTALLED:
+class BasicListViewDemo(LayoutConfigMixin, PageModifierMixin, MVPListViewMixin, ListView):
+    """
+    Basic list view demo with search and ordering (T025 - User Stories 3 & 4).
 
-    class DataTablesView(LayoutConfigMixin, SingleTableView):
-        """Django Tables2 demo page showing Product table with sorting and pagination.
+    Features:
+        - Search across name and description fields (multi-word OR matching)
+        - Ordering dropdown with multiple sort options
+        - 2-column responsive grid layout
+        - Pagination with entry counts
+        - No advanced filtering (see ListViewDemo for FilterView example)
 
-        User Story 2: Viewing DataTables Demo Page
+    This demonstrates:
+        - User Story 3: Search functionality (FR-001, FR-019, FR-020)
+        - User Story 4: Ordering/sorting controls (FR-002, FR-022, FR-023, FR-024)
 
-        Features:
-            - Product data table with 18 columns
-            - Bootstrap 5 responsive styling
-            - Sortable columns
-            - Pagination (25 items per page)
-            - Empty state message
-            - Layout configuration via query parameters
+    Template: mvp/list_view.html
+    URL Pattern: /list-view/basic/
+    """
 
-        Template: example/datatables_demo.html
-        URL Pattern: /datatables-demo/
-        """
+    model = Product
+    template_name = "mvp/list_view.html"
+    list_item_template = "cards/product_card.html"
+    grid = {"cols": 1, "md": 2}
+    paginate_by = 12
+    search_fields = ["name", "description"]
+    order_by = [
+        ("name", "Name (A-Z)"),
+        ("-name", "Name (Z-A)"),
+        ("price", "Price (Low to High)"),
+        ("-price", "Price (High to Low)"),
+        ("created", "Oldest First"),
+        ("-created", "Newest First"),
+    ]
 
-        model = Product
-        table_class = ProductTable
-        template_name = "example/datatables_demo.html"
-        paginate_by = 25
+
+class ListViewDemo(LayoutConfigMixin, PageModifierMixin, MVPListViewMixin, FilterView):
+    """
+    Demo page showing a list view of Products.
+
+    User Story 1: Viewing Product List Page
+
+    Features:
+        - List of products with name and price
+        - Bootstrap 5 responsive styling
+        - Layout configuration via query parameters
+
+    Template: mvp/list_view.html
+    URL Pattern: /list-view/
+    """
+
+    model = Product
+    template_name = "mvp/list_view.html"
+    list_item_template = "cards/product_card.html"
+    page = {"layout": "ts-ms-ff"}
+    grid = {"cols": 1, "md": 2, "xl": 2, "gap": 2}
+    paginate_by = 12
+    filterset_fields = ["name", "price"]
+    search_fields = ["name", "description"]
+    order_by = [
+        ("name", "Name (A-Z)"),
+        ("-name", "Name (Z-A)"),
+        ("price", "Price (Low to High)"),
+        ("-price", "Price (High to Low)"),
+    ]
+
+
+class DataTablesView(LayoutConfigMixin, SingleTableView):
+    """Django Tables2 demo page showing Product table with sorting and pagination.
+
+    User Story 2: Viewing DataTables Demo Page
+
+    Features:
+        - Product data table with 18 columns
+        - Bootstrap 5 responsive styling
+        - Sortable columns
+        - Pagination (25 items per page)
+        - Empty state message
+        - Layout configuration via query parameters
+
+    Template: example/datatables_demo.html
+    URL Pattern: /datatables-demo/
+    """
+
+    model = Product
+    table_class = ProductTable
+    template_name = "example/datatables_demo.html"
+    paginate_by = 25
+
+
+class FormViewDemo(LayoutConfigMixin, CreateView):
+    """
+    Demo page showing a complex form with various input types.
+
+    User Story 3: Viewing Form Demo Page
+
+    Features:
+        - Various form input types (text, email, password, select, checkboxes, radio buttons)
+        - Bootstrap 5 responsive styling
+        - Layout configuration via query parameters
+
+    Template: example/form_demo.html
+    URL Pattern: /form-demo/
+    """
+
+    model = Product
+    fields = ["name", "description", "price"]
+    template_name = "mvp/form_view.html"
+    extra_context = {
+        "page_title": "Form View Demo",
+    }
