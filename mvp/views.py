@@ -53,18 +53,23 @@ class SearchMixin:
 
         Similar to Django admin's search functionality, this builds an OR query
         across all specified fields using case-insensitive contains lookups.
+        For multi-word searches, applies OR matching across all words and fields.
 
         Args:
             queryset: The queryset to filter
-            search_term: The search string
+            search_term: The search string (can contain multiple words)
 
         Returns:
             QuerySet: Filtered queryset
         """
         search_query = Q()
 
-        for field in self.get_search_fields():
-            search_query |= Q(**{f"{field}__icontains": search_term})
+        # Split search term by any whitespace to support multi-word OR matching
+        words = search_term.split()
+
+        for word in words:
+            for field in self.get_search_fields():
+                search_query |= Q(**{f"{field}__icontains": word})
 
         return queryset.filter(search_query).distinct()
 
@@ -269,7 +274,7 @@ class ListItemTemplateMixin:
 
     def get_template_names(self):
         template_names = super().get_template_names()
-        template_names.append("layouts/list_view.html")
+        template_names.append("list_view.html")
         return template_names
 
     def get_context_data(self, **kwargs):
@@ -280,6 +285,52 @@ class ListItemTemplateMixin:
         """
         context = super().get_context_data(**kwargs)
         context["list_item_template"] = self.get_list_item_template()
+        return context
+
+
+class MVPListViewMixin(SearchOrderMixin, ListItemTemplateMixin):
+    grid: dict = {}
+    page_title = ""
+
+    def get_context_data(self, **kwargs):
+        """Add grid configuration to the template context.
+
+        Adds:
+            grid_config (GridConfig): Configuration for grid layout
+        """
+        context = super().get_context_data(**kwargs)
+        context["grid_config"] = self.get_grid_config()
+        context["page_title"] = self.get_page_title()
+        return context
+
+    def get_grid_config(self):
+        return self.grid
+
+    def get_page_title(self):
+        if self.page_title:
+            return self.page_title
+
+        model = getattr(self, "model", None)
+        if model:
+            return model._meta.verbose_name_plural.title()
+
+        return self.page_title
+
+
+class PageModifierMixin:
+    """Mixin for adding page modifier classes to the template context."""
+
+    page = {}
+    """Dictionary of page modifier classes that can be passed the the `c-page` component. """
+
+    def get_context_data(self, **kwargs):
+        """Add page modifier classes to the template context.
+
+        Adds:
+            page (dict): Dictionary of page modifier classes
+        """
+        context = super().get_context_data(**kwargs)
+        context["page"] = self.page
         return context
 
 

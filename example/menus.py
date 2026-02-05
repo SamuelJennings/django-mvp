@@ -54,18 +54,30 @@ AppMenu.extend(
                 "badge_classes": "text-bg-primary",
             },
         ),
-        # Inner Layout Demo - NEW!
         MenuItem(
             name="page_layout_demo",
             view_name="page_layout_demo",
             extra_context={
                 "label": "Inner Layout",
-                "icon": "grid",
-                "badge": "New",
-                "badge_classes": "text-bg-warning",
+                "icon": "sidebar",
             },
         ),
-        # Profile with notification count
+        MenuItem(
+            name="list_view_demo",
+            view_name="list_view_demo",
+            extra_context={
+                "label": "MVP List View",
+                "icon": "list",
+            },
+        ),
+        MenuItem(
+            name="form_view_demo",
+            view_name="form_view_demo",
+            extra_context={
+                "label": "MVP Form View",
+                "icon": "form",
+            },
+        ),
         MenuItem(
             name="profile",
             url="/profile/",
@@ -151,6 +163,94 @@ content_group.extend(
                 "icon": "book",
                 "badge": "5",
                 "badge_classes": "text-bg-warning",
+            },
+        ),
+    ]
+)
+
+# =============================================================================
+# LIST VIEW DEMOS SECTION
+# =============================================================================
+# Dashboard list view demos showcasing different configurations
+
+list_views_group = MenuCollapse(
+    name="list_views",
+    extra_context={"label": "List Views", "icon": "list", "component_type": "menu.collapse"},
+    parent=AppMenu,
+)
+
+list_views_group.extend(
+    [
+        MenuItem(
+            name="list_view_full_demo",
+            view_name="list_view_demo",
+            extra_context={
+                "label": "Full Demo",
+                "icon": "list",
+                "badge": "All Features",
+                "badge_classes": "text-bg-primary",
+            },
+        ),
+        MenuItem(
+            name="basic_list_demo",
+            view_name="basic_list_demo",
+            extra_context={
+                "label": "Basic ListView",
+                "icon": "list",
+            },
+        ),
+        MenuItem(
+            name="minimal_list_demo",
+            view_name="minimal_list_demo",
+            extra_context={
+                "label": "Minimal",
+                "icon": "list",
+            },
+        ),
+    ]
+)
+
+# Grid layout demos
+grid_layouts_group = MenuCollapse(
+    name="grid_layouts",
+    extra_context={"label": "Grid Layouts", "icon": "grid", "component_type": "menu.collapse"},
+    parent=AppMenu,
+)
+
+grid_layouts_group.extend(
+    [
+        MenuItem(
+            name="grid_1col_demo",
+            view_name="grid_demo_1col",
+            extra_context={
+                "label": "1 Column",
+                "icon": "grid",
+            },
+        ),
+        MenuItem(
+            name="grid_2col_demo",
+            view_name="grid_demo_2col",
+            extra_context={
+                "label": "2 Columns",
+                "icon": "grid",
+            },
+        ),
+        MenuItem(
+            name="grid_3col_demo",
+            view_name="grid_demo_3col",
+            extra_context={
+                "label": "3 Columns",
+                "icon": "grid",
+            },
+        ),
+        MenuItem(
+            name="grid_responsive_demo",
+            view_name="grid_demo_responsive",
+            extra_context={
+                "label": "Responsive",
+                "icon": "grid",
+                "badge": "Adaptive",
+                "badge_classes": "text-bg-success",
             },
         ),
     ]
