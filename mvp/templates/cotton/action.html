@@ -1,0 +1,22 @@
+<c-vars small
+        large
+        text
+        variant="default"
+        outline
+        icon
+        :condition="True"
+        reverse />
+{% if condition %}
+  {% with element=href|yesno:"a,button" %}
+    {# djlint:off #}
+      <{{ element }} class="btn btn-{% if outline %}outline-{% endif %}{{ variant }} d-inline-flex {% if reverse %}flex-row-reverse{% endif %} gap-2{% if small %} btn-sm{% elif large %} btn-lg{% endif %} {{ class }}" title="{{ text }}" {{ attrs }}>
+      {% if icon %}<c-icon name="{{ icon }}" />{% endif %}
+      {% if text %}
+        <span class="btn-text">{{ text }}</span>
+      {% else %}
+        {{ slot }}
+      {% endif %}
+      </{{ element }}>
+    {# djlint:on #}
+  {% endwith %}
+{% endif %}

@@ -1,14 +1,14 @@
 {% load flex_menu %}
 <c-vars brand_text="Django MVP"
         brand_logo=""
+        brand_icon
         brand_url="/"
-        theme=""
-        class="bg-body-secondary" />
-<aside class="app-sidebar {{ class }} shadow"
-       {% if theme %}data-bs-theme="{{ theme }}"{% endif %}>
-  <c-app.sidebar.branding brand_text="{{ brand_text }}"
-                          brand_logo="{{ brand_logo }}"
-                          brand_url="{{ brand_url }}" />
+        class />
+<aside class="app-sidebar shadow {{ class }} ">
+  <c-app.sidebar.branding text="{{ brand_text }}"
+                          icon="{{ brand_icon }}"
+                          logo="{{ brand_logo }}"
+                          link="{{ brand_url }}" />
   <div class="sidebar-wrapper">
     <nav class="mt-2">
       {% if slot %}

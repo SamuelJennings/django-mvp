@@ -215,7 +215,7 @@
 
 ### Integration & Examples
 
-- [ ] T091 Add all three widgets to example app navbar in example/templates/example/base.html
+- [ ] T091 Add all three widgets to example app navbar in example/templates/base.html
 - [ ] T092 Create comprehensive navbar widgets demo page at example/templates/example/navbar_widgets.html
 - [ ] T093 Add navbar widgets menu item to example app navigation
 

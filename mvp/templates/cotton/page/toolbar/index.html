@@ -3,10 +3,10 @@
 Additional CSS classes Slots: - default: Main toolbar content (left side) - end:
 Right-aligned toolbar content {% endcomment %}
 <c-vars compact relaxed class />
-<header class="page-toolbar bg-body{% if compact %} compact{% elif relaxed %} relaxed{% endif %}{% if class %} {{ class }}{% endif %}"
+<header class="mvp-header {% if compact %} compact{% elif relaxed %} relaxed{% endif %}{% if class %} {{ class }}{% endif %}"
         role="banner"
         aria-label="Page toolbar">
-  <c-toolbar>
+  <c-toolbar class>
     {{ slot }}
   </c-toolbar>
 </header>

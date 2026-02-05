@@ -134,22 +134,21 @@ EASY_ICONS = {
     "default": {
         "renderer": "easy_icons.renderers.ProviderRenderer",
         "config": {"tag": "i"},
+        "packs": [
+            "mvp.utils.BS5_ICONS",
+        ],
+        # place icons here that are not critical for the deployed application
         "icons": {
-            # Navigation icons
-            "arrow_right": "bi bi-arrow-right",
-            "house": "bi bi-house",
-            "sidebar": "bi bi-layout-sidebar",
-            "navbar": "bi bi-window",
-            "circle": "bi bi-circle",
-            # Menu icons
+            "form": "bi bi-journal-text",
             "grid": "bi bi-grid-3x3-gap",
             "box-seam": "bi bi-box-seam",
             "folder": "bi bi-folder",
             "newspaper": "bi bi-newspaper",
+            "check": "bi bi-check",
             "check2-square": "bi bi-check2-square",
             "layout-wtf": "bi bi-layout-wtf",
             "chevron_right": "bi bi-chevron-right",
-            # Category icons
+            "list": "bi bi-card-list",
             "cpu": "bi bi-cpu",
             "shirt": "bi bi-shirt",
             "book": "bi bi-book",
@@ -158,47 +157,28 @@ EASY_ICONS = {
             "laptop": "bi bi-laptop",
             "heart": "bi bi-heart",
             "briefcase": "bi bi-briefcase",
-            # UI icons
             "calendar": "bi bi-calendar3",
             "calendar-event": "bi bi-calendar-event",
             "documentation": "bi bi-book",
-            "filter": "bi bi-funnel",
-            "github": "bi bi-github",
-            "logout": "bi bi-box-arrow-right",
-            "person": "bi bi-person",
             "person-circle": "bi bi-person-circle",
-            "settings": "bi bi-gear",
-            "theme_light": "bi bi-sun",
-            "theme_dark": "bi bi-moon-stars-fill",
-            "theme_auto": "bi bi-circle-half",
             "support": "bi bi-life-preserver",
             "eye": "bi bi-eye",
-            "sort": "bi bi-sort-down",
-            "search": "bi bi-search",
             "email": "bi bi-envelope",
-            # Status icons
             "check-circle-fill": "bi bi-check-circle-fill",
             "code-slash": "bi bi-code-slash",
             "info-circle": "bi bi-info-circle",
-            # Default brand icon
             "database-fill": "bi bi-database-fill",
-            # View mode icons
             "list-ul": "bi bi-list-ul",
-            "table": "bi bi-table",
-            # Action icons
             "add": "bi bi-plus-circle",
             "plus": "bi bi-plus-lg",
-            "dash": "bi bi-dash-lg",
-            "menu": "bi bi-list",
-            # Example
             "cart": "bi bi-cart-fill",
             "graph-up": "bi bi-graph-up-arrow",
-            "people": "bi bi-people",
             "link": "bi bi-link-45deg",
             "dollar": "bi bi-currency-dollar",
-            "maximize": "bi bi-arrows-fullscreen",
-            "minimize": "bi bi-arrows-angle-contract",
             "notification": "bi bi-bell-fill",
+            "sidebar": "bi bi-layout-sidebar",
+            "submit": "bi bi-check-lg",
+            "cancel": "bi bi-x-lg",
         },
     },
 }

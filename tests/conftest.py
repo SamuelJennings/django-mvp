@@ -233,3 +233,53 @@ def request_context():
         return RequestContext(request, context_dict or {})
 
     return _get_context
+
+
+@pytest.fixture
+def sample_products(db):
+    """Create sample products for integration testing."""
+    from example.models import Category, Product
+
+    # Create category
+    category = Category.objects.create(
+        name="Test Category",
+        slug="test-category",
+        description="Category for testing",
+    )
+
+    # Create 3 test products
+    Product.objects.create(
+        name="Product 1",
+        slug="product-1",
+        category=category,
+        description="Description for product 1",
+        short_description="Short desc 1",
+        price=10.00,
+        stock=10,
+        status="published",
+        sku="TEST001",
+    )
+    Product.objects.create(
+        name="Product 2",
+        slug="product-2",
+        category=category,
+        description="Description for product 2",
+        short_description="Short desc 2",
+        price=20.00,
+        stock=10,
+        status="published",
+        sku="TEST002",
+    )
+    Product.objects.create(
+        name="Product 3",
+        slug="product-3",
+        category=category,
+        description="Description for product 3",
+        short_description="Short desc 3",
+        price=30.00,
+        stock=10,
+        status="published",
+        sku="TEST003",
+    )
+
+    return Product.objects.all()

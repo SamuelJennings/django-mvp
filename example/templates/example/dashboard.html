@@ -1,252 +1,231 @@
-{% extends "example/base.html" %}
-{% load cotton %}
+{% extends "base.html" %}
+{% load cotton mvp %}
 {% block page_title %}
   Dashboard
 {% endblock page_title %}
 {% block breadcrumbs %}
-  <ol class="breadcrumb float-sm-end">
-    <li class="breadcrumb-item">
-      <a href="/">Home</a>
-    </li>
-    <li class="breadcrumb-item active"
-        aria-current="page">Dashboard</li>
-  </ol>
+  <c-breadcrumbs.item text="Dashboard" />
 {% endblock breadcrumbs %}
 {% block content %}
   <div class="container-fluid">
-    <!--begin::Row - Info Boxes-->
+    {% cotton:verbatim %}
     <section class="mb-4">
       <h2>Info Box</h2>
-      <div class="row mt-4">
-        <div class="col-md-3">
-          <c-info-box number="1,410"
-                      text="Total Orders"
-                      variant="primary"
-                      icon="cart" />
-        </div>
-        <div class="col-md-3">
-          <c-info-box number="$53,000"
-                      text="Revenue"
-                      icon="dollar"
-                      variant="success"
-                      fill="box"
-                      progress="70"
-                      description="70% Increase this year" />
-        </div>
-        <div class="col-md-3">
-          <c-info-box number="93,139"
-                      text="Page Views"
-                      icon="eye"
-                      fill="box"
-                      variant="warning" />
-        </div>
-        <div class="col-md-3">
-          <c-info-box number="13,648"
-                      text="Unique Visitors"
-                      icon="people"
-                      variant="danger" />
-        </div>
-      </div>
-    </section>
-    <!--begin::Row - Small Box-->
-    <section class="mb-4">
-      <h2>Small Box</h2>
+      <p>The info box is...</p>
+      {% show_code %}
       <div class="row">
-        <div class="col-lg-3 col-6">
-          <c-small-box heading="150"
-                       text="New Orders"
-                       icon="cart"
-                       variant="primary"
-                       link="#" />
+        <div class="col-md-3">
+          <c-widgets.type-a value="1,410"
+                            label="Total Orders"
+                            variant="primary"
+                            icon="cart" />
         </div>
-        <div class="col-lg-3 col-6">
-          <c-small-box heading="53%"
-                       text="Bounce Rate"
-                       icon="graph-up"
-                       variant="success"
-                       link="#"
-                       link_text="Custom link text" />
+        <div class="col-md-3">
+          <c-widgets.type-a value="$53,000"
+                            label="Revenue"
+                            icon="dollar"
+                            variant="success"
+                            fill="box"
+                            progress="70"
+                            description="70% Increase this year" />
         </div>
-        <div class="col-lg-3 col-6">
-          <c-small-box heading="44"
-                       text="User Registrations"
-                       icon="people"
-                       variant="warning"
-                       link="#" />
+        <div class="col-md-3">
+          <c-widgets.type-a value="93,139"
+                            label="Page Views"
+                            icon="eye"
+                            fill="box"
+                            variant="warning" />
         </div>
-        <div class="col-lg-3 col-6">
-          <c-small-box heading="65"
-                       text="Unique Visitors"
-                       icon="eye"
-                       variant="danger"
-                       link="#" />
+        <div class="col-md-3">
+          <c-widgets.type-a value="13,648"
+                            label="Unique Visitors"
+                            icon="people"
+                            variant="danger" />
         </div>
       </div>
-    </section>
-    <!--begin::Row - Content Cards-->
-    <section class="mb-4">
-      <h2>Cards</h2>
-      <div class="row mt-4">
-        <div class="col-lg-8">
-          <c-card variant="primary"
-                  title="Welcome to Django MVP"
-                  icon="cart"
-                  collapsible
-                  removable
-                  maximizable>
-            <div class="card-body">
-              <h4>AdminLTE 4 Integration</h4>
-              <p>
-                Django MVP now provides a complete AdminLTE 4 admin dashboard template system
-                for Django using django-cotton components.
-              </p>
-              <c-adminlte.callout variant="info">
-                <c-slot name="title">
-                  <h5>
-                    <i class="bi bi-info-circle"></i> Key Features
-                  </h5>
-                </c-slot>
-                <ul class="mb-0">
-                  <li>
-                    <strong>AdminLTE Layout System</strong> - Full grid-based app-wrapper structure
-                  </li>
-                  <li>
-                    <strong>Configuration-Driven</strong> - Control layout via MVP settings
-                  </li>
-                  <li>
-                    <strong>Cotton Components</strong> - AdminLTE-specific reusable components
-                  </li>
-                  <li>
-                    <strong>Bootstrap 5</strong> - Built on Bootstrap 5 framework
-                  </li>
-                </ul>
-              </c-adminlte.callout>
-              <h5 class="mt-4">Available Components</h5>
-              <div class="row">
-                <div class="col-md-6">
-                  <ul>
-                    <li>
-                      <code>&lt;c-small-box /&gt;</code>
-                    </li>
-                    <li>
-                      <code>&lt;c-info-box /&gt;</code>
-                    </li>
-                    <li>
-                      <code>&lt;c-card /&gt;</code>
-                    </li>
-                    <li>
-                      <code>&lt;c-adminlte.callout /&gt;</code>
-                    </li>
-                  </ul>
-                </div>
-                <div class="col-md-6">
-                  <ul>
-                    <li>
-                      <code>&lt;c-adminlte.timeline /&gt;</code>
-                    </li>
-                    <li>
-                      <code>&lt;c-adminlte.timeline-item /&gt;</code>
-                    </li>
-                    <li>
-                      <code>&lt;c-adminlte.direct-chat /&gt;</code>
-                    </li>
-                    <li>
-                      <code>&lt;c-adminlte.chat-message /&gt;</code>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </c-card>
-        </div>
-        <div class="col-lg-4">
-          <c-card variant="success" outline>
-            <c-slot name="header">
-              <div class="card-header">
-                <h3 class="card-title">Recent Activity</h3>
-              </div>
+    {% endshow_code %}
+  </section>
+{% endcotton:verbatim %}
+<!--begin::Row - Info Boxes-->
+<section class="mb-4">
+  <h2>Info Box</h2>
+  <div class="row mt-4">
+    <div class="col-md-3">
+      <c-widgets.type-a value="1,410"
+                        label="Total Orders"
+                        variant="primary"
+                        icon="cart" />
+    </div>
+    <div class="col-md-3">
+      <c-widgets.type-a value="$53,000"
+                        label="Revenue"
+                        icon="dollar"
+                        variant="success"
+                        fill="box"
+                        progress="70"
+                        description="70% Increase this year" />
+    </div>
+    <div class="col-md-3">
+      <c-widgets.type-a value="93,139"
+                        label="Page Views"
+                        icon="eye"
+                        fill="box"
+                        variant="warning" />
+    </div>
+    <div class="col-md-3">
+      <c-widgets.type-a value="13,648"
+                        label="Unique Visitors"
+                        icon="people"
+                        variant="danger" />
+    </div>
+  </div>
+</section>
+<!--begin::Row - Small Box-->
+<section class="mb-4">
+  <h2>Small Box</h2>
+  <div class="row">
+    <div class="col-lg-3 col-6">
+      <c-small-box heading="150"
+                   label="New Orders"
+                   icon="cart"
+                   variant="primary"
+                   link="#" />
+    </div>
+    <div class="col-lg-3 col-6">
+      <c-small-box heading="53%"
+                   label="Bounce Rate"
+                   icon="graph-up"
+                   variant="success"
+                   link="#"
+                   link_text="Custom link text" />
+    </div>
+    <div class="col-lg-3 col-6">
+      <c-small-box heading="44"
+                   label="User Registrations"
+                   icon="people"
+                   variant="warning"
+                   link="#" />
+    </div>
+    <div class="col-lg-3 col-6">
+      <c-small-box heading="65"
+                   label="Unique Visitors"
+                   icon="eye"
+                   variant="danger"
+                   link="#" />
+    </div>
+  </div>
+</section>
+<!--begin::Row - Content Cards-->
+<section class="mb-4">
+  <h2>Cards</h2>
+  <div class="row mt-4">
+    <div class="col-lg-8">
+      <c-card variant="primary"
+              title="Welcome to Django MVP"
+              icon="cart"
+              class="rounded-0"
+              collapsible
+              removable
+              maximizable>
+        <div class="card-body">
+          <h4>AdminLTE 4 Integration</h4>
+          <p>
+            Django MVP now provides a complete AdminLTE 4 admin dashboard template system
+            for Django using django-cotton components.
+          </p>
+          <c-adminlte.callout variant="info">
+            <c-slot name="title">
+              <h5>
+                <i class="bi bi-info-circle"></i> Key Features
+              </h5>
             </c-slot>
-            <div class="card-body">
-              <c-adminlte.timeline>
-                <c-adminlte.timeline-item icon="check-circle"
-                                          icon_class="text-success"
-                                          time="2 mins ago"
-                                          text="AdminLTE components created" />
-                <c-adminlte.timeline-item icon="info-circle"
-                                          icon_class="text-info"
-                                          time="10 mins ago"
-                                          text="Dashboard updated" />
-                <c-adminlte.timeline-item icon="star"
-                                          icon_class="text-warning"
-                                          time="1 hour ago"
-                                          text="Base template configured" />
-                <c-adminlte.timeline-item icon="gear"
-                                          icon_class="text-secondary"
-                                          time="2 hours ago"
-                                          text="MVP config updated" />
-              </c-adminlte.timeline>
-            </div>
-          </c-card>
+            <ul class="mb-0">
+              <li>
+                <strong>AdminLTE Layout System</strong> - Full grid-based app-wrapper structure
+              </li>
+              <li>
+                <strong>Configuration-Driven</strong> - Control layout via MVP settings
+              </li>
+              <li>
+                <strong>Cotton Components</strong> - AdminLTE-specific reusable components
+              </li>
+              <li>
+                <strong>Bootstrap 5</strong> - Built on Bootstrap 5 framework
+              </li>
+            </ul>
+          </c-adminlte.callout>
+          <h5 class="mt-4">Available Components</h5>
+          <div class="row">
+            {% cotton:verbatim %}
+            {% show_code %}
+            <c-small-box text="Hello"
+                         icon="person"
+                         somethign="asdasdasdasdas" />
+          {% endshow_code %}
+        {% endcotton:verbatim %}
+        <div class="col-md-6">
+          <ul>
+            <li>
+              <code>&lt;c-widgets.type-a /&gt;</code>
+            </li>
+            <li>
+              <code>&lt;c-card /&gt;</code>
+            </li>
+            <li>
+              <code>&lt;c-adminlte.callout /&gt;</code>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <ul>
+            <li>
+              <code>&lt;c-adminlte.timeline /&gt;</code>
+            </li>
+            <li>
+              <code>&lt;c-adminlte.timeline-item /&gt;</code>
+            </li>
+            <li>
+              <code>&lt;c-adminlte.direct-chat /&gt;</code>
+            </li>
+            <li>
+              <code>&lt;c-adminlte.chat-message /&gt;</code>
+            </li>
+          </ul>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </c-card>
+</div>
+<div class="col-lg-4">
+  <c-card variant="success" outline>
+    <c-slot name="header">
+      <div class="card-header">
+        <h3 class="card-title">Recent Activity</h3>
+      </div>
+    </c-slot>
+    <div class="card-body">
+      <c-adminlte.timeline>
+        <c-adminlte.timeline-item icon="check-circle"
+                                  icon_class="text-success"
+                                  time="2 mins ago"
+                                  text="AdminLTE components created" />
+        <c-adminlte.timeline-item icon="info-circle"
+                                  icon_class="text-info"
+                                  time="10 mins ago"
+                                  text="Dashboard updated" />
+        <c-adminlte.timeline-item icon="star"
+                                  icon_class="text-warning"
+                                  time="1 hour ago"
+                                  text="Base template configured" />
+        <c-adminlte.timeline-item icon="gear"
+                                  icon_class="text-secondary"
+                                  time="2 hours ago"
+                                  text="MVP config updated" />
+      </c-adminlte.timeline>
+    </div>
+  </c-card>
+</div>
+</div>
+</section>
+</div>
 {% endblock content %}
-{% comment %} Normal card {% endcomment %}
-<div class="card card-primary">
-  <div class="card-header">
-    <h3 class="card-title">Expandable</h3>
-    <div class="card-tools">
-      <button type="button"
-              class="btn btn-tool"
-              data-lte-toggle="card-collapse">
-        <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-      </button>
-    </div>
-    <!-- /.card-tools -->
-  </div>
-  <!-- /.card-header -->
-  <div class="card-body"
-       style="display: block;
-              box-sizing: border-box">The body of the card</div>
-  <!-- /.card-body -->
-</div>
-{% comment %} outline {% endcomment %}
-<div class="card card-outline card-success">
-  <div class="card-header">
-    <h3 class="card-title">Collapsable</h3>
-    <div class="card-tools">
-      <button type="button"
-              class="btn btn-tool"
-              data-lte-toggle="card-collapse">
-        <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-      </button>
-    </div>
-    <!-- /.card-tools -->
-  </div>
-  <!-- /.card-header -->
-  <div class="card-body">The body of the card</div>
-  <!-- /.card-body -->
-</div>
-{% comment %} FILL {% endcomment %}
-<div class="card text-bg-success">
-  <div class="card-header">
-    <h3 class="card-title">Collapsable</h3>
-    <div class="card-tools">
-      <button type="button"
-              class="btn btn-tool"
-              data-lte-toggle="card-collapse">
-        <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-      </button>
-    </div>
-    <!-- /.card-tools -->
-  </div>
-  <!-- /.card-header -->
-  <div class="card-body"
-       style="box-sizing: border-box;
-              display: block">The body of the card</div>
-  <!-- /.card-body -->
-</div>

@@ -2,7 +2,7 @@
 <c-page.footer :attrs="attrs">
   {% if page_obj and page_info %}
     <div class="text-muted small">
-      Showing {{ table.page.start_index }}-{{ table.page.end_index }} of {{ table.paginator.count }} entries
+      Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }} entries
     </div>
   {% endif %}
   <c-slot name="end">

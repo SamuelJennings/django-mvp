@@ -171,6 +171,13 @@ The template system follows a simple hierarchy:
 - Follow **Ruff** linting rules (see `pyproject.toml`).
 - For HTML/JS/CSS inside templates, follow **djlint** rules. (see `pyproject.toml`)
 
+## Django View Best Practices
+- **Avoid duplicate view classes**: Instead of creating multiple view classes that differ only in attribute values, create ONE view class and override attributes via `.as_view()` in URL patterns.
+  - ✅ CORRECT: `path("list/2col/", ListView.as_view(grid={"cols": 1, "md": 2}), name="list_2col")`
+  - ❌ INCORRECT: Creating separate `ListView2Col`, `ListView3Col`, etc. classes
+- This pattern works for any class attribute: `grid`, `paginate_by`, `template_name`, `search_fields`, etc.
+- Only create separate view classes when they have different methods or significant behavioral differences.
+
 ## Temporary Test Files
 - The agent may create temporary Python files in the project root for experimentation.
 - The name of such files must always follow the format: `tmp_*.py`.

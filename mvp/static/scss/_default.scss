@@ -1,0 +1,35 @@
+// styles overrides for elements containing *-default class
+// e.g. <button class="btn btn-default">
+// Default classes exist when no variant is specified
+.btn-default {
+  box-shadow: none;
+  color: var(--bs-gray-700);
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--bs-gray-200);
+    border-color: var(--bs-gray-300);
+  }
+
+  &:first-child:active {
+    background-color: var(--bs-gray-300);
+    border-color: var(--bs-gray-400);
+  }
+}
+
+.nav.nav-underline {
+  --bs-nav-link-color: var(--bs-gray-800);
+  --bs-nav-link-hover-color: var(--bs-gray-900);
+  --bs-nav-link-active-color: var(--bs-gray-800);
+
+  .nav-link.active {
+    color: var(--bs-nav-link-color);
+    border-bottom-color: var(--bs-emphasis-color);
+    font-weight: 800;
+  }
+
+  .nav-link:hover {
+    border-bottom-color: var(--bs-emphasis-color);
+  }
+}

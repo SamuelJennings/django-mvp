@@ -1,0 +1,24 @@
+{% load i18n crispy_forms_tags %}
+<c-vars title="{% trans "Filters" %}" action />
+<c-page.sidebar border side="right">
+  <c-sidebar.header :title="title" icon="filter" />
+  <div class="sidebar-content px-3 pb-3">
+    <form id="sidebarFilterForm"
+          method="get"
+          {% if action %}action="{{ action }}"{% endif %}>
+      {{ filter.form|crispy }}
+      {% comment %} {% crispy filter.form %} {% endcomment %}
+    </form>
+  </div>
+  <c-sidebar.footer>
+    <c-action text="{% trans "Submit" %}"
+              form="sidebarFilterForm"
+              variant="primary"
+              icon="submit"
+              type="submit" />
+    <c-action text="{% trans "Clear" %}"
+              icon="cancel"
+              type="clear"
+              variant="secondary" />
+  </c-sidebar.footer>
+</c-page.sidebar>

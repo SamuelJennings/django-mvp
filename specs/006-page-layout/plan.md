@@ -121,7 +121,7 @@ docs/
 
 2. **Create demo template**
    - Add `example/templates/example/page_layout.html` (already exists, update if needed)
-   - Extend `example/base.html`
+   - Extend `base.html`
    - Use `<c-page>` component with configurable attributes
    - Include configuration form in sidebar (similar to layout_demo)
    - Show rich content in main area for scrolling/sticky testing

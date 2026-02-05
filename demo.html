@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Grid Layout Playground - AdminLTE Style</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/mvp/static/scss/mvp-layout.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
+    crossorigin="anonymous">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      width: 100vw;
+      color: white;
+      background-color: #f4f6f9;
+      overflow-x: hidden;
+    }
+
+    .mvp-layout {
+      background-color: blue;
+      --sidebar-width: 250px;
+    }
+
+    .mvp-content {
+      background-color: red;
+    }
+
+    .mvp-header {
+      background-color: green;
+      z-index: 2;
+    }
+
+    .mvp-footer {
+      background-color: rgb(97, 97, 0);
+    }
+
+    .mvp-sidebar.mvp-sidebar-left {
+      background-color: purple;
+    }
+
+    .mvp-sidebar.mvp-sidebar-right {
+      background-color: rgb(128, 0, 0);
+    }
+
+    /* Firefox */
+    * {
+      --scrollbar-color: #0000001a;
+      --scrollbar-color-hover: #00000033;
+      scrollbar-width: thin;
+      scrollbar-color: var(--scrollbar-color) transparent;
+    }
+
+    /* Firefox hover workaround (applies when the element is hovered) */
+    *:hover {
+      scrollbar-color: var(--scrollbar-color-hover) transparent;
+    }
+
+    /* Chrome, Edge, Safari */
+    *::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar-color);
+      border-radius: 999px;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background-color: var(--scrollbar-color-hover);
+    }
+
+    /* Hide arrows */
+    *::-webkit-scrollbar-button {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- LAYOUT 1 -->
+  <div id="mainLayout" class="mvp-layout lhr-lpr-lfr ">
+    <div class="mvp-header collapse show sticky-top mvp-container px-3">
+      <div class="mvp-container-left">
+        <button class="btn btn-primary" type="button" data-mvp-toggle="sidebar-left">
+          Toggle left
+        </button>
+
+        <button class="btn btn-primary" type="button" data-mvp-toggle="footer">
+          Toggle Footer
+        </button>
+        MVP Layout Demo
+
+      </div>
+      <div class="mvp-container-right">
+        <button class="btn btn-primary" type="button" data-mvp-toggle="sidebar-right">
+          Toggle right
+        </button>
+      </div>
+    </div>
+    <!-- SIDEBAR LEFT -->
+    <div class="mvp-sidebar mvp-sidebar-left collapse-horizontal collapse show">
+      <div class="sidebar-wrapper">
+        <div class="sidebar-header border-bottom sticky-top">
+          I can be sticky if you apply sticky-top
+        </div>
+        <div class="sidebar-content d-flex flex-column gap-2 ps-1 py-2">
+          <div class="card">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis a necessitatibus tenetur tempore
+            accusantium, corrupti odit et illo iusto quos, blanditiis amet possimus animi explicabo maiores debitis
+            provident ullam eaque.
+
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Culpa qui, molestias est dolore quos magni eos,
+            sapiente rerum rem quam nulla velit eligendi aspernatur nam tempore iure. Nesciunt, corrupti delectus?
+
+          </div>
+          <div class="card d-non">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis a necessitatibus tenetur tempore
+            accusantium, corrupti odit et illo iusto quos, blanditiis amet possimus animi explicabo maiores debitis
+            provident ullam eaque.
+
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Culpa qui, molestias est dolore quos magni eos,
+            sapiente rerum rem quam nulla velit eligendi aspernatur nam tempore iure. Nesciunt, corrupti delectus?
+
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis a necessitatibus tenetur tempore
+            accusantium, corrupti odit et illo iusto quos, blanditiis amet possimus animi explicabo maiores debitis
+            provident ullam eaque.
+
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Culpa qui, molestias est dolore quos magni eos,
+            sapiente rerum rem quam nulla velit eligendi aspernatur nam tempore iure. Nesciunt, corrupti delectus?
+
+          </div>
+        </div>
+        <div class="flex-grow-1"></div>
+        <div class="sidebar-footer bg-body border-top px-3 text-dark sticky-bottom">
+          Sidebar Left with collapse-horizontal
+        </div>
+      </div>
+
+    </div>
+    <!-- SIDEBAR RIGHT -->
+    <div class="mvp-sidebar mvp-sidebar-right collapse-horizontal collapse">
+      <div class="sidebar-content">Sidebar Right</div>
+    </div>
+    <div class="mvp-content">
+      <!-- LAYOUT 2 -->
+      <div class="mvp-layout lhh-lpr-ffr">
+        <div class="mvp-header mvp-container px-3">
+          <button class="btn btn-primary" type="button" data-mvp-toggle="header" data-mvp-layout="#mainLayout">
+            Toggle Header
+          </button>
+          Inner Header
+        </div>
+        <!-- SIDEBAR LEFT -->
+        <div class="mvp-sidebar mvp-sidebar-left collapse bg-primary">
+          <div class="sidebar-content d-flex flex-column p-3">
+            <div class="card">
+              Sidebar Left with collapse-horizontal
+            </div>
+            <div class="card">
+              Sidebar Left with collapse-horizontal
+            </div>
+            <div class="card ms-auto">
+              Sidebar Left with collapse-horizontal
+            </div>
+          </div>
+        </div>
+        <div class="mvp-sidebar mvp-sidebar-right collapse">
+          <div class="sidebar-content">Sidebar Right</div>
+        </div>
+        <div class="mvp-content">
+          <div class="container vstack gap-3" style="--sidebar-width: 120px;">
+            <div class="card overflow-hidden" style="height: 500px;">
+              <div class="mvp-layout border border-dark hhh-lpr-lfr">
+                <div class="mvp-header">
+                  Inner Header
+                </div>
+                <div class="mvp-sidebar mvp-sidebar-left collapse">
+                  <div class="sidebar-content">Sidebar Left</div>
+                </div>
+                <div class="mvp-sidebar mvp-sidebar-right collapse">
+                  <div class="sidebar-content">Sidebar Right</div>
+                </div>
+                <div class="mvp-content d-flex justify-content-center align-items-center">
+                  Inside Card
+
+                </div>
+                <div class="mvp-footer">Footer</div>
+              </div>
+            </div>
+            <div class="card overflow-hidden" style="height: 500px;">
+              <div class="mvp-layout border border-dark hhh-lpr-lfr">
+                <div class="mvp-header">
+                  Inner Header
+                </div>
+                <div class="mvp-sidebar mvp-sidebar-left">
+                  <div class="sidebar-content">Sidebar Left</div>
+                </div>
+                <div class="mvp-sidebar mvp-sidebar-right">
+                  <div class="sidebar-content">Sidebar Right</div>
+                </div>
+                <div class="mvp-content d-flex justify-content-center align-items-center">
+                  Inside Card
+
+                </div>
+                <div class="mvp-footer">Footer</div>
+              </div>
+            </div>
+            <div class="card overflow-hidden" style="height: 500px;">
+              <div class="mvp-layout border border-dark hhh-lpr-lfr">
+                <div class="mvp-header">
+                  Inner Header
+                </div>
+                <div class="mvp-sidebar mvp-sidebar-left">
+                  <div class="sidebar-content">Sidebar Left</div>
+                </div>
+                <div class="mvp-sidebar mvp-sidebar-right">
+                  <div class="sidebar-content">Sidebar Right</div>
+                </div>
+                <div class="mvp-content d-flex justify-content-center align-items-center">
+                  Inside Card
+
+                </div>
+                <div class="mvp-footer">Footer</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mvp-footer sticky-bottom">Footer</div>
+      </div>
+    </div>
+    <div class="mvp-footer sticky-bottom collapse show">Footer</div>
+  </div>
+</body>
+<script scr="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const toggles = document.querySelectorAll('[data-mvp-toggle]')
+    toggles.forEach(toggle => {
+      toggle.addEventListener('click', function () {
+        const toggleValue = this.getAttribute('data-mvp-toggle')
+        let targetClass
+        switch (toggleValue) {
+          case 'sidebar-left': targetClass = 'mvp-sidebar-left'; break
+          case 'header': targetClass = 'mvp-header'; break
+          case 'footer': targetClass = 'mvp-footer'; break
+          case 'sidebar-right': targetClass = 'mvp-sidebar-right'; break
+          default: return
+        }
+        let layout
+        const layoutSelector = this.getAttribute('data-mvp-layout')
+        if (layoutSelector) {
+          layout = document.querySelector(layoutSelector)
+        } else {
+          layout = this.closest('.mvp-layout')
+        }
+        if (!layout) return
+        const target = layout.querySelector(':scope > .' + targetClass)
+        if (!target) return
+        const isHorizontal = target.classList.contains('collapse-horizontal')
+        const dimension = isHorizontal ? 'width' : 'height'
+        const isShown = target.classList.contains('show')
+        if (isShown) {
+          // hide
+          const size = isHorizontal ? target.offsetWidth : target.offsetHeight
+          target.style[dimension] = size + 'px'
+          target.offsetWidth // force reflow
+          target.classList.remove('collapse', 'show')
+          target.classList.add('collapsing')
+          target.style[dimension] = '0px'
+          target.addEventListener('transitionend', function handler(e) {
+            if (e.target !== target) return
+            target.removeEventListener('transitionend', handler)
+            target.classList.remove('collapsing')
+            target.classList.add('collapse')
+            target.style[dimension] = ''
+            target.style.transition = ''
+          })
+        } else {
+          // show
+          target.classList.remove('collapse')
+          target.classList.add('collapsing')
+          target.style[dimension] = '0px'
+          target.offsetWidth // force reflow
+          const size = isHorizontal ? target.scrollWidth : target.scrollHeight
+          target.style[dimension] = size + 'px'
+          target.addEventListener('transitionend', function handler(e) {
+            if (e.target !== target) return
+            target.removeEventListener('transitionend', handler)
+            target.classList.remove('collapsing')
+            target.classList.add('show', 'collapse')
+            target.style[dimension] = ''
+            target.style.transition = ''
+          })
+        }
+      })
+    })
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
+  crossorigin="anonymous"></script>
+
+</html>

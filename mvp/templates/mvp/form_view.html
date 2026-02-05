@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n static crispy_forms_tags %}
+{% block main %}
+  <c-page :attrs="page" layout="lhr-lpr-lfr">
+    <c-page.content class="container">
+      <c-page.header title="{{ page_title }}">
+      </c-page.header>
+      {% crispy form %}
+      {% comment %} {{ form.as_p }} {% endcomment %}
+    </c-page.content>
+    <c-page.sidebar side="right" />
+  </c-page>
+{% endblock main %}

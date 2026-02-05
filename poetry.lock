@@ -708,13 +708,13 @@ wrapt = "*"
 
 [[package]]
 name = "django-easy-icons"
-version = "0.4.0"
+version = "0.5.0"
 description = "Easy, flexible icons for Django"
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "django_easy_icons-0.4.0-py3-none-any.whl", hash = "sha256:cb7c0d2683cfb292d4aa1cba54dcb83940ff3bf1cd84cf35225d92c2b0620e1e"},
-    {file = "django_easy_icons-0.4.0.tar.gz", hash = "sha256:4df89a246e845b3492477be29fb55ae9c5cf3d825edcbcbc04320f6392e61bf7"},
+    {file = "django_easy_icons-0.5.0-py3-none-any.whl", hash = "sha256:e2f777af98abad8e5b5939515b14e73ba6c31f6708211c50878f097dd6e2a90c"},
+    {file = "django_easy_icons-0.5.0.tar.gz", hash = "sha256:96c098246e0c3775b4ba3d14958578d61f3be3221815764cad7c6f5ea16822f3"},
 ]
 
 [package.dependencies]
@@ -733,6 +733,23 @@ files = [
 
 [package.dependencies]
 django = ">=4.2"
+
+[[package]]
+name = "django-filter"
+version = "25.2"
+description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "django_filter-25.2-py3-none-any.whl", hash = "sha256:9c0f8609057309bba611062fe1b720b4a873652541192d232dd28970383633e3"},
+    {file = "django_filter-25.2.tar.gz", hash = "sha256:760e984a931f4468d096f5541787efb8998c61217b73006163bf2f9523fe8f23"},
+]
+
+[package.dependencies]
+Django = ">=5.2"
+
+[package.extras]
+drf = ["djangorestframework"]
 
 [[package]]
 name = "django-flex-menus"
@@ -826,7 +843,7 @@ typing-extensions = "*"
 name = "django-tables2"
 version = "2.8.0"
 description = "Table/data-grid framework for Django"
-optional = false
+optional = true
 python-versions = ">=3.9"
 files = [
     {file = "django_tables2-2.8.0-py3-none-any.whl", hash = "sha256:860633b0f448216af73fca6005c7e38dc9b46931dc36c08a9281a71ee250b1ee"},
@@ -2928,9 +2945,10 @@ files = [
 dev = ["pytest", "setuptools"]
 
 [extras]
-datatables2 = []
+all = ["django-tables2"]
+django-tables2 = ["django-tables2"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4.0"
-content-hash = "3ac974f41d2f3a8d84000475337e7d4d08ad0d1ef48307939d36fa5c87cf5a10"
+content-hash = "0683044ee67dc5c3bc28c2bf2d2965814aa8c52ba6e6e0cf8f18a73617ddae63"

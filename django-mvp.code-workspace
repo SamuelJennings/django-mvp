@@ -9,9 +9,9 @@
         {
             "path": "../django-cotton-bs5"
         },
-        // {
-        //     "path": "../../awesome-copilot"
-        // }
+        {
+            "path": "../../ai/superpowers"
+        }
     ],
     // ========================================
     // WORKSPACE SETTINGS

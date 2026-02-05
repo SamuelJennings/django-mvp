@@ -1,14 +1,6 @@
-{% comment %} Toolbar Widget Component - Toggle button for sidebar collapse
-Attributes: - icon (str): Icon name (defaults to "expand" for sidebar toggle) -
-class (str): Additional CSS classes Usage:
-<c-page.toolbar.widget icon="expand" />
-{% endcomment %}
-<c-vars icon="expand" class />
-<button type="button"
-        class="btn btn-sm btn-outline-secondary page-sidebar-toggle{% if class %} {{ class }}{% endif %}"
-        aria-expanded="true"
-        aria-controls="page-sidebar"
-        aria-label="Toggle sidebar"
-        data-action="toggle-sidebar">
-  <i class="bi bi-arrow-bar-left" aria-hidden="true"></i>
-</button>
+<c-vars icon="plus" text class />
+<c-action class="btn btn-sm btn-outline-secondary border-0 {{ class }}"
+          {{ attrs }}>
+  <c-icon name="{{ icon }}" />
+  <span>{{ text }}</span>
+</c-action>

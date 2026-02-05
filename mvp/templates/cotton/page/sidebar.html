@@ -9,12 +9,11 @@ Attributes:
 Slots:
   - default: Sidebar content
 {% endcomment %}
-<c-vars collapsed class border />
-<aside id="page-sidebar"
-       class="page-sidebar bg-body{% if collapsed %} collapsed{% endif %}{% if border %} border-start{% endif %} {{ class }}"
+<c-vars collapsed class border side="left" />
+<aside class="mvp-sidebar mvp-sidebar-{{ side }} collapse-horizontal collapse{% if not collapsed %} show{% endif %}{% if border %} border-start{% endif %} {{ class }}"
        role="complementary"
        aria-label="Sidebar content"
-       {% if collapsed %}aria-hidden="true"{% else %}aria-hidden="false"{% endif %}
+       aria-hidden="{{ collapsed|yesno:"true,false" }}"
        {{ attrs }}>
-  {{ slot }}
+  <div class="sidebar-wrapper">{{ slot }}</div>
 </aside>

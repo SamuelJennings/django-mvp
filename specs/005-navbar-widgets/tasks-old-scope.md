@@ -357,7 +357,7 @@ description: "Task list for Main Navbar Widgets feature implementation"
 - [X] T124 [P] Test widgets in development server
 - [X] T125 [P] Verify mobile responsiveness in browser
 - [X] T126 [P] Add navbar widgets demo to AppNavigation menu in `example/menus.py`
-- [X] T127 [P] Create example base template with default navbar widgets in `example/templates/example/base.html`
+- [X] T127 [P] Create example base template with default navbar widgets in `example/templates/base.html`
 
 ---
 

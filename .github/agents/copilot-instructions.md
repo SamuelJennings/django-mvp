@@ -25,6 +25,8 @@ Auto-generated from all feature plans. Last updated: 2025-12-23
 - N/A (configuration-only feature, no data persistence) (002-layout-configuration)
 - Python 3.10+ (project supports 3.10, 3.11, 3.12) + Django 4.2-5.x, django-tables2 2.x, django-cotton 2.3.1+, django-cotton-bs5, Bootstrap 5, AdminLTE 4 (007-datatables-integration)
 - SQLite (development), sample data via Django models or fixtures (007-datatables-integration)
+- Python 3.11+ with Django 4.2+ + Django, django-cotton, django-filter (optional), crispy-forms (008-dash-list-view)
+- N/A (works with any Django model) (008-dash-list-view)
 
 - Python 3.11 (tests target) + Django, django-cotton, django-cotton-bs5, django-flex-menus, django-easy-icons, django-compressor, django-libsass, crispy-forms/bootstrap5 (001-outer-layout-config)
 
@@ -44,9 +46,9 @@ cd src; pytest; ruff check .
 Python 3.11 (tests target): Follow standard conventions
 
 ## Recent Changes
+- 008-dash-list-view: Added Python 3.11+ with Django 4.2+ + Django, django-cotton, django-filter (optional), crispy-forms
 - 007-datatables-integration: Added Python 3.10+ (project supports 3.10, 3.11, 3.12) + Django 4.2-5.x, django-tables2 2.x, django-cotton 2.3.1+, django-cotton-bs5, Bootstrap 5, AdminLTE 4
 - 002-layout-configuration: Added Python 3.11 (django-mvp requirement) + Django 5.1+, django-cotton (Cotton components), AdminLTE 4 (CSS/layout framework)
-- 006-page-layout: Added Python 3.10+, Django 4.2-5.x + Django (>=4.2,<6.0), django-cotton (>=2.3.1), django-cotton-bs5 (^0.5.1), Bootstrap 5.3
 
 
 <!-- MANUAL ADDITIONS START -->
