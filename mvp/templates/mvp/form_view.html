@@ -1,13 +1,25 @@
-{% extends "base.html" %}
-{% load i18n static crispy_forms_tags %}
-{% block main %}
-  <c-page :attrs="page" layout="lhr-lpr-lfr">
-    <c-page.content class="container">
-      <c-page.header title="{{ page_title }}">
-      </c-page.header>
-      {% crispy form %}
-      {% comment %} {{ form.as_p }} {% endcomment %}
-    </c-page.content>
-    <c-page.sidebar side="right" />
-  </c-page>
-{% endblock main %}
+{% extends "mvp/base.html" %}
+{% block content %}
+  <c-card>
+    <c-slot name="header">
+      <h3 class="card-title">{{ page_title|default:"Form" }}</h3>
+    </c-slot>
+    {# Non-field errors summary #}
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger" role="alert">
+        <strong>Please correct the following errors:</strong>
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+    {# Dynamically load the correct form renderer component #}
+    <c-component is="forms.{{ form_renderer|default:"django" }}" />
+    <c-slot name="footer_end">
+      <button type="submit"
+              class="btn btn-primary"
+              onclick="this.closest('.card').querySelector('form').submit(); return false;">
+        {{ submit_text|default:"Submit" }}
+      </button>
+      {% if cancel_url %}<a href="{{ cancel_url }}" class="btn btn-secondary ms-2">Cancel</a>{% endif %}
+    </c-slot>
+  </c-card>
+{% endblock content %}

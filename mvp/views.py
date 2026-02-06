@@ -1,6 +1,7 @@
 """Views and view mixins for django-mvp."""
 
 from django.db.models import Q
+from django.views.generic import CreateView, FormView, UpdateView
 
 
 class SearchMixin:
@@ -374,3 +375,185 @@ def layout_demo(request):
     }
 
     return render(request, "mvp/layout_demo.html", context)
+
+
+class MVPFormViewMixin:
+    """Mixin to render forms in AdminLTE layout with auto-detected renderer.
+
+    This mixin provides automatic form renderer detection and a consistent
+    AdminLTE card-based layout for form views. It detects django-crispy-forms,
+    django-formset, or falls back to standard Django form rendering.
+
+    Attributes:
+        form_renderer (str|None): Override renderer ("crispy", "formset", "django").
+            None enables auto-detection (default).
+        page_title (str): Title displayed in the form card header.
+        template_name (str): Template path for form rendering.
+
+    Priority Order (auto-detection):
+        1. django-crispy-forms (if installed)
+        2. django-formset (if installed)
+        3. Standard Django form.as_p (fallback)
+
+    Example:
+        class ContactView(MVPFormViewMixin, FormView):
+            form_class = ContactForm
+            success_url = "/thanks/"
+            page_title = "Contact Us"
+            form_renderer = "crispy"  # Optional explicit override
+    """
+
+    form_renderer = None  # None = auto-detect, or "crispy", "formset", "django"
+    page_title = ""
+    template_name = "mvp/form_view.html"
+
+    def get_form_renderer(self):
+        """Determine which form renderer to use.
+
+        Returns:
+            str: Renderer name ("crispy", "formset", or "django")
+
+        Logic:
+            1. If form_renderer is explicitly set, validate and use it
+            2. Otherwise, auto-detect based on installed apps:
+               - crispy_forms (highest priority)
+               - formset (second priority)
+               - django (fallback)
+            3. Log warning if explicit renderer is not available
+        """
+        import logging
+
+        from mvp.utils import app_is_installed
+
+        logger = logging.getLogger(__name__)
+
+        # Explicit renderer override
+        if self.form_renderer:
+            # Validate explicit renderer is available
+            if self.form_renderer == "crispy" and not app_is_installed("crispy_forms"):
+                logger.warning(
+                    "MVPFormViewMixin: form_renderer='crispy' but django-crispy-forms "
+                    "is not installed. Falling back to django renderer."
+                )
+                return "django"
+            if self.form_renderer == "formset" and not app_is_installed("formset"):
+                logger.warning(
+                    "MVPFormViewMixin: form_renderer='formset' but django-formset "
+                    "is not installed. Falling back to django renderer."
+                )
+                return "django"
+            return self.form_renderer
+
+        # Auto-detection priority: crispy → formset → django
+        if app_is_installed("crispy_forms"):
+            return "crispy"
+        if app_is_installed("formset"):
+            return "formset"
+        return "django"
+
+    def get_page_title(self):
+        """Return the page title for the form.
+
+        Returns:
+            str: Page title from page_title attribute
+        """
+        return self.page_title
+
+    def get_context_data(self, **kwargs):
+        """Inject form renderer and page title into template context.
+
+        Returns:
+            dict: Context with form_renderer and page_title added
+        """
+        context = super().get_context_data(**kwargs)
+        context["form_renderer"] = self.get_form_renderer()
+        context["page_title"] = self.get_page_title()
+        return context
+
+
+class MVPFormView(MVPFormViewMixin, FormView):
+    """FormView with AdminLTE layout and auto-detected form rendering.
+
+    Combines MVPFormViewMixin with Django's FormView to provide a complete
+    form view with automatic renderer detection and AdminLTE card layout.
+
+    Inherits all attributes and methods from MVPFormViewMixin and FormView.
+
+    Example:
+        class ContactView(MVPFormView):
+            form_class = ContactForm
+            success_url = "/contact/success/"
+            page_title = "Contact Us"
+    """
+
+    pass
+
+
+class MVPCreateView(MVPFormViewMixin, CreateView):
+    """CreateView with AdminLTE layout and auto-detected form rendering.
+
+    Combines MVPFormViewMixin with Django's CreateView to provide a model
+    form create view with automatic renderer detection and AdminLTE card layout.
+
+    Inherits all attributes and methods from MVPFormViewMixin and CreateView.
+
+    Attributes:
+        model (Model): The model class for the form (inherited from CreateView)
+        fields (list[str]): List of model fields to include in form (inherited from CreateView)
+        form_class (Form): Optional custom form class (inherited from CreateView)
+        success_url (str): URL to redirect to after successful form submission
+
+    Example:
+        class ProductCreateView(MVPCreateView):
+            model = Product
+            fields = ['name', 'price', 'description']
+            success_url = "/products/"
+            page_title = "Add New Product"
+
+        # Or with custom form:
+        class ProductCreateView(MVPCreateView):
+            model = Product
+            form_class = ProductForm
+            success_url = "/products/"
+            page_title = "Add New Product"
+    """
+
+    pass
+
+
+class MVPUpdateView(MVPFormViewMixin, UpdateView):
+    """UpdateView with AdminLTE layout and auto-detected form rendering.
+
+    Combines MVPFormViewMixin with Django's UpdateView to provide a model
+    form edit view with automatic renderer detection and AdminLTE card layout.
+
+    Inherits all attributes and methods from MVPFormViewMixin and UpdateView.
+
+    Attributes:
+        model (Model): The model class for the form (inherited from UpdateView)
+        fields (list[str]): List of model fields to include in form (inherited from UpdateView)
+        form_class (Form): Optional custom form class (inherited from UpdateView)
+        success_url (str): URL to redirect to after successful form submission
+        pk_url_kwarg (str): URL keyword argument for primary key (default: 'pk')
+        slug_url_kwarg (str): URL keyword argument for slug (default: 'slug')
+
+    Example:
+        # In urls.py:
+        path('products/<int:pk>/edit/', ProductUpdateView.as_view(), name='product_edit')
+
+        # View class:
+        class ProductUpdateView(MVPUpdateView):
+            model = Product
+            fields = ['name', 'price', 'description']
+            success_url = "/products/"
+            page_title = "Edit Product"
+
+        # Or with custom form:
+        class ProductUpdateView(MVPUpdateView):
+            model = Product
+            form_class = ProductForm
+            success_url = "/products/"
+            page_title = "Edit Product"
+    """
+
+    pass
