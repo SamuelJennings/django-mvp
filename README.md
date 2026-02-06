@@ -737,6 +737,67 @@ class ProjectListView(OrderMixin, ListView):
     }
 ```
 
+### Form View Mixins
+
+MVPFormView provides automatic form renderer detection and AdminLTE card layout for forms. It intelligently detects django-crispy-forms, django-formset, or falls back to Django's standard rendering.
+
+**Basic Form View:**
+
+```python
+from mvp.views import MVPFormView
+from myapp.forms import ContactForm
+
+class ContactFormView(MVPFormView):
+    form_class = ContactForm
+    success_url = "/contact/success/"
+    page_title = "Contact Us"
+```
+
+**Create View (Model Forms):**
+
+```python
+from mvp.views import MVPCreateView
+from myapp.models import Product
+
+class ProductCreateView(MVPCreateView):
+    model = Product
+    fields = ["name", "slug", "category", "description", "price", "stock"]
+    success_url = "/products/"
+    page_title = "Add New Product"
+```
+
+**Update View (Edit Forms):**
+
+```python
+from mvp.views import MVPUpdateView
+from myapp.models import Product
+
+class ProductUpdateView(MVPUpdateView):
+    model = Product
+    fields = ["name", "slug", "category", "description", "price", "stock"]
+    success_url = "/products/"
+    page_title = "Edit Product"
+```
+
+**Explicit Renderer Override:**
+
+```python
+class ContactFormView(MVPFormView):
+    form_class = ContactForm
+    success_url = "/contact/success/"
+    page_title = "Contact Us"
+    form_renderer = "crispy"  # Override auto-detection: "crispy", "formset", or "django"
+```
+
+**Renderer Detection Priority:**
+
+1. `form_renderer` attribute (if set)
+2. django-crispy-forms (if installed)
+3. django-formset (if installed)
+4. Django standard form rendering (fallback)
+
+All form views automatically use AdminLTE card layout with consistent styling, CSRF protection, and responsive design.
+
 ## Requirements
 
 - Python 3.10+

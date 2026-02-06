@@ -9,6 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Form View Mixins** (Feature 009): Automatic form renderer detection with AdminLTE layout
+  - **MVPFormView**: Drop-in replacement for Django's FormView with auto-detected rendering
+    - Automatically detects django-crispy-forms, django-formset, or falls back to Django standard rendering
+    - AdminLTE card-based layout with consistent styling
+    - Configurable `page_title` attribute for card header
+    - Optional `form_renderer` attribute for explicit override: `"crispy"`, `"formset"`, or `"django"`
+  - **MVPCreateView**: Model form create views with auto-detected rendering
+    - All FormView features plus Django CreateView functionality
+    - Works with model `fields` list or custom `form_class`
+  - **MVPUpdateView**: Model form edit views with auto-detected rendering
+    - All FormView features plus Django UpdateView functionality
+    - Pre-populates form with existing model data
+  - **Demo Views**: Four comprehensive examples showing all features
+    - Contact Form (auto-detection demo)
+    - Product Create (model form demo)
+    - Product Update (model form edit demo)
+    - Explicit Renderer Override (shows renderer priority)
+  - **Complete Test Coverage**: 40 passing tests covering all form view scenarios
+    - Unit tests for renderer detection logic
+    - Integration tests for form rendering and submission
+    - Test coverage: 49% for mvp/views.py
+  - **Documentation**: Usage examples added to README.md
+  - **Feature Specification**: [specs/009-form-view-mixin/](specs/009-form-view-mixin/)
+
 - **Django Tables2 Integration** (Feature 007): Optional django-tables2 support with Bootstrap 5 responsive tables
   - **Optional Dependency**: Install with `pip install django-mvp[datatables2]`
   - **Demo Page**: Interactive table examples at `/datatables/` demonstrating sorting, pagination, and responsive display
