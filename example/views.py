@@ -13,9 +13,10 @@ from django.views.generic.edit import CreateView
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 
+from example.forms import ContactForm
 from example.models import Product
 from example.tables import ProductTable
-from mvp.views import MVPListViewMixin, PageModifierMixin
+from mvp.views import MVPCreateView, MVPFormView, MVPListViewMixin, MVPUpdateView, PageModifierMixin
 
 
 class LayoutConfigMixin:
@@ -302,3 +303,79 @@ class FormViewDemo(LayoutConfigMixin, CreateView):
     extra_context = {
         "page_title": "Form View Demo",
     }
+
+
+class ContactFormView(MVPFormView):
+    """
+    Demo contact form for MVPFormView verification.
+
+    Tests auto-detection of form renderer (crispy → formset → django)
+    and AdminLTE card-based layout integration.
+    """
+
+    form_class = ContactForm
+    page_title = "Contact Form (Auto Renderer)"
+    success_url = "/contact/success/"
+
+    def form_valid(self, form):
+        """Handle successful form submission (demo only - just redirects)."""
+        # In a real app, this would send email or save to database
+        return super().form_valid(form)
+
+
+class ProductCreateView(MVPCreateView):
+    """
+    Demo product creation form for MVPCreateView verification.
+
+    Tests model form create view with auto-detection of form renderer
+    and AdminLTE card-based layout integration.
+    """
+
+    model = Product
+    fields = ["name", "slug", "category", "description", "price", "stock", "status"]
+    page_title = "Create Product (Model Form)"
+    success_url = "/products/"
+
+    def form_valid(self, form):
+        """Handle successful form submission."""
+        # In a real app, you might add flash messages here
+        return super().form_valid(form)
+
+
+class ProductUpdateView(MVPUpdateView):
+    """
+    Demo product edit form for MVPUpdateView verification.
+
+    Tests model form edit view with pre-populated data, auto-detection
+    of form renderer, and AdminLTE card-based layout integration.
+    """
+
+    model = Product
+    fields = ["name", "slug", "category", "description", "price", "stock", "status"]
+    page_title = "Edit Product (Model Form)"
+    success_url = "/products/"
+
+    def form_valid(self, form):
+        """Handle successful form submission."""
+        # In a real app, you might add flash messages here
+        return super().form_valid(form)
+
+
+class ExplicitRendererDemo(MVPFormView):
+    """
+    Demo showing explicit form_renderer configuration.
+
+    This view demonstrates how to override the auto-detection and
+    force a specific renderer (Django's default in this case).
+    Useful when you want consistent rendering regardless of which
+    form libraries are installed.
+    """
+
+    form_class = ContactForm
+    page_title = "Explicit Renderer (Django)"
+    success_url = "/contact/success/"
+    form_renderer = "django"  # Force Django renderer, ignore crispy/formset
+
+    def form_valid(self, form):
+        """Handle successful form submission."""
+        return super().form_valid(form)
