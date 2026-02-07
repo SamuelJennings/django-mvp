@@ -33,7 +33,7 @@ MenuItem(
         "label": "Dashboard",
         "icon": "speedometer"
     },
-    parent=AppMenu
+
 )
 
 MenuItem(
@@ -43,7 +43,7 @@ MenuItem(
         "label": "My Profile",
         "icon": "person-circle"
     },
-    parent=AppMenu
+
 )
 
 # Group item (appears after singles)
@@ -55,7 +55,7 @@ MenuItem(
         "icon": "gear",
         "group_header": "ADMIN TOOLS"  # Section header
     },
-    parent=AppMenu,
+    ,
     children=[
         MenuItem(
             name="users",

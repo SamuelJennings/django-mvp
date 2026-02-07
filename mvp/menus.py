@@ -29,7 +29,7 @@ Example usage in your app's menus.py:
     MenuGroup(
         name="section_header",
         extra_context={"label": "ADMINISTRATION", "component_type": "menu.group"},
-        parent=AppMenu,
+        ,
         children=[
             MenuItem(name="users", view_name="admin:users"),
             MenuItem(name="settings", view_name="admin:settings"),
@@ -40,7 +40,7 @@ Example usage in your app's menus.py:
     MenuCollapse(
         name="reports",
         extra_context={"label": "Reports", "icon": "chart-bar", "component_type": "menu.collapse"},
-        parent=AppMenu,
+        ,
         children=[
             MenuItem(name="sales", view_name="reports:sales"),
             MenuItem(name="analytics", view_name="reports:analytics"),

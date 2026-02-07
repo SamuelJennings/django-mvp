@@ -72,75 +72,75 @@ class AdminLTERenderer(BaseRenderer):
         return context
 
 
-class NavRenderer(BaseRenderer):
-    """Renderer for navigation menus.
+# class NavRenderer(BaseRenderer):
+#     """Renderer for navigation menus.
 
-    Maps menu item types to their corresponding navigation templates.
-    Supports regular links, dropdowns with headers and items.
-    """
+#     Maps menu item types to their corresponding navigation templates.
+#     Supports regular links, dropdowns with headers and items.
+#     """
 
-    templates = {
-        0: {"default": "menus/nav/wrapper.html"},
-        1: {
-            "parent": "menus/nav/wrapper.html",
-            "leaf": "menus/nav/link.html",
-        },
-    }
-
-
-class NavbarRenderer(BaseRenderer):
-    """Renderer for desktop navbar navigation.
-
-    Maps menu item types to their corresponding navbar templates.
-    Supports regular links, dropdowns with headers and items.
-    """
-
-    templates = {
-        0: {"default": "menus/navbar/menu.html"},
-        1: {
-            "parent": "menus/navbar/nav_dropdown.html",
-            "leaf": "menus/navbar/nav_link.html",
-        },
-        "default": {
-            "parent": "menus/navbar/nav_dropdown.html",
-            "leaf": "menus/navbar/dropdown_item.html",
-        },
-    }
+#     templates = {
+#         0: {"default": "menus/nav/wrapper.html"},
+#         1: {
+#             "parent": "menus/nav/wrapper.html",
+#             "leaf": "menus/nav/link.html",
+#         },
+#     }
 
 
-class SidebarRenderer(BaseRenderer):
-    """Renderer for sidebar/detail page menus.
+# class NavbarRenderer(BaseRenderer):
+#     """Renderer for desktop navbar navigation.
 
-    Used for plugin menus in detail views with categorized sections.
-    """
+#     Maps menu item types to their corresponding navbar templates.
+#     Supports regular links, dropdowns with headers and items.
+#     """
 
-    templates = {
-        0: {"default": "menus/sidebar/menu.html"},
-        1: {
-            "parent": "menus/sidebar/section.html",
-            "leaf": "menus/sidebar/item.html",
-        },
-        "default": {
-            "parent": "menus/sidebar/section.html",
-            "leaf": "menus/sidebar/item.html",
-        },
-    }
+#     templates = {
+#         0: {"default": "menus/navbar/menu.html"},
+#         1: {
+#             "parent": "menus/navbar/nav_dropdown.html",
+#             "leaf": "menus/navbar/nav_link.html",
+#         },
+#         "default": {
+#             "parent": "menus/navbar/nav_dropdown.html",
+#             "leaf": "menus/navbar/dropdown_item.html",
+#         },
+#     }
 
 
-class DropdownRenderer(BaseRenderer):
-    """Renderer for dropdown menus.
+# class SidebarRenderer(BaseRenderer):
+#     """Renderer for sidebar/detail page menus.
 
-    Used for dropdown-style navigation elements.
-    """
+#     Used for plugin menus in detail views with categorized sections.
+#     """
 
-    templates = {
-        0: {"default": "menus/dropdown/menu.html"},
-        1: {
-            "parent": "menus/dropdown/dropdown.html",
-            "leaf": "menus/dropdown/item.html",
-        },
-        "default": {
-            "parent": "menus/dropdown/dropdown.html",
-            "leaf": "menus/dropdown/item.html",
-        },
-    }
+#     templates = {
+#         0: {"default": "menus/sidebar/menu.html"},
+#         1: {
+#             "parent": "menus/sidebar/section.html",
+#             "leaf": "menus/sidebar/item.html",
+#         },
+#         "default": {
+#             "parent": "menus/sidebar/section.html",
+#             "leaf": "menus/sidebar/item.html",
+#         },
+#     }
+
+
+# class DropdownRenderer(BaseRenderer):
+#     """Renderer for dropdown menus.
+
+#     Used for dropdown-style navigation elements.
+#     """
+
+#     templates = {
+#         0: {"default": "menus/dropdown/menu.html"},
+#         1: {
+#             "parent": "menus/dropdown/dropdown.html",
+#             "leaf": "menus/dropdown/item.html",
+#         },
+#         "default": {
+#             "parent": "menus/dropdown/dropdown.html",
+#             "leaf": "menus/dropdown/item.html",
+#         },
+#     }

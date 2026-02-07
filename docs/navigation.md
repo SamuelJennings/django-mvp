@@ -22,14 +22,14 @@ MenuItem(
     name="dashboard",
     view_name="app:dashboard",
     extra_context={"label": "Dashboard", "icon": "house"},
-    parent=AppMenu
+
 )
 
 # Expandable dropdown menu
 MenuCollapse(
     name="products",
     extra_context={"label": "Products", "icon": "box-seam"},
-    parent=AppMenu,
+    ,
     children=[
         MenuItem(
             name="product_list",
@@ -48,7 +48,7 @@ MenuCollapse(
 MenuGroup(
     name="admin_section",
     extra_context={"label": "ADMINISTRATION"},
-    parent=AppMenu,
+    ,
     children=[
         MenuItem(
             name="users",
@@ -102,7 +102,7 @@ MenuItem(
         "label": "Dashboard",  # Required: Display text
         "icon": "house",       # Optional: Icon name
     },
-    parent=AppMenu
+
 )
 ```
 
@@ -124,7 +124,7 @@ MenuCollapse(
         "label": "Reports",
         "icon": "graph-up"
     },
-    parent=AppMenu,
+    ,
     children=[
         MenuItem(name="sales", view_name="app:sales",
                  extra_context={"label": "Sales Report"}),
@@ -150,7 +150,7 @@ Non-clickable section headers that group related items. Renders as uppercase hea
 MenuGroup(
     name="admin_tools",
     extra_context={"label": "ADMIN TOOLS"},
-    parent=AppMenu,
+    ,
     children=[
         MenuItem(name="users", view_name="app:users",
                  extra_context={"label": "Users", "icon": "people"}),
@@ -183,7 +183,7 @@ MenuItem(
         "classes": "custom-item",           # Additional <li> classes
         "link_classes": "text-danger",      # Additional <a> classes
     },
-    parent=AppMenu
+
 )
 ```
 
@@ -206,7 +206,7 @@ Create multi-level hierarchies by nesting MenuCollapse items:
 MenuCollapse(
     name="catalog",
     extra_context={"label": "Catalog", "icon": "folder"},
-    parent=AppMenu,
+    ,
     children=[
         MenuItem(name="products", view_name="app:products",
                  extra_context={"label": "Products"}),
@@ -236,9 +236,9 @@ By default, single items appear before groups:
 
 ```python
 # These will render in order: Dashboard, Profile, Admin Group
-MenuCollapse(name="admin", ..., parent=AppMenu)  # Renders last
-MenuItem(name="dashboard", ..., parent=AppMenu)   # Renders first
-MenuItem(name="profile", ..., parent=AppMenu)     # Renders second
+MenuCollapse(name="admin", ..., )  # Renders last
+MenuItem(name="dashboard", ..., )   # Renders first
+MenuItem(name="profile", ..., )     # Renders second
 ```
 
 **Rendering Order:**
@@ -257,7 +257,7 @@ MenuItem(
     name="dashboard",
     view_name="app:dashboard",  # If current URL matches, item is active
     extra_context={"label": "Dashboard"},
-    parent=AppMenu
+
 )
 ```
 
@@ -292,7 +292,7 @@ def ready(self):
         name="admin_panel",
         view_name="admin:index",
         extra_context={"label": "Admin Panel", "icon": "shield-lock"},
-        parent=AppMenu
+
     )
 ```
 
@@ -305,7 +305,7 @@ MenuItem(
     name="user_profile",
     url="/users/123/profile",  # Direct URL instead of view_name
     extra_context={"label": "My Profile", "icon": "person"},
-    parent=AppMenu
+
 )
 ```
 
@@ -322,7 +322,7 @@ MenuItem(
         "icon": "book",
         "link_classes": "external-link",  # Add custom styling
     },
-    parent=AppMenu
+
 )
 ```
 

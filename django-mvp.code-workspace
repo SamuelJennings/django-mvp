@@ -3,15 +3,15 @@
         {
             "path": "."
         },
-        {
-            "path": "../../playground/AdminLTE"
-        },
-        {
-            "path": "../django-cotton-bs5"
-        },
-        {
-            "path": "../../ai/superpowers"
-        }
+        // {
+        //     "path": "../../playground/AdminLTE"
+        // },
+        // {
+        //     "path": "../django-cotton-bs5"
+        // },
+        // {
+        //     "path": "../django-flex-menus"
+        // },
     ],
     // ========================================
     // WORKSPACE SETTINGS
@@ -39,7 +39,7 @@
         // PYTHON SETTINGS
         // =====================================
         // Python interpreter - target Python 3.13 as per pyproject.toml
-        "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+        // "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
         "python.terminal.activateEnvironment": true,
         // Python analysis and type checking
         "python.analysis.autoFormatStrings": true,
@@ -83,9 +83,8 @@
         "ruff.lineLength": 120,
         "ruff.fixAll": true,
         "ruff.organizeImports": true,
-        // Mypy type checking
-        "mypy-type-checker.args": [
-            "--config-file=${workspaceFolder}/pyproject.toml"
+        "ruff.interpreter": [
+            "${workspaceFolder}/.venv/Scripts/python.exe"
         ],
         // =====================================
         // DJANGO SETTINGS
