@@ -16,6 +16,9 @@
 */.ipynb_checkpoints/*
 .DS_Store
 .vscode
+/static/
+/media/
+
 
 # Project files
 .ropeproject

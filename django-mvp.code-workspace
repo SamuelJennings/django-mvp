@@ -26,14 +26,12 @@
         // Files to exclude from explorer and search
         "files.exclude": {
             "**/__pycache__": true,
-            "**/.pytest_cache": true,
-            "**/.mypy_cache": true,
-            "**/.ruff_cache": true,
             "**/.coverage": true,
             "**/.hypothesis": true,
-            "htmlcov": true,
-            "media/": true,
-            "static/": true
+            "**/.mypy_cache": true,
+            "**/.pytest_cache": true,
+            "**/.ruff_cache": true,
+            "htmlcov": true
         },
         // =====================================
         // PYTHON SETTINGS
