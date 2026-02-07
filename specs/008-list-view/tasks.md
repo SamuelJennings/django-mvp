@@ -82,10 +82,7 @@ description: "Implementation tasks for Dashboard List View Mixin feature"
 ### Verification for User Story 2
 
 - [X] T014 [US2] Verify MVPListViewMixin passes grid attribute to c-grid component via get_grid_config() method in mvp/views.py (FR-015)
-- [X] T015 [P] [US2] Create GridDemo1Col in example/views.py with grid = {"cols": 1}
-- [X] T016 [P] [US2] Create GridDemo2Col in example/views.py with grid = {"cols": 1, "md": 2}
 - [X] T017 [P] [US2] Create GridDemo3Col in example/views.py with grid = {"cols": 1, "md": 2, "lg": 3}
-- [X] T018 [P] [US2] Create GridDemoResponsive in example/views.py with grid = {"cols": 1, "sm": 2, "md": 3, "xl": 4, "gap": 3}
 - [X] T019 [US2] Add URL routes for all grid demo views in example/urls.py
 - [X] T020 [US2] Verify grid demos using chrome-devtools-mcp at different viewport sizes (320px, 768px, 1024px, 1920px) to confirm responsive behavior (FR-032, SC-004)
 

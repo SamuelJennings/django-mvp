@@ -46,6 +46,14 @@ try:
 except ImportError:
     pass
 
+# Add django-formset if installed (optional dev dependency for testing)
+try:
+    import formset  # noqa: F401
+
+    INSTALLED_APPS.append("formset")
+except ImportError:
+    pass
+
 SITE_ID = 1
 
 MIDDLEWARE = [

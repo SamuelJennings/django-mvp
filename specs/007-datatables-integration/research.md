@@ -270,11 +270,11 @@ from mvp.menus import AppMenu, MenuCollapse, MenuGroup
 # Single items at top level
 AppMenu.extend([...])
 
-# Groups are created with parent=AppMenu
+# Groups are created with
 group = MenuCollapse(
     name="group_name",
     extra_context={"label": "Group Label", "icon": "icon-name", "component_type": "menu.collapse"},
-    parent=AppMenu
+
 )
 
 # Items added to group
@@ -319,7 +319,7 @@ integrations_group = MenuCollapse(
         "icon": "puzzle-fill",  # Or appropriate icon
         "component_type": "menu.collapse"
     },
-    parent=AppMenu
+
 )
 
 integrations_group.extend([

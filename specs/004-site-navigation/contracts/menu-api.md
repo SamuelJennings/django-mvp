@@ -44,7 +44,7 @@ MenuItem(
     name="home",
     view_name="app:home",
     extra_context={"label": "Home", "icon": "house"},
-    parent=AppMenu
+
 )
 ```
 
@@ -56,10 +56,10 @@ from flex_menu import MenuItem
 
 MenuItem(name="dashboard", view_name="app:dashboard",
          extra_context={"label": "Dashboard", "icon": "speedometer"},
-         parent=AppMenu)
+         )
 MenuItem(name="profile", view_name="app:profile",
          extra_context={"label": "Profile", "icon": "person-circle"},
-         parent=AppMenu)
+         )
 ```
 
 #### Pattern 3: Modify Existing Item

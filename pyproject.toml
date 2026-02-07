@@ -44,6 +44,7 @@ all = ["django-tables2"]
 Django = ">=4.2,<6.0"
 django-crispy-forms = "^2.4"
 crispy-bootstrap5 = "^2025.6"
+django-formset = "^2.2"
 pytest = "^8.0.0"
 pytest-django = "^4.9.0"
 pytest-cov = "^6.0.0"
@@ -56,6 +57,8 @@ django-browser-reload = "^1.21.0"
 beautifulsoup4 = "^4.14.3"
 pytest-playwright = "^0.7.2"
 django-filter = "^25.2"
+fairdm-docs = {git = "https://github.com/FAIR-DM/fairdm-docs"}
+django-tables2 = "^2.8.0"
 
 [build-system]
 requires = ["poetry-core"]

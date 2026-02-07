@@ -8,9 +8,13 @@
          :fill="fill"
          sidebar_expand="{{ breakpoint }}">
     <c-app.header>
+      Django MVP
       <c-slot name="right">
-        <c-navbar.widgets.fullscreen />
-        <c-navbar.widgets.theme-switcher />
+        {% block navbar_widgets %}
+          <c-navbar.widgets.layout-configuration />
+          <c-navbar.widgets.fullscreen />
+          <c-navbar.widgets.theme-switcher />
+        {% endblock navbar_widgets %}
       </c-slot>
     </c-app.header>
     <c-app.sidebar />
@@ -20,58 +24,63 @@
                 :fixed_footer="page_fixed_footer"
                 :fixed_sidebar="page_fixed_sidebar"
                 sidebar_expand="md">
-          <c-page.toolbar class="container-fluid py-3">
-            <c-breadcrumbs>
-              <c-breadcrumbs.item text="Home" href="/" />
-              {% block breadcrumbs %}
-              {% endblock breadcrumbs %}
-            </c-breadcrumbs>
-            <c-slot name="end">
-              {% block toolbar_widgets %}
-              {% endblock toolbar_widgets %}
-              <c-layout-toggle toggle="sidebar-right" />
-              {% comment %} <c-page.toolbar.widget icon="sidebar" /> {% endcomment %}
-            </c-slot>
-          </c-page.toolbar>
+          {% block toolbar %}
+            <c-page.toolbar class="container-fluid py-3">
+              {% block toolbar_content %}
+                <c-breadcrumbs>
+                  <c-breadcrumbs.item text="Home" href="/" />
+                  {% block breadcrumbs %}
+                  {% endblock breadcrumbs %}
+                </c-breadcrumbs>
+                <c-slot name="end">
+                  {% block toolbar_widgets %}
+                  {% endblock toolbar_widgets %}
+                </c-slot>
+              {% endblock toolbar_content %}
+            </c-page.toolbar>
+          {% endblock toolbar %}
           <c-page.content>
             {% block content %}
             {% endblock content %}
           </c-page.content>
-          <c-demo.page.sidebar border />
-          <c-demo.page.footer />
+          {% block footer %}
+            <c-demo.page.footer />
+          {% endblock footer %}
         </c-page>
       {% endblock main %}
     </c-app.main>
-    <c-app.footer />
+    {% block app_footer %}
+      <c-app.footer />
+    {% endblock app_footer %}
   </c-app>
 {% endblock app %}
 {% block extra_js %}
   {# djlint:off #}
-  <script>
-    // Auto-submit form when configuration inputs change
-    document.addEventListener('DOMContentLoaded', function() {
-      const form = document.getElementById('configSelect');
-      if (form) {
-        // Get all checkboxes and selects in the form
-        const inputs = form.querySelectorAll('input[type="checkbox"], select');
+<script>
+  // Auto-submit form when configuration inputs change
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('configSelect');
+    if (form) {
+      // Get all checkboxes and selects in the form
+      const inputs = form.querySelectorAll('input[type="checkbox"], select');
 
-        inputs.forEach(function(input) {
-          input.addEventListener('change', function() {
-            // Add sidebar_expand parameter when breakpoint changes
-            if (input.name === 'breakpoint') {
-              const sidebarExpandInput = document.createElement('input');
-              sidebarExpandInput.type = 'hidden';
-              sidebarExpandInput.name = 'sidebar_expand';
-              sidebarExpandInput.value = input.value;
-              form.appendChild(sidebarExpandInput);
-            }
+      inputs.forEach(function(input) {
+        input.addEventListener('change', function() {
+          // Add sidebar_expand parameter when breakpoint changes
+          if (input.name === 'breakpoint') {
+            const sidebarExpandInput = document.createElement('input');
+            sidebarExpandInput.type = 'hidden';
+            sidebarExpandInput.name = 'sidebar_expand';
+            sidebarExpandInput.value = input.value;
+            form.appendChild(sidebarExpandInput);
+          }
 
-            // Submit the form automatically when any input changes
-            form.submit();
-          });
+          // Submit the form automatically when any input changes
+          form.submit();
         });
-      }
-    });
+      });
+    }
+  });
 </script>
   {# djlint:on #}
 {% endblock extra_js %}
