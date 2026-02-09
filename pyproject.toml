@@ -29,7 +29,7 @@ classifiers = [
 python = ">=3.10,<4.0"
 django = ">=4.2,<6.0"
 django-cotton = ">=2.3.1"
-django-cotton-bs5 = "^0.5.1"
+django-cotton-bs5 = "^0.6.2"
 django-flex-menus = "^0.4.1"
 django-easy-icons = ">=0.5"
 django-compressor = "^4.5.1"
@@ -40,24 +40,18 @@ django-tables2 = {version = "^2.8.0", optional = true}
 django-tables2 = ["django-tables2"]
 all = ["django-tables2"]
 
+[tool.poetry.group.test.dependencies]
+Django = ">=4.2,<6.0"
+fairdm-dev-tools = {git = "https://github.com/FAIR-DM/dev-tools", extras = ["test"]}
+
 [tool.poetry.group.dev.dependencies]
 Django = ">=4.2,<6.0"
+django-distill = "^3.0"
+django-formset = "^2.2"
+django-filter = "^25.2"
 django-crispy-forms = "^2.4"
 crispy-bootstrap5 = "^2025.6"
-django-formset = "^2.2"
-pytest = "^8.0.0"
-pytest-django = "^4.9.0"
-pytest-cov = "^6.0.0"
-shot-scraper = "^1.8"
-invoke = "^2.2.0"
-ruff = "^0.8.0"
-djlint = "^1.36.4"
-fairdm-dev-tools = {git = "https://github.com/FAIR-DM/dev-tools"}
-django-browser-reload = "^1.21.0"
-beautifulsoup4 = "^4.14.3"
-pytest-playwright = "^0.7.2"
-django-filter = "^25.2"
-fairdm-docs = {git = "https://github.com/FAIR-DM/fairdm-docs"}
+fairdm-dev-tools = {git = "https://github.com/FAIR-DM/dev-tools", extras = ["test", "dev"]}
 django-tables2 = "^2.8.0"
 
 [build-system]
