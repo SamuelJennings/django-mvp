@@ -27,7 +27,7 @@ class TestInnerToolbar:
         )
 
         # Content is rendered
-        assert '<h2>Page Title</h2>' in html
+        assert "<h2>Page Title</h2>" in html
 
     def test_toolbar_end_slot(self, render_component):
         """Test toolbar end slot renders content."""

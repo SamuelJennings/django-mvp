@@ -151,13 +151,13 @@ class TestMainComponent:
     def test_main_renders_basic_structure(self, mock_request):
         """Main index renders with app-main main element."""
         html = render_component(mock_request, "app/main")
-        assert '<main' in html and 'app-main' in html
+        assert "<main" in html and "app-main" in html
 
     def test_main_accepts_slot_content(self, mock_request):
         """Main component accepts and renders slot content."""
         # Main is just a wrapper - content comes from slot
         html = render_component(mock_request, "app/main")
-        assert '<main' in html
+        assert "<main" in html
 
 
 @pytest.mark.django_db

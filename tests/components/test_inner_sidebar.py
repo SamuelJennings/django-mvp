@@ -53,7 +53,7 @@ class TestInnerSidebar:
         html = render_component("page.sidebar")
 
         # Check for mvp-sidebar class
-        assert 'mvp-sidebar' in html
+        assert "mvp-sidebar" in html
 
     def test_sidebar_with_complex_content(self, render_component):
         """Test sidebar renders complex nested content."""

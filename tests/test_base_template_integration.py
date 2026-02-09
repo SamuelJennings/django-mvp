@@ -28,11 +28,11 @@ class TestBaseTemplateIntegration:
         html = template.render(request_context())
 
         # Verify all 5 components present (check for class presence, not exact match)
-        assert 'app-wrapper' in html
-        assert 'app-header' in html
-        assert 'app-sidebar' in html
-        assert '<main' in html and 'app-main' in html
-        assert 'app-footer' in html
+        assert "app-wrapper" in html
+        assert "app-header" in html
+        assert "app-sidebar" in html
+        assert "<main" in html and "app-main" in html
+        assert "app-footer" in html
 
         # Verify content renders
         assert "Test" in html
@@ -135,8 +135,8 @@ class TestBaseTemplateIntegration:
         assert "Welcome to Dashboard" in html
 
         # Verify structure intact
-        assert 'app-wrapper' in html
-        assert '<main' in html and 'app-main' in html
+        assert "app-wrapper" in html
+        assert "<main" in html and "app-main" in html
 
     def test_minimal_content_only_template(self, request_context):
         """Can create minimal template with only content block."""
@@ -149,7 +149,7 @@ class TestBaseTemplateIntegration:
         html = template.render(request_context())
 
         # Should still render full structure
-        assert 'app-wrapper' in html
+        assert "app-wrapper" in html
         assert "Minimal content" in html
 
     def test_sidebar_classes_applied(self, request_context):
