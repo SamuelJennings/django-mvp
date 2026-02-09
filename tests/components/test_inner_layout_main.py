@@ -15,7 +15,7 @@ class TestInnerLayoutMain:
         """Test basic inner layout renders with correct structure."""
         html = render_component("page")
 
-        assert 'class="page-layout' in html
+        assert 'class="mvp-layout' in html
         assert 'data-sidebar-breakpoint="lg"' in html  # Default breakpoint
 
     def test_fixed_header_attribute(self, render_component):

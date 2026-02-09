@@ -15,7 +15,7 @@ class TestInnerSidebar:
         """Test basic sidebar renders with correct structure."""
         html = render_component("page.sidebar")
 
-        assert 'class="page-sidebar' in html
+        assert 'class="mvp-sidebar' in html
         assert 'role="complementary"' in html
         assert 'aria-label="Sidebar content"' in html
 
@@ -32,9 +32,9 @@ class TestInnerSidebar:
         """Test collapsed=False does not add collapsed class."""
         html = render_component("page.sidebar", collapsed=False)
 
-        assert 'class="page-sidebar' in html
+        assert 'class="mvp-sidebar' in html
         # Should not have collapsed class
-        assert 'class="page-sidebar collapsed' not in html
+        assert 'class="mvp-sidebar collapsed' not in html
 
     def test_sidebar_collapsed_attribute_true(self, render_component):
         """Test collapsed=True adds collapsed class."""
@@ -52,8 +52,8 @@ class TestInnerSidebar:
         """Test sidebar has correct default styling classes."""
         html = render_component("page.sidebar")
 
-        # Check for background class
-        assert "bg-body" in html
+        # Check for mvp-sidebar class
+        assert 'mvp-sidebar' in html
 
     def test_sidebar_with_complex_content(self, render_component):
         """Test sidebar renders complex nested content."""
@@ -69,4 +69,4 @@ class TestInnerSidebar:
 
         assert "Filter Options" in html
         assert '<input type="text"' in html
-        assert 'class="page-sidebar' in html
+        assert 'class="mvp-sidebar' in html

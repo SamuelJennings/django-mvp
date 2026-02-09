@@ -41,22 +41,18 @@ class TestBaseTemplateIntegration:
         """All template blocks are accessible for customization."""
         template = Template(
             """{% extends "mvp/base.html" %}
-            {% block page_title %}Custom Title{% endblock %}
-            {% block sidebar_menu %}Custom Menu{% endblock %}
-            {% block navbar_left %}Custom Left Nav{% endblock %}
-            {% block navbar_right %}Custom Right Nav{% endblock %}
+            {% block title %}Custom Title{% endblock %}
             {% block content %}Custom Content{% endblock %}
-            {% block footer_right %}Custom Footer Right{% endblock %}"""
+            {% block extra_css %}<style>.custom {}</style>{% endblock %}
+            {% block extra_js %}<script>console.log('test');</script>{% endblock %}"""
         )
         html = template.render(request_context())
 
-        # Verify all custom block content renders
+        # Verify custom block content renders
         assert "Custom Title" in html
-        assert "Custom Menu" in html
-        assert "Custom Left Nav" in html
-        assert "Custom Right Nav" in html
         assert "Custom Content" in html
-        # Note: footer_right block not currently implemented in base.html
+        assert ".custom {}" in html
+        assert "console.log('test')" in html
 
     def test_header_block_override(self, request_context):
         """Can override entire app_header block."""

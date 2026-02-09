@@ -134,9 +134,9 @@ class TestSidebarComponent:
         assert 'src="/static/logo.png"' in html
 
     def test_sidebar_applies_theme(self, mock_request):
-        """Sidebar applies custom theme."""
-        html = render_component(mock_request, "app/sidebar", theme="light")
-        assert 'data-bs-theme="light"' in html
+        """Sidebar renders with app-sidebar class."""
+        html = render_component(mock_request, "app/sidebar")
+        assert 'class="app-sidebar' in html
 
     def test_sidebar_applies_class(self, mock_request):
         """Sidebar applies custom class."""

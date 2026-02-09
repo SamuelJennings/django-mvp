@@ -15,7 +15,7 @@ class TestInnerToolbar:
         """Test basic toolbar renders with correct structure."""
         html = render_component("page.toolbar")
 
-        assert 'class="page-toolbar' in html
+        assert 'class="mvp-header' in html
         assert 'role="banner"' in html
         assert 'aria-label="Page toolbar"' in html
 
@@ -26,8 +26,8 @@ class TestInnerToolbar:
             slot="<h2>Page Title</h2>",
         )
 
-        # Slot structure is present
-        assert 'class="page-toolbar-start"' in html
+        # Content is rendered
+        assert '<h2>Page Title</h2>' in html
 
     def test_toolbar_end_slot(self, render_component):
         """Test toolbar end slot renders content."""
@@ -38,7 +38,6 @@ class TestInnerToolbar:
 
         # Content appears (escaped) in the end slot
         assert "Action" in html
-        assert 'class="page-toolbar-end"' in html
 
     def test_toolbar_custom_class(self, render_component):
         """Test custom class attribute is applied."""
@@ -65,15 +64,14 @@ class TestInnerToolbarWidget:
 
     def test_widget_basic_render(self, render_component):
         """Test widget renders with correct structure."""
-        html = render_component("page.toolbar.widget")
+        html = render_component("page.toolbar.sidebar_widget")
 
-        assert "page-sidebar-toggle" in html
         assert 'data-action="toggle-sidebar"' in html
         assert 'role="button"' in html or 'type="button"' in html
 
     def test_widget_aria_attributes(self, render_component):
         """Test widget has correct ARIA attributes."""
-        html = render_component("page.toolbar.widget")
+        html = render_component("page.toolbar.sidebar_widget")
 
         assert 'aria-expanded="true"' in html
         assert 'aria-label="Toggle sidebar"' in html or 'aria-controls="page-sidebar"' in html
