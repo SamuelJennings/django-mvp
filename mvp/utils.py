@@ -45,4 +45,5 @@ BS5_ICONS = {
     "dash": "bi bi-dash-lg",
     "maximize": "bi bi-arrows-fullscreen",
     "minimize": "bi bi-arrows-angle-contract",
+    "dropdown_check": "bi bi-check-circle-fill",
 }
