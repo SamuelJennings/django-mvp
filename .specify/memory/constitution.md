@@ -35,7 +35,7 @@ All behavior changes MUST follow a design-verify-test workflow to ensure alignme
 
 - All new or changed Python behavior MUST have pytest coverage
 - Django integration behavior MUST have pytest-django coverage
-- Cotton component tests MUST use `django_cotton.render_component()` with pytest-django's `rf` fixture (NOT Template() or render_to_string)
+- Cotton component tests MUST use `django_cotton.cotton_render()` with pytest-django's `rf` fixture (NOT Template() or render_to_string)
 - User-visible/UI behavior MUST have pytest-playwright coverage when the change affects rendered output, interactions, or accessibility
 - Pull requests MUST NOT be merged with failing tests, or without new/updated tests for behavior changes
 - The only acceptable exception is a docs-only change (no runtime behavior impact)

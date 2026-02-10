@@ -35,7 +35,7 @@ All Cotton components MUST be tested using the following pattern:
 
 ```python
 import pytest
-from django_cotton import render_component
+from django_cotton import cotton_render
 
 
 @pytest.fixture
@@ -47,7 +47,7 @@ def mock_request(rf):
 def test_my_component(mock_request):
     """Test component rendering."""
     # Use slash notation for component paths
-    html = render_component(mock_request, "app/my-component", {
+    html = cotton_render(mock_request, "app/my-component", {
         "my_var": "value",
     })
 
@@ -56,7 +56,7 @@ def test_my_component(mock_request):
 
 **Important:**
 
-- Use `django_cotton.render_component()` - NOT `Template()` or `render_to_string()`
+- Use `django_cotton.cotton_render()` - NOT `Template()` or `render_to_string()`
 - Use pytest-django's `rf` fixture - NOT `RequestFactory()` directly
 - Use **slash notation** for component paths: `"app/wrapper"` not `"app.wrapper"`
 - Test with c-vars, slots, and edge cases (missing optional vars, etc.)

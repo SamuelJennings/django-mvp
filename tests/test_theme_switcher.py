@@ -12,9 +12,9 @@ import pytest
 class TestThemeSwitcherComponent:
     """Test suite for theme switcher component rendering."""
 
-    def test_theme_switcher_renders_with_light_dark_auto_options(self, render_component_soup):
+    def test_theme_switcher_renders_with_light_dark_auto_options(self, cotton_render_soup):
         """Test theme switcher component renders with Light/Dark/Auto options (T036)."""
-        soup = render_component_soup("navbar.widgets.theme-switcher")
+        soup = cotton_render_soup("navbar.widgets.theme-switcher")
 
         # Should have dropdown menu
         dropdown = soup.find("div", class_="dropdown-menu")
@@ -26,9 +26,9 @@ class TestThemeSwitcherComponent:
         assert "Dark" in dropdown_text, "Should have Dark theme option"
         assert "Auto" in dropdown_text, "Should have Auto theme option"
 
-    def test_theme_switcher_uses_theme_light_icon_alias(self, render_component_soup):
+    def test_theme_switcher_uses_theme_light_icon_alias(self, cotton_render_soup):
         """Test theme switcher uses theme_light icon alias (T037)."""
-        soup = render_component_soup("navbar.widgets.theme-switcher")
+        soup = cotton_render_soup("navbar.widgets.theme-switcher")
 
         # Should have icon rendered by c-icon component
         icon = soup.find("i")
@@ -38,9 +38,9 @@ class TestThemeSwitcherComponent:
         icon_classes = icon.get("class", [])
         assert "bi" in icon_classes, "Icon should have Bootstrap Icon classes"
 
-    def test_theme_switcher_extends_base_widget_correctly(self, render_component_soup):
+    def test_theme_switcher_extends_base_widget_correctly(self, cotton_render_soup):
         """Test theme switcher extends base widget correctly (T038)."""
-        soup = render_component_soup("navbar.widgets.theme-switcher")
+        soup = cotton_render_soup("navbar.widgets.theme-switcher")
 
         # Should have nav-item dropdown structure from base widget
         nav_item = soup.find("li", class_="nav-item")
@@ -52,9 +52,9 @@ class TestThemeSwitcherComponent:
         assert nav_link is not None, "Should have nav-link from base widget"
         assert nav_link.get("data-bs-toggle") == "dropdown", "Should have dropdown toggle"
 
-    def test_active_theme_indicator_displays_in_dropdown(self, render_component_soup):
+    def test_active_theme_indicator_displays_in_dropdown(self, cotton_render_soup):
         """Test theme switcher has check icons (hidden by default, shown by JS) (T039)."""
-        soup = render_component_soup("navbar.widgets.theme-switcher")
+        soup = cotton_render_soup("navbar.widgets.theme-switcher")
 
         # All theme options should have check icons
         for theme_name in ["Light", "Dark", "Auto"]:
@@ -75,9 +75,9 @@ class TestThemeSwitcherComponent:
             classes = item.get("class", [])
             assert "active" not in classes, "Should not have active class by default (JS adds it)"
 
-    def test_theme_switcher_dropdown_has_data_attributes_for_js(self, render_component_soup):
+    def test_theme_switcher_dropdown_has_data_attributes_for_js(self, cotton_render_soup):
         """Test theme switcher dropdown has correct data attributes for JS (T040)."""
-        soup = render_component_soup("navbar.widgets.theme-switcher")
+        soup = cotton_render_soup("navbar.widgets.theme-switcher")
 
         # Widget should have data attribute for JS targeting
         nav_item = soup.find("li", class_="nav-item")

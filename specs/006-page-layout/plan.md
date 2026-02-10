@@ -14,7 +14,7 @@ This feature introduces an inner layout system for the Django MVP package, provi
 **Language/Version**: Python 3.10+, Django 4.2-5.x
 **Primary Dependencies**: Django (>=4.2,<6.0), django-cotton (>=2.3.1), django-cotton-bs5 (^0.5.1), Bootstrap 5.3
 **Storage**: N/A (UI components only, no data persistence)
-**Testing**: pytest, pytest-django (Cotton component tests with render_component), pytest-playwright (E2E UI tests)
+**Testing**: pytest, pytest-django (Cotton component tests with cotton_render), pytest-playwright (E2E UI tests)
 **Target Platform**: Web browsers (responsive from 320px mobile to 4K displays)
 **Project Type**: Web application (Django reusable app providing Cotton components)
 **Performance Goals**: Initial render <100ms for typical layouts, CSS Grid layout updates <16ms (60fps), no layout shift (CLS < 0.1)
@@ -29,7 +29,7 @@ This feature introduces an inner layout system for the Django MVP package, provi
 
 - ✅ Design-first approach is feasible and planned (implementation before test writing) - will implement Cotton components first, verify visually, then write tests
 - ✅ Visual verification approach is planned (chrome-devtools-mcp for UI validation) - will verify CSS Grid layout, sticky positioning, and responsive behavior
-- ✅ Test types are identified (pytest, pytest-django, pytest-playwright as needed) for post-implementation - Cotton component tests with render_component() + E2E tests for layout interactions
+- ✅ Test types are identified (pytest, pytest-django, pytest-playwright as needed) for post-implementation - Cotton component tests with cotton_render() + E2E tests for layout interactions
 - ✅ Documentation updates are included for any public behavior change - will document all Cotton components and their attributes
 - ✅ Quality gates are understood (tests + lint + format) - poetry run pytest, ruff check/format
 - ✅ Documentation retrieval is planned (context7 for up-to-date library docs) - will fetch django-cotton, Bootstrap 5.3, and CSS Grid best practices
@@ -42,7 +42,7 @@ This feature introduces an inner layout system for the Django MVP package, provi
 - ✅ **Design-first workflow**: Design complete via research.md, data-model.md, contracts/, and quickstart.md. Ready for implementation → visual verification → testing
 - ✅ **Visual verification planned**: Will use chrome-devtools-mcp to verify CSS Grid rendering, sticky positioning behavior, responsive breakpoints, and sidebar toggle functionality
 - ✅ **Test strategy defined**:
-  - Unit tests: `tests/components/test_page_layout.py` using `django_cotton.render_component()`
+  - Unit tests: `tests/components/test_page_layout.py` using `django_cotton.cotton_render()`
   - Integration tests: `tests/integration/test_page_layout_integration.py` for outer layout compatibility
   - E2E tests: `tests/e2e/test_page_layout_e2e.py` using pytest-playwright for browser interactions
 - ✅ **Documentation complete**:
@@ -200,7 +200,7 @@ docs/
 
 1. **Unit tests**
    - Create `tests/components/test_page_layout.py`
-   - Test component rendering with django_cotton.render_component()
+   - Test component rendering with django_cotton.cotton_render()
    - Test all attribute combinations
    - Test slot rendering
 

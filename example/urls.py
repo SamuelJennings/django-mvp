@@ -27,7 +27,6 @@ urlpatterns = [
     path("list-view/basic/", BasicListViewDemo.as_view(), name="basic_list_demo"),
     path("list-view/grid/1col/", MinimalListViewDemo.as_view(grid={"cols": 1}), name="grid_demo_1col"),
     # Form View Demos
-    path("form-view/", views.FormViewDemo.as_view(), name="form_view_demo"),
     path("contact/", ContactFormView.as_view(), name="contact_form"),
     path("contact/success/", MVPDemoView.as_view(template_name="example/contact_success.html"), name="contact_success"),
     path("explicit-renderer/", ExplicitRendererDemo.as_view(), name="explicit_renderer_demo"),

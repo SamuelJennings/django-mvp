@@ -94,7 +94,7 @@
 
 **Simple Testing Approach**:
 
-- **Component Tests**: Render Cotton component with different attributes using `django_cotton.render_component()`
+- **Component Tests**: Render Cotton component with different attributes using `django_cotton.cotton_render()`
 - **Visual Tests**: pytest-playwright to verify layout behavior in browser
 - **No infrastructure tests needed**: No context processors or template tags to test
 - **Global Variables**: Thread safety concerns (TECHNICAL ISSUES)
@@ -196,18 +196,18 @@ sidebar-expand-{{ sidebar_expand }}
 
 ### 4. Testing Approach
 
-**Test Framework**: pytest-django with `django_cotton.render_component()`
+**Test Framework**: pytest-django with `django_cotton.cotton_render()`
 
 **Example test structure** (from existing tests):
 
 ```python
-from django_cotton import render_component
+from django_cotton import cotton_render
 from django.template import RequestContext
 from pytest_django.fixtures import rf
 
 def test_fixed_sidebar_renders_layout_fixed_class(rf):
     """Test that fixed_sidebar attribute adds .layout-fixed to body element."""
-    html = render_component(
+    html = cotton_render(
         "app",
         context=RequestContext(rf.get("/"), {"fixed_sidebar": True})
     )
@@ -265,7 +265,7 @@ def test_fixed_sidebar_renders_layout_fixed_class(rf):
 
 ### Decision 3: Testing Strategy
 
-**Chosen**: pytest-django unit tests with `render_component()`
+**Chosen**: pytest-django unit tests with `cotton_render()`
 
 **Rationale**:
 

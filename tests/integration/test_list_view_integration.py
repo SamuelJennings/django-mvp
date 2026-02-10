@@ -57,7 +57,7 @@ class TestPaginationFooter:
         factory = RequestFactory()
         request = factory.get("/")
 
-        html = render_component(
+        html = cotton_render(
             request,
             "page.footer.pagination",
             page_obj=page_obj,
@@ -82,7 +82,7 @@ class TestPaginationFooter:
         factory = RequestFactory()
         request = factory.get("/")
 
-        html = render_component(
+        html = cotton_render(
             request,
             "page.footer.pagination",
             page_obj=page_obj,
@@ -102,7 +102,7 @@ class TestPaginationFooter:
         factory = RequestFactory()
         request = factory.get("/")
 
-        html = render_component(
+        html = cotton_render(
             request,
             "page.footer.pagination",
             page_obj=page_obj,
@@ -122,7 +122,7 @@ class TestPaginationFooter:
         factory = RequestFactory()
         request = factory.get("/")
 
-        html = render_component(
+        html = cotton_render(
             request,
             "page.footer.pagination",
             page_obj=page_obj,

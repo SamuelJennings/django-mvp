@@ -43,7 +43,7 @@
 
 ### Tests for US1 (Write First - Test-Driven Development)
 
-- [x] T006 [P] [US1] Create test file `tests/test_app_layout.py` with Cotton component test setup using `django_cotton.render_component()`
+- [x] T006 [P] [US1] Create test file `tests/test_app_layout.py` with Cotton component test setup using `django_cotton.cotton_render()`
 - [x] T007 [P] [US1] Write failing test: fixed_sidebar attribute renders `layout-fixed` class on body in `tests/test_app_layout.py`
 - [x] T008 [P] [US1] Write failing test: fixed_header attribute renders `fixed-header` class on body in `tests/test_app_layout.py`
 - [x] T009 [P] [US1] Write failing test: fixed_footer attribute renders `fixed-footer` class on body in `tests/test_app_layout.py`

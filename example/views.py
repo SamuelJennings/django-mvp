@@ -9,7 +9,6 @@ View uses query parameters for stateless, shareable URL-based configuration.
 """
 
 from django.views.generic import ListView, TemplateView
-from django.views.generic.edit import CreateView
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 
@@ -280,29 +279,6 @@ class DataTablesView(LayoutConfigMixin, SingleTableView):
     table_class = ProductTable
     template_name = "example/datatables_demo.html"
     paginate_by = 25
-
-
-class FormViewDemo(LayoutConfigMixin, CreateView):
-    """
-    Demo page showing a complex form with various input types.
-
-    User Story 3: Viewing Form Demo Page
-
-    Features:
-        - Various form input types (text, email, password, select, checkboxes, radio buttons)
-        - Bootstrap 5 responsive styling
-        - Layout configuration via query parameters
-
-    Template: example/form_demo.html
-    URL Pattern: /form-demo/
-    """
-
-    model = Product
-    fields = ["name", "description", "price"]
-    template_name = "mvp/form_view.html"
-    extra_context = {
-        "page_title": "Form View Demo",
-    }
 
 
 class ContactFormView(MVPFormView):

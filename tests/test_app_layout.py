@@ -14,7 +14,7 @@ This test file validates the corrected architecture where:
 """
 
 import pytest
-from django_cotton import render_component
+from django_cotton import cotton_render
 
 
 @pytest.mark.django_db
@@ -39,7 +39,7 @@ class TestBodyTagArchitecture:
         Current (BROKEN): <div class="app-wrapper sidebar-expand-lg">
         """
         mock_request = rf.get("/")
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
         )
@@ -70,7 +70,7 @@ class TestBodyTagArchitecture:
         If classes are on div instead of body, sidebar positioning breaks.
         """
         mock_request = rf.get("/")
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             fixed_sidebar=True,
@@ -99,7 +99,7 @@ class TestBodyTagArchitecture:
         AdminLTE CSS selector: body.fixed-header .app-header
         """
         mock_request = rf.get("/")
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             fixed_header=True,
@@ -117,7 +117,7 @@ class TestBodyTagArchitecture:
         AdminLTE CSS selector: body.fixed-footer .app-footer
         """
         mock_request = rf.get("/")
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             fixed_footer=True,
@@ -135,7 +135,7 @@ class TestBodyTagArchitecture:
         AdminLTE CSS selector: body.sidebar-expand-lg .app-sidebar
         """
         mock_request = rf.get("/")
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             sidebar_expand="md",
@@ -164,7 +164,7 @@ class TestLayoutCombinations:
         Should produce: body.layout-fixed.fixed-header for combined positioning.
         """
         mock_request = rf.get("/")
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             fixed_sidebar=True,
@@ -192,7 +192,7 @@ class TestLayoutCombinations:
         Should produce: body.fixed-header.fixed-footer for top/bottom positioning.
         """
         mock_request = rf.get("/")
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             fixed_header=True,
@@ -211,7 +211,7 @@ class TestLayoutCombinations:
         Should produce: body.layout-fixed.fixed-header.fixed-footer for complete fixed layout.
         """
         mock_request = rf.get("/")
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             fixed_sidebar=True,
@@ -241,7 +241,7 @@ class TestLayoutCombinations:
         Should preserve sidebar_expand while adding fixed classes.
         """
         mock_request = rf.get("/")
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             fixed_sidebar=True,
@@ -269,7 +269,7 @@ class TestLayoutCombinations:
         Should combine sidebar-mini with layout-fixed and other fixed classes.
         """
         mock_request = rf.get("/")
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             fixed_sidebar=True,
@@ -291,7 +291,7 @@ class TestLayoutCombinations:
         Should combine sidebar-mini sidebar-collapse with fixed classes.
         """
         mock_request = rf.get("/")
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             fixed_sidebar=True,
@@ -314,7 +314,7 @@ class TestLayoutCombinations:
         Should handle all layout attributes together without conflicts.
         """
         mock_request = rf.get("/")
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             fixed_sidebar=True,
@@ -366,7 +366,7 @@ class TestEdgeCases:
         doesn't interfere with the layout classes that are automatically applied.
         """
         mock_request = rf.get("/")
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             fixed_sidebar=True,
@@ -399,7 +399,7 @@ class TestEdgeCases:
         mock_request = rf.get("/")
 
         for breakpoint in valid_breakpoints:
-            html = render_component(
+            html = cotton_render(
                 mock_request,
                 "app",
                 sidebar_expand=breakpoint,
@@ -425,7 +425,7 @@ class TestEdgeCases:
         mock_request = rf.get("/")
 
         # Test invalid sidebar_expand values are passed through
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             sidebar_expand="invalid_breakpoint",
@@ -436,7 +436,7 @@ class TestEdgeCases:
         assert "sidebar-expand-lg" not in html, "Should not fallback to default when explicit value provided"
 
         # Test invalid boolean-like values for fixed attributes
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             fixed_sidebar="invalid_boolean",
@@ -449,7 +449,7 @@ class TestEdgeCases:
         assert "<body" in html, "Component should still render body tag with invalid boolean values"
 
         # Test empty string values
-        html = render_component(
+        html = cotton_render(
             mock_request,
             "app",
             sidebar_expand="",

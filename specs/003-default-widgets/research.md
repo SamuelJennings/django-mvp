@@ -140,7 +140,7 @@
 
 ### 7. Component Testing Strategy
 
-**Decision**: Use `django_cotton.render_component()` with pytest-django fixtures
+**Decision**: Use `django_cotton.cotton_render()` with pytest-django fixtures
 **Rationale**:
 
 - Tests actual Cotton component resolution
@@ -152,7 +152,7 @@
 
 ```python
 def test_info_box_basic(rf):
-    result = render_component(
+    result = cotton_render(
         rf.get("/"),
         "info-box",
         icon="gear-fill",

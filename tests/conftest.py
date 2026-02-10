@@ -5,87 +5,10 @@ This module provides reusable fixtures for testing layout components.
 """
 
 import pytest
-from bs4 import BeautifulSoup
 from django.test import RequestFactory
-from django_cotton import render_component as cotton_render_component
 
-
-@pytest.fixture
-def render_component():
-    """
-    Fixture that renders Django-Cotton components and returns raw HTML.
-
-    Automatically provides a request object to be DRY. Component variables
-    are passed as kwargs.
-
-    Usage:
-        def test_something(render_component):
-            html = render_component(
-                'adminlte.small-box',
-                title="Users",
-                value=150,
-                icon="users"
-            )
-            assert 'Users' in html
-    """
-    factory = RequestFactory()
-
-    def _render(component_name, context=None, **kwargs):
-        """
-        Render a Cotton component with automatic request injection.
-
-        Args:
-            component_name: Component name in dotted notation (e.g., "adminlte.small-box")
-            context: Optional context dict to pass as component attributes
-            **kwargs: Component attributes (alternative to context dict)
-
-        Returns:
-            Rendered HTML string
-        """
-        request = factory.get("/")
-        return cotton_render_component(request, component_name, context, **kwargs)
-
-    return _render
-
-
-@pytest.fixture
-def render_component_soup():
-    """
-    Fixture that renders Django-Cotton components and returns BeautifulSoup parsed HTML.
-
-    Automatically provides a request object and parses the result for easy testing.
-    Component variables are passed as kwargs.
-
-    Usage:
-        def test_something(render_component_soup):
-            soup = render_component_soup(
-                'adminlte.small-box',
-                title="Users",
-                value=150,
-                icon="users"
-            )
-            assert soup.find('h3').text == '150'
-            assert soup.find('p').text == 'Users'
-    """
-    factory = RequestFactory()
-
-    def _render(component_name, context=None, **kwargs):
-        """
-        Render a Cotton component with automatic request injection and parse with BeautifulSoup.
-
-        Args:
-            component_name: Component name in dotted notation (e.g., "adminlte.small-box")
-            context: Optional context dict to pass as component attributes
-            **kwargs: Component attributes (alternative to context dict)
-
-        Returns:
-            BeautifulSoup parsed HTML object
-        """
-        request = factory.get("/")
-        html = cotton_render_component(request, component_name, context, **kwargs)
-        return BeautifulSoup(html, "html.parser")
-
-    return _render
+# Cotton rendering fixtures (cotton_render, cotton_render_soup, etc.) are automatically
+# available via the cotton_bs5 pytest plugin - no need to import them here
 
 
 @pytest.fixture

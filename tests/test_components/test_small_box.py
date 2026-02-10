@@ -8,9 +8,9 @@ import pytest
 
 
 @pytest.mark.django_db
-def test_basic_small_box_rendering(render_component_soup):
+def test_basic_small_box_rendering(cotton_render_soup):
     """Test basic small box rendering with required attributes."""
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "small-box",
         heading="150",
         text="New Orders",
@@ -47,9 +47,9 @@ def test_basic_small_box_rendering(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_small_box_with_bg_attribute(render_component_soup):
+def test_small_box_with_bg_attribute(cotton_render_soup):
     """Test small box with background color attribute."""
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "small-box",
         heading="53%",
         text="Bounce Rate",
@@ -66,9 +66,9 @@ def test_small_box_with_bg_attribute(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_small_box_with_footer_link_default_text(render_component_soup):
+def test_small_box_with_footer_link_default_text(cotton_render_soup):
     """Test small box with footer link using default text."""
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "small-box",
         heading="150",
         text="New Orders",
@@ -91,9 +91,9 @@ def test_small_box_with_footer_link_default_text(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_small_box_with_custom_link_text(render_component_soup):
+def test_small_box_with_custom_link_text(cotton_render_soup):
     """Test small box with custom footer link text."""
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "small-box",
         heading="44",
         text="User Registrations",
@@ -116,9 +116,9 @@ def test_small_box_with_custom_link_text(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_small_box_without_footer_link(render_component_soup):
+def test_small_box_without_footer_link(cotton_render_soup):
     """Test small box without footer link."""
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "small-box",
         heading="65",
         text="Unique Visitors",
@@ -135,9 +135,9 @@ def test_small_box_without_footer_link(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_small_box_with_custom_classes(render_component_soup):
+def test_small_box_with_custom_classes(cotton_render_soup):
     """Test small box with custom CSS classes."""
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "small-box",
         heading="150",
         text="New Orders",
@@ -156,9 +156,9 @@ def test_small_box_with_custom_classes(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_small_box_icon_aria_hidden(render_component_soup):
+def test_small_box_icon_aria_hidden(cotton_render_soup):
     """Test that icon has aria-hidden attribute for accessibility."""
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "small-box",
         heading="150",
         text="New Orders",
@@ -176,10 +176,10 @@ def test_small_box_icon_aria_hidden(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_small_box_bootstrap_shadow_utilities(render_component_soup):
+def test_small_box_bootstrap_shadow_utilities(cotton_render_soup):
     """Test small box with Bootstrap 5 shadow utility classes (T065)."""
     # Test shadow-sm
-    soup_sm = render_component_soup(
+    soup_sm = cotton_render_soup(
         "small-box",
         heading="100",
         text="Shadow Small",
@@ -190,7 +190,7 @@ def test_small_box_bootstrap_shadow_utilities(render_component_soup):
     assert "shadow-sm" in small_box_sm.get("class"), "shadow-sm utility should be applied"
 
     # Test shadow
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "small-box",
         heading="200",
         text="Shadow",
@@ -201,7 +201,7 @@ def test_small_box_bootstrap_shadow_utilities(render_component_soup):
     assert "shadow" in small_box.get("class"), "shadow utility should be applied"
 
     # Test shadow-lg
-    soup_lg = render_component_soup(
+    soup_lg = cotton_render_soup(
         "small-box",
         heading="300",
         text="Shadow Large",
@@ -213,12 +213,12 @@ def test_small_box_bootstrap_shadow_utilities(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_small_box_all_variant_colors(render_component_soup):
+def test_small_box_all_variant_colors(cotton_render_soup):
     """Test small box with all Bootstrap variant colors (T068)."""
     variants = ["primary", "success", "warning", "danger", "info", "secondary"]
 
     for variant in variants:
-        soup = render_component_soup(
+        soup = cotton_render_soup(
             "small-box",
             heading="100",
             text=f"Test {variant}",

@@ -91,8 +91,8 @@
 ### Tests for User Story 1 (AFTER design verification)
 
 - [ ] T029 [P] [US1] Create unit test file tests/components/test_page_layout_basic.py
-- [ ] T030 [P] [US1] Test toolbar slot rendering in test_page_layout_basic.py using render_component()
-- [ ] T031 [P] [US1] Test footer slot rendering in test_page_layout_basic.py using render_component()
+- [ ] T030 [P] [US1] Test toolbar slot rendering in test_page_layout_basic.py using cotton_render()
+- [ ] T031 [P] [US1] Test footer slot rendering in test_page_layout_basic.py using cotton_render()
 - [ ] T032 [P] [US1] Test toolbar_fixed attribute applies correct CSS class in test_page_layout_basic.py
 - [ ] T033 [P] [US1] Test footer_fixed attribute applies correct CSS class in test_page_layout_basic.py
 - [ ] T034 [P] [US1] Test main content area renders with default slot in test_page_layout_basic.py
@@ -162,7 +162,7 @@
 ### Tests for User Story 2 (AFTER design verification)
 
 - [x] T065 [P] [US2] Create unit test file tests/components/test_page_layout_sidebar.py
-- [x] T066 [P] [US2] Test sidebar slot rendering in test_page_layout_sidebar.py using render_component()
+- [x] T066 [P] [US2] Test sidebar slot rendering in test_page_layout_sidebar.py using cotton_render()
 - [x] T067 [P] [US2] Test collapsed attribute applies correct CSS class in test_page_layout_sidebar.py
 - [x] T068 [P] [US2] Test sidebar_fixed attribute applies correct CSS class in test_page_layout_sidebar.py
 - [x] T069 [P] [US2] Test sidebar_toggleable renders toggle button in test_page_layout_sidebar.py

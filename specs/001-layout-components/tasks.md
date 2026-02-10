@@ -38,7 +38,7 @@
 
 **Goal**: Split AdminLTE layout into 5 separate Cotton components enabling independent customization
 
-**Independent Test Criteria**: Each component can be rendered independently with render_component() and produces correct HTML structure with appropriate CSS classes.
+**Independent Test Criteria**: Each component can be rendered independently with cotton_render() and produces correct HTML structure with appropriate CSS classes.
 
 ### Tests
 
@@ -229,12 +229,12 @@ These tasks can be executed in parallel:
 **Component Testing Pattern**:
 
 ```python
-# Use django-cotton's render_component helper
-from django_cotton import render_component
+# Use django-cotton's cotton_render helper
+from django_cotton import cotton_render
 
 def test_component_renders(rf):
     request = rf.get("/")
-    html = render_component(request, "app/footer", text="© 2026")
+    html = cotton_render(request, "app/footer", text="© 2026")
     assert "© 2026" in html
     assert 'class="app-footer' in html
 ```

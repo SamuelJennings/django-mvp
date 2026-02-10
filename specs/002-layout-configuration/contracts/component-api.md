@@ -356,26 +356,26 @@ All modern browsers support the CSS used by AdminLTE 4.
 Test that attributes correctly generate CSS classes:
 
 ```python
-from django_cotton import render_component
+from django_cotton import cotton_render
 from django.template import RequestContext
 import pytest
 
 def test_fixed_sidebar_adds_layout_fixed_class(rf):
-    html = render_component(
+    html = cotton_render(
         "app",
         context=RequestContext(rf.get("/"), {"fixed_sidebar": True})
     )
     assert 'class="bg-body-tertiary layout-fixed' in html
 
 def test_fixed_header_adds_fixed_header_class(rf):
-    html = render_component(
+    html = cotton_render(
         "app",
         context=RequestContext(rf.get("/"), {"fixed_header": True})
     )
     assert 'fixed-header' in html
 
 def test_all_fixed_attributes_combine(rf):
-    html = render_component(
+    html = cotton_render(
         "app",
         context=RequestContext(rf.get("/"), {
             "fixed_sidebar": True,
@@ -388,14 +388,14 @@ def test_all_fixed_attributes_combine(rf):
     assert 'fixed-footer' in html
 
 def test_sidebar_expand_breakpoint(rf):
-    html = render_component(
+    html = cotton_render(
         "app",
         context=RequestContext(rf.get("/"), {"sidebar_expand": "md"})
     )
     assert 'sidebar-expand-md' in html
 
 def test_default_sidebar_expand_is_lg(rf):
-    html = render_component(
+    html = cotton_render(
         "app",
         context=RequestContext(rf.get("/"), {})
     )

@@ -8,11 +8,11 @@ import pytest
 
 
 @pytest.fixture
-def render_fullscreen_widget(render_component_soup):
+def render_fullscreen_widget(cotton_render_soup):
     """Helper to render fullscreen widget and return BeautifulSoup object."""
 
     def _render(**context):
-        return render_component_soup("navbar/widgets/fullscreen", **context)
+        return cotton_render_soup("navbar/widgets/fullscreen", **context)
 
     return _render
 
@@ -90,13 +90,13 @@ class TestFullscreenWidgetComponent:
         assert len(aria_label) > 0, "aria-label should not be empty"
         assert "fullscreen" in aria_label.lower(), "aria-label should mention fullscreen"
 
-    def test_fullscreen_widget_conditional_rendering(self, render_component_soup):
+    def test_fullscreen_widget_conditional_rendering(self, cotton_render_soup):
         """T080: Test widget always renders (JS handles hiding if API not supported)."""
         # The fullscreen widget always renders in the template
         # JavaScript handles hiding it if the Fullscreen API is not supported
 
         # Test rendering
-        soup = render_component_soup("navbar/widgets/fullscreen")
+        soup = cotton_render_soup("navbar/widgets/fullscreen")
         nav_item = soup.find("li", class_="nav-item")
         assert nav_item is not None, "Widget should always render"
 

@@ -37,7 +37,7 @@ Split the AdminLTE layout into 5 separate Cotton components (app, header, sideba
 
 ✅ **Test types are identified**
 
-- pytest-django for Cotton component rendering tests using `render_component()`
+- pytest-django for Cotton component rendering tests using `cotton_render()`
 - Integration tests for base.html template composition
 - Unit tests for component structure validation
 - No pytest-playwright needed (layout is pure CSS, not JS interactions)

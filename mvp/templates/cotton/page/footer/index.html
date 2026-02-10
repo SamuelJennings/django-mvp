@@ -2,9 +2,9 @@
 (str): Additional CSS classes Slots: - default: Main footer content (left side)
 - end: Right-aligned footer content {% endcomment %}
 <c-vars class compact />
-<footer class="mvp-footer bg-body container-fluid{% if compact %} compact{% endif %} {{ class }}"
+<footer class="mvp-footer d-flex bg-body py-2 {% if compact %}compact{% endif %} {{ class }}"
         role="contentinfo"
         aria-label="Page footer">
   <div class="page-footer-start">{{ slot }}</div>
-  {% if end %}<div class="page-footer-end">{{ end }}</div>{% endif %}
+  {% if end %}<div class="page-footer-end ms-auto">{{ end }}</div>{% endif %}
 </footer>

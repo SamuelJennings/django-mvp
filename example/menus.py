@@ -100,14 +100,6 @@ AppMenu.extend(
             },
             children=[
                 MenuItem(
-                    name="form_view_demo",
-                    view_name="form_view_demo",
-                    extra_context={
-                        "label": "MVP Form View",
-                        "icon": "form",
-                    },
-                ),
-                MenuItem(
                     name="contact_form",
                     view_name="contact_form",
                     extra_context={

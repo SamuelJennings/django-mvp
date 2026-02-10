@@ -8,9 +8,9 @@ import pytest
 
 
 @pytest.mark.django_db
-def test_basic_info_box_rendering(render_component_soup):
+def test_basic_info_box_rendering(cotton_render_soup):
     """Test basic info box rendering with required attributes."""
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "info-box",
         icon="settings",
         text="CPU Traffic",
@@ -49,9 +49,9 @@ def test_basic_info_box_rendering(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_info_box_with_variant_attribute(render_component_soup):
+def test_info_box_with_variant_attribute(cotton_render_soup):
     """Test info box with variant color attribute (default fill='icon' mode)."""
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "info-box",
         icon="box-seam",
         text="Sales",
@@ -74,9 +74,9 @@ def test_info_box_with_variant_attribute(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_info_box_with_progress_bar(render_component_soup):
+def test_info_box_with_progress_bar(cotton_render_soup):
     """Test info box with progress bar (now using c-progress component)."""
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "info-box",
         icon="add",
         text="Downloads",
@@ -114,9 +114,9 @@ def test_info_box_with_progress_bar(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_info_box_with_box_fill_mode(render_component_soup):
+def test_info_box_with_box_fill_mode(cotton_render_soup):
     """Test info box with fill='box' mode (entire box colored)."""
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "info-box",
         icon="book",
         text="Bookmarks",
@@ -141,9 +141,9 @@ def test_info_box_with_box_fill_mode(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_info_box_with_custom_classes(render_component_soup):
+def test_info_box_with_custom_classes(cotton_render_soup):
     """Test info box with custom CSS classes."""
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "info-box",
         icon="settings",
         text="CPU Traffic",
@@ -161,9 +161,9 @@ def test_info_box_with_custom_classes(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_info_box_progress_bar_aria_attributes(render_component_soup):
+def test_info_box_progress_bar_aria_attributes(cotton_render_soup):
     """Test ARIA attributes on progress bar for accessibility."""
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "info-box",
         icon="add",
         text="Downloads",
@@ -185,10 +185,10 @@ def test_info_box_progress_bar_aria_attributes(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_info_box_bootstrap_shadow_utilities(render_component_soup):
+def test_info_box_bootstrap_shadow_utilities(cotton_render_soup):
     """Test info box with Bootstrap 5 shadow utility classes (T064)."""
     # Test shadow-sm
-    soup_sm = render_component_soup(
+    soup_sm = cotton_render_soup(
         "info-box",
         icon="box-seam",
         text="Shadow Small",
@@ -199,7 +199,7 @@ def test_info_box_bootstrap_shadow_utilities(render_component_soup):
     assert "shadow-sm" in info_box_sm.get("class"), "shadow-sm utility should be applied"
 
     # Test shadow
-    soup = render_component_soup(
+    soup = cotton_render_soup(
         "info-box",
         icon="box-seam",
         text="Shadow",
@@ -210,7 +210,7 @@ def test_info_box_bootstrap_shadow_utilities(render_component_soup):
     assert "shadow" in info_box.get("class"), "shadow utility should be applied"
 
     # Test shadow-lg
-    soup_lg = render_component_soup(
+    soup_lg = cotton_render_soup(
         "info-box",
         icon="box-seam",
         text="Shadow Large",
@@ -222,12 +222,12 @@ def test_info_box_bootstrap_shadow_utilities(render_component_soup):
 
 
 @pytest.mark.django_db
-def test_info_box_all_variant_colors(render_component_soup):
+def test_info_box_all_variant_colors(cotton_render_soup):
     """Test info box with all Bootstrap variant colors (T067) - default fill='icon' mode."""
     variants = ["primary", "success", "warning", "danger", "info", "secondary"]
 
     for variant in variants:
-        soup = render_component_soup(
+        soup = cotton_render_soup(
             "info-box",
             icon="box-seam",
             text=f"Test {variant}",

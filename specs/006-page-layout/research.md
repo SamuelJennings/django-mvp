@@ -288,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
 **Rationale**:
 
 - Constitution requires pytest, pytest-django, and pytest-playwright coverage
-- Cotton components MUST be tested with `django_cotton.render_component()` (not Template() or render_to_string)
+- Cotton components MUST be tested with `django_cotton.cotton_render()` (not Template() or render_to_string)
 - Unit tests verify component rendering with various attribute combinations
 - Integration tests verify inner layout works within outer layout structure
 - E2E tests verify sticky positioning, responsive behavior, and toggle functionality
@@ -298,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ```python
 # tests/components/test_page_layout.py
-from django_cotton import render_component
+from django_cotton import cotton_render
 from django.test import RequestFactory
 import pytest
 
@@ -308,7 +308,7 @@ def rf():
 
 def test_page_layout_basic_rendering(rf):
     """Test basic inner layout renders with default slot"""
-    result = render_component(
+    result = cotton_render(
         rf.get('/'),
         'mvp.page_layout',
         slots={'slot': '<div>Main content</div>'}
@@ -318,7 +318,7 @@ def test_page_layout_basic_rendering(rf):
 
 def test_page_layout_with_toolbar_and_footer(rf):
     """Test inner layout with toolbar and footer slots"""
-    result = render_component(
+    result = cotton_render(
         rf.get('/'),
         'mvp.page_layout',
         slots={
@@ -332,7 +332,7 @@ def test_page_layout_with_toolbar_and_footer(rf):
 
 def test_page_layout_sidebar_visible(rf):
     """Test sidebar visibility with attribute"""
-    result = render_component(
+    result = cotton_render(
         rf.get('/'),
         'mvp.page_layout',
         attrs={'sidebar_visible': 'true'},
