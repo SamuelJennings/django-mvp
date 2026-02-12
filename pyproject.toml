@@ -29,7 +29,7 @@ classifiers = [
 python = ">=3.10,<4.0"
 django = ">=4.2,<6.0"
 django-cotton = ">=2.3.1"
-django-cotton-bs5 = "^0.6.2"
+django-cotton-bs5 = "^0.7.0"
 django-flex-menus = "^0.4.1"
 django-easy-icons = ">=0.5"
 django-compressor = "^4.5.1"
