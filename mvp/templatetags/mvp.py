@@ -111,6 +111,12 @@ def slot_is_empty(slot):
         return slot.strip() == ""
 
 
+@register.simple_tag
+def slot_exists(*args):
+    """Accepts any number of slots and returns True if any are non-empty."""
+    return any(not slot_is_empty(slot) for slot in args)
+
+
 @register.simple_tag(takes_context=True)
 def responsive(context, root: str):
     # The idea is to take a root class name (e.g., "col") and
