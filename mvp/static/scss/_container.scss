@@ -33,10 +33,10 @@
   .btn {
     white-space: nowrap !important;
   }
+}
 
-  &.hide-action-text {
-    .btn-text {
-      display: none;
-    }
+.hide-action-text {
+  .btn-text {
+    display: none;
   }
 }
