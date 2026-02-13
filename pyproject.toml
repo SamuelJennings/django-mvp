@@ -1,14 +1,43 @@
-[tool.poetry]
+[project]
 name = "django-mvp"
-version = "0.1.0"
-description = "Minimum Viable Product framework for Django - scaffold production-ready applications with sophisticated layouts and UI patterns designed for research portals and data-centric applications."
-authors = ["Sam <samuel.scott.jennings@gmail.com>"]
+description = "MVP framework for Django - scaffold production-ready applications with sophisticated layouts and UI patterns designed for data-centric applications."
 license = "MIT"
+keywords = [
+    "django",
+    "mvp",
+    "minimum viable product",
+    "bootstrap",
+    "layouts",
+    "portal",
+    "research",
+    "data",
+    "scaffold",
+]
+dynamic = ["version", "classifiers"]
 readme = "README.md"
-packages = [{include = "mvp"}]
+authors = [{ name = "Sam", email = "samuel.scott.jennings@gmail.com" }]
+requires-python = '>=3.10,<4.0'
+dependencies = [
+    'django (>=4.2,<6.0)',
+    'django-cotton (>=2.3.1)',
+    "django-cotton-bs5 (>=0.8.0,<0.9.0)",
+    'django-flex-menus (>=0.4.1,<0.5.0)',
+    'django-easy-icons (>=0.5)',
+    'django-compressor (>=4.5.1,<5.0.0)',
+    'django-libsass (>=0.9,<0.10)',
+]
+
+[project.urls]
 homepage = "https://github.com/SamuelJennings/django-mvp"
 repository = "https://github.com/SamuelJennings/django-mvp"
-keywords = ["django", "mvp", "minimum viable product", "bootstrap", "layouts", "portal", "research", "data", "scaffold"]
+
+[project.optional-dependencies]
+django-tables2 = ['django-tables2 (>=2.8.0,<3.0.0)']
+all = ['django-tables2']
+
+[tool.poetry]
+version = "0.1.0"
+packages = [{ include = "mvp" }]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Framework :: Django",
@@ -24,25 +53,13 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-
-[tool.poetry.dependencies]
-python = ">=3.10,<4.0"
-django = ">=4.2,<6.0"
-django-cotton = ">=2.3.1"
-django-cotton-bs5 = "^0.7.0"
-django-flex-menus = "^0.4.1"
-django-easy-icons = ">=0.5"
-django-compressor = "^4.5.1"
-django-libsass = "^0.9"
-django-tables2 = {version = "^2.8.0", optional = true}
-
-[tool.poetry.extras]
-django-tables2 = ["django-tables2"]
-all = ["django-tables2"]
+requires-poetry = '>=2.0,<3.0'
 
 [tool.poetry.group.test.dependencies]
 Django = ">=4.2,<6.0"
-fairdm-dev-tools = {git = "https://github.com/FAIR-DM/dev-tools", extras = ["test"]}
+fairdm-dev-tools = { git = "https://github.com/FAIR-DM/dev-tools", extras = [
+    "test",
+] }
 
 [tool.poetry.group.dev.dependencies]
 Django = ">=4.2,<6.0"
@@ -51,11 +68,14 @@ django-formset = "^2.2"
 django-filter = "^25.2"
 django-crispy-forms = "^2.4"
 crispy-bootstrap5 = "^2025.6"
-fairdm-dev-tools = {git = "https://github.com/FAIR-DM/dev-tools", extras = ["test", "dev"]}
+fairdm-dev-tools = { git = "https://github.com/FAIR-DM/dev-tools", extras = [
+    "test",
+    "dev",
+] }
 django-tables2 = "^2.8.0"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ['poetry-core (>=2.0,<3.0)']
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
@@ -110,7 +130,8 @@ select = [
     # mccabe
     "C90",
     # pycodestyle
-    "E", "W",
+    "E",
+    "W",
     # pyflakes
     "F",
     # pygrep-hooks
@@ -141,34 +162,32 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"**/tests/*" = ["S101","S105"]
+"**/tests/*" = ["S101", "S105"]
 
 [tool.ruff.format]
 docstring-code-format = true
 docstring-code-line-length = 88
 line-ending = "lf"
-exclude = [
-    "*/migrations/*.py",
-]
+exclude = ["*/migrations/*.py"]
 
 [tool.djlint]
-blank_line_after_tag="c-vars"
-close_void_tags=true
-custom_html="c-[\\w.-]+"
-format_js=true
-format_css=true
-indent=2
-max_attribute_length=50
-max_blank_lines=0
-max_line_length=119
-ignore="H016,H030,H031,H021,D018,H037"
-format_attribute_template_tags=false
+blank_line_after_tag = "c-vars"
+close_void_tags = true
+custom_html = "c-[\\w.-]+"
+format_js = true
+format_css = true
+indent = 2
+max_attribute_length = 50
+max_blank_lines = 0
+max_line_length = 119
+ignore = "H016,H030,H031,H021,D018,H037"
+format_attribute_template_tags = false
 
 [tool.djlint.css]
-indent_size=2
+indent_size = 2
 
 [tool.djlint.js]
-indent_size=2
+indent_size = 2
 
 [tool.django-stubs]
 django_settings_module = "tests.settings"
@@ -177,23 +196,13 @@ django_settings_module = "tests.settings"
 DJANGO_SETTINGS_MODULE = "tests.settings"
 python_files = ["test_*.py"]
 testpaths = ["tests"]
-addopts = [
-    "--strict-markers",
-    "--tb=short",
-]
-markers = [
-    "e2e: End-to-end tests using Playwright",
-]
+addopts = ["--strict-markers", "--tb=short"]
+markers = ["e2e: End-to-end tests using Playwright"]
 asyncio_mode = "auto"
 
 [tool.coverage.run]
 source = ["mvp"]
-omit = [
-    "*/tests/*",
-    "*/migrations/*",
-    "*/__pycache__/*",
-    "*/node_modules/*",
-]
+omit = ["*/tests/*", "*/migrations/*", "*/__pycache__/*", "*/node_modules/*"]
 
 [tool.coverage.report]
 exclude_lines = [
