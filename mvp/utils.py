@@ -23,7 +23,8 @@ def app_is_installed(app_name: str) -> bool:
 
 
 BS5_ICONS = {
-    "arrow_right": "bi bi-arrow-right",
+    "arrow-right": "bi bi-arrow-right",
+    "arrow-left": "bi bi-arrow-left",
     "circle": "bi bi-circle",
     "dash": "bi bi-dash-lg",
     "dropdown_check": "bi bi-check-circle-fill",

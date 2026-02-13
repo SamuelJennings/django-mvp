@@ -188,10 +188,10 @@ The `<c-page>` component accepts the following attributes:
               aria-label="Toggle sidebar"
               data-page-layout-toggle>
         <span class="toggle-icon-close" aria-hidden="true">
-          <c-icon name="arrow_right" />
+          <c-icon name="arrow-right" />
         </span>
         <span class="toggle-icon-open" aria-hidden="true">
-          <c-icon name="arrow_right" />
+          <c-icon name="arrow-right" />
         </span>
       </button>
     {% endif %}

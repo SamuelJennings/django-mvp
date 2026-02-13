@@ -521,6 +521,27 @@ files = [
 ]
 
 [[package]]
+name = "dj-urls-panel"
+version = "0.2.0"
+description = "Visualize Django URL routing inside the Django Admin, including patterns, views, namespaces, etc"
+optional = false
+python-versions = ">=3.9"
+groups = ["dev"]
+files = [
+    {file = "dj_urls_panel-0.2.0-py3-none-any.whl", hash = "sha256:cfcf0f854b97f08ad7cd01693383d219c4183317eb1c2536d14258fa97cdc9d7"},
+    {file = "dj_urls_panel-0.2.0.tar.gz", hash = "sha256:7fdaa6667c95750cae3708ba78acfd24040d1cf5d8f602cfbb40d51c36853cb6"},
+]
+
+[package.dependencies]
+Django = ">=4.2"
+requests = ">=2.28.0"
+
+[package.extras]
+build = ["build (>=1.0.0)", "twine (>=4.0.0)"]
+dev = ["mkdocs-material (>=9.1.12)", "pytest (>=7.0.0)", "pytest-cov (>=4.0.0)", "pytest-django (>=4.5.0)", "pytest-xdist (>=3.2.0)", "requests (>=2.28.0)"]
+testing = ["requests (>=2.28.0)"]
+
+[[package]]
 name = "django"
 version = "5.2.11"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
@@ -607,14 +628,14 @@ django = ">=4.2,<7.0"
 
 [[package]]
 name = "django-cotton-bs5"
-version = "0.8.0"
+version = "0.9.0"
 description = "Bootstrap 5 components for use with Django Cotton."
 optional = false
 python-versions = "<4,>=3.10"
 groups = ["main"]
 files = [
-    {file = "django_cotton_bs5-0.8.0-py3-none-any.whl", hash = "sha256:818bdb4eea8a1e80af9939aa4d273354f2df58db95e9415b56de02ea4f2a97ea"},
-    {file = "django_cotton_bs5-0.8.0.tar.gz", hash = "sha256:b1e3536db12a9ab2586f2addaa4a0a427b47de7f58799cc42f652234bf26e7a6"},
+    {file = "django_cotton_bs5-0.9.0-py3-none-any.whl", hash = "sha256:f3ac382193dfed1931b7392d6fe2b1324221ba408f8c59cb7bd8737a42c8a1e0"},
+    {file = "django_cotton_bs5-0.9.0.tar.gz", hash = "sha256:bd60fc12d55f4ba428f0e9d2c9c4f98e974cbbcc98af49ca155d5fd94295d12f"},
 ]
 
 [package.dependencies]
@@ -2844,4 +2865,4 @@ django-tables2 = ["django-tables2"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "2c65b30511524436525ead51a0f584c12da03905dea3a8d39b1822b2605dbcf7"
+content-hash = "f5f78b84bf4195162244b81edcd038f8bdf4d70ef9aafd284f8b74f22d8713fb"

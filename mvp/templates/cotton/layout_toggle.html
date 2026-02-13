@@ -1,4 +1,5 @@
 <c-vars toggle="" target="" />
-<c-action data-mvp-toggle="{{ toggle }}"
-          icon="{{ toggle }}" {% if target %}data-mvp-target="{{ target }}"{% endif %}>
-</c-action>
+<c-button data-mvp-toggle="{{ toggle }}"
+          icon="{{ toggle }}"
+          {% if target %}data-mvp-target="{{ target }}"{% endif %}>
+</c-button>

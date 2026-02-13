@@ -97,7 +97,7 @@ EASY_ICONS = {
             "cancel": "bi bi-x-circle",
             "view": "bi bi-eye",
             # Navigation
-            "arrow_right": "bi bi-arrow-right",
+            "arrow-right": "bi bi-arrow-right",
             "chevron_down": "bi bi-chevron-down",
             "chevron_up": "bi bi-chevron-up",
             "search": "bi bi-search",
