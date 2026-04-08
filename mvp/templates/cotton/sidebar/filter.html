@@ -7,7 +7,6 @@
           method="get"
           {% if action %}action="{{ action }}"{% endif %}>
       {{ filter.form|crispy }}
-      {% comment %} {% crispy filter.form %} {% endcomment %}
     </form>
   </div>
   <c-sidebar.footer>

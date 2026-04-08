@@ -18,7 +18,10 @@
 .vscode
 /static/
 /media/
-
+/test*
+!tests/
+!tests/test*
+*.code-workspace
 
 # Project files
 .ropeproject

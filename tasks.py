@@ -80,7 +80,7 @@ def prerelease(c):
 
 
 @task
-def release(c, rule=""):
+def release(c, rule="", retry=False):
     """
     Create a new git tag and push it to the remote repository.
 
@@ -89,49 +89,78 @@ def release(c, rule=""):
 
     Args:
         rule: Version bump rule (major, minor, patch, premajor, preminor, prepatch, prerelease)
+        retry: If True, force-push existing tags without creating new version (default: False)
 
     RULE        BEFORE  AFTER
     major       1.3.0   2.0.0
     minor       2.1.4   2.2.0
     patch       4.1.1   4.1.2
-    premajor    1.0.2   2.0.0-alpha.0
-    preminor    1.0.2   1.1.0-alpha.0
-    prepatch    1.0.2   1.0.3-alpha.0
-    prerelease  1.0.2   1.0.3-alpha.0
+    premajor    1.0.2   2.0.0a0
+    preminor    1.0.2   1.1.0a0
+    prepatch    1.0.2   1.0.3a0
+    prerelease  1.0.2   1.0.3a0
 
     Examples:
-        invoke release --rule=patch
-        invoke release --rule=minor
-        invoke release --rule=major
+        invoke release --rule=patch        # Bump patch version and release
+        invoke release --retry             # Force-push existing tags (e.g., to retrigger CI)
     """
+    # Get the current version number
+    version_short = c.run("poetry version -s", hide=True).stdout.strip()
+    version = c.run("poetry version", hide=True).stdout.strip()
+
+    if retry:
+        # retry existing tags without creating new version
+        print(f"♻️  retrying existing tag v{version_short}...")
+        response = (
+            input(f"This will force-push tag v{version_short} to retrigger CI. Continue? (y/N): ").strip().lower()
+        )
+        if response not in ("y", "yes"):
+            print("❌ retry cancelled.")
+            return
+
+        # Delete and recreate tag locally, then force push
+        c.run(f"git tag -d v{version_short}", warn=True)
+        c.run(f'git tag -a v{version_short} -m "{version}"')
+        c.run(f"git push origin v{version_short} --force")
+        print(f"✅ Tag v{version_short} force-pushed successfully!")
+        return
+
     if not rule:
         print("❌ Error: You must specify a version bump rule.")
         print("   Example: invoke release --rule=patch")
         print("\n   Available rules: major, minor, patch, premajor, preminor, prepatch, prerelease")
         return
 
-    print(f"🚀 Creating new release with rule: {rule}")
-    print("=" * 60)
+    # Check for unstaged changes
+    unstaged_result = c.run("git diff --name-only", hide=True, warn=True)
+    if unstaged_result.stdout.strip():
+        print("⚠️  WARNING: You have unstaged changes:")
+        print(unstaged_result.stdout)
+        response = input("Continue with release? (y/N): ").strip().lower()
+        if response not in ("y", "yes"):
+            print("❌ Release cancelled.")
+            return
 
-    # Step 1: Bump version
-    print(f"\n📦 Step 1: Bumping version using rule '{rule}'")
+    # Bump the current version using the specified rule
     c.run(f"poetry version {rule}")
+    version_short = c.run("poetry version -s", hide=True).stdout.strip()
+    version = c.run("poetry version", hide=True).stdout.strip()
 
-    # Get the new version
-    result = c.run("poetry version -s", hide=True)
-    new_version = result.stdout.strip()
-    print(f"✅ New version: {new_version}")
+    # Commit the version bump and any staged changes
+    staged_result = c.run("git diff --cached --name-only", hide=True, warn=True)
+    if staged_result.stdout.strip():
+        print(f"🚀 Committing staged changes and version bump for v{version_short}")
+        c.run(f'git add pyproject.toml && git commit -m "Release v{version_short}"')
+    else:
+        print(f"🚀 Committing version bump for v{version_short}")
+        c.run(f'git commit pyproject.toml -m "Release v{version_short}"')
 
-    # Step 2: Commit version bump
-    print("\n💾 Step 2: Committing version bump")
-    c.run(f'git add pyproject.toml && git commit -m "Bump version to {new_version}"')
+    # Create an annotated tag
+    c.run(f'git tag -a v{version_short} -m "{version}"')
 
-    # Step 3: Create and push tag
-    print(f"\n🏷️  Step 3: Creating and pushing tag 'v{new_version}'")
-    c.run(f"git tag v{new_version}")
-    c.run(f"git push origin v{new_version}")
-    c.run("git push")
+    # Push commits and tags together
+    print(f"📤 Pushing v{version_short} to remote repository...")
+    c.run("git push origin main --follow-tags")
 
-    print("\n" + "=" * 60)
-    print(f"✅ Release v{new_version} created and pushed successfully!")
+    print(f"✅ Release v{version_short} created and pushed successfully!")
     print("🎉 GitHub Actions will now build and publish the package to PyPI.")
