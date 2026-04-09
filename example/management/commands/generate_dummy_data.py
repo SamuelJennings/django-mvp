@@ -52,29 +52,66 @@ class Command(BaseCommand):
         tasks = self.create_tasks(categories)
         self.stdout.write(self.style.SUCCESS(f"✓ Created {len(tasks)} tasks"))
 
-        self.stdout.write(self.style.SUCCESS("\n✓ All dummy data generated successfully!"))
+        self.stdout.write(
+            self.style.SUCCESS("\n✓ All dummy data generated successfully!")
+        )
 
     def create_categories(self):
         """Create category instances."""
         category_data = [
-            {"name": "Electronics", "icon": "cpu", "color": "primary", "description": "Electronic devices and gadgets"},
-            {"name": "Clothing", "icon": "shirt", "color": "success", "description": "Fashion and apparel"},
-            {"name": "Books", "icon": "book", "color": "info", "description": "Books and publications"},
+            {
+                "name": "Electronics",
+                "icon": "cpu",
+                "color": "primary",
+                "description": "Electronic devices and gadgets",
+            },
+            {
+                "name": "Clothing",
+                "icon": "shirt",
+                "color": "success",
+                "description": "Fashion and apparel",
+            },
+            {
+                "name": "Books",
+                "icon": "book",
+                "color": "info",
+                "description": "Books and publications",
+            },
             {
                 "name": "Home & Garden",
                 "icon": "home",
                 "color": "warning",
                 "description": "Home improvement and gardening",
             },
-            {"name": "Sports", "icon": "bicycle", "color": "danger", "description": "Sports equipment and gear"},
-            {"name": "Technology", "icon": "laptop", "color": "secondary", "description": "Tech news and reviews"},
-            {"name": "Health", "icon": "heart", "color": "pink", "description": "Health and wellness"},
-            {"name": "Business", "icon": "briefcase", "color": "dark", "description": "Business and finance"},
+            {
+                "name": "Sports",
+                "icon": "bicycle",
+                "color": "danger",
+                "description": "Sports equipment and gear",
+            },
+            {
+                "name": "Technology",
+                "icon": "laptop",
+                "color": "secondary",
+                "description": "Tech news and reviews",
+            },
+            {
+                "name": "Health",
+                "icon": "heart",
+                "color": "pink",
+                "description": "Health and wellness",
+            },
+            {
+                "name": "Business",
+                "icon": "briefcase",
+                "color": "dark",
+                "description": "Business and finance",
+            },
         ]
 
         categories = []
         for data in category_data:
-            category, created = Category.objects.get_or_create(
+            category, _created = Category.objects.get_or_create(
                 slug=slugify(data["name"]),
                 defaults={
                     "name": data["name"],
@@ -127,8 +164,10 @@ class Command(BaseCommand):
 
         products = []
         for i, name in enumerate(product_names):
-            category = random.choice(categories[:5])  # Use first 5 categories for products
-            product, created = Product.objects.get_or_create(
+            category = random.choice(
+                categories[:5]
+            )  # Use first 5 categories for products
+            product, _created = Product.objects.get_or_create(
                 slug=slugify(f"{name}-{i}"),
                 defaults={
                     "name": name,
@@ -137,16 +176,30 @@ class Command(BaseCommand):
                     f"It features high quality materials and excellent craftsmanship. "
                     f"Perfect for daily use and comes with a warranty.",
                     "short_description": f"High-quality {name} with premium features",
-                    "price": Decimal(random.uniform(9.99, 299.99)).quantize(Decimal("0.01")),
+                    "price": Decimal(random.uniform(9.99, 299.99)).quantize(
+                        Decimal("0.01")
+                    ),
                     "stock": random.randint(0, 100),
-                    "rating": Decimal(random.uniform(3.5, 5.0)).quantize(Decimal("0.01")),
-                    "status": random.choice(["draft", "published", "published", "published"]),  # More published
+                    "rating": Decimal(random.uniform(3.5, 5.0)).quantize(
+                        Decimal("0.01")
+                    ),
+                    "status": random.choice(
+                        ["draft", "published", "published", "published"]
+                    ),  # More published
                     "priority": random.choice(["low", "medium", "high", "critical"]),
-                    "is_featured": random.choice([True, False, False, False]),  # 25% featured
-                    "is_available": random.choice([True, True, True, False]),  # 75% available
-                    "release_date": timezone.now().date() - timedelta(days=random.randint(0, 365)),
+                    "is_featured": random.choice(
+                        [True, False, False, False]
+                    ),  # 25% featured
+                    "is_available": random.choice(
+                        [True, True, True, False]
+                    ),  # 75% available
+                    "release_date": timezone.now().date()
+                    - timedelta(days=random.randint(0, 365)),
                     "tags": ", ".join(
-                        random.sample(["new", "sale", "popular", "trending", "premium"], k=random.randint(1, 3))
+                        random.sample(
+                            ["new", "sale", "popular", "trending", "premium"],
+                            k=random.randint(1, 3),
+                        )
                     ),
                     "sku": f"SKU-{1000 + i}",
                     "barcode": f"978{random.randint(1000000000, 9999999999)}",
@@ -191,9 +244,11 @@ class Command(BaseCommand):
         ]
 
         articles = []
-        for i, title in enumerate(article_titles):
-            category = random.choice(categories[5:])  # Use last 3 categories for articles
-            article, created = Article.objects.get_or_create(
+        for _i, title in enumerate(article_titles):
+            category = random.choice(
+                categories[5:]
+            )  # Use last 3 categories for articles
+            article, _created = Article.objects.get_or_create(
                 slug=slugify(title),
                 defaults={
                     "title": title,
@@ -210,14 +265,21 @@ class Command(BaseCommand):
                     f"- Best practices to follow\n\n"
                     f"## Conclusion\n\n"
                     f"Following these guidelines will help you master {title.lower()}.",
-                    "status": random.choice(["draft", "review", "published", "published"]),
+                    "status": random.choice(
+                        ["draft", "review", "published", "published"]
+                    ),
                     "views": random.randint(0, 10000),
                     "read_time": random.randint(3, 15),
-                    "published_at": timezone.now() - timedelta(days=random.randint(1, 180))
-                    if random.random() > 0.3
-                    else None,
+                    "published_at": (
+                        timezone.now() - timedelta(days=random.randint(1, 180))
+                        if random.random() > 0.3
+                        else None
+                    ),
                     "tags": ", ".join(
-                        random.sample(["tutorial", "guide", "tips", "advanced", "beginner"], k=random.randint(1, 3))
+                        random.sample(
+                            ["tutorial", "guide", "tips", "advanced", "beginner"],
+                            k=random.randint(1, 3),
+                        )
                     ),
                 },
             )
@@ -265,25 +327,34 @@ class Command(BaseCommand):
         ]
 
         tasks = []
-        for i, title in enumerate(task_titles):
+        for _i, title in enumerate(task_titles):
             category = random.choice(categories) if random.random() > 0.5 else None
-            task, created = Task.objects.get_or_create(
+            task, _created = Task.objects.get_or_create(
                 title=title,
                 defaults={
                     "description": f"Detailed description for task: {title}. "
                     f"This needs to be completed according to specifications.",
                     "status": random.choice(["todo", "in_progress", "review", "done"]),
                     "priority": random.choice(["low", "medium", "high", "urgent"]),
-                    "assignee": random.choice(assignees) if random.random() > 0.3 else "",
+                    "assignee": (
+                        random.choice(assignees) if random.random() > 0.3 else ""
+                    ),
                     "category": category,
-                    "due_date": timezone.now().date() + timedelta(days=random.randint(-7, 30)),
-                    "completed_at": timezone.now() - timedelta(days=random.randint(1, 30))
-                    if random.random() > 0.6
-                    else None,
-                    "estimated_hours": Decimal(random.uniform(1, 40)).quantize(Decimal("0.25")),
-                    "actual_hours": Decimal(random.uniform(1, 40)).quantize(Decimal("0.25"))
-                    if random.random() > 0.5
-                    else None,
+                    "due_date": timezone.now().date()
+                    + timedelta(days=random.randint(-7, 30)),
+                    "completed_at": (
+                        timezone.now() - timedelta(days=random.randint(1, 30))
+                        if random.random() > 0.6
+                        else None
+                    ),
+                    "estimated_hours": Decimal(random.uniform(1, 40)).quantize(
+                        Decimal("0.25")
+                    ),
+                    "actual_hours": (
+                        Decimal(random.uniform(1, 40)).quantize(Decimal("0.25"))
+                        if random.random() > 0.5
+                        else None
+                    ),
                 },
             )
             tasks.append(task)

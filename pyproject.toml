@@ -73,11 +73,29 @@ fairdm-dev-tools = { git = "https://github.com/FAIR-DM/dev-tools", extras = [
     "dev",
 ] }
 django-tables2 = "^2.8.0"
+beautifulsoup4 = ">=4.0"
 dj-urls-panel = "^0.2.0"
 
 [build-system]
 requires = ['poetry-core (>=2.0,<3.0)']
 build-backend = "poetry.core.masonry.api"
+
+[tool.deptry]
+
+[tool.deptry.package_module_name_map]
+# Map PyPI package names to their actual importable module names where they differ
+django-flex-menus = ["flex_menu"]
+django-filter = ["django_filters"]
+django-easy-icons = ["easy_icons"]
+django-compressor = ["compressor"]
+
+[tool.deptry.per_rule_ignores]
+# These packages are used indirectly (INSTALLED_APPS, templates, sass pipeline)
+DEP002 = ["django-cotton-bs5", "django-flex-menus", "django-easy-icons", "django-compressor", "django-libsass"]
+# django-filter is a dev dep used only in the example app, not the published package
+DEP001 = ["invoke"]
+DEP003 = ["invoke"]
+DEP004 = ["django_filters"]
 
 [tool.ruff]
 target-version = "py311"
@@ -106,6 +124,7 @@ exclude = [
     "*/migrations/*.py",
     "staticfiles/*",
     "docs/",
+    ".github/",
 ]
 line-length = 120
 fix = true
@@ -189,6 +208,13 @@ indent_size = 2
 
 [tool.djlint.js]
 indent_size = 2
+
+[tool.mypy]
+strict = false
+
+[[tool.mypy.overrides]]
+module = ["flex_menu", "flex_menu.*", "django_cotton.*"]
+ignore_missing_imports = true
 
 [tool.django-stubs]
 django_settings_module = "tests.settings"

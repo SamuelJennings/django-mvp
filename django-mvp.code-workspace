@@ -5,11 +5,17 @@
             "path": "."
         },
         {
+            "path": "../django-cotton"
+        },
+        {
             "path": "../django-cotton-bs5"
         },
-        // {
-        //     "path": "../fairdm-dev-tools"
-        // },
+        {
+            "path": "../django-accounts-center"
+        },
+        {
+            "path": "../grid-layout-system"
+        }
     ],
     // ========================================
     // WORKSPACE SETTINGS
@@ -190,7 +196,7 @@
         // SPELL CHECKING
         // =====================================
         "cSpell.enabled": false,
-        "liveServer.settings.multiRootWorkspaceName": "django-mvp"
+        "liveServer.settings.multiRootWorkspaceName": "grid-layout-system"
     },
     // ========================================
     // WORKSPACE TASKS

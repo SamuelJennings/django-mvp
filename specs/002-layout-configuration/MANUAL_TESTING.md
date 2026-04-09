@@ -1,7 +1,7 @@
 # T022: Manual Cross-Browser Testing Checklist
 
-**Task**: Manually verify cross-browser rendering per SC-002  
-**Status**: Ready for Testing (automated prerequisites complete)  
+**Task**: Manually verify cross-browser rendering per SC-002
+**Status**: Ready for Testing (automated prerequisites complete)
 **Prerequisites**: ✅ T023-T025 complete (demo pages created)
 
 ## Test Environment
@@ -180,8 +180,8 @@ ___________________________________________________________________________
 
 ## Sign-Off
 
-**Tested By**: ___________  
-**Date**: ___________  
+**Tested By**: ___________
+**Date**: ___________
 **Result**: [ ] PASS / [ ] FAIL / [ ] PASS WITH MINOR ISSUES
 
 **Next Steps**:

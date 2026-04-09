@@ -22,10 +22,9 @@ class ExampleConfig(AppConfig):
         """
         # Import menu definitions to register them with AppMenu
         # This must happen in ready() to ensure all apps are loaded
-        try:
+        import contextlib
+
+        with contextlib.suppress(ImportError):
             from . import menus  # noqa: F401
-        except ImportError:
-            # Handle case where menus.py doesn't exist or has errors
-            pass
 
     verbose_name = "Example"

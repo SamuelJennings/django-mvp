@@ -58,7 +58,9 @@ def discover_cotton_components():
 
                         # Convert to component name with dots for subdirectories
                         # Handle both Windows and Unix path separators
-                        component_name = str(component_path).replace("\\", ".").replace("/", ".")
+                        component_name = (
+                            str(component_path).replace("\\", ".").replace("/", ".")
+                        )
 
                         # Convert underscores to hyphens for kebab-case
                         component_name = component_name.replace("_", "-")

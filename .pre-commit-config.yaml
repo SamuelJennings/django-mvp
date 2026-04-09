@@ -27,11 +27,9 @@ repos:
       - id: black
 
   - repo: https://github.com/python-poetry/poetry
-    rev: '1.8.5'
+    rev: '2.1.0'
     hooks:
       - id: poetry-check
-      - id: poetry-lock
-        stages: [manual]  # Only run manually, not in CI
 
   # Local hooks that use Poetry environment
   - repo: local
@@ -57,5 +55,5 @@ repos:
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:
   autoupdate_schedule: monthly
-  skip: [poetry-lock, poetry-export, mypy, deptry]  # Skip file-modifying hooks and slow hooks in CI
+  skip: [mypy, deptry]  # Skip hooks that use the local Poetry environment in CI
   submodules: false

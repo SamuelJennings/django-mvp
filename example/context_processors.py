@@ -51,11 +51,15 @@ def navbar_widgets(request):
     if hasattr(request, "user") and request.user.is_authenticated:
         # Try to get user avatar from profile (if exists)
         if hasattr(request.user, "profile") and hasattr(request.user.profile, "avatar"):
-            user_avatar = request.user.profile.avatar.url if request.user.profile.avatar else None
+            user_avatar = (
+                request.user.profile.avatar.url if request.user.profile.avatar else None
+            )
 
         # Calculate member_since from date_joined
         if hasattr(request.user, "date_joined"):
-            user_member_since = f"Member since {request.user.date_joined.strftime('%b %Y')}"
+            user_member_since = (
+                f"Member since {request.user.date_joined.strftime('%b %Y')}"
+            )
 
     return {
         "notifications_count": len(notifications),

@@ -15,7 +15,13 @@ from django_tables2 import SingleTableView
 from example.forms import ContactForm
 from example.models import Product
 from example.tables import ProductTable
-from mvp.views import MVPCreateView, MVPFormView, MVPListViewMixin, MVPUpdateView, PageModifierMixin
+from mvp.views import (
+    MVPCreateView,
+    MVPFormView,
+    MVPListViewMixin,
+    MVPUpdateView,
+    PageModifierMixin,
+)
 
 
 class LayoutConfigMixin:
@@ -56,12 +62,16 @@ class LayoutConfigMixin:
         context["fixed_sidebar"] = self.request.GET.get("fixed_sidebar") == "on"
         context["fixed_header"] = self.request.GET.get("fixed_header") == "on"
         context["fixed_footer"] = self.request.GET.get("fixed_footer") == "on"
-        context["sidebar_collapsible"] = self.request.GET.get("sidebar_collapsible") == "on"
+        context["sidebar_collapsible"] = (
+            self.request.GET.get("sidebar_collapsible") == "on"
+        )
         context["collapsed"] = self.request.GET.get("collapsed") == "on"
         context["fill"] = self.request.GET.get("fill") == "on"
 
         # Parse outer sidebar breakpoint with fallback to 'lg'
-        sidebar_expand = self.request.GET.get("sidebar_expand", self.request.GET.get("breakpoint", "lg"))
+        sidebar_expand = self.request.GET.get(
+            "sidebar_expand", self.request.GET.get("breakpoint", "lg")
+        )
         if sidebar_expand not in self.VALID_BREAKPOINTS:
             sidebar_expand = "lg"
         context["sidebar_expand"] = sidebar_expand
@@ -69,7 +79,9 @@ class LayoutConfigMixin:
         context["breakpoints"] = self.VALID_BREAKPOINTS
 
         # Inner layout configuration (page-layout level)
-        context["page_fixed_sidebar"] = self.request.GET.get("page_fixed_sidebar") == "on"
+        context["page_fixed_sidebar"] = (
+            self.request.GET.get("page_fixed_sidebar") == "on"
+        )
         context["page_fixed_header"] = self.request.GET.get("page_fixed_header") == "on"
         context["page_fixed_footer"] = self.request.GET.get("page_fixed_footer") == "on"
         context["page_collapsed"] = self.request.GET.get("page_collapsed") == "on"
@@ -161,7 +173,9 @@ class PageLayoutDemoView(LayoutConfigMixin, TemplateView):
     template_name = "example/page_layout.html"
 
 
-class MinimalListViewDemo(LayoutConfigMixin, PageModifierMixin, MVPListViewMixin, ListView):
+class MinimalListViewDemo(
+    LayoutConfigMixin, PageModifierMixin, MVPListViewMixin, ListView
+):
     """
     Minimal list view demo showing the simplest configuration (T011 - User Story 1).
 
@@ -192,7 +206,9 @@ class MinimalListViewDemo(LayoutConfigMixin, PageModifierMixin, MVPListViewMixin
     paginate_by = 12
 
 
-class BasicListViewDemo(LayoutConfigMixin, PageModifierMixin, MVPListViewMixin, ListView):
+class BasicListViewDemo(
+    LayoutConfigMixin, PageModifierMixin, MVPListViewMixin, ListView
+):
     """
     Basic list view demo with search and ordering (T025 - User Stories 3 & 4).
 

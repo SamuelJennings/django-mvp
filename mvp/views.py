@@ -321,7 +321,7 @@ class MVPListViewMixin(SearchOrderMixin, ListItemTemplateMixin):
 class PageModifierMixin:
     """Mixin for adding page modifier classes to the template context."""
 
-    page = {}
+    page: dict = {}
     """Dictionary of page modifier classes that can be passed the the `c-page` component. """
 
     def get_context_data(self, **kwargs):
@@ -405,7 +405,7 @@ class MVPFormViewMixin:
 
     form_renderer = None  # None = auto-detect, or "crispy", "formset", "django"
     page_title = ""
-    template_name = "mvp/form_view.html"
+    template_name: str | None = "mvp/form_view.html"
 
     def get_form_renderer(self):
         """Determine which form renderer to use.

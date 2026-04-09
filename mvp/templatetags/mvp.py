@@ -69,7 +69,7 @@ def avatar_color(name):
         name = "default"
 
     # Hash the name to get consistent color
-    hash_value = int(hashlib.md5(name.encode()).hexdigest(), 16)
+    hash_value = int(hashlib.md5(name.encode()).hexdigest(), 16)  # noqa: S324
 
     # Bootstrap color palette for avatars
     colors = [
@@ -86,9 +86,6 @@ def avatar_color(name):
 
 @register.simple_tag(takes_context=True)
 def render_list_item(context, item, template_name):
-    # Start with a shallow copy of the current context
-    ctx = context.flatten()
-
     new = {}
     # Always provide a generic name
     new["object"] = item
@@ -124,9 +121,16 @@ def responsive(context, root: str):
     # If a context variable is present, the value should be added to root along with the responsive
     # name (e.g., "col-md-6").
 
-    responsive_values = {responsive: context.get(responsive) for responsive in ["xs", "sm", "md", "lg", "xl", "xxl"]}
+    responsive_values = {
+        responsive: context.get(responsive)
+        for responsive in ["xs", "sm", "md", "lg", "xl", "xxl"]
+    }
 
-    return " ".join(f"{root}-{key}-{value}" for key, value in responsive_values.items() if value is not None)
+    return " ".join(
+        f"{root}-{key}-{value}"
+        for key, value in responsive_values.items()
+        if value is not None
+    )
 
 
 @register.tag(name="show_code")
@@ -156,6 +160,8 @@ class ShowCodeNode(template.Node):
 
         t = template.Template(compiled)
         rendered = t.render(context)
-        return render_to_string("cotton/documentation.html", {"code": escaped, "rendered": rendered})
+        return render_to_string(
+            "cotton/documentation.html", {"code": escaped, "rendered": rendered}
+        )
         return rendered
         return mark_safe(f"<pre><code>{escaped}</code></pre>")

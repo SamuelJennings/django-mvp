@@ -46,5 +46,6 @@ class ProductTable(tables.Table):
             "class": "table table-striped table-hover",
         }
         empty_text = (
-            "No products available. Run 'poetry run python manage.py generate_dummy_data' " "to create sample data."
+            "No products available. Run 'poetry run python manage.py generate_dummy_data' "
+            "to create sample data."
         )
