@@ -97,8 +97,10 @@ pnpm-lock.yaml
 mvp/static/dist/
 .vite/
 
-# Temporary test files (must follow tmp_*.py pattern)
-tmp_*.py
+# Top-level files starting with tmp or test (tests/ directory is still tracked)
+/tmp*
+/test*
+!/tests/
 test_static/CACHE/css/demo_wtJ0quN.a397558feb3b.css
 test_static/CACHE/css/demo.0cc33c865562.css
 test_static/CACHE/css/demo.1dec4c8e986e.css
@@ -156,4 +158,3 @@ test_static/CACHE/css/stylesheet.f8ca2546ab72.css
 test_static/CACHE/js/output.94a573871c99.js
 test_static/scss/_sidebar.scss
 
-test-output.txt
