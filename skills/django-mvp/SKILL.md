@@ -1,6 +1,6 @@
 ---
 name: mvp-app-shell
-description: 'Step-by-step guide for integrating django-mvp into a Django project. Use when wiring up the AdminLTE 4 layout shell: INSTALLED_APPS setup, EASY_ICONS Bootstrap Icons config, FLEX_MENUS adminlte renderer, base template using Cotton component attributes, sidebar menu via AppMenu, dual-mode views, and error pages. Covers common pitfalls: deprecated settings.MVP path, wrong icon renderer, missing adminlte renderer registration.'
+description: 'Step-by-step guide for integrating django-mvp into a Django project. Use when wiring up the AdminLTE 4 layout shell: INSTALLED_APPS setup, EASY_ICONS Bootstrap Icons config, FLEX_MENUS adminlte renderer, base template using Cotton component attributes, sidebar menu via AppMenu, dual-mode views, and error pages. Covers common pitfalls: wrong icon renderer, missing adminlte renderer registration.'
 ---
 
 # django-mvp App Shell Integration
@@ -12,7 +12,7 @@ AdminLTE 4 shell with sidebar, navbar, and error pages.
 
 | Decision | Correct Approach | Wrong Approach |
 |----------|-----------------|----------------|
-| Layout config | Cotton component attributes on `<c-app>` | `settings.MVP` dict + context processor (deprecated) |
+| Layout config | Cotton component attributes on `<c-app>` | `settings.MVP` dict (removed) |
 | Icon renderer | Bootstrap Icons (`bi bi-*`) as default | Font Awesome as default (breaks mvp internals) |
 | Menu autodiscovery | `AppMenu.extend([...])` in `menus.py` — no extra `ready()` needed | Manually importing menus in `apps.py` |
 | `<c-app.sidebar>` menu | Rendered automatically via `{% render_menu "AppMenu" renderer="adminlte" %}` | Manually writing sidebar HTML |
@@ -119,8 +119,7 @@ For nesting, see [./references/menu-patterns.md](./references/menu-patterns.md).
 ## Step 5 — Base Template
 
 Extend `mvp/base.html` and override `{% block app %}` to compose the layout using
-Cotton component attributes. **Do not use `settings.MVP`; do not add the context
-processor.**
+Cotton component attributes. **Do not use `settings.MVP`.**
 
 ```django
 {% extends "mvp/base.html" %}
@@ -260,9 +259,8 @@ Manual smoke-test checklist (visit in browser):
 - Confirm `FLEX_MENUS["renderers"]["adminlte"]` is set
 - Confirm `view_name` values resolve — run `manage.py check` or catch `NoReverseMatch`
 
-**"Layout uses settings.MVP / context processor"**
-- That is the deprecated API. Remove `MVP` from settings and `mvp.context_processors.mvp_config`
-  from `TEMPLATES[...]["context_processors"]`. Pass all config as Cotton attributes.
+**"Layout uses settings.MVP"**
+- The `settings.MVP` dict has been removed. Pass all config as Cotton component attributes on `<c-app>`.
 
 **"500 page is broken / shows error"**
 - The 500 template CANNOT extend any base template. Make it fully self-contained HTML.

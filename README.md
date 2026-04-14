@@ -38,8 +38,6 @@ Django MVP mirrors AdminLTE 4's grid-based layout structure:
 └── .app-footer (optional footer)
 ```
 
-All layout behavior is controlled via the `MVP` configuration object in Django settings, requiring minimal template customization.
-
 ## Installation
 
 ```bash
@@ -113,64 +111,7 @@ EASY_ICONS = {
 }
 ```
 
-## Configuration
-
-Django MVP uses a centralized `MVP` configuration dictionary in Django settings to control all layout behavior, branding, and navigation.
-
-### The MVP Configuration Object
-
-Add this to your `settings.py`:
-
-```python
-MVP = {
-    # Site branding
-    "brand": {
-        "text": "My Application",
-        "logo": "img/logo.png",  # Optional logo image
-    },
-
-    # AdminLTE layout options
-    "layout": {
-        "fixed_sidebar": True,     # Fixed sidebar position
-        "sidebar_expand": "lg",    # When sidebar expands: 'sm', 'md', 'lg', 'xl', 'xxl'
-        "body_class": "layout-fixed sidebar-expand-lg",  # Additional body classes
-    },
-
-    # Sidebar configuration
-    "sidebar": {
-        "visible": True,
-        "width": "280px",  # Optional custom width
-    },
-
-    # Footer configuration
-    "footer": {
-        "visible": True,
-        "text": "© 2026 My Application",
-    },
-
-    # Action buttons/links in navbar
-    "actions": [
-        {
-            "icon": "github",
-            "text": "View on GitHub",
-            "href": "https://github.com/user/repo",
-            "target": "_blank",
-        },
-    ],
-}
-```
-
-### Configuration Flow
-
-The MVP configuration is made available in all templates via the `mvp_config` context processor:
-
-```html
-<!-- Access in templates as {{ mvp }} -->
-{{ mvp.brand.text }}
-{{ mvp.layout.body_class }}
-```
-
-### Template Hierarchy
+## Template Hierarchy
 
 Django MVP follows a simple template hierarchy:
 

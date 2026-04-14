@@ -203,44 +203,4 @@ FLEX_MENUS = {
     "log_url_failures": DEBUG,
 }
 
-MVP = {
-    "layout_mode": "sidebar",  # "navbar", "sidebar", or "both"
-    "brand": {
-        "text": "Django MVP",
-        "image_light": "dac_bg_white.svg",  # Path to light theme logo
-        "image_dark": "dac_bg_transparent.svg",  # Path to dark theme logo
-        "icon_light": "icon.svg",  # Path to light theme icon/favicon
-        "icon_dark": None,  # Path to dark theme icon/favicon (optional)
-    },
-    # Sidebar configuration (per-region keys only)
-    "sidebar": {
-        "breakpoint": "md",  # False = navbar-only mode (default per spec)
-        # Or set to 'sm', 'md', 'lg', 'xl', 'xxl' to show in-flow at that breakpoint
-        "collapsible": True,  # Whether sidebar can collapse to icon-only mode (default: True)
-        # "width": "280px",  # Optional: custom sidebar width (default: 260px)
-    },
-    # Navbar configuration (per-region keys only)
-    "navbar": {
-        "fixed": False,  # Whether navbar is fixed to top (default: False)
-        "border": False,  # Whether navbar has bottom border (default: False)
-        "breakpoint": "md",  # Show navbar menu at this breakpoint (default: "sm" per spec)
-        # Only applies when sidebar.breakpoint is False (navbar-only mode)
-        # Set to False to never show navbar menu (sidebar toggle only)
-        # Options: 'sm', 'md', 'lg', 'xl', 'xxl', or False
-    },
-    # Navigation actions (rendered in active region without duplication)
-    "actions": [
-        {
-            "icon": "github",
-            "text": "GitHub",
-            "href": "https://github.com/django-mvp/django-mvp",
-            "target": "_blank",
-        },
-        {
-            "icon": "documentation",
-            "text": "Documentation",
-            "href": "/docs/",
-            "target": "_blank",
-        },
-    ],
-}
+

@@ -154,30 +154,6 @@ All components are available as Cotton components with the `<c-{name}>` syntax:
 2. **`mvp/base.html`** - AdminLTE app-wrapper layout
 3. **Your templates** - Extend and customize
 
-### Configuration-Driven Design
-
-All layout behavior is controlled via the `MVP` configuration in Django settings:
-
-```python
-MVP = {
-    "brand": {
-        "text": "My Application",
-        "logo": "img/logo.png",
-    },
-    "layout": {
-        "fixed_sidebar": True,
-        "sidebar_expand": "lg",
-    },
-    "sidebar": {
-        "visible": True,
-    },
-    "footer": {
-        "visible": True,
-        "text": "© 2026 My Application",
-    },
-}
-```
-
 ## Component Guidelines
 
 ### Color Variants

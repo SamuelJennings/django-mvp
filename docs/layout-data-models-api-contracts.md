@@ -299,8 +299,7 @@ def mvp_config(request: HttpRequest) -> Dict[str, Any]:
     Request State Contract:
         - Layout state stored at request._mvp_layout_state (optional)
         - If present, overrides settings defaults
-        - If absent, uses MVP settings defaults
-    """
+        """
     pass  # Implementation details in actual code
 
 # Context processor registration in settings.py:
@@ -371,53 +370,7 @@ def set_layout_config(context: Dict[str, Any], **kwargs) -> str:
 # {% load layout_tags %}
 ```
 
-### 4. Django Settings Configuration Schema
-
-```python
-# settings.py configuration schema
-
-MVP = {
-    # Layout configuration (optional, provides defaults)
-    "layout": {
-        # Fixed positioning options (default: False for all)
-        "fixed_sidebar": False,   # bool: Fix sidebar position
-        "fixed_header": False,    # bool: Fix header position
-        "fixed_footer": False,    # bool: Fix footer position
-
-        # Responsive behavior (default: "lg")
-        "sidebar_expand": "lg",   # str: Bootstrap breakpoint (sm|md|lg|xl|xxl)
-
-        # Explicit body class override (optional)
-        "body_class": "bg-body-tertiary sidebar-expand-lg",  # str: Complete CSS classes
-    },
-
-    # Other MVP configuration sections
-    "brand": {
-        "text": "My Application",
-        "logo": "img/logo.png",
-        "icon": "img/favicon.ico",
-    },
-    "sidebar": {
-        "visible": True,
-        "width": "280px",
-    },
-    "footer": {
-        "visible": True,
-        "text": "© 2026 My Application",
-    },
-    "actions": [
-        {"icon": "github", "text": "GitHub", "href": "https://github.com/...", "target": "_blank"},
-    ],
-}
-
-# Configuration validation:
-# - All layout fields are optional with sensible defaults
-# - Invalid sidebar_expand values fall back to "lg"
-# - body_class can override automatic class generation
-# - Configuration merged with hardcoded defaults in context processor
-```
-
-### 5. Cotton Component Interface Contract
+### 4. Cotton Component Interface Contract
 
 ```html
 <!-- Cotton component: cotton/adminlte/app.html -->
