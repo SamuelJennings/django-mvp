@@ -32,12 +32,16 @@
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
 - Design-first approach is feasible and planned (implementation before test writing)
-- Visual verification approach is planned (chrome-devtools-mcp for UI validation)
+- Visual verification approach is planned (Playwright MCP server for UI validation)
 - Test types are identified (pytest, pytest-django, pytest-playwright as needed) for post-implementation
 - Documentation updates are included for any public behavior change
-- Quality gates are understood (tests + lint + format)
+- Quality gates are understood (tests + lint + format + `python manage.py check`)
 - Documentation retrieval is planned (context7 for up-to-date library docs)
-- End-to-end testing is planned (playwright for complete user workflows after implementation)
+- End-to-end testing is planned (pytest-playwright for complete user workflows after implementation)
+- Tasks are grouped by user story (each story independently testable)
+- Every phase touching Django code includes `python manage.py check` validation task
+- Every phase touching UI includes a Playwright MCP server verification task with specific acceptance criteria assertions
+- UI configuration uses Cotton components and template overrides only (no Python-level UI config)
 
 ## Project Structure
 

@@ -8,7 +8,7 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Workflow**: Following Design-First approach - implement and verify design BEFORE writing tests. Tests are REQUIRED for behavior changes but come AFTER design verification. Use pytest + pytest-django for backend/integration and pytest-playwright for UI behavior. End-to-end tests with playwright are REQUIRED for all features. UI changes MUST be verified using chrome-devtools-mcp DURING implementation. Use context7 for up-to-date library documentation.
+**Workflow**: Following Design-First approach - implement and verify design BEFORE writing tests. Tests are REQUIRED for behavior changes but come AFTER design verification. Use pytest + pytest-django for backend/integration and pytest-playwright for UI behavior. End-to-end tests with playwright are REQUIRED for all features. UI changes MUST be verified using the Playwright MCP server DURING implementation. Use context7 for up-to-date library documentation. Every phase that modifies Django code MUST include a validation task running `python manage.py check` AND the pytest suite for the touched area. Every phase that modifies UI MUST include a Playwright MCP server verification task asserting specific UX behaviour from the user story acceptance criteria.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story. Each story follows: Design → Implement → Verify → Test.
 
@@ -92,14 +92,20 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Verification for User Story 1
 
-- [ ] T016 [US1] Verify UI implementation using chrome-devtools-mcp (if applicable)
-- [ ] T017 [US1] Manual testing of user journey to confirm design meets expectations
+- [ ] T016 [US1] Verify UI implementation using Playwright MCP server — assert specific acceptance criteria
+  (e.g., "[describe expected UX outcome from user story]"); MUST NOT merely assert page loads
+- [ ] T017 [US1] Manual walkthrough of user journey to confirm design meets expectations
 
 ### Tests for User Story 1 (AFTER design verification)
 
 - [ ] T018 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
 - [ ] T019 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
 - [ ] T020 [US1] End-to-end test with playwright in tests/e2e/test_[name].py
+
+### Story 1 Validation (REQUIRED)
+
+- [ ] T021 [US1] Run `python manage.py check` — zero errors MUST be reported
+- [ ] T022 [US1] Run pytest suite for User Story 1 touched area (e.g., `pytest tests/test_[area]/`) — all pass
 
 **Checkpoint**: At this point, User Story 1 should be fully functional, verified, and tested independently
 
@@ -122,6 +128,13 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] T021 [US2] Implement [Service] in src/services/[service].py
 - [ ] T022 [US2] Implement [endpoint/feature] in src/[location]/[file].py
 - [ ] T023 [US2] Integrate with User Story 1 components (if needed)
+- [ ] T024 [US2] Verify UI changes using Playwright MCP server — assert acceptance criteria from US2
+  (omit if this story has no UI changes)
+
+### Story 2 Validation (REQUIRED)
+
+- [ ] T025 [US2] Run `python manage.py check` — zero errors MUST be reported
+- [ ] T026 [US2] Run pytest suite for User Story 2 touched area (e.g., `pytest tests/test_[area]/`) — all pass
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -143,6 +156,13 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] T026 [P] [US3] Create [Entity] model in src/models/[entity].py
 - [ ] T027 [US3] Implement [Service] in src/services/[service].py
 - [ ] T028 [US3] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T029 [US3] Verify UI changes using Playwright MCP server — assert acceptance criteria from US3
+  (omit if this story has no UI changes)
+
+### Story 3 Validation (REQUIRED)
+
+- [ ] T030 [US3] Run `python manage.py check` — zero errors MUST be reported
+- [ ] T031 [US3] Run pytest suite for User Story 3 touched area (e.g., `pytest tests/test_[area]/`) — all pass
 
 **Checkpoint**: All user stories should now be independently functional
 
