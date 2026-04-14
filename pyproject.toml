@@ -31,9 +31,6 @@ dependencies = [
 homepage = "https://github.com/SamuelJennings/django-mvp"
 repository = "https://github.com/SamuelJennings/django-mvp"
 
-[project.optional-dependencies]
-django-tables2 = ['django-tables2 (>=2.8.0,<3.0.0)']
-all = ['django-tables2']
 
 [tool.poetry]
 version = "0.1.1"

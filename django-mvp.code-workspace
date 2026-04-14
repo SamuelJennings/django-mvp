@@ -3,18 +3,6 @@
         {
             "name": "django-mvp",
             "path": "."
-        },
-        {
-            "path": "../django-cotton"
-        },
-        {
-            "path": "../django-cotton-bs5"
-        },
-        {
-            "path": "../django-accounts-center"
-        },
-        {
-            "path": "../grid-layout-system"
         }
     ],
     // ========================================

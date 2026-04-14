@@ -23,6 +23,8 @@ def test_mvp_apps_load(client):
 def test_mvp_imports():
     """The published package surface imports without errors."""
     import mvp  # noqa: F401
-    from mvp import views  # noqa: F401
-    from mvp import renderers  # noqa: F401
+    from mvp import (
+        renderers,  # noqa: F401
+        views,  # noqa: F401
+    )
     from mvp.templatetags import mvp as mvp_tags  # noqa: F401
