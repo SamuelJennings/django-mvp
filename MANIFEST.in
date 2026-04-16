@@ -1,6 +1,0 @@
-include LICENSE
-include README.md
-recursive-include mvp/static *
-recursive-include mvp/templates *
-recursive-exclude * __pycache__
-recursive-exclude * *.py[co]

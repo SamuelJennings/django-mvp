@@ -3,6 +3,9 @@
         {
             "name": "django-mvp",
             "path": "."
+        },
+        {
+            "path": "../django-accounts-center"
         }
     ],
     // ========================================
