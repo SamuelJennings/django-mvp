@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.21.0] - 2026-09-07
+
 ### Added
 
 - `MVPDeleteView.related_objects_attrs` lets a view say how serious its cascade-deleted
