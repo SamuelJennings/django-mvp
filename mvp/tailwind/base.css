@@ -129,6 +129,23 @@
   position: relative;
 }
 
+/* An indicator badge clears the header instead of hiding behind it (#287).
+   DaisyUI's `.indicator-item` is positioned outside its own element's box —
+   half above the top edge, at `z-index: 1` — which is invisible on an
+   ordinary page (breadcrumbs and padding put daylight between the badge and
+   the header above it) and not invisible on a filled page, whose own action
+   row is flush under the header with nothing in between.
+
+   Raised here rather than everywhere: a filled page's own body never scrolls
+   the window, so nothing inside it is ever carried toward the header the way
+   ordinary page content is. Scoped anywhere else, the badge would ride along
+   as a normal page scrolled and pass over the header mid-scroll — the one
+   element floating above a navbar the rest of the page slides under, which is
+   the failure this scoping exists to avoid. */
+.mvp-page-fill .indicator-item {
+  z-index: 11;
+}
+
 /* Icon-rail collapse mode (MVP_CONFIG layout.sidebar.collapse = "icons"):
    when the drawer is closed, the sidebar keeps its icons and hides labels,
    badges and section titles. Mark elements with .mvp-rail-hide to hide them

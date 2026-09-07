@@ -31,6 +31,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   dependency like the rest of the runtime, so it adds nothing to install and nothing is
   fetched from a third party at page load.
 
+### Fixed
+
+- **The number of applied filters is no longer cut off by the header on a table view.** The
+  badge hangs off the filter button's top-right corner by design, and half of it is painted
+  outside the button — fine over open page, and not fine on a table view, whose action bar
+  runs directly under a sticky header that draws over it. The badge now outranks the header
+  there, in the one layout where nothing scrolls it toward the header the way an ordinary
+  page would. Nothing about the badge or the button changes shape or takes up more room.
+
 ## [v0.20.1] - 2026-09-03
 
 ### Added
