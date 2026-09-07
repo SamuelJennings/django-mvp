@@ -69,3 +69,32 @@ class TestBreadcrumbItemHrefAttribute:
         html = render('<c-breadcrumbs.item text="Current Page" />')
         assert "<a" not in html
         assert "Current Page" in html
+
+
+class TestTheTrailsClassStaysOnTheTrail:
+    """A class given to ``c-breadcrumbs`` styles the trail, not its items.
+
+    The trail and its items both declare a ``class`` prop, and a Cotton child
+    rendered without ``only`` reads a prop it was not given out of the
+    surrounding scope. So the trail's own class was written onto every ``<li>``
+    inside it as well — invisible until the class was one that changes layout.
+    """
+
+    def test_a_class_on_the_trail_does_not_reach_its_items(self):
+        html = render(
+            '<c-breadcrumbs class="overflow-x-auto" :items="items" />',
+            items=[{"text": "Home", "href": "/"}, {"text": "Products"}],
+        )
+        assert "overflow-x-auto" in attrs_named_on(html, "nav", "class")[0]
+        for value in attrs_named_on(html, "li", "class"):
+            assert "overflow-x-auto" not in value
+
+    def test_the_items_still_render(self):
+        """The isolation must not cost the items the attributes they are
+        given: `:attrs` is an explicit prop and passes through `only`."""
+        html = render(
+            '<c-breadcrumbs :items="items" />',
+            items=[{"text": "Home", "href": "/"}, {"text": "Products"}],
+        )
+        assert attrs_named_on(html, "a", "href") == ["/"]
+        assert "Products" in html

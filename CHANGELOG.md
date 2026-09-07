@@ -18,6 +18,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **The breadcrumb trail is drawn in the app header.** The header now reads site icon,
+  then trail, then actions, and no page template draws a trail of its own. Every page
+  gets back the row the trail used to occupy above its heading, where it ended in the
+  same word the heading below it repeated. A view declares its trail exactly as before,
+  through `breadcrumbs` or `get_breadcrumbs()`. A page with no trail renders no
+  navigation landmark rather than an empty one. On a table page the heading is a plain
+  `<h1>` again, rather than the trail's final crumb. `page.header` is still declared in
+  `page_view.html` and `table_view.html` and still yours to fill — it simply has no
+  default content left, so a project that overrode it keeps its content and a project
+  that did not loses the row. See [Layout](docs/layout.md#breadcrumbs).
+
+- **The header's actions are hidden below the sidebar breakpoint**, and follow the
+  breakpoint configured at `layout.sidebar.breakpoint` rather than a hardcoded `lg`.
+  This covers the widgets in `layout.navbar.desktop.end` and anything a project puts in
+  the `app.header.widgets` block. `layout.navbar.mobile.end` still renders below the
+  breakpoint and **now ships empty**, where it previously carried the theme toggle and
+  the log-in button: at those widths the row is spent on the trail. A control your
+  visitors need on a phone goes on `mobile.end`, or in `layout.sidebar.footer`, which the
+  drawer reaches at every width. With `breakpoint` set to `never` there is no width to
+  key off, so the actions stay visible and the mobile list renders nowhere.
+
+- The site name no longer renders as text in the header. The site icon takes its place,
+  linking home as the name did.
+
 - **A dropdown panel now opens where there is room for it.** `valign` and `halign` still
   say which side the panel prefers, and that side is still used whenever it fits. When it
   does not, because the trigger is near the foot of the window or hard against an edge,
@@ -41,6 +65,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   fetched from a third party at page load.
 
 ### Fixed
+
+- A class given to `c-breadcrumbs` styled the trail *and* every item inside it. The trail
+  and its items both take a `class`, and the items were rendered without an isolated
+  context, so an item that was given no class of its own picked up the trail's. Invisible
+  until the class was one that changes layout.
 
 - **The cascade preview now lists the related records it was missing.** `show_related_objects`
   read only the records Django collects one by one, not those it deletes in a single query —

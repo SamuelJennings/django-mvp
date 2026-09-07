@@ -30,6 +30,7 @@ from django.template.context import Context
 from django_cotton.compiler_regex import CottonCompiler
 
 import mvp
+from mvp.templatetags.mvp import navbar_narrow_only_class, navbar_wide_only_class
 
 compiler = CottonCompiler()
 
@@ -112,6 +113,23 @@ class TestResponsiveClassesAreSafelisted:
         html = _render(f'<c-toolbar row="{bp}" />')
         produced = _responsive_classes(html, bp)
         assert produced, f'<c-toolbar row="{bp}" /> produced no {bp}: class'
+
+        missing = produced - _safelisted_classes()
+        assert not missing, (
+            f"{sorted(missing)} not covered by any @source inline() entry in "
+            f"{BASE_CSS} — Tailwind's scanner cannot see a class built at "
+            "render time, so it will be missing from the shipped stylesheet"
+        )
+
+    @pytest.mark.parametrize("bp", BREAKPOINTS)
+    @pytest.mark.parametrize("tag", [navbar_wide_only_class, navbar_narrow_only_class])
+    def test_header_region_visibility_is_safelisted(self, tag, bp):
+        """The header's two trailing regions build their visibility classes
+        from the configured sidebar breakpoint. Asserted against the tags
+        rather than a rendered header: the tags are where the class strings
+        are constructed, and rendering the shell needs a request."""
+        produced = {token for token in tag(bp).split() if token.startswith(f"{bp}:")}
+        assert produced, f"{tag.__name__}({bp!r}) produced no {bp}: class"
 
         missing = produced - _safelisted_classes()
         assert not missing, (

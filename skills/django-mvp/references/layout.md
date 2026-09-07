@@ -12,6 +12,7 @@ Extending the base template gets you the whole shell, already composed:
 <c-app>                    the sidebar/header/content frame
 ├── <c-app.sidebar>        brand header, the AppMenu, configured footer widgets
 ├── <c-app.header>         header region: navbar, plus above/tray/below slots
+│                          navbar: sidebar toggle, site icon, breadcrumbs, actions
 ├── <c-app.main>           your page content, then the message toasts
 ├── <c-app.footer>
 └── <c-app.dock>           mobile bottom navigation (MobileFooterMenu)
@@ -48,7 +49,7 @@ That is the file to put project-wide `app.*` overrides in.
 | `app` | The whole shell, from the opening frame to the dock. |
 | `app.sidebar` | The sidebar component, inside the shell's sidebar slot. |
 | `app.header` | The header component and its slot wiring. |
-| `app.header.widgets` | Fills the header's `right` slot. Renders at the trailing edge of the navbar, *before* the widgets configured in settings. |
+| `app.header.widgets` | Fills the header's `right` slot. Renders at the trailing edge of the navbar, *before* the widgets configured in settings, and shares their visibility: the whole trailing region is hidden below the sidebar breakpoint. |
 | `app.header.tray` | Fills the header's `tray` slot — a full-width row under the navbar, still inside the header region. Empty by default. |
 | `app.main` | The main region wrapper, including the message toasts inside it. |
 | `content` | Page content inside the main region, above the toasts. |
@@ -58,8 +59,8 @@ That is the file to put project-wide `app.*` overrides in.
 ## Layer 2 — `page.*` blocks, and why they are the ones you want
 
 **If your page is backed by an MVP view, `{% block content %}` is already spent.**
-`page_view.html` fills it with the page chrome — the container, the breadcrumb
-toolbar, the title bar, the content region, the footer toolbar. Overriding
+`page_view.html` fills it with the page chrome — the container, the title bar, the
+content region, the footer toolbar. Overriding
 `content` in a template that extends an MVP view template throws all of that away
 and leaves you with a bare region inside the shell.
 
@@ -67,7 +68,7 @@ Override a `page.*` block instead.
 
 | Block | Declared in | Region |
 |---|---|---|
-| `page.header` | `page_view.html` | The breadcrumb trail above the title |
+| `page.header` | `page_view.html` | Above the title. Empty by default — the breadcrumb trail moved to the app header |
 | `page.content-wrapper` | `page_view.html` | The content region, title bar included |
 | `page.title` | `page_view.html` | The title bar: heading, subtitle and actions |
 | `page.actions` | `page_view.html` | The action buttons in the title bar |
@@ -104,13 +105,25 @@ full-height layout depends on. All six `page.*` names are re-declared, so an
 override you wrote still applies. It lands in a different position, though, and
 the defaults around it are different:
 
-- `page.header` renders the breadcrumb trail *inside* the title bar, with the last
-  crumb carrying the page heading itself. There is no separate breadcrumb row.
+- `page.header` is empty, as it is on every other page. The heading is a plain
+  `<h1>` in the title bar; the breadcrumb trail is drawn by the app header.
 - `page.actions` does not call `{{ block.super }}`, and its default action set
   deliberately excludes sort.
 - `page.footer` holds the row count and pagination, in a bar pinned below the rows.
 - `app.footer` is blanked to an empty block. The shell footer does not render on a
   table page. Restore it in your own template if you want it back.
+
+## The breadcrumb trail
+
+The trail is drawn by the navbar, at the leading edge of the header row, beside the
+site icon. It reads `page.breadcrumbs` straight out of the context an MVP view
+already puts there, so a view declares its trail through `breadcrumbs` or
+`get_breadcrumbs()` exactly as before and nothing is plumbed through the shell.
+
+- A page that declares no trail renders no `<nav>` at all, not an empty one.
+- No page template draws a trail of its own. `page.header` is empty everywhere.
+- To move it, override `app.header` and place `<c-breadcrumbs :items="page.breadcrumbs" />`
+  where you want it.
 
 ## What no block can suppress
 

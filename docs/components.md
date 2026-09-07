@@ -22,7 +22,7 @@ no attributes by design.
 | --- | --- |
 | `c-app` | drawer wrapper; attr: `breakpoint` |
 | `c-app.sidebar` | brand + AppMenu + user footer; attrs: `collapse`, `bg`, `brand-url`, `menu`, `title`, `boost` |
-| `c-app.header` / `c-app.header.navbar` | sticky header; slots: `above`, `below`, `right`, `tray` |
+| `c-app.header` / `c-app.header.navbar` | sticky header — site icon and [breadcrumb trail](layout.md#breadcrumbs) leading, actions trailing; slots: `above`, `below`, `right`, `tray` |
 | `c-app.main`, `c-app.footer`, `c-app.dock` | content area, footer, mobile bottom nav |
 
 ## Layout primitives
@@ -142,7 +142,7 @@ declared side whether or not it fits, exactly as it always used to.
 | `c-menu.item` | `label`, `icon`, `href`, `active`, `badge`, `tip` (rail tooltip) |
 | `c-menu.group` | `label`, `collapse`, `icon`, `badge` — section header or `<details>` group |
 | `c-menu.collapse`, `c-menu.divider` | collapsible wrapper / separator |
-| `c-breadcrumbs` / `c-breadcrumbs.item` | breadcrumb trail |
+| `c-breadcrumbs` / `c-breadcrumbs.item` | breadcrumb trail — `items`, `class`; the shell already draws one in the header from `page.breadcrumbs` |
 | `c-pagination` | `page_obj`, `page_window`, `use_icons`, `show_first_and_last` |
 | `c-dock` / `c-dock.item` | `size`; bottom dock navigation |
 

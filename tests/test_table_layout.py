@@ -229,32 +229,31 @@ class TestTableViewTemplate:
         assert soup.find("footer") is None
 
     @pytest.mark.django_db
-    def test_the_breadcrumb_trail_ends_in_the_heading(self, rf, product):
-        """The trail and the heading said the same word on two rows. The last
-        crumb is the heading now — one row, and still exactly one <h1>, which
-        is the part that would have been quietly traded away by dropping the
-        heading instead."""
+    def test_the_heading_is_a_plain_heading(self, rf, product):
+        """The <h1> was folded into the trail's last crumb to save a row above
+        the table. The trail moved to the app header (issue #333), so that
+        trade is off and the heading is a heading again — still exactly one of
+        them, which is the part that folding it was protecting."""
         soup = _beautiful_soup()(_render_table_view(rf), "html.parser")
-        trail = soup.find("nav", class_="breadcrumbs")
-        assert trail is not None
-
         headings = soup.find_all("h1")
         assert len(headings) == 1
         assert "Products" in headings[0].get_text()
-        assert headings[0].find_parent("nav", class_="breadcrumbs") is trail
-
-        crumbs = trail.find_all("li")
-        assert len(crumbs) >= 2, "the parent crumbs must survive the fold"
-        assert crumbs[-1].find("h1") is not None
-        assert "Home" in crumbs[0].get_text()
+        assert headings[0].find_parent("nav", class_="breadcrumbs") is None
 
     @pytest.mark.django_db
-    def test_the_trail_is_the_only_row_above_the_table(self, rf, product):
+    def test_the_title_bar_is_the_only_row_above_the_table(self, rf, product):
         """One bar, not two. Asserted structurally rather than by counting
-        pixels: the breadcrumbs sit inside the title bar."""
+        pixels: nothing but the title bar sits between the shell and the
+        table, and the trail is not drawn on the page at all."""
         soup = _beautiful_soup()(_render_table_view(rf), "html.parser")
         bar = soup.find(class_="page-title")
-        assert bar.find("nav", class_="breadcrumbs") is not None
+        assert bar is not None
+        assert bar.find("h1") is not None
+        trail = soup.find("nav", class_="breadcrumbs")
+        assert trail is not None
+        assert trail.find_parent(class_="mvp-header") is not None, (
+            "the page body draws no trail of its own — the app header has it"
+        )
 
     @pytest.mark.django_db
     def test_the_bars_span_the_table_width(self, rf, product):

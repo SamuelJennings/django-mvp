@@ -31,7 +31,8 @@ Get these right before writing anything. Each one is a mistake that looks like i
 | Concern | Correct | Wrong, removed, or a trap |
 |---|---|---|
 | Layout configuration | `settings.MVP_CONFIG` plus the `mvp.context_processors.mvp_config` processor | `settings.MVP`; layout attributes on a hand-built `<c-app>` |
-| Navbar widgets | `layout.navbar.mobile.end` and `layout.navbar.desktop.end` | a flat `layout.navbar.end` — accepted as a legacy shape, but it is copied into both and removed from the merged config |
+| Navbar widgets | `layout.navbar.mobile.end` and `layout.navbar.desktop.end`; `mobile.end` ships empty and the whole trailing region is hidden below the sidebar breakpoint | a flat `layout.navbar.end` — accepted as a legacy shape, but it is copied into both and removed from the merged config |
+| Breadcrumbs | declare them on the view; the app header draws them from `page.breadcrumbs` | adding `<c-breadcrumbs>` to a page template — the header already has one |
 | A plain content page | extend `mvp/base.html`, fill `{% block content %}` | re-composing the shell yourself |
 | A page behind an MVP view | override the `page.*` blocks | overriding `content`, which the packaged page template has already filled |
 | Icons | an `EASY_ICONS` default renderer, the `mvp.utils.BS5_ICONS` pack, your own names on top | assuming the pack covers every name the package uses — `account_center` is not in it |
