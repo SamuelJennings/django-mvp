@@ -6,11 +6,16 @@
 {% block content %}
   <c-page class="{{ page.class }}">
     <c-container>
-      <c-toolbar>
-        {% block page.header %}
-          <c-breadcrumbs :items="page.breadcrumbs" class="py-2" />
-        {% endblock page.header %}
-      </c-toolbar>
+      {% comment %}
+        The breadcrumb trail used to open the page here, on a row of its own,
+        ending in the same word as the heading directly below it. It is drawn in
+        the app header now, beside the site icon, and the page starts at its
+        title. `page.header` survives as the extension point it always was, for
+        a project that puts something of its own above the title — it just no
+        longer has a default of its own to draw.
+      {% endcomment %}
+      {% block page.header %}
+      {% endblock page.header %}
       {% block page.content-wrapper %}
         <c-page.content center gap=3 class="py-4">
           {% block page.title %}

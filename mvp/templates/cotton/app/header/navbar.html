@@ -1,35 +1,59 @@
 {% load i18n mvp %}
 <c-vars :breakpoint="mvp_config.layout.sidebar.breakpoint"
         :collapse="mvp_config.layout.sidebar.collapse" />
-<div class="navbar px-3 w-full transition-shadow duration-100 print:hidden">
-  <div class="navbar-start gap-1 ">
+{% comment %}
+  The header row: where you are on the left, what you can do on the right.
+
+  The breadcrumb trail reads the same `page.breadcrumbs` an MVP view already
+  puts in the context, so a view declares its trail exactly as before and
+  nothing new is plumbed through the shell. A page that sets no trail — the
+  entrance, the error pages, anything not built on an MVP view — renders no
+  navigation landmark at all, rather than an empty one for a screen reader to
+  announce.
+
+  Everything at the trailing edge is hidden below the sidebar breakpoint. At
+  those widths the row is already carrying the toggle, the site icon and the
+  trail, and the trail is the part worth the width.
+  `layout.navbar.mobile.end` is what puts a control back there, and it ships
+  empty.
+{% endcomment %}
+<div class="navbar gap-2 px-3 w-full transition-shadow duration-100 print:hidden">
+  <div class="navbar-start min-w-0 gap-1">
     <label for="mvp-app-toggle"
            aria-label="{% trans "Open sidebar" %}"
-           class="btn btn-ghost btn-square {% sidebar_navbar_toggle_class breakpoint collapse %}">
+           class="btn btn-ghost btn-square shrink-0 {% sidebar_navbar_toggle_class breakpoint collapse %}">
       <c-icon name="menu" />
     </label>
-    <a href="/">
-      {% comment %} <c-brand.icon size="sm" /> {% endcomment %}
-      <div class="text-2xl hidden lg:flex items-center">{{ request.site.name }}</div>
-      {% comment %} <div class="lg:hidden">
-        <c-brand.logo max-height="1rem" />
-      </div> {% endcomment %}
+    <a href="/"
+       aria-label="{% trans "Home" %}"
+       class="mvp-navbar-brand flex shrink-0 items-center px-1">
+      <c-brand.icon max-height="1.5rem" class="size-8 object-contain" />
     </a>
+    {% if page.breadcrumbs %}
+      <c-breadcrumbs :items="page.breadcrumbs" class="min-w-0 overflow-x-auto" />
+    {% endif %}
   </div>
-  <div class="navbar-end gap-3">
-    {{ right }}
+  <div class="navbar-end shrink-0 gap-3">
     {# Mobile and desktop widget lists (issue #176) render as two separate #}
-    {# regions toggled by Tailwind's responsive display utilities, matching #}
-    {# the "hidden lg:flex" convention already used above for the site name. #}
+    {# regions toggled by Tailwind's responsive display utilities, keyed off #}
+    {# the configured sidebar breakpoint rather than a hardcoded one. #}
     {# A display:none region is dropped from the accessibility tree by every #}
     {# evergreen browser/screen-reader pairing, so the hidden copy needs no #}
     {# aria-hidden of its own. #}
-    <div id="mvp-navbar-widgets-mobile" class="flex lg:hidden items-center gap-3">
-      {% for widget in mvp_config.layout.navbar.mobile.end %}
-        <c-component :is="widget" />
-      {% endfor %}
-    </div>
-    <div id="mvp-navbar-widgets-desktop" class="hidden lg:flex items-center gap-3">
+    {% if mvp_config.layout.navbar.mobile.end %}
+      <div id="mvp-navbar-widgets-mobile"
+           class="{% navbar_narrow_only_class breakpoint %} items-center gap-3">
+        {% for widget in mvp_config.layout.navbar.mobile.end %}
+          <c-component :is="widget" />
+        {% endfor %}
+      </div>
+    {% endif %}
+    {# The `right` slot shares the desktop list's visibility rule rather than #}
+    {# having one of its own: a project's own header content is an action like #}
+    {# any other, and gives way at the same width the configured ones do. #}
+    <div id="mvp-navbar-widgets-desktop"
+         class="{% navbar_wide_only_class breakpoint %} items-center gap-3">
+      {{ right }}
       {% for widget in mvp_config.layout.navbar.desktop.end %}
         <c-component :is="widget" />
       {% endfor %}

@@ -1,0 +1,168 @@
+"""Tests for the app header's layout (issue #333).
+
+The header reads left to right as "where you are, then what you can do": the
+sidebar toggle, the site icon and the breadcrumb trail at the leading edge, the
+actions at the trailing edge. The trail used to open the page body instead, on a
+row of its own directly above a heading that repeated its last crumb.
+
+Asserted against rendered markup rather than against a screenshot: the questions
+here are which element exists, where it sits in the tree, and which classes it
+carries, and all three fail loudly in HTML.
+"""
+
+import re
+
+import pytest
+
+from mvp.config import MVP_CONFIG
+from mvp.fixtures import _beautiful_soup
+
+# A demo page that declares a trail (DemoTemplateView.get_breadcrumbs), and one
+# that declares none (the home view renders the landing/dashboard templates).
+PAGE_WITH_TRAIL = "/layout/"
+PAGE_WITHOUT_TRAIL = "/"
+
+
+def _soup(client, url):
+    return _beautiful_soup()(client.get(url).content.decode(), "html.parser")
+
+
+@pytest.mark.django_db
+class TestTheTrailLivesInTheHeader:
+    """The breadcrumb trail is drawn once, in the app header."""
+
+    def test_the_trail_renders_inside_the_header(self, client):
+        soup = _soup(client, PAGE_WITH_TRAIL)
+        trail = soup.find("nav", class_="breadcrumbs")
+        assert trail is not None, "a page declaring breadcrumbs must render a trail"
+        assert trail.find_parent(class_="mvp-header") is not None, (
+            "the trail belongs to the app header, not the page body"
+        )
+
+    def test_the_page_body_draws_no_second_trail(self, client):
+        """One trail per page. The page body used to draw its own, and a second
+        copy is what this change exists to remove — so count, rather than
+        assert the header's copy exists and stop there."""
+        soup = _soup(client, PAGE_WITH_TRAIL)
+        assert len(soup.find_all("nav", class_="breadcrumbs")) == 1
+
+    def test_the_trail_carries_the_declared_crumbs(self, client):
+        """Moving the trail must not change what a view declares: the crumbs
+        are still the view's `get_breadcrumbs()` output, in order."""
+        soup = _soup(client, PAGE_WITH_TRAIL)
+        crumbs = soup.find("nav", class_="breadcrumbs").find_all("li")
+        assert [crumb.get_text(strip=True) for crumb in crumbs] == [
+            "Home",
+            "Layout Demo",
+        ]
+        assert crumbs[0].find("a")["href"] == "/"
+
+    def test_a_page_with_no_crumbs_renders_no_landmark(self, client):
+        """An empty <nav aria-label="Breadcrumbs"> is a landmark a screen
+        reader announces and then finds nothing in. A page that declares no
+        trail renders no nav at all."""
+        soup = _soup(client, PAGE_WITHOUT_TRAIL)
+        assert soup.find("nav", class_="breadcrumbs") is None
+
+    def test_the_heading_is_a_plain_heading_again(self, client):
+        """The table view folded its <h1> into the trail's final crumb to save
+        a row. With the trail in the header that trade is off: one <h1>, and
+        not inside a nav."""
+        soup = _soup(client, PAGE_WITH_TRAIL)
+        headings = soup.find_all("h1")
+        assert len(headings) == 1
+        assert headings[0].find_parent("nav", class_="breadcrumbs") is None
+
+
+@pytest.mark.django_db
+class TestTheHeaderLeadingEdge:
+    """Sidebar toggle, then the site icon, then the trail."""
+
+    def test_the_site_icon_links_home(self, client):
+        soup = _soup(client, PAGE_WITH_TRAIL)
+        brand = soup.find("a", class_="mvp-navbar-brand")
+        assert brand is not None
+        assert brand["href"] == "/"
+        assert brand.find("img") is not None, (
+            "the header carries the site icon, not the site name as text"
+        )
+
+    def test_the_icon_and_the_trail_share_the_leading_edge(self, client):
+        soup = _soup(client, PAGE_WITH_TRAIL)
+        start = soup.find(class_="navbar-start")
+        assert start.find("a", class_="mvp-navbar-brand") is not None
+        assert start.find("nav", class_="breadcrumbs") is not None
+
+    def test_the_leading_edge_can_shrink(self, client):
+        """A long trail must be allowed to shrink and scroll rather than push
+        the actions off the row: a flex item will not shrink below its content
+        without min-w-0, and the trail is the item that can be long."""
+        soup = _soup(client, PAGE_WITH_TRAIL)
+        assert "min-w-0" in soup.find(class_="navbar-start").get("class", [])
+        trail = soup.find("nav", class_="breadcrumbs")
+        assert "min-w-0" in trail.get("class", [])
+
+
+@pytest.mark.django_db
+class TestTheActionsGiveWayToTheTrail:
+    """The trailing edge is hidden below the sidebar breakpoint."""
+
+    def _actions_classes(self, client, url=PAGE_WITH_TRAIL):
+        content = client.get(url).content.decode()
+        match = re.search(
+            r'<div\s+id="mvp-navbar-widgets-desktop"\s+class="([^"]*)"', content
+        )
+        assert match is not None, "the header's action region must render"
+        return match.group(1).split()
+
+    def test_actions_are_hidden_below_the_breakpoint(self, client):
+        classes = self._actions_classes(client)
+        assert "hidden" in classes
+        assert "lg:flex" in classes
+
+    def test_the_region_follows_the_configured_breakpoint(self, client, monkeypatch):
+        """The visibility rule is keyed off `layout.sidebar.breakpoint`, so a
+        project that moves the sidebar's breakpoint moves this with it rather
+        than being left with a hardcoded `lg`."""
+        monkeypatch.setitem(MVP_CONFIG["layout"]["sidebar"], "breakpoint", "md")
+        classes = self._actions_classes(client)
+        assert "hidden" in classes
+        assert "md:flex" in classes
+        assert "lg:flex" not in classes
+
+    def test_project_header_content_gives_way_with_the_widgets(self, client):
+        """The `right` slot shares the configured widgets' region rather than
+        having a visibility rule of its own — a project's own header content is
+        an action like any other."""
+        soup = _soup(client, PAGE_WITH_TRAIL)
+        region = soup.find(id="mvp-navbar-widgets-desktop")
+        assert region is not None
+        assert region.find_parent(class_="navbar-end") is not None
+
+    def test_the_mobile_region_is_absent_when_nothing_is_configured(
+        self, client, monkeypatch
+    ):
+        """An empty configured list renders no wrapper. A wrapper that is a
+        flex item with no children still spends its parent's gap."""
+        monkeypatch.setitem(MVP_CONFIG["layout"]["navbar"]["mobile"], "end", [])
+        content = client.get(PAGE_WITH_TRAIL).content.decode()
+        assert 'id="mvp-navbar-widgets-mobile"' not in content
+
+    def test_the_mobile_region_renders_when_a_widget_is_configured(
+        self, client, monkeypatch
+    ):
+        """`layout.navbar.mobile.end` is the way a control earns its width back
+        below the breakpoint, so it must still reach the markup."""
+        monkeypatch.setitem(
+            MVP_CONFIG["layout"]["navbar"]["mobile"],
+            "end",
+            ["actions.theme-controller"],
+        )
+        content = client.get(PAGE_WITH_TRAIL).content.decode()
+        match = re.search(
+            r'<div\s+id="mvp-navbar-widgets-mobile"\s+class="([^"]*)"', content
+        )
+        assert match is not None
+        classes = match.group(1).split()
+        assert "flex" in classes
+        assert "lg:hidden" in classes

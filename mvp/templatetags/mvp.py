@@ -91,6 +91,45 @@ def sidebar_navbar_toggle_class(bp, collapse):
     return f"{prefix}:is-drawer-open:hidden"
 
 
+@register.simple_tag
+def navbar_wide_only_class(bp):
+    """Return visibility classes for a header region shown only from `bp` up.
+
+    The header's trailing region holds the site-wide actions. Below the sidebar
+    breakpoint the row is already carrying the sidebar toggle, the site icon and
+    the breadcrumb trail, and the actions are what gives way — a narrow header
+    that keeps its trail readable is worth more than one that keeps every
+    control (issue #333).
+
+    With the "never"/"none" breakpoint there is no width to key off: the sidebar
+    is an overlay everywhere, so that setting says nothing about viewport size.
+    The actions stay visible rather than disappearing at every width, which is
+    the reading that never silently costs a project a control it configured.
+
+    The emitted classes must stay in sync with the @source inline() safelist
+    in mvp/tailwind/base.css.
+    """
+    if _breakpoint_disabled(bp):
+        return "flex"
+    prefix = bp if bp in SIDEBAR_BREAKPOINTS else "lg"
+    return f"hidden {prefix}:flex"
+
+
+@register.simple_tag
+def navbar_narrow_only_class(bp):
+    """Return visibility classes for a header region shown only below `bp`.
+
+    The counterpart to :func:`navbar_wide_only_class`, for the mobile widget
+    list. Under the "never"/"none" breakpoint it returns "hidden" so that the
+    two regions never both render: the wide region is unconditional there, and
+    a project reads one set of actions rather than two stacked copies.
+    """
+    if _breakpoint_disabled(bp):
+        return "hidden"
+    prefix = bp if bp in SIDEBAR_BREAKPOINTS else "lg"
+    return f"flex {prefix}:hidden"
+
+
 #: The alignment classes the inference emits, and the ones an author declares
 #: to override it. Kept in sync with the text-{start,center,end} classes
 #: safelisted in mvp/tailwind/base.css.

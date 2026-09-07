@@ -77,7 +77,11 @@ MVP_CONFIG = {
             # that only makes sense at one screen size doesn't have to be baked
             # responsive by its own author — see _apply_legacy_flat_navbar_config
             # below for the pre-split "navbar.end" shape this replaces.
-            "mobile": {"end": ["actions.theme-controller", "actions.login"]},
+            # The mobile list ships empty. Below the sidebar breakpoint the row
+            # is spent on the sidebar toggle, the site icon and the breadcrumb
+            # trail, so the trailing edge is hidden by default and a widget
+            # listed here is the deliberate exception that earns its width back.
+            "mobile": {"end": []},
             "desktop": {"end": ["actions.theme-controller", "actions.login"]},
             # Whether the header sticks to the top of the viewport on scroll.
             # True (default) pins it (app-style); False lets it scroll away with
