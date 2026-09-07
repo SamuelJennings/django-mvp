@@ -493,6 +493,13 @@ class CategoryDeleteWithRelatedView(MVPDeleteView):
     show_list_action = False  # no category list URL registered
 
 
+class CategoryDeleteWithRelatedWarningView(CategoryDeleteWithRelatedView):
+    """Same as above, with a stronger presentation for a more consequential cascade."""
+
+    related_objects_variant = "warning"
+    related_objects_label = _("Deleting this category also deletes:")
+
+
 # ==================== Addons ======================
 # Additional views that support third-party packages
 

@@ -1614,6 +1614,25 @@ class TestMVPDeleteViewRelatedObjects:
         response = client.get(url)
         assert response.context["related_objects"] == []
 
+    def test_related_objects_variant_defaults_to_info(self, client, product):
+        """related_objects_variant defaults to 'info' — issue #302."""
+        url = reverse("product-delete-related", kwargs={"pk": product.pk})
+        response = client.get(url)
+        assert response.context["related_objects_variant"] == "info"
+
+    def test_related_objects_label_defaults_to_original_text(self, client, product):
+        """related_objects_label defaults to the sentence the heading always used.
+
+        Byte-for-byte preservation: existing callers of `related_objects_variant`
+        (unset) must render the same heading as before this attribute existed.
+        """
+        url = reverse("product-delete-related", kwargs={"pk": product.pk})
+        response = client.get(url)
+        assert (
+            str(response.context["related_objects_label"])
+            == "The following related records will also be permanently deleted:"
+        )
+
     def test_related_objects_shown_when_flag_on(self, client, product):
         """show_related_objects=True → context key is present and is_protected=False."""
         url = reverse("product-delete-related", kwargs={"pk": product.pk})
@@ -1721,6 +1740,102 @@ class TestMVPDeleteViewRelatedObjects:
         # Product survives — category FK is set to NULL, not cascade-deleted
         assert Product.objects.filter(pk=product_pk).exists()
         assert Product.objects.get(pk=product_pk).category is None
+
+
+# ---------------------------------------------------------------------------
+# Scenario 2 (issue #302): related-objects presentation is configurable
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.django_db
+class TestMVPDeleteViewRelatedObjectsPresentation:
+    """related_objects_variant / related_objects_label, rendered with non-empty
+    related-objects content.
+
+    Every cascade relation in the demo app (Product/Article/Task→Category is
+    SET_NULL; Project→ProjectTask/ProjectNote has no children of its own) hits
+    Django's Collector fast-delete path, which `_collect_deletion_data()` does
+    not read — a pre-existing gap in the collector, not something issue #302
+    asks this change to touch ("the collector... [is] unchanged"). It is
+    stubbed here so the alert-rendering behaviour this issue does ask for can
+    be verified with content actually present, rather than only ever against
+    an empty list.
+    """
+
+    @staticmethod
+    def _stub_related_objects(monkeypatch, category):
+        from mvp.views.edit import MVPDeleteView
+
+        related_map = {Category: [category]}  # any real model instance will do
+        monkeypatch.setattr(
+            MVPDeleteView,
+            "_collect_deletion_data",
+            lambda self: (related_map, []),
+        )
+
+    @staticmethod
+    def _related_objects_alert(content):
+        """Return the <c-alert> whose body contains the related-objects heading.
+
+        The page always carries a separate, hardcoded variant="warning" alert for
+        the basic "this is permanent" notice, so asserting on `alert-warning`
+        anywhere in the page would pass whether or not this feature works. Locate
+        the specific alert this feature controls instead.
+        """
+        soup = BeautifulSoup(content, "html.parser")
+        for alert in soup.select('[role="alert"]'):
+            if alert.find("ul"):
+                return alert
+        raise AssertionError("no related-objects alert (containing a <ul>) found")
+
+    def test_default_variant_renders_info_alert_byte_for_byte(
+        self, monkeypatch, client, category
+    ):
+        """Existing callers (variant unset) render exactly as before this change."""
+        self._stub_related_objects(monkeypatch, category)
+        url = reverse("category-delete-related", kwargs={"pk": category.pk})
+        response = client.get(url)
+        alert = self._related_objects_alert(response.content.decode())
+        assert "alert-info" in alert["class"]
+        assert (
+            "The following related records will also be permanently deleted:"
+            in alert.get_text()
+        )
+
+    def test_custom_variant_renders_as_configured(self, monkeypatch, client, category):
+        """related_objects_variant='warning' → this specific alert is alert-warning."""
+        self._stub_related_objects(monkeypatch, category)
+        url = reverse("category-delete-related-warning", kwargs={"pk": category.pk})
+        response = client.get(url)
+        alert = self._related_objects_alert(response.content.decode())
+        assert "alert-warning" in alert["class"]
+        assert "alert-info" not in alert["class"]
+
+    def test_custom_label_replaces_the_default_heading(
+        self, monkeypatch, client, category
+    ):
+        """related_objects_label overrides the heading text shown above the summary."""
+        self._stub_related_objects(monkeypatch, category)
+        url = reverse("category-delete-related-warning", kwargs={"pk": category.pk})
+        response = client.get(url)
+        alert = self._related_objects_alert(response.content.decode())
+        text = alert.get_text()
+        assert "Deleting this category also deletes:" in text
+        assert (
+            "The following related records will also be permanently deleted:"
+            not in text
+        )
+
+    def test_variant_and_label_are_presentation_only(self, monkeypatch, client, category):
+        """The collector, cap and overflow count are unaffected by either attribute."""
+        self._stub_related_objects(monkeypatch, category)
+        default_url = reverse("category-delete-related", kwargs={"pk": category.pk})
+        warning_url = reverse(
+            "category-delete-related-warning", kwargs={"pk": category.pk}
+        )
+        default_related = client.get(default_url).context["related_objects"]
+        warning_related = client.get(warning_url).context["related_objects"]
+        assert default_related == warning_related != []
 
 
 # ---------------------------------------------------------------------------

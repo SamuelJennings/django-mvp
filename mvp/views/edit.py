@@ -475,6 +475,12 @@ class MVPDeleteView(MVPModelFormBase, generic.DeleteView):
         related_objects_max_per_group (int): Maximum number of related objects
             shown per group before an overflow note is displayed.
             Defaults to ``25``.
+        related_objects_variant (str): Alert variant for the related-objects
+            summary, e.g. ``"warning"`` or ``"error"`` when the cascade is
+            more consequential than a routine cleanup. Defaults to ``"info"``.
+        related_objects_label (str): Heading shown above the related-objects
+            summary. Defaults to "The following related records will also be
+            permanently deleted:".
 
     Override hooks:
         get_confirmation_value(): Returns the string the user must type.
@@ -492,6 +498,12 @@ class MVPDeleteView(MVPModelFormBase, generic.DeleteView):
             model = Article
             require_confirmation = True  # user must type article title
             show_related_objects = True  # preview cascade deletes
+
+        class DatasetDeleteView(MVPDeleteView):
+            model = Dataset
+            show_related_objects = True
+            related_objects_variant = "warning"  # this cascade is consequential
+            related_objects_label = _("Deleting this dataset also deletes:")
     """
 
     base_template_name = "delete_view.html"
@@ -503,6 +515,10 @@ class MVPDeleteView(MVPModelFormBase, generic.DeleteView):
     require_confirmation: bool = False
     confirmation_label: str | Promise = _("Type the name to confirm")
     related_objects_max_per_group: int = 25
+    related_objects_variant: str = "info"
+    related_objects_label: str | Promise = _(
+        "The following related records will also be permanently deleted:"
+    )
 
     def get_breadcrumbs(self):
         """Return three-level breadcrumb list: List → Detail → Delete."""
@@ -653,6 +669,8 @@ class MVPDeleteView(MVPModelFormBase, generic.DeleteView):
             ]
         else:
             context["related_objects"] = []
+        context["related_objects_variant"] = self.related_objects_variant
+        context["related_objects_label"] = self.related_objects_label
 
         context["back_url"] = self.get_back_url()
 
