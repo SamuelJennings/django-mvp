@@ -219,6 +219,22 @@ the first thing a coding agent reads before writing anything against this packag
 in it is a defect of the same class as a stale docstring, and it is fixed in the pull request that
 made it stale.
 
+### Article XIX — Views forward component attributes as a dict
+
+Where a view renders a packaged component and a project needs to change how that component looks,
+the view exposes one dict attribute, named `<thing>_attrs`, handed to the component with
+`:attrs="…"`. It never grows a separate class attribute per component attribute. That surface
+scales with the number of components a view renders multiplied by the attributes each one accepts,
+and every entry is a public name to document, test and support indefinitely.
+
+The dict is a pass-through, not a translation layer. Its keys are the component's own attribute
+names, the view does not validate them, and setting it replaces the package default rather than
+merging into it, so a subclass reads as the complete set of attributes the component will receive.
+
+A view attribute outside the dict is for something the view itself decides: whether a section
+renders at all, what it collects, a limit applied before rendering. Presentation of a component
+the view already owns belongs in the dict.
+
 **A change to the public surface updates the skill in the same pull request.** Public surface
 means a setting or an `MVP_CONFIG` key, a component or one of its attributes, a template block, a
 view class or any of its documented attributes and hooks, a management command, a template tag, an
@@ -269,4 +285,4 @@ that need ignore rules first. Do not cite it as an enforced standard until it ru
 
 ---
 
-**Version**: 4.2.0 | **Ratified**: 2026-01-05 | **Last Amended**: 2026-08-17
+**Version**: 4.3.0 | **Ratified**: 2026-01-05 | **Last Amended**: 2026-09-07

@@ -496,8 +496,7 @@ class CategoryDeleteWithRelatedView(MVPDeleteView):
 class CategoryDeleteWithRelatedWarningView(CategoryDeleteWithRelatedView):
     """Same as above, with a stronger presentation for a more consequential cascade."""
 
-    related_objects_variant = "warning"
-    related_objects_label = _("Deleting this category also deletes:")
+    related_objects_attrs = {"variant": "warning"}
 
 
 # ==================== Addons ======================

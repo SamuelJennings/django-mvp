@@ -1,5 +1,6 @@
 import logging
 from collections import defaultdict
+from typing import Any
 from urllib.parse import urlencode
 
 from django.conf import settings
@@ -475,12 +476,11 @@ class MVPDeleteView(MVPModelFormBase, generic.DeleteView):
         related_objects_max_per_group (int): Maximum number of related objects
             shown per group before an overflow note is displayed.
             Defaults to ``25``.
-        related_objects_variant (str): Alert variant for the related-objects
-            summary, e.g. ``"warning"`` or ``"error"`` when the cascade is
-            more consequential than a routine cleanup. Defaults to ``"info"``.
-        related_objects_label (str): Heading shown above the related-objects
-            summary. Defaults to "The following related records will also be
-            permanently deleted:".
+        related_objects_attrs (dict): Attributes passed straight to the alert
+            that presents the related-objects summary, e.g.
+            ``{"variant": "warning"}`` when the cascade is more consequential
+            than a routine cleanup. A view that sets it replaces the default
+            rather than adding to it. Defaults to ``{"variant": "info"}``.
 
     Override hooks:
         get_confirmation_value(): Returns the string the user must type.
@@ -503,8 +503,7 @@ class MVPDeleteView(MVPModelFormBase, generic.DeleteView):
         class DatasetDeleteView(MVPDeleteView):
             model = Dataset
             show_related_objects = True
-            related_objects_variant = "warning"  # this cascade is consequential
-            related_objects_label = _("Deleting this dataset also deletes:")
+            related_objects_attrs = {"variant": "warning"}  # a consequential cascade
     """
 
     base_template_name = "delete_view.html"
@@ -516,10 +515,7 @@ class MVPDeleteView(MVPModelFormBase, generic.DeleteView):
     require_confirmation: bool = False
     confirmation_label: str | Promise = _("Type the name to confirm")
     related_objects_max_per_group: int = 25
-    related_objects_variant: str = "info"
-    related_objects_label: str | Promise = _(
-        "The following related records will also be permanently deleted:"
-    )
+    related_objects_attrs: dict[str, Any] = {"variant": "info"}
 
     def get_breadcrumbs(self):
         """Return three-level breadcrumb list: List → Detail → Delete."""
@@ -670,8 +666,7 @@ class MVPDeleteView(MVPModelFormBase, generic.DeleteView):
             ]
         else:
             context["related_objects"] = []
-        context["related_objects_variant"] = self.related_objects_variant
-        context["related_objects_label"] = self.related_objects_label
+        context["related_objects_attrs"] = self.related_objects_attrs
 
         context["back_url"] = self.get_back_url()
 

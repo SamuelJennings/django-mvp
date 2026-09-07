@@ -235,18 +235,19 @@ an overflow count past the cap). It renders as an info-style alert by default �
 routine cleanup, where the cascade is expected and unremarkable.
 
 Some cascades are not routine: deleting a record can take irreplaceable data with it.
-Set `related_objects_variant` to a stronger alert variant (e.g. `"warning"`) and
-`related_objects_label` to a heading that says so, without touching the shell's markup:
+`related_objects_attrs` is handed straight to that alert, so anything the alert component
+accepts can be set from the view without touching the shell's markup:
 
 ```python
 class DatasetDeleteView(MVPDeleteView):
     model = Dataset
     show_related_objects = True
-    related_objects_variant = "warning"
-    related_objects_label = _("Deleting this dataset also deletes:")
+    related_objects_attrs = {"variant": "warning"}
 ```
 
-Both are presentation only — the collector, the cap and the overflow count are unchanged.
+Setting it replaces the default rather than adding to it, so state every attribute you
+want — `{"class": "mt-4"}` alone gives you an alert with no variant. Presentation only:
+the collector, the cap and the overflow count are unchanged.
 
 ### Type-to-confirm
 
