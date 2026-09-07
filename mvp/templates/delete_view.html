@@ -28,7 +28,7 @@
     </c-alert>
     {% if related_objects %}
       {# ===== Scenario 2: Related-objects summary (opt-in) ===== #}
-      <c-alert variant="info">
+      <c-alert :attrs="related_objects_attrs">
         <div>
           <strong>{% trans "The following related records will also be permanently deleted:" %}</strong>
           {% for label, objs, overflow in related_objects %}

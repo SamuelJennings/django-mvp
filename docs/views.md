@@ -227,6 +227,28 @@ at all.
 - blocks deletion (with an explanatory page) when protected relations exist,
 - optional type-to-confirm for dangerous deletes (`require_confirmation = True`).
 
+### Related-objects summary
+
+Set `show_related_objects = True` and the page lists what the cascade will take with the
+target, grouped by model and capped at `related_objects_max_per_group` (default 25, with
+an overflow count past the cap). It renders as an info-style alert by default — right for
+routine cleanup, where the cascade is expected and unremarkable.
+
+Some cascades are not routine: deleting a record can take irreplaceable data with it.
+`related_objects_attrs` is handed straight to that alert, so anything the alert component
+accepts can be set from the view without touching the shell's markup:
+
+```python
+class DatasetDeleteView(MVPDeleteView):
+    model = Dataset
+    show_related_objects = True
+    related_objects_attrs = {"variant": "warning"}
+```
+
+Setting it replaces the default rather than adding to it, so state every attribute you
+want — `{"class": "mt-4"}` alone gives you an alert with no variant. Presentation only:
+the collector, the cap and the overflow count are unchanged.
+
 ### Type-to-confirm
 
 Set `require_confirmation = True` and the page asks the user to type the record's name

@@ -171,6 +171,7 @@ The delete view reads `back` for its Go Back button and `next` for its post-dele
 | `require_confirmation` | `False` | Require the user to type a value before the Delete button activates. |
 | `confirmation_label` | `_("Type the name to confirm")` | Label and placeholder on the confirmation input. |
 | `related_objects_max_per_group` | `25` | Per-model cap on the listed related records. The rest become an "… and N more" note. |
+| `related_objects_attrs` | `{"variant": "info"}` | Attributes handed to the alert presenting that list, e.g. `{"variant": "warning"}` for a consequential cascade. Replaces the default, not merged with it. |
 | `base_template_name` | `"delete_view.html"` | Extends `form_view.html`. |
 | `page_title` | `_("Delete %(verbose_name)s")` | |
 | `success_message` | `_("%(verbose_name)s successfully deleted.")` | |
@@ -190,8 +191,8 @@ string, validating it against the current host and falling back to the list URL.
 
 Context added: `is_protected`, `protected_objects`, `require_confirmation`,
 `confirmation_value` (empty unless confirmation is required), `confirmation_label`,
-`related_objects` (a list of `(label, instances, overflow_count)` tuples, empty when protected)
-and `back_url`.
+`related_objects` (a list of `(label, instances, overflow_count)` tuples, empty when protected),
+`related_objects_attrs` and `back_url`.
 
 Detection uses Django's own deletion `Collector`, so it sees exactly what a real delete would.
 A POST on a PROTECT-blocked object **re-renders the page with status 200** — it does not

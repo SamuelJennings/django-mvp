@@ -1614,6 +1614,12 @@ class TestMVPDeleteViewRelatedObjects:
         response = client.get(url)
         assert response.context["related_objects"] == []
 
+    def test_related_objects_attrs_defaults_to_info_variant(self, client, product):
+        """related_objects_attrs defaults to {"variant": "info"} — issue #302."""
+        url = reverse("product-delete-related", kwargs={"pk": product.pk})
+        response = client.get(url)
+        assert response.context["related_objects_attrs"] == {"variant": "info"}
+
     def test_related_objects_shown_when_flag_on(self, client, product):
         """show_related_objects=True → context key is present and is_protected=False."""
         url = reverse("product-delete-related", kwargs={"pk": product.pk})
@@ -1721,6 +1727,108 @@ class TestMVPDeleteViewRelatedObjects:
         # Product survives — category FK is set to NULL, not cascade-deleted
         assert Product.objects.filter(pk=product_pk).exists()
         assert Product.objects.get(pk=product_pk).category is None
+
+
+# ---------------------------------------------------------------------------
+# Scenario 2 (issue #302): related-objects presentation is configurable
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.django_db
+class TestMVPDeleteViewRelatedObjectsPresentation:
+    """related_objects_attrs, rendered with non-empty related-objects content.
+
+    Every cascade relation in the demo app (Product/Article/Task→Category is
+    SET_NULL; Project→ProjectTask/ProjectNote has no children of its own) hits
+    Django's Collector fast-delete path, which `_collect_deletion_data()` does
+    not read — a pre-existing gap in the collector, not something issue #302
+    asks this change to touch ("the collector... [is] unchanged"). It is
+    stubbed here so the alert-rendering behaviour this issue does ask for can
+    be verified with content actually present, rather than only ever against
+    an empty list.
+    """
+
+    @staticmethod
+    def _stub_related_objects(monkeypatch, category):
+        from mvp.views.edit import MVPDeleteView
+
+        related_map = {Category: [category]}  # any real model instance will do
+        monkeypatch.setattr(
+            MVPDeleteView,
+            "_collect_deletion_data",
+            lambda self: (related_map, []),
+        )
+
+    @staticmethod
+    def _related_objects_alert(content):
+        """Return the <c-alert> whose body contains the related-objects heading.
+
+        The page always carries a separate, hardcoded variant="warning" alert for
+        the basic "this is permanent" notice, so asserting on `alert-warning`
+        anywhere in the page would pass whether or not this feature works. Locate
+        the specific alert this feature controls instead.
+        """
+        soup = BeautifulSoup(content, "html.parser")
+        for alert in soup.select('[role="alert"]'):
+            if alert.find("ul"):
+                return alert
+        raise AssertionError("no related-objects alert (containing a <ul>) found")
+
+    def test_default_attrs_render_info_alert_byte_for_byte(
+        self, monkeypatch, client, category
+    ):
+        """Existing callers (attrs unset) render exactly as before this change."""
+        self._stub_related_objects(monkeypatch, category)
+        url = reverse("category-delete-related", kwargs={"pk": category.pk})
+        response = client.get(url)
+        alert = self._related_objects_alert(response.content.decode())
+        assert "alert-info" in alert["class"]
+        assert (
+            "The following related records will also be permanently deleted:"
+            in alert.get_text()
+        )
+
+    def test_custom_variant_renders_as_configured(self, monkeypatch, client, category):
+        """{"variant": "warning"} → this specific alert is alert-warning."""
+        self._stub_related_objects(monkeypatch, category)
+        url = reverse("category-delete-related-warning", kwargs={"pk": category.pk})
+        response = client.get(url)
+        alert = self._related_objects_alert(response.content.decode())
+        assert "alert-warning" in alert["class"]
+        assert "alert-info" not in alert["class"]
+
+    def test_arbitrary_attrs_reach_the_alert(self, monkeypatch, client, category):
+        """The dict is a pass-through, not a variant setting with extra steps.
+
+        Keys the alert declares (`variant`, `class`) and keys it does not
+        (`data-testid`, which falls through to the rendered element) both
+        arrive, so a view can set anything the component accepts.
+        """
+        from demo.views import CategoryDeleteWithRelatedView
+
+        self._stub_related_objects(monkeypatch, category)
+        monkeypatch.setattr(
+            CategoryDeleteWithRelatedView,
+            "related_objects_attrs",
+            {"variant": "error", "class": "mt-4", "data-testid": "cascade"},
+        )
+        url = reverse("category-delete-related", kwargs={"pk": category.pk})
+        response = client.get(url)
+        alert = self._related_objects_alert(response.content.decode())
+        assert "alert-error" in alert["class"]
+        assert "mt-4" in alert["class"]
+        assert alert["data-testid"] == "cascade"
+
+    def test_attrs_are_presentation_only(self, monkeypatch, client, category):
+        """The collector, cap and overflow count are unaffected by the attribute."""
+        self._stub_related_objects(monkeypatch, category)
+        default_url = reverse("category-delete-related", kwargs={"pk": category.pk})
+        warning_url = reverse(
+            "category-delete-related-warning", kwargs={"pk": category.pk}
+        )
+        default_related = client.get(default_url).context["related_objects"]
+        warning_related = client.get(warning_url).context["related_objects"]
+        assert default_related == warning_related != []
 
 
 # ---------------------------------------------------------------------------

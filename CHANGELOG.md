@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `MVPDeleteView.related_objects_attrs` lets a view say how serious its cascade-deleted
+  related records are, without a per-model template overriding `before_form`. The dict is
+  passed straight to the alert that presents the summary, so `{"variant": "warning"}` is
+  enough to raise the tone. It defaults to `{"variant": "info"}`, the same alert every
+  existing caller already gets. Presentation only — the collector, the cap and the
+  overflow count are unchanged. See [Views](docs/views.md).
+
 ### Changed
 
 - **A dropdown panel now opens where there is room for it.** `valign` and `halign` still
