@@ -20,17 +20,36 @@ from django import forms as django_forms
 from django.contrib.auth import get_user_model
 from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.sessions.middleware import SessionMiddleware
+from django.db.models.deletion import Collector
 from django.test import RequestFactory, override_settings
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
 
 from demo.forms import ContactForm, ProductForm
-from demo.models import Category, OrderLine, Product
+from demo.models import (
+    Category,
+    OrderLine,
+    Product,
+    Project,
+    ProjectNote,
+    ProjectTask,
+)
 from mvp.forms import DeleteConfirmForm
-from mvp.views.edit import MVPCreateView, MVPFormView, MVPUpdateView, NextURLMixin
+from mvp.views.edit import (
+    MVPCreateView,
+    MVPDeleteView,
+    MVPFormView,
+    MVPUpdateView,
+    NextURLMixin,
+)
 from tests.conftest import requires_browser
-from tests.factories import ProductFactory
+from tests.factories import (
+    ProductFactory,
+    ProjectFactory,
+    ProjectNoteFactory,
+    ProjectTaskFactory,
+)
 
 User = get_user_model()
 
@@ -1738,14 +1757,11 @@ class TestMVPDeleteViewRelatedObjects:
 class TestMVPDeleteViewRelatedObjectsPresentation:
     """related_objects_attrs, rendered with non-empty related-objects content.
 
-    Every cascade relation in the demo app (Product/Article/Task→Category is
-    SET_NULL; Project→ProjectTask/ProjectNote has no children of its own) hits
-    Django's Collector fast-delete path, which `_collect_deletion_data()` does
-    not read — a pre-existing gap in the collector, not something issue #302
-    asks this change to touch ("the collector... [is] unchanged"). It is
-    stubbed here so the alert-rendering behaviour this issue does ask for can
-    be verified with content actually present, rather than only ever against
-    an empty list.
+    Every Category relation in the demo app is SET_NULL (Product, Article and
+    Task all keep the row and clear the FK), so deleting one cascades nothing
+    and the summary these tests are about would always be empty. The collection
+    step is stubbed to put content in front of the alert. Cascades that really
+    do reach the summary are covered below, against Project.
     """
 
     @staticmethod
@@ -1829,6 +1845,64 @@ class TestMVPDeleteViewRelatedObjectsPresentation:
         default_related = client.get(default_url).context["related_objects"]
         warning_related = client.get(warning_url).context["related_objects"]
         assert default_related == warning_related != []
+
+
+# ---------------------------------------------------------------------------
+# Scenario 2 (issue #331): cascades Django deletes in one query
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.django_db
+class TestMVPDeleteViewFastDeletedRelatedObjects:
+    """Related records Django deletes through `Collector.fast_deletes`.
+
+    Django routes a cascade to `fast_deletes` when the related rows can go in a
+    single DELETE — no children of their own, no signal listeners. That is the
+    commonest cascade there is, and reading only `Collector.data` left the
+    summary empty for every one of them.
+    """
+
+    @staticmethod
+    def _view_for(project):
+        class ProjectDeleteView(MVPDeleteView):
+            model = Project
+            show_related_objects = True
+
+        view = ProjectDeleteView()
+        view.object = project
+        return view
+
+    def test_children_are_actually_on_the_fast_delete_path(self, db):
+        """Guard: without this, the test below would pass on the old code too."""
+        project = ProjectFactory()
+        ProjectTaskFactory(project=project)
+        collector = Collector(using=project._state.db)
+        collector.collect([project])
+        fast_deleted = {qs.model for qs in collector.fast_deletes}
+        assert ProjectTask in fast_deleted
+        assert ProjectTask not in collector.data
+
+    def test_fast_deleted_children_appear_in_the_summary(self, db):
+        project = ProjectFactory()
+        tasks = [ProjectTaskFactory(project=project) for _ in range(2)]
+        note = ProjectNoteFactory(project=project)
+
+        related, protected = self._view_for(project)._collect_deletion_data()
+
+        assert protected == []
+        assert set(related) == {ProjectTask, ProjectNote}
+        assert sorted(o.pk for o in related[ProjectTask]) == sorted(
+            t.pk for t in tasks
+        )
+        assert [o.pk for o in related[ProjectNote]] == [note.pk]
+
+    def test_the_object_itself_is_never_listed(self, db):
+        project = ProjectFactory()
+        ProjectTaskFactory(project=project)
+
+        related, _ = self._view_for(project)._collect_deletion_data()
+
+        assert Project not in related
 
 
 # ---------------------------------------------------------------------------

@@ -550,13 +550,25 @@ class MVPDeleteView(MVPModelFormBase, generic.DeleteView):
         except ProtectedError as exc:
             return {}, list(exc.protected_objects)
 
-        related = {}
+        related = defaultdict(list)
         for model, instances in collector.data.items():
             if model is type(self.object):
                 continue
             if instances:
-                related[model] = list(instances)
-        return related, []
+                related[model].extend(instances)
+
+        # Django moves a cascade to `fast_deletes` when the related rows can go
+        # in a single DELETE — no children of their own, no signal listeners.
+        # They are deleted just the same, so a summary that reads only
+        # `collector.data` silently omits the commonest cascade there is.
+        for queryset in collector.fast_deletes:
+            if queryset.model is type(self.object):
+                continue
+            instances = list(queryset)
+            if instances:
+                related[queryset.model].extend(instances)
+
+        return dict(related), []
 
     def get_form_class(self):
         """Return DeleteConfirmForm when require_confirmation is True."""
