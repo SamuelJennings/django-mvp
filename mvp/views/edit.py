@@ -499,6 +499,7 @@ class MVPDeleteView(MVPModelFormBase, generic.DeleteView):
             require_confirmation = True  # user must type article title
             show_related_objects = True  # preview cascade deletes
 
+
         class DatasetDeleteView(MVPDeleteView):
             model = Dataset
             show_related_objects = True
