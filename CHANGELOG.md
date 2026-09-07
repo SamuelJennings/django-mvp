@@ -40,7 +40,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   key off, so the actions stay visible and the mobile list renders nowhere.
 
 - The site name no longer renders as text in the header. The site icon takes its place,
-  linking home as the name did.
+  linking home as the name did, and it hides wherever the sidebar's own header is on
+  screen showing the same mark — so the brand appears once rather than twice, and a
+  desktop page with the sidebar open leads with the trail alone. This is the rule the
+  sidebar toggle beside it already followed.
 
 - **A dropdown panel now opens where there is room for it.** `valign` and `halign` still
   say which side the panel prefers, and that side is still used whenever it fits. When it

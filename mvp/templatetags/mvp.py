@@ -69,16 +69,24 @@ def breakpoint_px(bp):
 
 @register.simple_tag
 def sidebar_navbar_toggle_class(bp, collapse):
-    """Return visibility classes for the navbar's sidebar-toggle button.
+    """Return visibility classes for a navbar element the sidebar header duplicates.
 
-    Below the sidebar breakpoint the toggle is always shown (the sidebar is an
-    off-canvas overlay there). At or above it, the sidebar header carries its
-    own toggle, so the navbar one is hidden: always in ``icons`` mode (the
-    collapsed rail still shows a toggle on hover), and only while the drawer
-    is open in ``offcanvas`` mode (a fully hidden sidebar has no toggle left).
+    Two elements share this rule, because they are the same two the sidebar
+    header draws: the sidebar-toggle button and the site icon. Wherever the
+    sidebar header is on screen showing its own copy, the navbar's is hidden,
+    so the brand mark and the toggle each appear once.
+
+    Below the sidebar breakpoint both are always shown (the sidebar is an
+    off-canvas overlay there, so its header is not on screen). At or above it
+    they are hidden: always in ``icons`` mode (the collapsed rail still shows
+    the brand icon, and a toggle on hover), and only while the drawer is open
+    in ``offcanvas`` mode (a fully hidden sidebar has neither left).
 
     With the "never"/"none" breakpoint the sidebar is an overlay everywhere,
-    so the navbar toggle is always shown (the open overlay covers the navbar).
+    so both stay shown (the open overlay covers the navbar).
+
+    The name predates the site icon joining the rule; it is kept because the
+    tag is exercised by name in the packaged templates and the test suite.
 
     The emitted classes must stay in sync with the @source inline() safelist
     in mvp/tailwind/base.css.

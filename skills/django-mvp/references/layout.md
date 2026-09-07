@@ -13,6 +13,7 @@ Extending the base template gets you the whole shell, already composed:
 ├── <c-app.sidebar>        brand header, the AppMenu, configured footer widgets
 ├── <c-app.header>         header region: navbar, plus above/tray/below slots
 │                          navbar: sidebar toggle, site icon, breadcrumbs, actions
+│                          toggle and icon hide where the sidebar header shows them
 ├── <c-app.main>           your page content, then the message toasts
 ├── <c-app.footer>
 └── <c-app.dock>           mobile bottom navigation (MobileFooterMenu)

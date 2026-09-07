@@ -104,6 +104,63 @@ class TestTheHeaderLeadingEdge:
 
 
 @pytest.mark.django_db
+class TestTheBrandMarkAppearsOnce:
+    """The sidebar header draws the site icon too. Wherever that header is on
+    screen, the header's copy stands down — otherwise a desktop page with the
+    sidebar open shows the brand mark twice, once in each region."""
+
+    def _brand_classes(self, client):
+        soup = _soup(client, PAGE_WITH_TRAIL)
+        brand = soup.find("a", class_="mvp-navbar-brand")
+        assert brand is not None
+        return brand.get("class", [])
+
+    def _toggle_classes(self, client):
+        """Scoped to the navbar on purpose: the drawer overlay is also a label
+        pointing at `mvp-app-toggle`, and it is not the button under test."""
+        soup = _soup(client, PAGE_WITH_TRAIL)
+        toggle = soup.find(class_="navbar-start").find(
+            "label", attrs={"for": "mvp-app-toggle"}
+        )
+        assert toggle is not None
+        return toggle.get("class", [])
+
+    def test_the_icon_hides_while_the_sidebar_is_open(self, client):
+        """Default `offcanvas` collapse: the sidebar slides fully away, so the
+        icon stands down only while the drawer is actually open."""
+        assert "lg:is-drawer-open:hidden" in self._brand_classes(client)
+
+    def test_the_icon_hides_outright_on_an_icon_rail(self, client, monkeypatch):
+        """`icons` collapse: the collapsed rail still shows the brand icon, so
+        there is no state at or above the breakpoint where the header needs
+        its own."""
+        monkeypatch.setitem(MVP_CONFIG["layout"]["sidebar"], "collapse", "icons")
+        assert "lg:hidden" in self._brand_classes(client)
+
+    def test_the_icon_follows_the_configured_breakpoint(self, client, monkeypatch):
+        monkeypatch.setitem(MVP_CONFIG["layout"]["sidebar"], "breakpoint", "md")
+        classes = self._brand_classes(client)
+        assert "md:is-drawer-open:hidden" in classes
+        assert "lg:is-drawer-open:hidden" not in classes
+
+    def test_the_icon_and_the_toggle_hide_together(self, client):
+        """They are the two things the sidebar header duplicates, and they
+        appear and disappear on exactly the same condition. Asserted as one
+        rule so the two cannot drift apart."""
+        brand = set(self._brand_classes(client))
+        toggle = set(self._toggle_classes(client))
+        visibility = {c for c in brand | toggle if "hidden" in c}
+        assert visibility, "expected a visibility rule on both"
+        assert visibility <= brand and visibility <= toggle
+
+    def test_the_icon_survives_a_disabled_breakpoint(self, client, monkeypatch):
+        """With no breakpoint the sidebar is an overlay at every width, so its
+        header is never sitting beside the navbar and the icon always shows."""
+        monkeypatch.setitem(MVP_CONFIG["layout"]["sidebar"], "breakpoint", "never")
+        assert not [c for c in self._brand_classes(client) if "hidden" in c]
+
+
+@pytest.mark.django_db
 class TestTheActionsGiveWayToTheTrail:
     """The trailing edge is hidden below the sidebar breakpoint."""
 

@@ -197,6 +197,13 @@ an MVP view — renders no navigation landmark at all, rather than an empty one 
 screen reader to announce. A long trail shrinks and scrolls sideways rather than
 pushing the widgets off the row.
 
+The site icon beside it stands down wherever the sidebar's own header is on screen
+showing the same mark — at or above the breakpoint with the drawer open, or at any
+width from the breakpoint up when `collapse` is `"icons"` and the rail keeps the icon.
+So the brand appears once, and on a desktop page with the sidebar open the header's
+leading edge is the trail alone. The sidebar toggle follows the same rule and always
+has.
+
 Putting the trail in the header rather than above the page body gives every page back
 a row of vertical space, and puts "where am I" where a person already looks for it.
 To draw a trail somewhere else instead, place `<c-breadcrumbs :items="page.breadcrumbs" />`
