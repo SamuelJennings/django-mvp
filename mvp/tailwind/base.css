@@ -68,6 +68,12 @@
 @source inline("{sm,md,lg,xl,2xl}:hidden");
 @source inline("{sm,md,lg,xl,2xl}:is-drawer-open:hidden");
 
+/* Safelist: the header's trailing regions are shown either only at or above
+   the sidebar breakpoint or only below it, from the navbar_wide_only_class and
+   navbar_narrow_only_class templatetags (mvp/templatetags/mvp.py). The
+   unprefixed halves and `{bp}:hidden` are covered above and by the scanner. */
+@source inline("{sm,md,lg,xl,2xl}:flex");
+
 /* Full-page content (issue #247): `<c-page fill>` marks itself .mvp-page-fill,
    and this is what the shell does about it.
 

@@ -16,6 +16,8 @@ from mvp.config import MVP_CONFIG
 from mvp.context_processors import mvp_config as mvp_config_processor
 from mvp.templatetags.mvp import (
     breakpoint_px,
+    navbar_narrow_only_class,
+    navbar_wide_only_class,
     sidebar_breakpoint_class,
     sidebar_has_breakpoint,
     sidebar_navbar_toggle_class,
@@ -147,11 +149,10 @@ class TestNavbarMobileDesktopSplit:
     @pytest.mark.django_db
     def test_mobile_wrapper_hides_at_the_desktop_breakpoint(self, client):
         """The mobile wrapper is visible below ``lg`` and display:none at/above
-        it, matching the ``hidden lg:flex`` convention already used elsewhere
-        in this template (the site name in the navbar-start)."""
+        it, the inverse of the region holding the desktop widgets."""
         content = client.get("/").content.decode()
         match = re.search(
-            r'<div id="mvp-navbar-widgets-mobile" class="([^"]*)"', content
+            r'<div\s+id="mvp-navbar-widgets-mobile"\s+class="([^"]*)"', content
         )
         assert match is not None
         classes = match.group(1).split()
@@ -164,7 +165,7 @@ class TestNavbarMobileDesktopSplit:
         it — the inverse of the mobile wrapper."""
         content = client.get("/").content.decode()
         match = re.search(
-            r'<div id="mvp-navbar-widgets-desktop" class="([^"]*)"', content
+            r'<div\s+id="mvp-navbar-widgets-desktop"\s+class="([^"]*)"', content
         )
         assert match is not None
         classes = match.group(1).split()
@@ -247,6 +248,23 @@ class TestBreakpointTags:
         )
         # unknown breakpoints fall back to lg, mirroring sidebar_breakpoint_class
         assert sidebar_navbar_toggle_class("bogus", "icons") == "lg:hidden"
+
+    def test_header_regions_split_at_the_breakpoint(self):
+        """The header's trailing regions are inverses of each other: the
+        actions from the breakpoint up, the mobile widgets below it."""
+        assert navbar_wide_only_class("md") == "hidden md:flex"
+        assert navbar_narrow_only_class("md") == "flex md:hidden"
+        assert navbar_wide_only_class("bogus") == "hidden lg:flex"
+        assert navbar_narrow_only_class("bogus") == "flex lg:hidden"
+
+    @pytest.mark.parametrize("bp", ["never", "none", "NEVER"])
+    def test_header_actions_survive_a_disabled_breakpoint(self, bp):
+        """"never"/"none" says the sidebar is an overlay at every width — it
+        says nothing about viewport size, so there is no width at which to
+        hide the actions. They stay visible and the mobile region, which would
+        otherwise duplicate them, does not render."""
+        assert navbar_wide_only_class(bp) == "flex"
+        assert navbar_narrow_only_class(bp) == "hidden"
 
 
 # ---------------------------------------------------------------------------

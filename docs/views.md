@@ -21,7 +21,8 @@ from mvp.views import (
 
 Every MVP view includes `PageMixin`, which injects a `page` context dict
 (`title`, `subtitle`, `class`, `breadcrumbs`, `info`, `info_actions`) consumed by
-the page templates:
+the page templates. `breadcrumbs` is drawn by the app header rather than the page
+body — see [Breadcrumbs](layout.md#breadcrumbs) — and the rest by the page itself:
 
 ```python
 class AboutView(MVPTemplateView):

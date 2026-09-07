@@ -1,11 +1,17 @@
 {% load i18n %}
 <c-vars items class />
+{% comment %}
+  `only` on the item is load-bearing. This component and the item declare a
+  prop of the same name — `class` — and a Cotton child with no isolated context
+  reads any prop it was not given out of the surrounding scope. Without it, a
+  class meant for the trail is written onto every <li> in it as well.
+{% endcomment %}
 <nav class="breadcrumbs text-sm {{ class }}"
      aria-label="{% trans "Breadcrumbs" %}"
      {{ attrs }}>
   <ul>
     {% if items %}
-      {% for item in items %}<c-breadcrumbs.item :attrs="item" />{% endfor %}
+      {% for item in items %}<c-breadcrumbs.item :attrs="item" only />{% endfor %}
     {% else %}
       {{ slot }}
     {% endif %}

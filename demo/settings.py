@@ -143,17 +143,24 @@ MVP_CONFIG = {
     },
     "layout": {
         "navbar": {
-            "end": [
-                "actions.theme-controller",
-                "actions.language-switcher",
-                "actions.login",
-            ],
+            # Desktop only, with nothing configured for mobile: below the
+            # sidebar breakpoint the header row is the breadcrumb trail and
+            # little else. The sidebar footer below is how these three reach a
+            # phone, through the drawer.
+            "desktop": {
+                "end": [
+                    "actions.theme-controller",
+                    "actions.language-switcher",
+                    "actions.login",
+                ],
+            },
         },
         "sidebar": {
             "title": "DjangoMVP",
             "footer": [
                 "actions.theme-controller",
                 "actions.language-switcher-modal",
+                "actions.login",
             ],
         },
     },

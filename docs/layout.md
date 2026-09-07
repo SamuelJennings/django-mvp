@@ -7,7 +7,7 @@ django-mvp renders a complete application shell around your content:
 <c-app>                        DaisyUI drawer (sidebar + content)
 ├── <c-app.sidebar>            brand header, AppMenu, user footer
 ├── <c-app.header>             sticky header
-│   └── <c-app.header.navbar>  sidebar toggle, brand, configured widgets
+│   └── <c-app.header.navbar>  sidebar toggle, site icon, breadcrumbs, widgets
 ├── <c-app.main>               your {% block content %} + flash messages
 ├── <c-app.footer>
 └── <c-app.dock>               mobile bottom navigation
@@ -28,7 +28,7 @@ MVP_CONFIG = {
             "boost": False,           # navigate sidebar links with htmx
         },
         "navbar": {
-            "mobile": {"end": ["actions.theme-controller", "actions.login"]},
+            "mobile": {"end": []},    # widgets below the sidebar breakpoint
             "desktop": {"end": ["actions.theme-controller", "actions.login"]},
             "sticky": True,           # True: pinned | False: scrolls away
         },
@@ -178,6 +178,37 @@ Per-page override:
 {% endblock %}
 ```
 
+## Breadcrumbs
+
+The breadcrumb trail is drawn in the header, beside the site icon, at the leading
+edge of the row. It reads the `breadcrumbs` list an [MVP view](views.md) puts in the
+page context, so a view declares its trail the same way it always has:
+
+```python
+class ProductDetailView(MVPDetailView):
+    model = Product
+
+    def get_breadcrumbs(self):
+        return [{"text": "Products", "href": "/products/"}, {"text": str(self.object)}]
+```
+
+A page that declares no trail — the entrance, the error pages, anything not built on
+an MVP view — renders no navigation landmark at all, rather than an empty one for a
+screen reader to announce. A long trail shrinks and scrolls sideways rather than
+pushing the widgets off the row.
+
+The site icon beside it stands down wherever the sidebar's own header is on screen
+showing the same mark — at or above the breakpoint with the drawer open, or at any
+width from the breakpoint up when `collapse` is `"icons"` and the rail keeps the icon.
+So the brand appears once, and on a desktop page with the sidebar open the header's
+leading edge is the trail alone. The sidebar toggle follows the same rule and always
+has.
+
+Putting the trail in the header rather than above the page body gives every page back
+a row of vertical space, and puts "where am I" where a person already looks for it.
+To draw a trail somewhere else instead, place `<c-breadcrumbs :items="page.breadcrumbs" />`
+wherever you want it and override the `app.header` block with your own header.
+
 ## Navbar widgets
 
 `layout.navbar.mobile.end` and `layout.navbar.desktop.end` are each a list of
@@ -186,6 +217,15 @@ Per-page override:
 right for one screen size and noise on the other — a language switcher that's fine
 in a spacious desktop bar may not be worth the tap target on a phone, and for a
 third-party widget you often can't rely on it making that call itself:
+
+`desktop.end` reaches the header from the [sidebar breakpoint](#sidebar-breakpoint)
+up, `mobile.end` below it. **`mobile.end` ships empty.** Below the breakpoint the
+header row is spent on the sidebar toggle, the site icon and the
+[breadcrumb trail](#breadcrumbs), and a narrow header that keeps the trail readable
+is worth more than one that keeps every control. A widget you list on `mobile.end`
+is the deliberate exception that earns that width back — and a control your visitors
+need on a phone belongs either there or in `sidebar.footer`, which the drawer reaches
+at every width.
 
 ```python
 MVP_CONFIG = {
@@ -224,9 +264,15 @@ MVP_CONFIG = {
 ```
 
 **How it's rendered:** both lists render server-side, in two separate regions toggled
-with Tailwind's responsive display utilities (the mobile region is `flex lg:hidden`,
-the desktop region `hidden lg:flex`) — a config-driven widget list can't be resolved
-from the request alone, so there's no way to render only one without a live layout.
+with Tailwind's responsive display utilities keyed off the sidebar breakpoint (at the
+default `lg`, the mobile region is `flex lg:hidden` and the desktop region
+`hidden lg:flex`) — a config-driven widget list can't be resolved from the request
+alone, so there's no way to render only one without a live layout. The desktop region
+also holds whatever you put in the [`app.header.widgets`](#template-blocks) block, so
+your own header content gives way at the same width the configured widgets do. The
+mobile region is not rendered at all while `mobile.end` is empty, since an empty flex
+item still spends its parent's gap. With `breakpoint` set to `never` there is no width
+to key off, so the desktop region is shown at every width and the mobile one at none.
 The region hidden by `display:none` is dropped from the accessibility tree by every
 evergreen browser, so screen-reader users only ever reach the visible one. The cost is
 duplicate markup: any widget listed on both `mobile.end` and `desktop.end` renders
@@ -420,7 +466,7 @@ when the choice is view- rather than template-driven.
 | `app` | the entire app shell |
 | `app.sidebar` | the sidebar (default: `<c-app.sidebar />`) |
 | `app.header` | the header |
-| `app.header.widgets` | extra navbar-end content |
+| `app.header.widgets` | extra navbar-end content (hidden below the sidebar breakpoint, with the configured widgets) |
 | `app.header.tray` | a row below the navbar |
 | `app.main` / `content` | the main area / page content |
 | `app.footer` | the footer |
