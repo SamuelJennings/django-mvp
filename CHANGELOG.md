@@ -42,6 +42,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **The cascade preview now lists the related records it was missing.** `show_related_objects`
+  read only the records Django collects one by one, not those it deletes in a single query —
+  which is the path it takes whenever the related rows have no children of their own and no
+  signal listeners, the commonest cascade there is. A page could therefore promise to list
+  what deletion would take and show nothing at all. Both sets are read now. Nothing else about
+  the summary changes: the per-model grouping, the cap and the overflow count are as they were.
+
 - **The number of applied filters is no longer cut off by the header on a table view.** The
   badge hangs off the filter button's top-right corner by design, and half of it is painted
   outside the button — fine over open page, and not fine on a table view, whose action bar
