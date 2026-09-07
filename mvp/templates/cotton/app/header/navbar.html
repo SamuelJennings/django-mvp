@@ -29,8 +29,12 @@
        class="mvp-navbar-brand flex shrink-0 items-center px-1">
       <c-brand.icon max-height="1.5rem" class="size-8 object-contain" />
     </a>
+    {# min-w-0 is what lets a long trail shrink rather than push the actions #}
+    {# off the row: a flex item defaults to min-width:auto and will not go #}
+    {# below its own content. The sideways scrolling it then needs is #}
+    {# already carried by daisyUI's own .breadcrumbs rule. #}
     {% if page.breadcrumbs %}
-      <c-breadcrumbs :items="page.breadcrumbs" class="min-w-0 overflow-x-auto" />
+      <c-breadcrumbs :items="page.breadcrumbs" class="min-w-0" />
     {% endif %}
   </div>
   <div class="navbar-end shrink-0 gap-3">

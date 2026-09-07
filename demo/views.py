@@ -171,8 +171,9 @@ theme_customization_demo = DemoTemplateView.as_view(
 )
 # The full-page case from issue #247. Its template extends base.html directly
 # rather than page_view.html: the point of the page is that the content owns
-# the whole shell, so the standard breadcrumb/title chrome would work against
-# what is being demonstrated.
+# the whole shell, so the standard title chrome would work against what is
+# being demonstrated. The header's breadcrumb trail still renders — it belongs
+# to the shell, not to the page chrome this page opts out of.
 full_page_map_demo = DemoTemplateView.as_view(
     template_name="full_page_map.html", page_title="Full-page map"
 )
